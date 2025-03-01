@@ -20,7 +20,7 @@
         </section>
 
         <!-- Menú de Navegación -->
-        <nav class="p-4 bg-blue-900 text-white shadow-lg">
+        <nav class="p-4 bg-gray-800 text-white shadow-lg">
             <div class="container mx-auto flex justify-between items-center">
                 <div class="text-xl font-bold">Marina Alta Sports</div>
                 <NavBar />
@@ -100,21 +100,6 @@
         </section>
 
         <!-- Pie de Página -->
-        <footer class="py-6 bg-blue-900 text-white">
-            <div class="container mx-auto text-center">
-                <p>
-                    &copy; 2025 Marina Alta Sports. Todos los derechos
-                    reservados.
-                </p>
-                <div class="mt-4">
-                    <a href="#" class="hover:underline">Facebook</a>
-                    |
-                    <a href="#" class="hover:underline">Twitter</a>
-                    |
-                    <a href="#" class="hover:underline">Instagram</a>
-                </div>
-            </div>
-        </footer>
     </div>
 </template>
 
