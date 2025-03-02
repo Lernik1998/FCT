@@ -13,6 +13,8 @@ class TrainerController extends Controller
      */
     public function index()
     {
+
+        // dd('jejje');
         // Verifico el rol del usuario autenticado
         $user = auth()->user();
 
@@ -21,9 +23,11 @@ class TrainerController extends Controller
 
         // dd($trainers);
 
-        if (!$user) {
-            return inertia('Public/Trainer', ['trainers' => $trainers]);
-        }
+        // if (!$user) {
+        //     return inertia('Public/Trainer', ['trainers' => $trainers]);
+        // }
+
+        return inertia('Public/Trainer', ['trainers' => $trainers]);
 
         // dd($user);
 

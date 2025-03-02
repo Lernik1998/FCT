@@ -42,7 +42,6 @@ const auth = usePage().props.auth;
 
         <div v-if="auth.user.role === 'user'">
             <p>Contenido exclusivo para Usuarios</p>
-            
         </div>
     </div>
 </template>

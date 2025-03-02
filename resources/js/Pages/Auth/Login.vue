@@ -1,12 +1,96 @@
+<template>
+    <Head title="Iniciar sesión" />
+    <div class="mt-10">
+        <Link
+            :href="route('index')"
+            class="px-4 py-2 ml-72 text-white bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2 focus:ring-offset-gray-100"
+        >
+            Volver
+        </Link>
+    </div>
+    <div
+        class="container mx-auto p-4 flex flex-col items-center justify-center h-screen"
+    >
+        <div class="rounded-lg shadow-lg p-8 w-full md:w-1/2 lg:w-1/3 xl:w-1/4">
+            <h2 class="text-3xl font-bold text-center">Iniciar sesión</h2>
+
+            <form @submit.prevent="submit" class="mt-8 space-y-6">
+                <div>
+                    <InputLabel for="email" value="Correo electrónico" />
+                    <TextInput
+                        id="email"
+                        v-model="form.email"
+                        type="email"
+                        class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                        required
+                        autofocus
+                        autocomplete="username"
+                    />
+                    <InputError class="mt-2" :message="form.errors.email" />
+                </div>
+
+                <div>
+                    <InputLabel for="password" value="Contraseña" />
+                    <TextInput
+                        id="password"
+                        v-model="form.password"
+                        type="password"
+                        class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-ye-500 focus:border-ye-500"
+                        required
+                        autocomplete="current-password"
+                    />
+                    <InputError class="mt-2" :message="form.errors.password" />
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <Checkbox
+                            v-model:checked="form.remember"
+                            name="remember"
+                            class="mr-2"
+                        />
+                        <span class="text-sm">Recordarme</span>
+                    </div>
+
+                    <Link
+                        v-if="canResetPassword"
+                        :href="route('password.request')"
+                        class="text-sm hover:text-gray-900 hover:underline"
+                    >
+                        ¿Olvidó su contraseña?
+                    </Link>
+                </div>
+
+                <PrimaryButton
+                    class="mt-4 w-full"
+                    :class="{ 'opacity-25': form.processing }"
+                    :disabled="form.processing"
+                >
+                    Iniciar sesión
+                </PrimaryButton>
+
+                <GoogleLogin class="mt-4" />
+                <!-- Link para ir al registro -->
+
+                <br />
+                <Link
+                    :href="route('register')"
+                    class="mt-4 w-full text-center text-sm hover:text-gray-900 hover:underline"
+                >
+                    ¿No tienes una cuenta? Registrate
+                </Link>
+            </form>
+        </div>
+    </div>
+</template>
+
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/vue3";
-import AuthenticationCard from "@/Components/AuthenticationCard.vue";
-import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
-import Checkbox from "@/Components/Checkbox.vue";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
+import Checkbox from "@/Components/Checkbox.vue";
 import GoogleLogin from "@/Components/GoogleLogin.vue";
 
 defineProps({
@@ -28,93 +112,4 @@ const submit = () => {
         onFinish: () => form.reset("password"),
     });
 };
-
-import { Inertia } from "@inertiajs/inertia";
-
-const redirectToRegister = () => {
-    Inertia.visit(route("register"));
-};
 </script>
-
-<template>
-    <Head title="Log in" />
-
-    <AuthenticationCard>
-        <!-- <template #logo>
-            <AuthenticationCardLogo />
-        </template> -->
-
-        <div
-            v-if="status"
-            class="mb-4 font-medium text-sm text-green-600 dark:text-green-400"
-        >
-            {{ status }}
-        </div>
-
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
-                <TextInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-                <TextInput
-                    id="password"
-                    v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="current-password"
-                />
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="block mt-4">
-                <label class="flex items-center">
-                    <Checkbox v-model:checked="form.remember" name="remember" />
-                    <span class="ms-2 text-sm text-gray-600 dark:text-gray-400"
-                        >Remember me</span
-                    >
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <Link
-                    v-if="canResetPassword"
-                    :href="route('password.request')"
-                    class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
-                >
-                    Forgot your password?
-                </Link>
-
-                <PrimaryButton
-                    class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Log in
-                </PrimaryButton>
-
-                <PrimaryButton
-                    class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                    @click="redirectToRegister"
-                >
-                    Register
-                </PrimaryButton>
-                <GoogleLogin />
-            </div>
-        </form>
-    </AuthenticationCard>
-</template>

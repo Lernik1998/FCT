@@ -1,8 +1,16 @@
 <template>
     <div>
+        <!-- Menú de Navegación -->
+        <nav class="p-4">
+            <div class="container mx-auto flex justify-between items-center">
+                <div class="text-xl font-bold">Marina Alta Sports</div>
+                <NavBar />
+            </div>
+        </nav>
+
         <!-- Banner Principal -->
         <section>
-            <div class="relative z-10 text-center p-8">
+            <div class="relative z-10 text-center p-8 bg-gray-100">
                 <h1 class="text-4xl font-bold mb-4">
                     Encuentra a los Mejores Entrenadores
                 </h1>
@@ -11,14 +19,6 @@
                 </p>
             </div>
         </section>
-
-        <!-- Menú de Navegación -->
-        <nav class="p-4">
-            <div class="container mx-auto flex justify-between items-center">
-                <div class="text-xl font-bold">Marina Alta Sports</div>
-                <NavBar />
-            </div>
-        </nav>
 
         <!-- Sección de Entrenadores Destacados -->
         <section class="py-12 px-4 bg-white">
@@ -55,7 +55,7 @@
         </section>
 
         <!-- Servicios de Entrenamiento -->
-        <section class="py-12 bg-blue-50">
+        <section class="py-12 bg-gray-200">
             <div class="container mx-auto text-center">
                 <h2 class="text-3xl font-semibold mb-6">
                     Servicios de Entrenamiento

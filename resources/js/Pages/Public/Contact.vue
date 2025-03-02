@@ -1,10 +1,10 @@
 <template>
     <div>
-        <!-- Barra de Navegación -->
-        <nav class="bg-blue-600 p-4 text-white">
+        <!-- Navegación -->
+        <nav class="p-4 border-b shadow-md bg-white">
             <div class="container mx-auto flex justify-between items-center">
-                <h1 class="text-xl font-bold">Acerca de nosotros</h1>
-                <ul class="flex space-x-6"></ul>
+                <div class="text-xl font-bold">Marina Alta Deportes</div>
+                <NavBar />
             </div>
         </nav>
 
@@ -102,7 +102,7 @@
 
                         <button
                             type="submit"
-                            class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+                            class="w-full bg-gray-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300"
                         >
                             Enviar Mensaje
                         </button>
@@ -116,7 +116,9 @@
 </template>
 
 <script setup>
+// Importaciones
 import { ref } from "vue";
+import NavBar from "../Public/Components/NavBar.vue";
 
 const form = ref({
     name: "",

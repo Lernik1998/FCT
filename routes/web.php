@@ -19,6 +19,17 @@ return Inertia::render('Index'); es lo mismo que return inertia('Index');
     return inertia('Index');
 });*/
 
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+});
+
+
 
 // PUBLIC routes
 Route::inertia('/', 'Index')->name('index'); // Carga la vista Index (ENTRADA APP)
@@ -30,9 +41,10 @@ Route::resource('activities', ActivityController::class);
 
 Route::resource('trainers', TrainerController::class);
 
-// Route::resource('users', UserController::class); --> Lo sustituyo por un inertia porque solo sirvo una vista, porque por ahora no uso para nada más el controlador
+Route::resource('users', UserController::class);
+// Lo sustituyo por un inertia porque solo sirvo una vista, porque por ahora no uso para nada más el controlador
 
-Route::inertia('users', 'User/UserIndex')->name('users');
+// Route::inertia('users', 'User/UserIndex')->name('users');
 
 // ADMIN routes
 Route::controller(AdminController::class)->group(function () {
@@ -68,15 +80,6 @@ Route::controller(AdminController::class)->group(function () {
 });
 
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
-});
 
 
 // Google

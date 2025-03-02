@@ -1,5 +1,13 @@
 <template>
     <div>
+        <!-- Menú de Navegación -->
+        <nav class="p-4 shadow-lg">
+            <div class="container mx-auto flex justify-between items-center">
+                <div class="text-xl font-bold">Marina Alta Deportes</div>
+                <NavBar />
+            </div>
+        </nav>
+
         <!-- Banner Principal con animación -->
         <section class="relative w-full h-72 overflow-hidden">
             <!-- <img
@@ -8,7 +16,7 @@
                 alt="Imagen Deportes"
             /> -->
             <div
-                class="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-8 bg-black bg-opacity-50"
+                class="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-8 bg-black"
             >
                 <h1 class="text-4xl font-bold mb-4 animate-slide-down">
                     Marina Alta Deportes
@@ -18,14 +26,6 @@
                 </p>
             </div>
         </section>
-
-        <!-- Menú de Navegación -->
-        <nav class="p-4 bg-gray-800 text-white shadow-lg">
-            <div class="container mx-auto flex justify-between items-center">
-                <div class="text-xl font-bold">Marina Alta Sports</div>
-                <NavBar />
-            </div>
-        </nav>
 
         <!-- Sección de Destacados con hover -->
         <section class="py-12 px-4 bg-gray-100">

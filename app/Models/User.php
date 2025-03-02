@@ -68,4 +68,26 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+
+    // Para la gestión de los roles, pendiente probar si funciona
+
+    public function setRoleAttribute($value)
+    {
+        $this->attributes['role'] = $value;
+
+        // Cambiar el current_team_id según el rol
+        switch ($value) {
+            case 'trainer':
+                $this->attributes['current_team_id'] = 2;
+                break;
+            case 'admin':
+                $this->attributes['current_team_id'] = 3;
+                break;
+            default:
+                $this->attributes['current_team_id'] = 1;
+                break;
+        }
+    }
+
 }
