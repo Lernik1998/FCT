@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\User; // Modelo User
+use App\Models\Activity; // Modelo Activity
+
 
 class AdminController extends Controller
 {
@@ -144,8 +146,6 @@ class AdminController extends Controller
         return redirect()->route('admin.userAdmin')->with('success', 'Usuario eliminado correctamente');
     }
 
-
-
     // TRAINER
 
     public function trainerAdmin()
@@ -157,5 +157,101 @@ class AdminController extends Controller
         return inertia('Admin/TrainerAdmin', [
             'trainers' => $trainers
         ]);
+    }
+
+    // ACTIVITY
+
+    public function activityAdmin()
+    {
+        // dd('jejje');
+
+        // Obtenemos todas las activities
+        $activities = Activity::all();
+
+        return inertia('Admin/ActivityAdmin', [
+            'activities' => $activities
+        ]);
+    }
+
+    public function createActivityView()
+    {
+        return inertia('Admin/ActivityOptions/ActivityCreate');
+    }
+
+    public function storeActivity(Request $request)
+    {
+        // dd($request->all());
+
+        /*  MÁS ADELANTE HABRÁ QUE GESTIONAR EL ALMACENADO DE IMAGENES
+         Manejar la subida de imagen
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('activities', 'public');
+            } else {
+                $imagePath = null;
+            }
+        */
+
+        // Crear la actividad
+        $activity = Activity::create([
+            'name' => $request['name'],
+            'description' => $request['description'],
+            'image' => $request['image'],  // Guardamos la ruta, no el archivo
+            'price' => $request['price'],
+            'duration' => $request['duration'],
+            'date' => $request['date'],
+            'user_id' => auth()->id(),
+        ]);
+
+        return redirect()->route('admin.activityAdmin');
+
+        //Retornar un mensaje de exito
+        // return redirect()->route('admin.activityAdmin')->with('success', 'Actividad creada correctamente');
+    }
+
+    public function editActivityView(string $id)
+    {
+        //Obtengo la actividad con el id
+        $activity = Activity::findOrFail($id);
+
+        return inertia('Admin/ActivityOptions/ActivityEditForm', compact('activity'));
+    }
+
+    public function showActivity(string $id)
+    {
+        //Obtengo la actividad con el id
+        $activity = Activity::findOrFail($id);
+
+        return inertia('Admin/ActivityOptions/ActivityShow', [
+            'activity' => $activity
+        ]);
+    }
+
+    public function updateActivity(Request $request, string $id)
+    {
+        //Obtengo la actividad con el id
+        $activity = Activity::findOrFail($id);
+
+        // Actualizar la actividad
+        $activity->update([
+            'name' => $request['name'],
+            'description' => $request['description'],
+            'image' => $request['image'],  // Guardamos la ruta, no el archivo
+            'price' => $request['price'],
+            'duration' => $request['duration'],
+            'date' => $request['date'],
+            'user_id' => auth()->id(),
+        ]);
+
+        return redirect()->route('admin.activityAdmin');
+    }
+
+    public function destroyActivity(string $id)
+    {
+        //Obtengo la actividad con el id
+        $activity = Activity::findOrFail($id);
+
+        $activity->delete();
+
+        return redirect()->route('admin.activityAdmin');
     }
 }

@@ -41,16 +41,36 @@ Route::resource('activities', ActivityController::class);
 
 Route::resource('trainers', TrainerController::class);
 
-Route::resource('users', UserController::class);
-// Lo sustituyo por un inertia porque solo sirvo una vista, porque por ahora no uso para nada más el controlador
 
-// Route::inertia('users', 'User/UserIndex')->name('users');
+// USER routes
+Route::controller(UserController::class)->group(function () {
+    Route::resource('users', UserController::class);
+    // Lo sustituyo por un inertia porque solo sirvo una vista, porque por ahora no uso para nada más el controlador
+
+    Route::get('user/stats', [UserController::class, 'stats'])->name('users.stats');
+});
+
 
 // ADMIN routes
 Route::controller(AdminController::class)->group(function () {
     // RESPETAR EL NOMBRE DE LA RUTA PARA PODER ACCEDER
 
-    // USER
+    // ACTIVITY
+    Route::get('admin/activityAdmin', [AdminController::class, 'activityAdmin'])->name('admin.activityAdmin');
+
+    Route::get('admin/createActivityView', [AdminController::class, 'createActivityView'])->name('admin.createActivityView');
+
+    Route::post('admin/createActivity', [AdminController::class, 'storeActivity'])->name('admin.storeActivity');
+
+    Route::get('admin/activityShow/{id}', [AdminController::class, 'showActivity'])->name('admin.activityShow');
+
+    Route::get('admin/editActivity/{id}', [AdminController::class, 'editActivityView'])->name('admin.activityEdit');
+
+    // Route::put('admin/updateActivity/{id}', [AdminController::class, 'updateActivity'])->name('admin.updateActivity');
+
+    Route::delete('admin/deleteActivity/{id}', [AdminController::class, 'destroyActivity'])->name('admin.activityDestroy');
+
+    // Gestión de USER
 
     // Eliminar user
     Route::delete('admin/destroyUser/{id}', [AdminController::class, 'destroyUser'])->name('admin.destroyUser');
@@ -77,6 +97,7 @@ Route::controller(AdminController::class)->group(function () {
     // TRAINER
     Route::get('admin/trainerAdmin', [AdminController::class, 'trainerAdmin'])->name('admin.trainerAdmin');
     Route::resource('admin', AdminController::class);
+
 });
 
 

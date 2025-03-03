@@ -18,10 +18,16 @@
                 comunidad deportiva local.
             </p>
             <div class="space-x-4">
-                <button class="px-6 py-2 bg-black text-white rounded-lg">
+                <button
+                    class="px-6 py-2 bg-black text-white rounded-lg"
+                    @click="login"
+                >
                     Empezar
                 </button>
-                <button class="px-6 py-2 border border-gray-800 rounded-lg">
+                <button
+                    class="px-6 py-2 border border-gray-800 rounded-lg"
+                    @click="exploreActivities"
+                >
                     Explorar actividades
                 </button>
             </div>
@@ -106,6 +112,15 @@ import NavBar from "./Public/Components/NavBar.vue";
 import ActivityCard from "@/Components/ActivityCard.vue";
 import TrainerCard from "@/Components/TrainerCard.vue";
 import BusinessCard from "@/Components/BusinessCard.vue";
+
+import { router } from "@inertiajs/vue3";
+
+const login = () => {
+    router.visit(route("login"));
+};
+const exploreActivities = () => {
+    router.visit(route("activities.index"));
+};
 </script>
 
 <style scoped>

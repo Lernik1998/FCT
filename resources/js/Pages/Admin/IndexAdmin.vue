@@ -56,6 +56,21 @@
                         >Acceder</a
                     >
                 </div>
+
+                <div
+                    class="bg-white p-6 rounded-lg shadow-lg transform transition duration-300 hover:scale-105"
+                >
+                    <h3 class="text-xl font-semibold mb-2">Actividades</h3>
+                    <p class="text-gray-700">
+                        Gestiona y administra las actividades de los usuarios.
+                    </p>
+                    <a
+                        :href="route('admin.activityAdmin')"
+                        class="text-blue-600 hover:underline"
+                        >Acceder</a
+                    >
+                </div>
+
                 <div
                     class="bg-white p-6 rounded-lg shadow-lg transform transition duration-300 hover:scale-105"
                 >
