@@ -36,10 +36,19 @@ Route::inertia('/', 'Index')->name('index'); // Carga la vista Index (ENTRADA AP
 // Route::inertia('publicTrainers', 'Public/Trainer')->name('trainers.public');
 Route::inertia('/contact', 'Public/Contact')->name('contact');
 
-
 Route::resource('activities', ActivityController::class);
 
-Route::resource('trainers', TrainerController::class);
+
+// TRAINERS routes
+Route::controller(TrainerController::class)->group(function () {
+
+    // Crear actividad vista
+    Route::get('trainers/createActivity', [TrainerController::class, 'createActivityView'])->name('trainers.createActivity');
+
+    Route::post('trainers/storeActivity', [TrainerController::class, 'storeActivity'])->name('trainers.storeActivity');
+
+    Route::resource('trainers', TrainerController::class);
+});
 
 
 // USER routes

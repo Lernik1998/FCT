@@ -134,8 +134,6 @@ class AdminController extends Controller
 
     public function destroyUser(string $id)
     {
-        // dd($id);
-        // dd($id);
         //Obtengo el user con el id
         $user = User::findOrFail($id);
 

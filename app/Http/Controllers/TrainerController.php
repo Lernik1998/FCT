@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\User;
+use App\Models\User; // Modelo de User
+use App\Models\PersonalizedTraining; // Modelo de PersonalizedTraining
+use App\Models\Activity; // Modelo de Activity
 
 class TrainerController extends Controller
 {
@@ -13,45 +15,39 @@ class TrainerController extends Controller
      */
     public function index()
     {
-
-        // dd('jejje');
         // Verifico el rol del usuario autenticado
         $user = auth()->user();
 
         // Obtengo todos los entrenadores
         $trainers = User::where('role', 'trainer')->get();
 
-        // dd($trainers);
 
-        // if (!$user) {
-        //     return inertia('Public/Trainer', ['trainers' => $trainers]);
-        // }
-
-        return inertia('Public/Trainer', ['trainers' => $trainers]);
-
-        // dd($user);
-
-
+        // Si el usuario no tiene rol, lo redirecciono a la pagina public
         // if ($user->role === null) {
         //     return inertia('Public/Trainer');
         // }
 
-        // switch ($user->role) {
-        //     case 'trainer':
-        //         return inertia('Trainer/TrainerIndex');
-        //     case 'admin':
-        //     // return inertia('Admin/AdminIndex');
-        //     case 'user':
+        if (!$user) {
+            return inertia('Public/Trainer', ['trainers' => $trainers]);
+        } else {
 
+        }
 
-        //     // dd($trainers);
-        //    
+        // Dependiendo del rol del usuario, retorno una pagina diferente
+        switch ($user->role) {
+            case 'trainer':
+                return inertia('Trainer/TrainerIndex');
+            case 'admin':
+                // return inertia('Admin/AdminIndex');
+                dd('Index del admin');
+            case 'user':
+                return inertia('User/UserIndex');
 
-        //     default:
-        //        
-        //         return inertia('Public/Trainer', ['trainers' => $trainers]);
+            default:
 
-        // }
+                return inertia('Public/Trainer', ['trainers' => $trainers]);
+
+        }
     }
 
     /**
@@ -78,8 +74,11 @@ class TrainerController extends Controller
         //Obtengo el entrenador con el id
         $trainer = User::findOrFail($id);
 
+        // Obtengo los planes personalizados del entrenador
+        $plans = PersonalizedTraining::where('user_id', $trainer->id)->get();
+
         //Retornar el entrenador
-        return inertia('Trainer/TrainerShow', compact('trainer'));
+        return inertia('Trainer/TrainerShow', compact('trainer', 'plans'));
     }
 
     /**
@@ -104,5 +103,33 @@ class TrainerController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function createActivityView()
+    {
+        return inertia('Trainer/Options/ActivityCreate');
+    }
+
+    public function storeActivity(Request $request)
+    {
+        // dd($request->all());
+
+        // Validar los datos
+        $request->validate([]);
+
+        // Crear la actividad
+        $activity = Activity::create([
+            'name' => $request['name'],
+            'description' => $request['description'],
+            'image' => $request['image'],  // Guardamos la ruta, no el archivo
+            'price' => $request['price'],
+            'duration' => $request['duration'],
+            'date' => $request['date'],
+            'user_id' => auth()->id(),
+        ]);
+
+        // Retornar una respuesta exitosa
+        return redirect()->route('trainers.index');
+
     }
 }

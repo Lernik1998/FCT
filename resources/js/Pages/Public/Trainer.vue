@@ -94,16 +94,6 @@
         </section>
 
         <!-- Pie de Página -->
-        <footer class="py-6">
-            <div class="container mx-auto text-center">
-                <p>&copy; 2025 Trainers Hub. Todos los derechos reservados.</p>
-                <div class="mt-4">
-                    <a href="#" class="hover:underline">Facebook</a> |
-                    <a href="#" class="hover:underline">Twitter</a> |
-                    <a href="#" class="hover:underline">Instagram</a>
-                </div>
-            </div>
-        </footer>
     </div>
 </template>
 

@@ -10,12 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('personalized_trainings', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Instructor
-            $table->text('description');
-            $table->decimal('price', 10, 2);
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->string('name')->unique(); // Evita nombres duplicados
+            $table->text('description')->nullable(); // Puede ser nulo
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('personalized_trainings');
+        Schema::dropIfExists('categories');
     }
 };

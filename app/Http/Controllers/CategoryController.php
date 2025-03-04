@@ -2,23 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Activity;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
-class ActivityController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
-        // Obtengo todas las actividades donde el status sea active
-        $activities = Activity::where('status', 'active')->get();
-
-        // dd($activities);
-
-        return inertia('Public/Activity', compact('activities'));
+        //
     }
 
     /**
@@ -40,19 +34,15 @@ class ActivityController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Activity $activity)
+    public function show(Category $category)
     {
-        //Obtener la actividad
-        $activity = Activity::findOrFail($activity->id);
-
-        //Retornar la actividad
-        return inertia('Activity/ActivityCard', compact('activity'));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Activity $activity)
+    public function edit(Category $category)
     {
         //
     }
@@ -60,7 +50,7 @@ class ActivityController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Activity $activity)
+    public function update(Request $request, Category $category)
     {
         //
     }
@@ -68,7 +58,7 @@ class ActivityController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Activity $activity)
+    public function destroy(Category $category)
     {
         //
     }

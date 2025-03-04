@@ -1,9 +1,22 @@
 <template>
+    <!-- Navbar Trainer -->
+    <nav class="p-4 border-b shadow-md bg-white">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold">Marina Alta Deportes</div>
+            <TrainersNavBar />
+        </div>
+    </nav>
+
     <!-- Botón para volver -->
-    <div>
-        <button @click="volver">Volver</button>
+    <div class="mt-10 ml-10">
+        <button
+            @click="volver"
+            class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+        >
+            Volver
+        </button>
     </div>
-    <section class="min-h-screen bg-gray-100 py-12 px-6 flex justify-center">
+    <section class="min-h-screen py-12 px-6 flex justify-center">
         <div
             class="max-w-3xl w-full bg-white shadow-lg rounded-lg p-6 animate-fade-in"
         >
@@ -120,8 +133,12 @@
 </template>
 
 <script setup>
+// Importaciones
 import { ref } from "vue";
 import { router } from "@inertiajs/vue3";
+
+// Componentes
+import TrainersNavBar from "../Components/TrainersNavBar.vue";
 
 const handleFileUpload = (event) => {
     activity.value.image = event.target.files[0];
@@ -145,7 +162,7 @@ const submitForm = () => {
     successMessage.value = "¡Actividad creada exitosamente! 🎉";
 
     // Envio los datos al controlador
-    router.post(route("admin.storeActivity"), activity.value);
+    router.post(route("trainers.storeActivity"), activity.value);
 };
 
 const volver = () => {

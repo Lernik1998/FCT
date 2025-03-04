@@ -37,7 +37,8 @@
         <section class="py-12 px-4">
             <div class="container mx-auto text-center">
                 <h2 class="text-3xl font-semibold mb-6">
-                    Actividades Populares
+                    Actividades Populares - - Algoritmo para filtrar las 3
+                    actividades más contratadas.
                 </h2>
                 <div
                     class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -63,6 +64,7 @@
             <div class="container mx-auto text-center">
                 <h2 class="text-3xl font-semibold mb-6">
                     Entrenadores Destacados
+                    Hacer un sort() con los 3 entrenadores mas contratados.
                 </h2>
                 <div
                     class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
@@ -88,6 +90,7 @@
         <section class="py-12 px-4">
             <div class="container mx-auto text-center">
                 <h2 class="text-3xl font-semibold mb-6">Negocios Destacados</h2>
+                <h4>Mostrar con más frecuencia aquellas que hayan pagado el paquete de promoción más caro.</h4>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
                     <BusinessCard
                         name="FitZone Gym"

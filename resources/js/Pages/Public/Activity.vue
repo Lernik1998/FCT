@@ -46,7 +46,9 @@
                         <p class="text-gray-700 mb-4">
                             {{ activity.description }}
                         </p>
-                        <a href="#" class="text-blue-600 hover:underline"
+                        <a
+                            :href="route('activities.show', activity.id)"
+                            class="text-blue-600 hover:underline"
                             >Leer más</a
                         >
                     </div>
