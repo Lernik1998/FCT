@@ -21,10 +21,19 @@
             <h2 class="text-3xl font-semibold text-center mb-6">
                 Planes personalizados
             </h2>
-            <div
-                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-                {{ props.plans }}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div
+                    v-for="plan in props.plans"
+                    class="bg-white p-6 rounded-lg shadow-lg"
+                >
+                    <h3 class="text-xl font-semibold mb-2">
+                        {{ plan.name }}
+                    </h3>
+                    <p class="text-gray-600">{{ plan.description }}</p>
+                    <p class="text-sm text-green-500 font-medium">
+                        {{ plan.price }}
+                    </p>
+                </div>
             </div>
         </section>
     </div>

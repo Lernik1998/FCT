@@ -112,6 +112,29 @@
                     />
                 </div>
 
+                <!-- Categoría -->
+                <div>
+                    <label class="block text-gray-700 font-semibold"
+                        >Categoría</label
+                    >
+                    <select
+                        v-model="activity.category_id"
+                        class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
+                        required
+                    >
+                        <option value="" disabled>
+                            Selecciona una categoría
+                        </option>
+                        <option
+                            v-for="category in categories"
+                            :key="category.id"
+                            :value="category.id"
+                        >
+                            {{ category.name }}
+                        </option>
+                    </select>
+                </div>
+
                 <!-- Botón -->
                 <button
                     type="submit"
@@ -136,6 +159,11 @@
 // Importaciones
 import { ref } from "vue";
 import { router } from "@inertiajs/vue3";
+import {defineProps} from "vue";
+
+const props = defineProps({
+    categories: Array,
+});
 
 // Componentes
 import TrainersNavBar from "../Components/TrainersNavBar.vue";
@@ -152,6 +180,7 @@ const activity = ref({
     date: "",
     duration: "",
     price: "",
+    category_id: "",
 });
 
 const successMessage = ref("");

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\User; // Modelo User
 use App\Models\Activity; // Modelo Activity
+use App\Models\Category; // Modelo Category
 
 
 class AdminController extends Controller
@@ -161,8 +162,6 @@ class AdminController extends Controller
 
     public function activityAdmin()
     {
-        // dd('jejje');
-
         // Obtenemos todas las activities
         $activities = Activity::all();
 
@@ -173,7 +172,12 @@ class AdminController extends Controller
 
     public function createActivityView()
     {
-        return inertia('Admin/ActivityOptions/ActivityCreate');
+        //Obtengo todas las categorías
+        $categories = Category::all();
+
+        return inertia('Admin/ActivityOptions/ActivityCreate', [
+            'categories' => $categories
+        ]);
     }
 
     public function storeActivity(Request $request)
@@ -197,6 +201,7 @@ class AdminController extends Controller
             'price' => $request['price'],
             'duration' => $request['duration'],
             'date' => $request['date'],
+            'category_id' => $request['category_id'],
             'user_id' => auth()->id(),
         ]);
 

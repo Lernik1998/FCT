@@ -25,7 +25,7 @@ return new class extends Migration {
 
 
             // Relación actividad - categoría
-            // $table->foreignId('category_id')->constrained()->onDelete('cascade')->nullable();
+            $table->foreignId('category_id')->constrained()->onDelete('cascade')->nullable();
 
             $table->timestamps();
         });

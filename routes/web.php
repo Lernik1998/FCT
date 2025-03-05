@@ -47,6 +47,25 @@ Route::controller(TrainerController::class)->group(function () {
 
     Route::post('trainers/storeActivity', [TrainerController::class, 'storeActivity'])->name('trainers.storeActivity');
 
+    // Gestión de Payments
+
+    Route::get('trainers/payments', [TrainerController::class, 'payments'])->name('trainers.payments');
+
+    // Planes personalizados
+    Route::get('trainers/personalizedTraining', [TrainerController::class, 'personalizedTraining'])->name('trainers.pp');
+    
+    // Creación de un plan personalizado por el trainer
+    Route::get('trainers/createPlan', [TrainerController::class, 'createPersonalizedTraining'])->name('trainers.createPlan');
+
+    // Crear un plan personalizado PUBLICO
+    Route::post('trainers/storePlan', [TrainerController::class, 'storePlan'])->name('trainers.storePlan');
+
+    // Posts del Trainer
+    Route::get('trainers/posts', [TrainerController::class, 'trainerPostsView'])->name('trainers.posts');
+
+    // MENSAJES
+    Route::get('trainers/messages', [TrainerController::class, 'trainerMessagesView'])->name('trainers.messages');
+
     Route::resource('trainers', TrainerController::class);
 });
 

@@ -2,22 +2,32 @@
     <div>
         <ul class="flex space-x-6">
             <li>
-                <a href="#" class="hover:underline">Inicio</a>
+                <a :href="route('trainers.index')" class="hover:underline"
+                    >Inicio</a
+                >
             </li>
             <li>
-                <a href="#" class="hover:underline">Pagos e ingresos</a>
+                <a :href="route('trainers.payments')" class="hover:underline"
+                    >Pagos e ingresos</a
+                >
             </li>
             <li>
                 <a href="#" class="hover:underline">Gestión de reservas</a>
             </li>
             <li>
-                <a href="#" class="hover:underline">Mensajes</a>
+                <a :href="route('trainers.messages')" class="hover:underline"
+                    >Mensajes</a
+                >
             </li>
             <li>
-                <a href="#" class="hover:underline">Planes personalizados</a>
+                <a :href="route('trainers.pp')" class="hover:underline"
+                    >Planes personalizados</a
+                >
             </li>
             <li>
-                <a href="#" class="hover:underline">Posts</a>
+                <a :href="route('trainers.posts')" class="hover:underline"
+                    >Posts</a
+                >
             </li>
             <li>
                 <button @click="logout">Cerrar sesión</button>

@@ -59,7 +59,11 @@
         <!-- Categorías Deportivas con efecto hover -->
         <section class="py-12 bg-blue-50">
             <div class="container mx-auto text-center">
-                <h2 class="text-3xl font-semibold mb-6">
+                <h1 class="text-3xl font-semibold mb-6">
+                    Esto podría ser un slider pasando los datos de las
+                    categorías o de actividades propias o publicitadas
+                </h1>
+                <!-- <h2 class="text-3xl font-semibold mb-6">
                     Categorías Deportivas
                 </h2>
                 <div
@@ -97,7 +101,7 @@
                             Descubre las mejores competiciones de atletismo.
                         </p>
                     </div>
-                </div>
+                </div>-->
             </div>
         </section>
 

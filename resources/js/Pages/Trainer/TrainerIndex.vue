@@ -8,33 +8,35 @@
     </nav>
 
     <!-- <h1>Bienvenido {{ $props.trainer.name }}</h1> -->
+    <div class="container mx-auto ml-40">
+        <section class="mt-10">
+            <div class="container mx-auto flex justify-between items-center">
+                <div class="text-xl font-bold">
+                    <h1>Gestión de actividades</h1>
 
-    <section class="mt-10">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="text-xl font-bold">
-                <h1>Gestión de actividades</h1>
+                    <a
+                        :href="route('trainers.createActivity')"
+                        class="text-blue-500"
+                        >Crear actividad</a
+                    >
 
-                <a
-                    :href="route('trainers.createActivity')"
-                    class="text-blue-500"
-                    >Crear actividad</a
-                >
-
-                <p>
-                    El admin debe de aceptar la solicitud de generación del plan
-                </p>
+                    <p>
+                        El admin debe de aceptar la solicitud de generación del
+                        plan
+                    </p>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="mt-10">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="text-xl font-bold">
-                <h1>Cargar estadisticas</h1>
-                <TrainerChart />
+        <section class="mt-10">
+            <div class="container mx-auto flex justify-between items-center">
+                <div class="text-xl font-bold">
+                    <h1>Cargar estadisticas</h1>
+                    <TrainerChart />
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </template>
 
 <script setup>

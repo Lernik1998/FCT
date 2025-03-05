@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User; // Modelo de User
 use App\Models\PersonalizedTraining; // Modelo de PersonalizedTraining
 use App\Models\Activity; // Modelo de Activity
+use App\Models\Category; // Modelo de Category
 
 class TrainerController extends Controller
 {
@@ -107,29 +108,92 @@ class TrainerController extends Controller
 
     public function createActivityView()
     {
-        return inertia('Trainer/Options/ActivityCreate');
+        // Obtengo todas las categorias
+        $categories = Category::all();
+
+        return inertia('Trainer/Options/ActivityCreate', compact('categories'));
     }
 
     public function storeActivity(Request $request)
+    { {
+            // dd($request->all());
+
+            // Validar los datos
+            $request->validate([]);
+
+            // Crear la actividad
+            $activity = Activity::create([
+                'name' => $request['name'],
+                'description' => $request['description'],
+                'image' => $request['image'],  // Guardamos la ruta, no el archivo
+                'price' => $request['price'],
+                'duration' => $request['duration'],
+                'date' => $request['date'],
+                'user_id' => auth()->id(),
+                'category_id' => $request['category_id'],
+            ]);
+
+            // Retornar una respuesta exitosa
+            return redirect()->route('trainers.index');
+
+        }
+    }
+
+
+    // Pagos e ingresos
+    public function payments()
+    {
+        // Obtengo el entrenador con el id
+        $trainer = User::findOrFail(auth()->id());
+
+        return inertia('Trainer/TrainerPayments', compact('trainer'));
+    }
+
+
+    // Personalized Training
+    public function personalizedTraining()
+    {
+        // Obtengo los planes personalizados del entrenador
+        $plans = PersonalizedTraining::where('user_id', auth()->id())->get();
+
+        return inertia('Trainer/TrainerPPlans', compact('plans'));
+    }
+
+    public function createPersonalizedTraining()
+    {
+        return inertia('Trainer/Options/PersonalizedTrainingCreate');
+    }
+
+    // Crear un plan personalizado PUBLICO
+    public function storePlan(Request $request)
     {
         // dd($request->all());
+        // Validar los datos $request->validate([]);
 
-        // Validar los datos
-        $request->validate([]);
-
-        // Crear la actividad
-        $activity = Activity::create([
-            'name' => $request['name'],
-            'description' => $request['description'],
-            'image' => $request['image'],  // Guardamos la ruta, no el archivo
-            'price' => $request['price'],
-            'duration' => $request['duration'],
-            'date' => $request['date'],
+        // Crear el plan
+        $plan = PersonalizedTraining::create([
+            // 'name' => $request['name'],
             'user_id' => auth()->id(),
+            'description' => $request['description'],
+            'price' => $request['price'],
+            'status' => 'approved',
         ]);
 
         // Retornar una respuesta exitosa
-        return redirect()->route('trainers.index');
+        return redirect()->route('trainers.pp');
+    }
 
+
+    // POSTS
+
+    public function trainerPostsView()
+    {
+        return inertia('Trainer/TrainerPosts');
+    }
+
+    // MENSAJES
+    public function trainerMessagesView()
+    {
+        return inertia('Trainer/TrainerMessages');
     }
 }

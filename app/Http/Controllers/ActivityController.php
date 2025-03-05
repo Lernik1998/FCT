@@ -12,11 +12,8 @@ class ActivityController extends Controller
      */
     public function index()
     {
-
         // Obtengo todas las actividades donde el status sea active
         $activities = Activity::where('status', 'active')->get();
-
-        // dd($activities);
 
         return inertia('Public/Activity', compact('activities'));
     }
