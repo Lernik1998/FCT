@@ -7,6 +7,7 @@ use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MessageController;
 
 /* Route::get('/', function () {
 return Inertia::render('Welcome', [
@@ -53,7 +54,7 @@ Route::controller(TrainerController::class)->group(function () {
 
     // Planes personalizados
     Route::get('trainers/personalizedTraining', [TrainerController::class, 'personalizedTraining'])->name('trainers.pp');
-    
+
     // Creación de un plan personalizado por el trainer
     Route::get('trainers/createPlan', [TrainerController::class, 'createPersonalizedTraining'])->name('trainers.createPlan');
 
@@ -143,3 +144,10 @@ Route::controller(SocialiteController::class)->group(function () {
 
 // Route::inertia('/noticias', 'Noticias')->name('noticias');
 // Route::inertia('/eventos', 'Eventos')->name('eventos');
+
+
+// Por ahora lo pongo aquí
+
+Route::get('/inbox', [MessageController::class, 'inbox'])->name('inbox');
+Route::post('/message/{user}', [MessageController::class, 'store'])->name('message.store');
+Route::get('/message/{user}', [MessageController::class, 'show'])->name('message.show');

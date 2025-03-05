@@ -8,6 +8,9 @@ use App\Models\User; // Modelo de User
 use App\Models\PersonalizedTraining; // Modelo de PersonalizedTraining
 use App\Models\Activity; // Modelo de Activity
 use App\Models\Category; // Modelo de Category
+use App\Models\Message; // Modelo de Message
+use Illuminate\Support\Facades\Auth; // Facade para autenticación
+use Inertia\Inertia; // Facade para Inertia
 
 class TrainerController extends Controller
 {
@@ -194,6 +197,8 @@ class TrainerController extends Controller
     // MENSAJES
     public function trainerMessagesView()
     {
-        return inertia('Trainer/TrainerMessages');
+        // return inertia('Trainer/TrainerMessages');
+        $users = User::where('id', '!=', Auth::user()->id)->get();
+        return Inertia::render('Trainer/MessageInbox', ['users' => $users]);
     }
 }
