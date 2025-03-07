@@ -8,6 +8,8 @@ use App\Models\User; // Modelo User
 use App\Models\Activity; // Modelo Activity
 use App\Models\Category; // Modelo Category
 
+use Illuminate\Support\Str; // Modelo Str para renombrar la imagen
+
 
 class AdminController extends Controller
 {
@@ -184,15 +186,6 @@ class AdminController extends Controller
     {
         // dd($request->all());
 
-        /*  MÁS ADELANTE HABRÁ QUE GESTIONAR EL ALMACENADO DE IMAGENES
-         Manejar la subida de imagen
-            if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('activities', 'public');
-            } else {
-                $imagePath = null;
-            }
-        */
-
         // Crear la actividad
         $activity = Activity::create([
             'name' => $request['name'],
@@ -204,6 +197,24 @@ class AdminController extends Controller
             'category_id' => $request['category_id'],
             'user_id' => auth()->id(),
         ]);
+
+        // Manejar la subida de imagen
+        if ($request->hasFile('image')) {
+
+            // Obtengo la imagen y la almaceno
+            $image = $request->file('image');
+
+            // Renombro la imagen
+            $imageName = Str::slug($request->name) . '.' . $image->guessExtension(); // Para que lo guarde con el nombre original y extension
+
+            // Guardo la imagen en la carpeta public/activities
+            $path =public_path('images/activities/');
+            $image->move($path, $imageName);
+
+            // Actualizar la ruta de la imagen en la base de datos
+            $activity->image = $imageName;
+            $activity->save();
+        }
 
         return redirect()->route('admin.activityAdmin');
 

@@ -1,24 +1,37 @@
 <template>
-    <Head title="Inbox" />
-    <div class="h-screen flex bg-gray-100" style="height: 90vh">
+    <!-- <Head title="Inbox" /> -->
+    <!-- Barra navegación del Trainer -->
+    <nav class="p-4 mb-6">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold">Marina Alta Sports</div>
+            <TrainersNavBar />
+        </div>
+    </nav>
+
+    <div class="h-screen flex bg-gray-400 border-b gap-2" style="height: 90vh">
         <!-- Sidebar -->
-        <div class="w-1/4 bg-white border-r border-gray-200">
+        <div class="w-1/4 border-r">
             <div
-                class="p-4 bg-gray-100 font-bold text-lg border-b border-gray-200"
+                class="p-6 bg-green-500 font-bold text-lg border-b border-t border-gray-200"
             >
-                Inbox
+                Usuarios
             </div>
+
             <div class="p-4 space-y-4">
+                <!-- Cargar en un futuro solo a los usuarios que el Trainer tenga una cita programada.
+                Los usuarios si tienen amigos agregados, que puedan hablar.
+                El admin puede hablar con todos. -->
                 <div
                     v-for="user in users"
                     :key="user.id"
                     @click="selectUser(user)"
                     class="flex items-center p-2 rounded cursor-pointer"
                     :class="{
-                        'bg-blue-500 text-white': user.id === selectedUser?.id,
+                        'bg-yellow-500 text-white':
+                            user.id === selectedUser?.id,
                     }"
                 >
-                    <div class="w-12 h-12 bg-blue-200 rounded-full"></div>
+                    <div class="w-12 h-18 bg-blue-200 rounded-full"></div>
                     <div class="ml-4">
                         <div class="font-semibold">{{ user.name }}</div>
                     </div>
@@ -27,17 +40,19 @@
         </div>
 
         <!-- Chat Area -->
-        <div class="flex flex-col w-3/4">
+        <div
+            class="flex flex-col w-3/4 border-l border-r border-b border-t border-gray-500"
+        >
             <div
                 v-if="!selectedUser"
                 class="h-full flex justify-center items-center text-gray-800 font-bold"
             >
-                Select Conversation
+                <h4 class="text-2xl">Seleccione un usuario</h4>
             </div>
             <template v-else>
-                <div class="p-4 border-b border-gray-200 flex items-center">
-                    <div class="w-12 h-12 bg-blue-200 rounded-full"></div>
-                    <div class="ml-4">
+                <div class="p-4 border-b flex items-center">
+                    <div class="w-12 h-18 bg-blue-200 rounded-full"></div>
+                    <div class="ml-10">
                         <div class="font-bold">{{ selectedUser.name }}</div>
                     </div>
                 </div>
@@ -72,14 +87,14 @@
                         <input
                             type="text"
                             v-model="messageInput"
-                            placeholder="Type a message..."
+                            placeholder="Escribe un mensaje..."
                             class="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                         <button
                             @click="sendMessage"
                             class="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
                         >
-                            Send
+                            Enviar
                         </button>
                     </div>
                 </div>
@@ -92,6 +107,9 @@
 import { ref, onMounted, watch, nextTick } from "vue";
 import axios from "axios";
 import { Head } from "@inertiajs/vue3";
+
+// Componentes
+import TrainersNavBar from "./Components/TrainersNavBar.vue";
 
 const props = defineProps({ auth: Object, users: Array });
 const selectedUser = ref(null);

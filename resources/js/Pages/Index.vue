@@ -105,13 +105,13 @@
         </section>
 
         <!-- Pie de Página -->
-        <!-- <Footer /> -->
+        <Footer />
     </div>
 </template>
 
 <script setup>
 import NavBar from "./Public/Components/NavBar.vue";
-// import Footer from "./Public/Components/Footer.vue";
+import Footer from "./Public/Components/Footer.vue";
 import ActivityCard from "@/Components/ActivityCard.vue";
 import TrainerCard from "@/Components/TrainerCard.vue";
 import BusinessCard from "@/Components/BusinessCard.vue";

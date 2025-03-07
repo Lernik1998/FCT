@@ -102,6 +102,8 @@
                         </p>
                     </div>
                 </div>-->
+
+                <ActivityAutoSlideshow />
             </div>
         </section>
 
@@ -112,6 +114,8 @@
 <script setup>
 // Importaciones
 import NavBar from "./Components/NavBar.vue";
+
+import ActivityAutoSlideshow from "./Components/ActivityAutoSlideshow.vue";
 
 const props = defineProps(["activities"]);
 </script>
