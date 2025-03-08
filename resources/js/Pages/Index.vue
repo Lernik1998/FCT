@@ -31,6 +31,7 @@
                     Explorar actividades
                 </button>
             </div>
+            <WeatherApi />
         </section>
 
         <!-- Actividades Populares -->
@@ -63,8 +64,8 @@
         <section class="py-12 px-4 bg-gray-100">
             <div class="container mx-auto text-center">
                 <h2 class="text-3xl font-semibold mb-6">
-                    Entrenadores Destacados
-                    Hacer un sort() con los 3 entrenadores mas contratados.
+                    Entrenadores Destacados Hacer un sort() con los 3
+                    entrenadores mas contratados.
                 </h2>
                 <div
                     class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
@@ -90,7 +91,10 @@
         <section class="py-12 px-4">
             <div class="container mx-auto text-center">
                 <h2 class="text-3xl font-semibold mb-6">Negocios Destacados</h2>
-                <h4>Mostrar con más frecuencia aquellas que hayan pagado el paquete de promoción más caro.</h4>
+                <h4>
+                    Mostrar con más frecuencia aquellas que hayan pagado el
+                    paquete de promoción más caro.
+                </h4>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
                     <BusinessCard
                         name="FitZone Gym"
@@ -110,13 +114,16 @@
 </template>
 
 <script setup>
+// Importaciones
+import { router } from "@inertiajs/vue3";
+
+// Componentes
+import WeatherApi from "@/Components/WeatherApi.vue";
 import NavBar from "./Public/Components/NavBar.vue";
 import Footer from "./Public/Components/Footer.vue";
 import ActivityCard from "@/Components/ActivityCard.vue";
 import TrainerCard from "@/Components/TrainerCard.vue";
 import BusinessCard from "@/Components/BusinessCard.vue";
-
-import { router } from "@inertiajs/vue3";
 
 const login = () => {
     router.visit(route("login"));

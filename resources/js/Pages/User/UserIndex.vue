@@ -27,7 +27,11 @@
                         {{ activity.name }}
                     </h3>
                     <p class="text-gray-700">
-                        {{ activity.description }}
+                        {{
+                            activity.description.length > 50
+                                ? activity.description.substring(0, 50) + "..."
+                                : activity.description
+                        }}
                     </p>
                 </div>
             </div>

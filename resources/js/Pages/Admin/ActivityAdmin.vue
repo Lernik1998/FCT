@@ -7,14 +7,22 @@
         </div>
     </nav>
 
-    <section class="mt-6">
-        <h1>Opciones</h1>
-        <a :href="route('admin.createActivityView')">Crear actividad</a>
+    <section class="mt-6 ml-6">
+        <h1 class="text-2xl font-bold mb-4">Opciones</h1>
+        <ul class="ml-10">
+            <li>
+                <a
+                    class="text-blue-600 hover:underline"
+                    :href="route('admin.createActivityView')"
+                    >Crear actividad</a
+                >
+            </li>
+        </ul>
     </section>
 
-    <section>
+    <section class="ml-10">
         <!-- Filtrado de actividades por el status -->
-        <h3>
+        <h3 class="text-lg font-semibold mt-6 mb-2">
             Filtrado de actividades por el estado y por la fecha estaría bien
             TENER UN COMPONENTE DE FILTRADO
         </h3>

@@ -71,6 +71,8 @@
                         >Ver más</a
                     >
                 </div>
+                 -->
+
                 <div
                     class="bg-white p-6 rounded-lg shadow-lg transform transition duration-300 hover:scale-105"
                 >
@@ -78,10 +80,13 @@
                     <p class="text-gray-700">
                         Modifica ajustes generales de la plataforma.
                     </p>
+                    <p>Para que se puedan cambiar las imagenes, los colores, etc.
+                    Para poder cambiar los horarios de los eventos, notificar a todos los usuarios de los cambios.
+                    PARA INFORMAR DE TEMPORAL, MEDUSAS....TIEMPO EN GENERAL.</p>
                     <a href="#" class="text-blue-600 hover:underline"
                         >Ver más</a
                     >
-                </div> -->
+                </div>
             </div>
         </section>
 
