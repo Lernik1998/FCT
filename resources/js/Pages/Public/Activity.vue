@@ -56,66 +56,28 @@
             </div>
         </section>
 
-        <!-- Categorías Deportivas con efecto hover -->
-        <section class="py-12 bg-blue-50">
-            <div class="container mx-auto text-center">
-                <h1 class="text-3xl font-semibold mb-6">
-                    Esto podría ser un slider pasando los datos de las
-                    categorías o de actividades propias o publicitadas
-                </h1>
-                <!-- <h2 class="text-3xl font-semibold mb-6">
-                    Categorías Deportivas
-                </h2>
-                <div
-                    class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8"
-                >
-                    <div
-                        class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300"
-                    >
-                        <h3 class="text-xl font-semibold mb-4">Surf</h3>
-                        <p class="text-gray-700">
-                            Las mejores olas y spots en la Marina Alta.
-                        </p>
-                    </div>
-                    <div
-                        class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300"
-                    >
-                        <h3 class="text-xl font-semibold mb-4">Ciclismo</h3>
-                        <p class="text-gray-700">
-                            Recorre las rutas más impresionantes de la región.
-                        </p>
-                    </div>
-                    <div
-                        class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300"
-                    >
-                        <h3 class="text-xl font-semibold mb-4">Baloncesto</h3>
-                        <p class="text-gray-700">
-                            Compite en los mejores torneos de baloncesto local.
-                        </p>
-                    </div>
-                    <div
-                        class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300"
-                    >
-                        <h3 class="text-xl font-semibold mb-4">Atletismo</h3>
-                        <p class="text-gray-700">
-                            Descubre las mejores competiciones de atletismo.
-                        </p>
-                    </div>
-                </div>-->
+        <h1 class="text-xl font-semibold mb-6">
+            Esto podría ser un slider pasando los datos de las categorías o de
+            actividades propias o publicitadas
+        </h1>
 
-                <ActivityAutoSlideshow />
+        <!-- Categorías Deportivas con efecto hover -->
+        <section class="py-12">
+            <div class="container mx-auto text-center">
+                <ActivityAutoSlideshow :activities="activities" />
             </div>
         </section>
 
         <!-- Pie de Página -->
+        <Footer />
     </div>
 </template>
 
 <script setup>
-// Importaciones
+// Componentes
 import NavBar from "./Components/NavBar.vue";
-
 import ActivityAutoSlideshow from "./Components/ActivityAutoSlideshow.vue";
+import Footer from "./Components/Footer.vue";
 
 const props = defineProps(["activities"]);
 </script>

@@ -1,4 +1,12 @@
 <template>
+    <!-- Barra de navegación -->
+    <nav class="p-4 border-b shadow-md bg-white">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold">Panel de Administración</div>
+            <AdminNavBar />
+        </div>
+    </nav>
+
     <div class="container mx-auto p-6">
         <h1 class="text-3xl font-bold mb-6 text-center">Gestión de usuarios</h1>
 
@@ -6,8 +14,12 @@
         Y también una paginación -->
 
         <!-- Acceso a crear un usuario -->
-        <div>
-            <a :href="route('admin.createUserView')">Crear usuario</a>
+        <div class="mb-10">
+            <a
+                :href="route('admin.createUserView')"
+                class="mb-6 bg-white p-6 rounded-lg shadow-lg"
+                >Crear usuario</a
+            >
         </div>
 
         <!-- Sección de Usuarios -->
@@ -37,7 +49,10 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+// Importaciones
+
+// Componentes
+import AdminNavBar from "@/Pages/Admin/Components/AdminNavBar.vue";
 
 const props = defineProps({
     users: Array,

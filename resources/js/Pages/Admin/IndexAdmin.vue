@@ -1,22 +1,11 @@
 <template>
     <div>
         <!-- Barra de navegación -->
-        <nav
-            class="bg-gray-800 p-4 text-white flex justify-between items-center"
-        >
-            <div class="text-2xl font-bold">Panel de Administración</div>
-            <ul class="flex space-x-4">
-                <li>
-                    <a href="#" class="hover:underline">Notificaciones -- ></a>
-                </li>
-                <p>
-                    Molaria poder mostrar las notificaciones, aprobaciones que
-                    se tienen que aceptar...
-                </p>
-                <li>
-                    <!-- <a href="/logout" class="hover:underline">Cerrar sesión</a> -->
-                </li>
-            </ul>
+        <nav class="p-4 border-b shadow-md bg-white">
+            <div class="container mx-auto flex justify-between items-center">
+                <div class="text-xl font-bold">Panel de Administración</div>
+                <AdminNavBar />
+            </div>
         </nav>
 
         <!-- Contenido principal -->
@@ -71,7 +60,7 @@
                     >
                 </div>
 
-                <div
+                <!-- <div
                     class="bg-white p-6 rounded-lg shadow-lg transform transition duration-300 hover:scale-105"
                 >
                     <h3 class="text-xl font-semibold mb-2">Reportes</h3>
@@ -92,7 +81,7 @@
                     <a href="#" class="text-blue-600 hover:underline"
                         >Ver más</a
                     >
-                </div>
+                </div> -->
             </div>
         </section>
 
@@ -111,12 +100,15 @@
 </template>
 
 <script setup>
+// Importaciones
 import { onMounted } from "vue";
 import { Calendar } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
-
 import { router } from "@inertiajs/vue3";
+
+// Componentes
+import AdminNavBar from "@/Pages/Admin/Components/AdminNavBar.vue";
 
 onMounted(() => {
     const calendarEl = document.getElementById("calendar");

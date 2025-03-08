@@ -1,4 +1,12 @@
 <template>
+    <!-- Barra de navegación -->
+    <nav class="p-4 border-b shadow-md bg-white">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold">Panel de Administración</div>
+            <AdminNavBar />
+        </div>
+    </nav>
+
     <div class="container mx-auto p-4">
         <h1 class="text-3xl font-bold mb-4">Edición del usuario</h1>
         <form @submit.prevent="submit" class="space-y-4">
@@ -68,6 +76,9 @@
 import { defineProps, ref } from "vue";
 import { router } from "@inertiajs/vue3";
 
+// Componentes
+import AdminNavBar from "@/Pages/Admin/Components/AdminNavBar.vue";
+
 // Propiedades
 const props = defineProps({
     user: Object,
@@ -76,7 +87,6 @@ const props = defineProps({
 const name = ref(props.user.name);
 const email = ref(props.user.email);
 const role = ref(props.user.role);
-
 
 const editarUsuario = () => {
     // Envio los datos al controlador

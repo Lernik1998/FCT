@@ -1,4 +1,12 @@
 <template>
+    <!-- Barra de navegación -->
+    <nav class="p-4 border-b shadow-md bg-white">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold">Panel de Administración</div>
+            <AdminNavBar />
+        </div>
+    </nav>
+
     <div class="container mx-auto p-6">
         <h1 class="text-3xl font-bold mb-6 text-center">
             Gestión de entrenadores
@@ -25,7 +33,10 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+// Importaciones
+
+// Componentes
+import AdminNavBar from "@/Pages/Admin/Components/AdminNavBar.vue";
 
 const props = defineProps({
     trainers: Array,

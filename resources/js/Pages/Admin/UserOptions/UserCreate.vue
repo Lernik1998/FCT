@@ -1,7 +1,13 @@
 <template>
-    <section
-        class="flex justify-center items-center min-h-screen bg-gray-100 p-6"
-    >
+    <!-- Barra de navegación -->
+    <nav class="p-4 border-b shadow-md bg-white">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold">Panel de Administración</div>
+            <AdminNavBar />
+        </div>
+    </nav>
+
+    <section class="flex justify-center mt-10 p-6">
         <div
             class="bg-white shadow-lg rounded-lg p-6 w-full max-w-md animate-fade-in"
         >
@@ -75,7 +81,7 @@
 
                 <button
                     type="submit"
-                    class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+                    class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300"
                 >
                     Crear Usuario
                 </button>
@@ -91,8 +97,12 @@
 </template>
 
 <script setup>
+// Importaciones
 import { ref } from "vue";
 import { router } from "@inertiajs/vue3";
+
+// Componentes
+import AdminNavBar from "@/Pages/Admin/Components/AdminNavBar.vue";
 
 const form = ref({
     name: "",

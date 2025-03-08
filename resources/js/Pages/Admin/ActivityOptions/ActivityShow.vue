@@ -1,4 +1,12 @@
 <template>
+    <!-- Barra de navegación -->
+    <nav class="p-4 border-b shadow-md bg-white">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold">Panel de Administración</div>
+            <AdminNavBar />
+        </div>
+    </nav>
+
     <section class="min-h-screen bg-gray-100 py-12 px-6 flex justify-center">
         <div
             class="max-w-2xl w-full bg-white shadow-lg rounded-lg p-6 animate-fade-in"
@@ -15,7 +23,23 @@
                     <h2 class="text-lg font-semibold text-gray-700">
                         Descripción
                     </h2>
-                    <p class="text-gray-600">{{ activity.description }}</p>
+                    <p class="text-gray-600">
+                        {{
+                            activity.description.length > 50
+                                ? activity.description.slice(0, 50) + "..."
+                                : activity.description
+                        }}
+                    </p>
+                </div>
+
+                <!-- Imagen -->
+                <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                    <h2 class="text-lg font-semibold text-gray-700">Imagen</h2>
+                    <img
+                        :src="image"
+                        alt="Imagen de la actividad"
+                        class="w-full h-auto"
+                    />
                 </div>
 
                 <!-- Fecha -->
@@ -31,7 +55,13 @@
                         :class="statusClass(activity.status)"
                         class="px-3 py-1 rounded-full text-white"
                     >
-                        {{ activity.status }}
+                        {{
+                            activity.status === "active"
+                                ? "Activo"
+                                : activity.status === "inactive"
+                                ? "Inactivo"
+                                : "Pendiente"
+                        }}
                     </span>
                 </div>
 
@@ -50,12 +80,16 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+// Componentes
+import AdminNavBar from "@/Pages/Admin/Components/AdminNavBar.vue";
 
 // Recibe la actividad como prop
 const props = defineProps({
     activity: Object,
 });
+
+// Imagen
+const image = "/images/activities/" + props.activity.image;
 
 // Función para formatear la fecha
 const formatDate = (date) => {
@@ -64,11 +98,11 @@ const formatDate = (date) => {
 
 // Asignar colores según estado
 const statusClass = (status) => {
-    return status === "Activa"
-        ? "bg-green-500"
-        : status === "Pendiente"
-        ? "bg-yellow-500"
-        : "bg-red-500";
+    return status === "active"
+        ? "bg-green-500 px-3 py-1 rounded text-white"
+        : status === "inactive"
+        ? "bg-red-500 px-3 py-1 rounded text-white"
+        : "bg-yellow-500 px-3 py-1 rounded text-white";
 };
 
 // Volver a la página anterior

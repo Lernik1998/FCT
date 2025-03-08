@@ -1,4 +1,12 @@
 <template>
+    <!-- Barra de navegación -->
+    <nav class="p-4 border-b shadow-md bg-white">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold">Panel de Administración</div>
+            <AdminNavBar />
+        </div>
+    </nav>
+
     <section class="min-h-screen bg-gray-100 py-12 px-6 flex justify-center">
         <div
             class="max-w-3xl w-full bg-white shadow-lg rounded-lg p-6 animate-fade-in"
@@ -46,9 +54,9 @@
                         >Imagen Actual</label
                     >
                     <img
-                        :src="activity.image"
+                        :src="image"
                         alt="Imagen actual"
-                        class="w-full h-40 object-cover rounded-lg mt-2 shadow"
+                        class="w-full h-auto"
                     />
                 </div>
 
@@ -125,13 +133,20 @@
 </template>
 
 <script setup>
+// Importaciones
 import { ref, defineProps } from "vue";
 import { router } from "@inertiajs/vue3";
+
+// Componentes
+import AdminNavBar from "@/Pages/Admin/Components/AdminNavBar.vue";
 
 // Recibe la actividad como prop
 const props = defineProps({
     activity: Object,
 });
+
+// Imagen
+const image = "/images/activities/" + props.activity.image;
 
 // Estado de la actividad con valores precargados
 const activity = ref({ ...props.activity });

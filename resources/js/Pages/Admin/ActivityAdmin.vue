@@ -1,15 +1,27 @@
 <template>
-    <AdminNavBar />
+    <!-- Barra de navegación -->
+    <nav class="p-4 border-b shadow-md bg-white">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold">Panel de Administración</div>
+            <AdminNavBar />
+        </div>
+    </nav>
 
-    <section>
+    <section class="mt-6">
         <h1>Opciones</h1>
         <a :href="route('admin.createActivityView')">Crear actividad</a>
     </section>
 
-    <section class="min-h-screen bg-gray-100 py-12 px-6">
-        <div
-            class="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-6 animate-fade-in"
-        >
+    <section>
+        <!-- Filtrado de actividades por el status -->
+        <h3>
+            Filtrado de actividades por el estado y por la fecha estaría bien
+            TENER UN COMPONENTE DE FILTRADO
+        </h3>
+    </section>
+
+    <section class="min-h-screen py-12 px-6">
+        <div class="bg-white shadow-lg rounded-lg p-6 animate-fade-in w-full">
             <!-- Título -->
             <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">
                 Gestión de Actividades
@@ -34,24 +46,28 @@
                             class="border-t"
                         >
                             <td class="py-3 px-4">{{ activity.name }}</td>
-                            <td class="py-3 px-4 truncate w-64">
-                                {{ activity.description }}
+                            <td
+                                class="py-3 px-4 overflow-hidden text-ellipsis whitespace-nowrap"
+                            >
+                                {{
+                                    activity.description.length > 50
+                                        ? activity.description.slice(0, 50) +
+                                          "..."
+                                        : activity.description
+                                }}
                             </td>
+
                             <td class="py-3 px-4 text-center">
                                 {{ activity.date }}
                             </td>
                             <td class="py-3 px-4 text-center">
-                                <span
-                                    :class="[
-                                        activity.is_active === 'true'
-                                            ? 'bg-green-500'
-                                            : 'bg-red-500',
-                                    ]"
-                                >
+                                <span :class="statusClass(activity.status)">
                                     {{
-                                        activity.is_active
+                                        activity.status === "active"
                                             ? "Activo"
-                                            : "Inactivo"
+                                            : activity.status === "inactive"
+                                            ? "Inactivo"
+                                            : "Pendiente"
                                     }}
                                 </span>
                             </td>
@@ -92,6 +108,16 @@ import { router } from "@inertiajs/vue3";
 import AdminNavBar from "./Components/AdminNavBar.vue";
 
 const props = defineProps(["activities"]);
+
+const statusClass = (status) => {
+    if (status === "active") {
+        return "bg-green-500 px-3 py-1 rounded text-white";
+    } else if (status === "inactive") {
+        return "bg-red-500 px-3 py-1 rounded text-white";
+    } else {
+        return "bg-yellow-500 px-3 py-1 rounded text-white";
+    }
+};
 
 const showActivity = (id) => {
     router.visit(route("admin.activityShow", id));
