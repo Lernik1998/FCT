@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class User_Activities_Reservations extends Model
+class UserActivitiesReservations extends Model
 {
     protected $guarded = [];
     //

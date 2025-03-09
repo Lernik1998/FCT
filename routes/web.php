@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\UserActivitiesReservationsController;
 
 /* Route::get('/', function () {
 return Inertia::render('Welcome', [
@@ -77,6 +78,20 @@ Route::controller(UserController::class)->group(function () {
     // Lo sustituyo por un inertia porque solo sirvo una vista, porque por ahora no uso para nada más el controlador
 
     Route::get('user/stats', [UserController::class, 'stats'])->name('users.stats');
+
+    // Reservas y pagos de las Actividades
+    Route::get('user/activityShow/{id}', [ActivityController::class, 'showUserActivity'])->name('activities.showUserActivity');
+    // Route::get('user/reserve/{id}', [ActivityController::class, 'reserveActivity'])->name('activities.reserve');
+    Route::post('/activities/{id}/pay', [ActivityController::class, 'payForActivity'])->name('activities.pay');
+
+
+    // Reservas 
+    Route::resource('userActivitiesReservations', UserActivitiesReservationsController::class);
+
+    // Reservas y pagos de las Actividades con el controlador de UserActivitiesReservations
+    Route::get('user/reserve/{id}', [UserActivitiesReservationsController::class, 'create'])->name('userActivitiesReservations.create');
+
+    Route::get('/activities/{id}/pay', [UserActivitiesReservationsController::class, 'payForActivity'])->name('userActivitiesReservations.payForActivity');
 });
 
 

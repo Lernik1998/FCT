@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\UserActivitiesReservations;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller
@@ -68,5 +69,15 @@ class ActivityController extends Controller
     public function destroy(Activity $activity)
     {
         //
+    }
+
+    // USER - Activity
+    public function showUserActivity($id)
+    {
+        //Obtener la actividad
+        $activity = Activity::findOrFail($id);
+
+        //Retornar la actividad
+        return inertia('User/ActivityOptions/ActivityShow', compact('activity'));
     }
 }

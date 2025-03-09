@@ -17,6 +17,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.18",
         "laravel/tinker": "^2.10.1",
+        "stripe/stripe-php": "^16.6",
         "tightenco/ziggy": "^2.0"
     },
     "require-dev": {

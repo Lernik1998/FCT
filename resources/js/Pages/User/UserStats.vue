@@ -2,6 +2,7 @@
     <!-- Barra de Navegación -->
     <nav class="bg-black p-4 text-white">
         <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">Bienvenido</h1>
             <UsersNavBar />
         </div>
     </nav>

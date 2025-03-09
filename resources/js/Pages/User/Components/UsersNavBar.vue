@@ -7,6 +7,13 @@
                 >
             </li>
             <li>
+                <a
+                    :href="route('userActivitiesReservations.index')"
+                    class="hover:underline"
+                    >Gestión de reservas</a
+                >
+            </li>
+            <li>
                 <a :href="route('users.stats')" class="hover:underline"
                     >Progreso</a
                 >
@@ -15,17 +22,9 @@
                 <button @click="logout">Cerrar sesión</button>
             </li>
 
-            <!-- 
             <li>
-                <a :href="route('user.reservations')" class="hover:underline"
-                    >Gestión de reservas</a
-                >
+                <a href="" class="hover:underline">Mensajes</a>
             </li>
-            <li>
-                <a :href="route('user.messages')" class="hover:underline"
-                    >Mensajes</a
-                >
-            </li> -->
         </ul>
     </div>
 </template>

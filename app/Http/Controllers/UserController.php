@@ -86,4 +86,13 @@ class UserController extends Controller
             'user' => $user,
         ]);
     }
+
+    // Función para mostrar la actividad con sus detalles
+    public function showActivity(string $id)
+    {
+        $activity = Activity::findOrFail($id);
+        return inertia('User/ActivityShow', [
+            'activity' => $activity,
+        ]);
+    }
 }
