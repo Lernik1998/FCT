@@ -81,17 +81,23 @@ Route::controller(UserController::class)->group(function () {
 
     // Reservas y pagos de las Actividades
     Route::get('user/activityShow/{id}', [ActivityController::class, 'showUserActivity'])->name('activities.showUserActivity');
-    // Route::get('user/reserve/{id}', [ActivityController::class, 'reserveActivity'])->name('activities.reserve');
-    Route::post('/activities/{id}/pay', [ActivityController::class, 'payForActivity'])->name('activities.pay');
 
+    // Route::get('user/reserve/{id}', [ActivityController::class, 'reserveActivity'])->name('activities.reserve');
+    // Route::post('/activities/{id}/pay', [ActivityController::class, 'payForActivity'])->name('activities.pay');
 
     // Reservas 
     Route::resource('userActivitiesReservations', UserActivitiesReservationsController::class);
 
+    // Route::get('userActivitiesReservations/{id}/pay', [UserActivitiesReservationsController::class, 'showPayForActivity'])->name('userActivitiesReservations.showPayForActivity');
+
+    // Previo al pago
+    Route::get('UAR/{id}/showPay', [UserActivitiesReservationsController::class, 'showPayForActivity'])->name('userActivitiesReservations.showPayForActivity');
+
+    // Gestión de pago
+    Route::post('UAR/{id}/pay', [UserActivitiesReservationsController::class, 'payForActivity'])->name('userActivitiesReservations.payForActivity');
+
     // Reservas y pagos de las Actividades con el controlador de UserActivitiesReservations
     Route::get('user/reserve/{id}', [UserActivitiesReservationsController::class, 'create'])->name('userActivitiesReservations.create');
-
-    Route::get('/activities/{id}/pay', [UserActivitiesReservationsController::class, 'payForActivity'])->name('userActivitiesReservations.payForActivity');
 });
 
 

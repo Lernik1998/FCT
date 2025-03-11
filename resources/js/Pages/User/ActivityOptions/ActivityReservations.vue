@@ -64,10 +64,10 @@
                             </button>
 
                             <button
-                                @click="payForReservation(reservation.id)"
+                                @click="showPayForReservation(reservation.id)"
                                 class="text-blue-500 hover:underline"
                             >
-                                Tramintar pago
+                                Tramitar pago
                             </button>
                         </td>
                     </tr>
@@ -94,7 +94,7 @@ const deleteReservation = (id) => {
     }
 };
 
-const payForReservation = (id) => {
-    router.get(route("userActivitiesReservations.payForActivity", id));
+const showPayForReservation = (id) => {
+    router.get(route("userActivitiesReservations.showPayForActivity", id));
 };
 </script>
