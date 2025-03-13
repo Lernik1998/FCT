@@ -131,59 +131,180 @@ class UserActivitiesReservationsController extends Controller
     //     // Validar la solicitud, procesar el pago, actualizar la reserva, etc.
     // }
 
+    // public function payForActivity(Request $request, $activityId)
+    // {
+    //     // Obtengo la actividad
+    //     $activity = Activity::findOrFail($activityId);
+
+    //     // Obtengo la reserva del usuario autenticado
+    //     // $reservation = UserActivitiesReservations::where('user_id', auth()->user()->id)
+    //     //     ->where('activity_id', $activityId)
+    //     //     ->firstOrFail();
+
+    //     // // Cambio el estado de la reserva
+    //     // $reservation->update([
+    //     //     'status' => 'paid',
+    //     //     'payment_id' => $response->id,
+    //     //     'payment_status' => $response->status,
+    //     //     'payment_url' => $response->payment_method,
+    //     //     'payment_description' => $response->description,
+    //     //     'payment_date' => now(),
+    //     // ]);
+
+    //     \Log::info('Request data: ', $request->all());  // Para registrar los datos de la solicitud
+
+    //     $request->validate([
+    //         'card_number' => 'required|string|size:16',
+    //         'exp_month' => 'required|integer|between:1,12',
+    //         'exp_year' => 'required|integer|min:' . now()->year,
+    //         'cvc' => 'required|string|size:3',
+    //     ]);
+
+
+
+    //     try {
+    //         // Configurar Stripe
+    //         Stripe::setApiKey(env('STRIPE_SECRET'));
+
+    //         // // Crear sesión de pago con Stripe
+    //         // $session = StripeSession::create([
+    //         //     'payment_method_types' => ['card'],
+    //         //     'line_items' => [
+    //         //         [
+    //         //             'price_data' => [
+    //         //                 'currency' => 'eur',
+    //         //                 'product_data' => [
+    //         //                     'name' => $activity->name,
+    //         //                 ],
+    //         //                 'unit_amount' => $activity->price * 100, // Convertir a centavos
+    //         //             ],
+    //         //             'quantity' => 1,
+    //         //         ]
+    //         //     ],
+    //         //     'mode' => 'payment',
+    //         //     'success_url' => route('payment.success', ['reservation' => $reservation->id]),
+    //         //     'cancel_url' => route('payment.cancel', ['reservation' => $reservation->id]),
+    //         // ]);
+
+
+    //         // Crear token de la tarjeta
+    //         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+
+    //         $res = $stripe->tokens->create([
+    //             'card' => [
+    //                 'number' => $request->card_number,
+    //                 'exp_month' => $request->exp_month,
+    //                 'exp_year' => $request->exp_year,
+    //                 'cvc' => $request->cvc,
+    //             ],
+    //         ]);
+
+    //         if (isset($res->error)) {
+    //             return response()->json([
+    //                 'error' => 'Error al crear el token de la tarjeta: ' . $res->error->message
+    //             ], 400);
+    //         }
+
+    //         $response = $stripe->charges->create([
+    //             'amount' => $activity->price * 100,
+    //             'currency' => 'eur',
+    //             'source' => $res->id,
+    //             'description' => 'Pago de la actividad ' . $activity->name,
+    //         ]);
+
+    //         return response()->json([
+    //             'status' => $response->status,
+    //             'charge_id' => $response->id,
+    //             'amount' => $response->amount,
+    //             'currency' => $response->currency
+    //         ], 200);
+
+
+    //     } catch (\Stripe\Exception\CardException $e) {
+    //         \Log::error('Stripe CardException: ', ['error' => $e->getError()]);
+    //         return response()->json([
+    //             'error' => 'Error de tarjeta: ' . $e->getError()->message
+    //         ], 400);
+    //     } catch (\Stripe\Exception\ApiConnectionException $e) {
+    //         \Log::error('Stripe ApiConnectionException: ', ['error' => $e->getMessage()]);
+    //         return response()->json([
+    //             'error' => 'Error de conexión con Stripe: ' . $e->getMessage()
+    //         ], 500);
+    //     } catch (\Exception $e) {
+    //         \Log::error('Unexpected Error: ', ['error' => $e->getMessage()]);
+    //         return response()->json([
+    //             'error' => 'Error inesperado: ' . $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
+
     public function payForActivity(Request $request, $activityId)
     {
         // Obtengo la actividad
         $activity = Activity::findOrFail($activityId);
 
-        // Obtengo la reserva del usuario autenticado
-        $reservation = UserActivitiesReservations::where('user_id', auth()->user()->id)
-            ->where('activity_id', $activityId)
-            ->firstOrFail();
-
-        // Configurar Stripe
-        Stripe::setApiKey(env('STRIPE_SECRET'));
-
-        // // Crear sesión de pago con Stripe
-        // $session = StripeSession::create([
-        //     'payment_method_types' => ['card'],
-        //     'line_items' => [
-        //         [
-        //             'price_data' => [
-        //                 'currency' => 'eur',
-        //                 'product_data' => [
-        //                     'name' => $activity->name,
-        //                 ],
-        //                 'unit_amount' => $activity->price * 100, // Convertir a centavos
-        //             ],
-        //             'quantity' => 1,
-        //         ]
-        //     ],
-        //     'mode' => 'payment',
-        //     'success_url' => route('payment.success', ['reservation' => $reservation->id]),
-        //     'cancel_url' => route('payment.cancel', ['reservation' => $reservation->id]),
-        // ]);
-
-        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
-
-        $res = $stripe->tokens->create([
-            'card' => [
-                'number' => $request->card_number,
-                'exp_month' => $request->exp_month,
-                'exp_year' => $request->exp_year,
-                'cvc' => $request->cvc,
-            ],
+        // Validación de datos de la tarjeta
+        $request->validate([
+            'card_number' => 'required|string|size:16',
+            'exp_month' => 'required|integer|between:1,12',
+            'exp_year' => 'required|integer|min:' . now()->year,
+            'cvc' => 'required|string|size:3',
         ]);
 
+        \Log::info('Request data: ', $request->all());  // Para registrar los datos de la solicitud
 
+        try {
+            // Configurar Stripe
+            Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        $response = $stripe->charges->create([
-            'amount' => $activity->price * 100,
-            'currency' => 'eur',
-            'source' => $res->id,
-            'description' => 'Pago de la actividad ' . $activity->name,
-        ]);
+            // Crear token de la tarjeta
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
 
-        return response()->json([$response->status, 201]);
+            $res = $stripe->tokens->create([
+                'card' => [
+                    'number' => $request->card_number,
+                    'exp_month' => $request->exp_month,
+                    'exp_year' => $request->exp_year,
+                    'cvc' => $request->cvc,
+                ],
+            ]);
+
+            if (isset($res->error)) {
+                return response()->json([
+                    'error' => 'Error al crear el token de la tarjeta: ' . $res->error->message
+                ], 400);
+            }
+
+            $response = $stripe->charges->create([
+                'amount' => $activity->price * 100,
+                'currency' => 'eur',
+                'source' => $res->id,
+                'description' => 'Pago de la actividad ' . $activity->name,
+            ]);
+
+            return response()->json([
+                'status' => $response->status,
+                'charge_id' => $response->id,
+                'amount' => $response->amount,
+                'currency' => $response->currency
+            ], 200);
+
+        } catch (\Stripe\Exception\CardException $e) {
+            \Log::error('Stripe CardException: ', ['error' => $e->getError()]);
+            return response()->json([
+                'error' => 'Error de tarjeta: ' . $e->getError()->message
+            ], 400);
+        } catch (\Stripe\Exception\ApiConnectionException $e) {
+            \Log::error('Stripe ApiConnectionException: ', ['error' => $e->getMessage()]);
+            return response()->json([
+                'error' => 'Error de conexión con Stripe: ' . $e->getMessage()
+            ], 500);
+        } catch (\Exception $e) {
+            \Log::error('Unexpected Error: ', ['error' => $e->getMessage()]);
+            return response()->json([
+                'error' => 'Error inesperado: ' . $e->getMessage()
+            ], 500);
+        }
     }
+
 }

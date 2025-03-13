@@ -1,84 +1,124 @@
 <template>
-    <div class="payment-container bg-white rounded-lg shadow-md p-4">
-        <h1 class="text-3xl font-bold mb-4">Pagar Actividad</h1>
-        <div v-if="activity" class="grid grid-cols-2 gap-4">
-            <p class="text-lg font-semibold">
-                <strong>Actividad:</strong> {{ activity.name }}
-            </p>
-            <p class="text-lg font-semibold">
-                <strong>Precio:</strong> {{ formatPrice(activity.price) }}
-            </p>
-            <button
-                @click="handlePayment"
-                class="col-span-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-                Pagar con Stripe
-            </button>
-        </div>
-        <div v-else class="text-center">
-            <p class="text-lg">Cargando actividad...</p>
-        </div>
+  <div class="payment-container bg-white rounded-lg shadow-md p-4">
+    <h1 class="text-3xl font-bold mb-4">Pagar Actividad</h1>
+    <div v-if="activity" class="grid grid-cols-2 gap-4">
+      <p class="text-lg font-semibold"><strong>Actividad:</strong> {{ activity.name }}</p>
+      <p class="text-lg font-semibold">
+        <strong>Precio:</strong> {{ formatPrice(activity.price) }}
+      </p>
+
+      <br>
+      <br>
+
+      <div id="card-element"></div>
+      <button
+        @click="handlePayment"
+        class="col-span-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Pagar con Stripe
+      </button>
     </div>
+    <div v-else class="text-center">
+      <p class="text-lg">Cargando actividad...</p>
+    </div>
+  </div>
 </template>
 
 <script setup>
 // Importaciones
 import axios from "axios";
+import { ref, onMounted } from "vue";
+import { loadStripe } from "@stripe/stripe-js";
+
+// Stripe
+const stripe = ref(null);
+const cardElement = ref(null);
+
+onMounted(async () => {
+  const stripeKey = import.meta.env.VITE_STRIPE_KEY;
+  if (!stripeKey) {
+    console.error("La clave de Stripe no está definida");
+    return;
+  }
+  
+  stripe.value = await loadStripe(stripeKey);
+  if (!stripe.value) {
+    console.error("No se pudo cargar Stripe");
+    return;
+  }
+
+  const elements = stripe.value.elements();
+  cardElement.value = elements.create("card", {
+    hidePostalCode: true,
+  });
+  cardElement.value.mount("#card-element");
+});
 
 const props = defineProps({
-    activity: Object,
-    reservation: Object,
+  activity: Object,
+  reservation: Object,
 });
 
 const formatPrice = (price) => {
-    return new Intl.NumberFormat("es-ES", {
-        style: "currency",
-        currency: "EUR",
-    }).format(price);
+  return new Intl.NumberFormat("es-ES", {
+    style: "currency",
+    currency: "EUR",
+  }).format(price);
 };
 
 const handlePayment = async () => {
-    try {
-        const response = await axios.post(
-            route(
-                "userActivitiesReservations.payForActivity",
-                props.activity.id
-            ),
-            {
-                card_number: props.card_number,
-                exp_month: props.exp_month,
-                exp_year: props.exp_year,
-                cvc: props.cvc,
-            }
-        );
+  if (!stripe.value || !cardElement.value) {
+    console.error("Stripe o el elemento de la tarjeta no están inicializados");
+    return;
+  }
 
-        if (response.data.payment_url) {
-            window.location.href = response.data.payment_url;
-        }
-    } catch (error) {
-        console.error("Error al procesar el pago:", error);
-        alert("Hubo un problema al procesar el pago.");
+  const { paymentMethod, error } = await stripe.value.createPaymentMethod({
+    type: "card",
+    card: cardElement.value,
+  });
+
+  if (error) {
+    console.error("Error al obtener el token:", error);
+    alert("Error al procesar el pago: " + error.message);
+    return;
+  }
+
+  try {
+    const response = await axios.post(
+      route("userActivitiesReservations.payForActivity", props.activity.id),
+      { stripeToken: paymentMethod.id }
+    );
+    
+    if (response.data.payment_url) {
+      window.location.href = response.data.payment_url;
+    } else {
+      alert("Pago exitoso");
     }
+  } catch (error) {
+    console.error("Error al procesar el pago:", error);
+    alert("Hubo un problema al procesar el pago.");
+  }
 };
+
 </script>
 
 <style scoped>
 .payment-container {
-    max-width: 500px;
-    margin: auto;
-    padding: 20px;
-    text-align: center;
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
 }
 button {
-    background-color: #6772e5;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
+  background-color: #6772e5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
 }
 button:hover {
-    background-color: #556cd6;
+  background-color: #556cd6;
 }
 </style>
