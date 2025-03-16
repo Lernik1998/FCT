@@ -98,6 +98,11 @@ Route::controller(UserController::class)->group(function () {
 
     // Reservas y pagos de las Actividades con el controlador de UserActivitiesReservations
     Route::get('user/reserve/{id}', [UserActivitiesReservationsController::class, 'create'])->name('userActivitiesReservations.create');
+
+
+    // PAYPAL
+    // Gestión de pago
+    Route::post('UAR/{id}/payPaypal', [UserActivitiesReservationsController::class, 'payForActivityWithPaypal'])->name('userActivitiesReservations.payForActivityWithPaypal');
 });
 
 
