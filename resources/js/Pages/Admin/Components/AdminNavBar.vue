@@ -20,15 +20,20 @@
                     </li> -->
 
             <li>
-                <a href="#" class="hover:underline">Solicitudes información</a>
+                <a
+                    :href="route('admin.informationAdmin')"
+                    class="hover:underline"
+                    >Solicitudes información</a
+                >
             </li>
 
             <li>
-                <a href="#" class="hover:underline">Solicitudes entrenadores</a>
+                <a href="#" class="hover:underline"
+                    >Solicitudes entrenadores o mejor directamente el chat</a
+                >
             </li>
             <li>
-                <!-- Log out -->
-                <a href="#" class="hover:underline">Cerrar sesión</a>
+                <button @click="logout">Cerrar sesión</button>
             </li>
         </ul>
     </div>
@@ -40,4 +45,11 @@
     </p>
 </template>
 
-<script setup></script>
+<script setup>
+// Importaciones
+import { router } from "@inertiajs/vue3";
+// Función para cerrar sesión
+const logout = () => {
+    router.post(route("logout"));
+};
+</script>

@@ -8,6 +8,16 @@
             </div>
         </nav>
 
+        <!-- Muestro mensaje de exito o error -->
+        <section class="p-8 ml-32">
+            <div
+                v-if="message"
+                class="p-4 mb-4 rounded-lg bg-green-100 border border-green-400 text-green-700"
+            >
+                {{ message }}
+            </div>
+        </section>
+
         <section class="min-h-screen bg-gray-100 py-12 px-6">
             <div class="max-w-5xl mx-auto">
                 <!-- Sección Acerca de Nosotros -->
@@ -118,17 +128,34 @@
 <script setup>
 // Importaciones
 import { ref } from "vue";
+import { router } from "@inertiajs/vue3";
+
+// Componentes
 import NavBar from "../Public/Components/NavBar.vue";
 
+// Variables
 const form = ref({
     name: "",
     email: "",
     message: "",
 });
 
+// Funciones
 const submitForm = () => {
-    console.log("Mensaje enviado:", form.value);
+    // Envio al servidor los datos -- IMPLEMENTAR PROTECCIÓN CSRF , VALIDACIÓN DE DATOS E INYECCIÓN DE SCRIPTS
+    // router.post(route("admin.unregisteredUserMessage"), form.value);
+    router.post(route("admin.unregisteredUserMessage"), form.value);
+
+    // Limpiamos el formulario
+    form.value = {
+        name: "",
+        email: "",
+        message: "",
+    };
 };
+
+// Recibo el mensaje de exito o error
+const props = defineProps(["message"]);
 </script>
 
 <style scoped>

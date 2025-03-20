@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User; // Modelo User
 use App\Models\Activity; // Modelo Activity
 use App\Models\Category; // Modelo Category
+use App\Models\ContactMessage; // Modelo ContactMessage
 
 use Illuminate\Support\Str; // Modelo Str para renombrar la imagen
 
@@ -208,7 +209,7 @@ class AdminController extends Controller
             $imageName = Str::slug($request->name) . '.' . $image->guessExtension(); // Para que lo guarde con el nombre original y extension
 
             // Guardo la imagen en la carpeta public/activities
-            $path =public_path('images/activities/');
+            $path = public_path('images/activities/');
             $image->move($path, $imageName);
 
             // Actualizar la ruta de la imagen en la base de datos
@@ -267,5 +268,41 @@ class AdminController extends Controller
         $activity->delete();
 
         return redirect()->route('admin.activityAdmin');
+    }
+
+    // INFORMATION
+    public function informationAdmin()
+    {
+        // Obtengo todos los mensajes
+        $messages = ContactMessage::all();
+
+        // Obtengo todos los trainers disponibles
+        $trainers = User::where('role', 'trainer')->get();
+
+        return inertia('Admin/InformationAdmin', [
+            'messages' => $messages,
+            'trainers' => $trainers
+        ]);
+    }
+
+    // Mensajes enviados sin registro
+    public function unregisteredUserMessage(Request $request)
+    {
+        // Variable de mensaje 
+        $message = '';
+        try {
+            // Inserto datos en la BD
+            ContactMessage::create($request->all());
+            $message = 'Mensaje enviado, le responderemos lo antes posible';
+        } catch (\Throwable $th) {
+            $message = 'Error en el envío del mensaje, intentelo de nuevo más tarde!';
+        }
+
+        // Devuelvo a la vista publica un mensaje de exito
+        return inertia('Public/Contact', [
+            'message' => $message
+        ]);
+
+        // return redirect()->route('admin.informationAdmin');
     }
 }

@@ -249,21 +249,6 @@ class UserActivitiesReservationsController extends Controller
                 return inertia('Payments/FailedPayment', ['message' => 'La transacción de PayPal ha fallado.']);
             }
 
-            // Cambio el estado de la reserva
-            // $reservation->update([
-            //     'status' => 'confirmed',
-            //     'payment_method' => 'paypal',
-            //     'payment_id' => $session->id,
-            //     'payment_status' => 'pending',
-            //     'payment_url' => $session->url,
-            //     'payment_description' => 'Pago de la actividad ' . $activity->name,
-            //     'payment_date' => now(),
-            // ]);
-
-            // return redirect()->away($session->url);
-
-            // return inertia('Payments/SuccessPayment');
-
         } catch (\Exception $e) {
             // return response()->json([
             //     'error' => 'Error al pagar la actividad: ' . $e->getMessage()

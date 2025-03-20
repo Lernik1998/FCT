@@ -40,6 +40,9 @@ Route::inertia('/contact', 'Public/Contact')->name('contact');
 
 Route::resource('activities', ActivityController::class);
 
+// Mensaje contacto sin registro
+Route::post('contact', [AdminController::class, 'unregisteredUserMessage'])->name('admin.unregisteredUserMessage');
+
 
 // TRAINERS routes
 Route::controller(TrainerController::class)->group(function () {
@@ -151,8 +154,18 @@ Route::controller(AdminController::class)->group(function () {
 
     // TRAINER
     Route::get('admin/trainerAdmin', [AdminController::class, 'trainerAdmin'])->name('admin.trainerAdmin');
-    Route::resource('admin', AdminController::class);
 
+
+    // INFORMATION
+    Route::get('admin/informationAdmin', [AdminController::class, 'informationAdmin'])->name('admin.informationAdmin');
+
+    // Contact
+    // Route::get('admin/contactAdmin', [AdminController::class, 'contactAdmin'])->name('admin.contactAdmin');
+
+    // Route::post('admin/contactAdmin', [AdminController::class, 'contactAdmin'])->name('admin.contactAdmin');
+
+
+    Route::resource('admin', AdminController::class); // Siempre al final
 });
 
 
