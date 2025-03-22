@@ -1,7 +1,7 @@
 <script setup>
-import Modal from './Modal.vue';
+import Modal from "./Modal.vue";
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(["close"]);
 
 defineProps({
     show: {
@@ -10,16 +10,30 @@ defineProps({
     },
     maxWidth: {
         type: String,
-        default: '2xl',
+        default: "2xl",
     },
     closeable: {
         type: Boolean,
         default: true,
     },
+    title: {
+        type: String,
+        default: "Confirmación",
+    },
+    content: {
+        type: String,
+        default:
+            "¿Estás seguro de que quieres marcar este mensaje como resuelto?",
+    },
+    footer: {
+        type: String,
+        default:
+            "¿Estás seguro de que quieres marcar este mensaje como resuelto?",
+    },
 });
 
 const close = () => {
-    emit('close');
+    emit("close");
 };
 </script>
 
@@ -30,28 +44,43 @@ const close = () => {
         :closeable="closeable"
         @close="close"
     >
-        <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <div class="sm:flex sm:items-start">
-                <div class="mx-auto shrink-0 flex items-center justify-center size-12 rounded-full bg-red-100 sm:mx-0 sm:size-10">
-                    <svg class="size-6 text-red-600 dark:text-red-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-                    </svg>
-                </div>
-
-                <div class="mt-3 text-center sm:mt-0 sm:ms-4 sm:text-start">
-                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                        <slot name="title" />
-                    </h3>
-
-                    <div class="mt-4 text-sm text-gray-600 dark:text-gray-400">
-                        <slot name="content" />
+        <div
+            class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden"
+        >
+            <div class="px-4 py-5 sm:p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <svg
+                            class="w-6 h-6 text-green-600 dark:text-green-400"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h3
+                            class="text-lg font-medium text-gray-900 dark:text-gray-100"
+                        >
+                            {{ title }}
+                        </h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                            {{ content }}
+                        </p>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="flex flex-row justify-end px-6 py-4 bg-gray-100 dark:bg-gray-800 text-end">
-            <slot name="footer" />
+            <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:px-6 sm:flex">
+                {{ footer }}
+            </div>
         </div>
     </Modal>
 </template>

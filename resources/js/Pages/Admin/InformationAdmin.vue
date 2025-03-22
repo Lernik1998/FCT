@@ -8,12 +8,47 @@
             </div>
         </nav>
 
+        <Head>
+            <title>Panel de Administración</title>
+            <meta name="description" content="Panel de Administración" />
+        </Head>
+
         <section class="p-8">
             <h1 class="text-xl font-semibold mb-10 mt-10">
                 Gestiona los mensajes asignándolos a un entrenador o
                 respondiéndolos.
             </h1>
             <h2 class="text-xl font-semibold mb-4">Notificaciones</h2>
+
+            <div v-if="messageStatus" class="mb-4">
+                <p class="text-green-500" v-if="messageStatus">
+                    {{ messageStatus }}
+                </p>
+            </div>
+
+            <div>
+                <!-- Envio de respuesta -->
+                <ConfirmationModal
+                    :show="show"
+                    @close="show = false"
+                    :max-width="'2xl'"
+                    :closeable="true"
+                    :title="'Confirmación'"
+                    :content="messageStatus"
+                    :footer="'Haga click fuera de la casilla para cerrar'"
+                />
+
+                <!-- Asignación de entrenador -->
+                <ConfirmationModal
+                    :show="showAssigned"
+                    @close="showAssigned = false"
+                    :max-width="'2xl'"
+                    :closeable="true"
+                    :title="'Confirmación'"
+                    :content="messageStatus"
+                    :footer="'Haga click fuera de la casilla para cerrar'"
+                />
+            </div>
 
             <div v-if="messages.length > 0" class="space-y-4">
                 <div
@@ -71,7 +106,7 @@
                         @click="markAsResolved(index)"
                         class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 ml-2"
                     >
-                        Marcar como Resuelto
+                        Asignar a un entrenador
                     </button>
                 </div>
             </div>
@@ -82,38 +117,86 @@
 
 <script setup>
 // Importaciones
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import { router } from "@inertiajs/vue3";
+import { Head } from "@inertiajs/vue3"; // Para el head
+
 // Componentes
 import AdminNavBar from "./Components/AdminNavBar.vue";
+import ConfirmationModal from "../../Components/ConfirmationModal.vue"; // Modal de confirmación
 
 // Props
-const props = defineProps(["messages", "trainers"]);
+const props = defineProps(["messages", "trainers", "messageStatus"]);
 
 // Variables
-const messages = ref(props.messages);
+// const messages = ref(props.messages); --> PARA ESCUCHAR TODOS LOS CAMBIOS DE LA VARIABLE REACTIVA
+// Hacer una copia reactiva del array
+const messages = ref([...props.messages]);
 const trainers = ref(props.trainers);
+const show = ref(false);
+const messageStatus = ref(props.messageStatus);
+
+const showAssigned = ref(false);
 
 // Funciones
 const sendReply = (index) => {
-    if (messages.value[index].reply.trim() !== "") {
-        alert(
-            `Respuesta enviada a ${messages.value[index].name || "Anónimo"}: ${
-                messages.value[index].reply
-            }`
-        );
-        messages.value[index].reply = "";
+    const message = messages.value[index];
+
+    if (!message || !message.reply || message.reply.trim() === "") {
+        alert("Por favor, escribe una respuesta");
+        return;
     }
+
+    router.post(route("admin.sendReplyUnregisteredUser"), {
+        id: message.id,
+        reply: message.reply,
+    });
+
+    message.reply = "";
+    show.value = true;
+
+    /* 
+        .then(() => {
+            message.reply = ""; // Limpiar el campo tras el envío
+            show.value = true; // Mostrar el modal de confirmación
+            // messageStatus.value = "Respuesta enviada correctamente";
+        })
+        .catch((error) => {
+            console.error(error);
+            // messageStatus.value = "Error al enviar la respuesta";
+        });
+        */
+
+    // location.reload(); // Refrescar la página --> No es buena práctica
 };
 
 const markAsResolved = (index) => {
-    // messages.value.splice(index, 1);
+    // Verificar si se ha asignado un entrenador
+    if (!messages.value[index].assignedTrainer) {
+        alert("Por favor, asigna un entrenador al mensaje");
+        return;
+    }
+
+    // Verificar si se ha escrito una respuesta
+    // if (!messages.value[index].reply || messages.value[index].reply.trim() === "") {
+    //     alert("Por favor, escribe una respuesta");
+    //     return;
+    // }
     // Envio al controlador
-    // router.post("/admin/mark-as-resolved", {
-    //     id: messages.value[index].id,
-    // });
-    // // Actualizar el mensaje
-    // messages.value[index].isResolved = true;
+    router.post(route("admin.markAsResolved"), {
+        id: messages.value[index].id,
+        trainer_id: messages.value[index].assignedTrainer.id,
+    });
+    // showAssigned.value = true;
 };
+
+// Observar cambios en props.messages y sincronizarlos
+watch(
+    () => props.messages,
+    (newMessages) => {
+        messages.value = [...newMessages];
+    }
+);
 </script>
 
 <style scoped>

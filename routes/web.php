@@ -40,7 +40,7 @@ Route::inertia('/contact', 'Public/Contact')->name('contact');
 
 Route::resource('activities', ActivityController::class);
 
-// Mensaje contacto sin registro
+// Mensaje contacto sin registro --> DESDE QUE CONTROLADOR SE DEBERÍA DE HACER? CONTROLADOR PUBLIC???
 Route::post('contact', [AdminController::class, 'unregisteredUserMessage'])->name('admin.unregisteredUserMessage');
 
 
@@ -70,6 +70,10 @@ Route::controller(TrainerController::class)->group(function () {
 
     // MENSAJES
     Route::get('trainers/messages', [TrainerController::class, 'trainerMessagesView'])->name('trainers.messages');
+
+    Route::post('admin/sendReplyUnregisteredUser', [AdminController::class, 'sendReplyUnregisteredUser'])->name('admin.sendReplyUnregisteredUser');
+
+    Route::post('admin/markAsResolved', [AdminController::class, 'markAsResolved'])->name('admin.markAsResolved');
 
     Route::resource('trainers', TrainerController::class);
 });

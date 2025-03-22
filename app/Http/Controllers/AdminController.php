@@ -273,8 +273,9 @@ class AdminController extends Controller
     // INFORMATION
     public function informationAdmin()
     {
-        // Obtengo todos los mensajes
-        $messages = ContactMessage::all();
+        // Obtengo todos los mensajes pendientes
+        // Se podría pasar todo y hacer un filtrado en la vista
+        $messages = ContactMessage::where('status', 'pending')->get();
 
         // Obtengo todos los trainers disponibles
         $trainers = User::where('role', 'trainer')->get();
@@ -304,5 +305,64 @@ class AdminController extends Controller
         ]);
 
         // return redirect()->route('admin.informationAdmin');
+    }
+
+    public function sendReplyUnregisteredUser(Request $request)
+    {
+
+        // dd($request->all());
+        // Variable de mensaje 
+        $message = '';
+        try {
+            // Inserto datos en la BD
+            // ContactMessage::create($request->all());
+            $contactMessage = ContactMessage::findOrFail($request->id);
+
+            // Cambio el estado el status
+            $contactMessage->status = 'completed';
+            $contactMessage->save();
+
+            $message = 'Mensaje enviado, le responderemos lo antes posible';
+
+            $messages = ContactMessage::where('status', 'pending')->get();
+
+        } catch (\Throwable $th) {
+            $message = 'Error en el envío del mensaje, intentelo de nuevo más tarde!';
+        }
+
+        // Devuelvo a la vista publica un mensaje de exito
+        return inertia('Admin/InformationAdmin', [
+            'messageStatus' => $message,
+            'messages' => $messages
+        ]);
+    }
+
+    public function markAsResolved(Request $request)
+    {
+        dd($request->all());
+        // Variable de mensaje 
+        $message = '';
+        try {
+            // Inserto datos en la BD
+            // ContactMessage::create($request->all());
+            $contactMessage = ContactMessage::findOrFail($request->id);
+
+            // Cambio el estado el status
+            $contactMessage->status = 'completed';
+            $contactMessage->save();
+
+            $message = 'Mensaje marcado como resuelto';
+
+            $messages = ContactMessage::where('status', 'pending')->get();
+
+        } catch (\Throwable $th) {
+            $message = 'Error en el envío del mensaje, intentelo de nuevo más tarde!';
+        }
+
+        // Devuelvo a la vista publica un mensaje de exito
+        return inertia('Admin/InformationAdmin', [
+            'messageStatus' => $message,
+            'messages' => $messages
+        ]);
     }
 }
