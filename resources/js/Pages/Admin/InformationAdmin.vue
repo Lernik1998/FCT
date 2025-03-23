@@ -1,20 +1,21 @@
 <template>
+    <!-- Header -->
+    <Head>
+        <title>Panel de Administración</title>
+        <meta name="description" content="Panel de Administración" />
+    </Head>
+
     <div>
         <!-- Barra de navegación -->
         <nav class="p-4 border-b shadow-md bg-white">
             <div class="container mx-auto flex justify-between items-center">
                 <div class="text-xl font-bold">Panel de Administración</div>
-                <AdminNavBar />
+                <AdminNavBar :notifications="numNotifs" />
             </div>
         </nav>
 
-        <Head>
-            <title>Panel de Administración</title>
-            <meta name="description" content="Panel de Administración" />
-        </Head>
-
         <section class="p-8">
-            <h1 class="text-xl font-semibold mb-10 mt-10">
+            <h1 class="text-2xl font-semibold mb-10 ml-72">
                 Gestiona los mensajes asignándolos a un entrenador o
                 respondiéndolos.
             </h1>
@@ -44,8 +45,8 @@
                     @close="showAssigned = false"
                     :max-width="'2xl'"
                     :closeable="true"
-                    :title="'Confirmación'"
-                    :content="messageStatus"
+                    :title="'Asignación'"
+                    :content="'Entrenador asignado correctamente'"
                     :footer="'Haga click fuera de la casilla para cerrar'"
                 />
             </div>
@@ -135,8 +136,8 @@ const messages = ref([...props.messages]);
 const trainers = ref(props.trainers);
 const show = ref(false);
 const messageStatus = ref(props.messageStatus);
-
 const showAssigned = ref(false);
+const numNotifs = ref(parseInt(messages.value.length));
 
 // Funciones
 const sendReply = (index) => {
@@ -183,11 +184,11 @@ const markAsResolved = (index) => {
     //     return;
     // }
     // Envio al controlador
-    router.post(route("admin.markAsResolved"), {
+    router.post(route("admin.markAsAssigned"), {
         id: messages.value[index].id,
         trainer_id: messages.value[index].assignedTrainer.id,
     });
-    // showAssigned.value = true;
+    showAssigned.value = true;
 };
 
 // Observar cambios en props.messages y sincronizarlos
@@ -195,8 +196,17 @@ watch(
     () => props.messages,
     (newMessages) => {
         messages.value = [...newMessages];
+        numNotifs.value = parseInt(newMessages.length);
     }
 );
+
+// Observar cambios en props.notifications y sincronizarlos
+// watch(
+//     () => props.notifications,
+//     (newNotifications) => {
+//         numNotifs.value = parseInt(newNotifications);
+//     }
+// );
 </script>
 
 <style scoped>

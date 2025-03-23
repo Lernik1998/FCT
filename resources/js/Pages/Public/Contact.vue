@@ -22,7 +22,7 @@
             <div class="max-w-5xl mx-auto">
                 <!-- Sección Acerca de Nosotros -->
                 <div
-                    class="bg-white shadow-lg rounded-lg p-8 mb-12 animate-fade-in"
+                    class="bg-white shadow-lg rounded-lg p-8 mb-12 animate-fade-in transition-transform transform hover:scale-105 hover:shadow-2xl"
                 >
                     <h1
                         class="text-3xl font-bold text-gray-800 text-center mb-4"
@@ -32,19 +32,19 @@
                     <p
                         class="text-gray-600 text-lg text-center leading-relaxed"
                     >
-                        Somos un equipo apasionado por brindar soluciones
-                        innovadoras en el mundo del fitness y coworking. Nuestro
-                        objetivo es ofrecer un espacio donde la productividad y
-                        el bienestar se complementan, proporcionando
-                        instalaciones de primer nivel y un ambiente
-                        colaborativo.
+                        Somos un portal deportivo global, nuestro objetivo es
+                        brindar información y recursos para todos los amantes
+                        del deporte, sin importar el idioma o la nacionalidad.
+                        Nuestro portal es un espacio donde podrás encontrar
+                        información sobre las diferentes disciplinas, clubes,
+                        entrenadores, torneos y mucho más.
                     </p>
                     <div class="mt-6 flex justify-center">
-                        <!-- <img
-                            src="https://source.unsplash.com/600x300/?team,fitness"
+                        <img
+                            src="../../../../public/ownImages/comunidad.jpg"
                             alt="Nuestro equipo"
                             class="rounded-lg shadow-md w-full max-w-lg"
-                        /> -->
+                        />
                     </div>
                 </div>
 
@@ -121,7 +121,18 @@
             </div>
         </section>
 
+        <!-- Modal de Confirmación -->
+        <ConfirmationModal
+            :show="confirModal"
+            @close="confirModal = false"
+            :max-width="'2xl'"
+            :closeable="true"
+            :title="'Mensaje enviado con éxito'"
+            :content="'El mensaje ha sido enviado correctamente'"
+            :footer="'Haga click fuera de la casilla para cerrar'"
+        />
         <!-- Pie de Página -->
+        <OutTeam />
     </div>
 </template>
 
@@ -132,6 +143,8 @@ import { router } from "@inertiajs/vue3";
 
 // Componentes
 import NavBar from "../Public/Components/NavBar.vue";
+import ConfirmationModal from "@/Components/ConfirmationModal.vue";
+import OutTeam from "./Components/OurTeam.vue";
 
 // Variables
 const form = ref({
@@ -140,11 +153,18 @@ const form = ref({
     message: "",
 });
 
+const confirModal = ref(false);
+
 // Funciones
 const submitForm = () => {
     // Envio al servidor los datos -- IMPLEMENTAR PROTECCIÓN CSRF , VALIDACIÓN DE DATOS E INYECCIÓN DE SCRIPTS
     // router.post(route("admin.unregisteredUserMessage"), form.value);
     router.post(route("admin.unregisteredUserMessage"), form.value);
+
+    // Mostrar el modal de confirmación
+    confirModal.value = true;
+
+    console.log("Valor de confirModal.value: ", confirModal.value);
 
     // Limpiamos el formulario
     form.value = {

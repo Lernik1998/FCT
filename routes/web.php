@@ -47,6 +47,7 @@ Route::post('contact', [AdminController::class, 'unregisteredUserMessage'])->nam
 // TRAINERS routes
 Route::controller(TrainerController::class)->group(function () {
 
+    /************************************** ACTIVIDADES ************************************** */
     // Crear actividad vista
     Route::get('trainers/createActivity', [TrainerController::class, 'createActivityView'])->name('trainers.createActivity');
 
@@ -68,12 +69,12 @@ Route::controller(TrainerController::class)->group(function () {
     // Posts del Trainer
     Route::get('trainers/posts', [TrainerController::class, 'trainerPostsView'])->name('trainers.posts');
 
-    // MENSAJES
+    /************************************** MENSAJES ************************************** */
     Route::get('trainers/messages', [TrainerController::class, 'trainerMessagesView'])->name('trainers.messages');
 
     Route::post('admin/sendReplyUnregisteredUser', [AdminController::class, 'sendReplyUnregisteredUser'])->name('admin.sendReplyUnregisteredUser');
 
-    Route::post('admin/markAsResolved', [AdminController::class, 'markAsResolved'])->name('admin.markAsResolved');
+    Route::post('admin/markAsAssigned', [AdminController::class, 'markAsAssigned'])->name('admin.markAsAssigned');
 
     Route::resource('trainers', TrainerController::class);
 });
@@ -97,6 +98,7 @@ Route::controller(UserController::class)->group(function () {
 
     // Route::get('userActivitiesReservations/{id}/pay', [UserActivitiesReservationsController::class, 'showPayForActivity'])->name('userActivitiesReservations.showPayForActivity');
 
+    /************************************** PAYMENT ************************************** */
     // Previo al pago
     Route::get('UAR/{id}/showPay', [UserActivitiesReservationsController::class, 'showPayForActivity'])->name('userActivitiesReservations.showPayForActivity');
 
@@ -107,17 +109,15 @@ Route::controller(UserController::class)->group(function () {
     Route::get('user/reserve/{id}', [UserActivitiesReservationsController::class, 'create'])->name('userActivitiesReservations.create');
 
 
-    // PAYPAL
+
     // Gestión de pago
     Route::post('UAR/{id}/payPaypal', [UserActivitiesReservationsController::class, 'payForActivityWithPaypal'])->name('userActivitiesReservations.payForActivityWithPaypal');
 });
 
 
-// ADMIN routes
 Route::controller(AdminController::class)->group(function () {
-    // RESPETAR EL NOMBRE DE LA RUTA PARA PODER ACCEDER
 
-    // ACTIVITY
+    /************************************** ACTIVIDADES ************************************** */
     Route::get('admin/activityAdmin', [AdminController::class, 'activityAdmin'])->name('admin.activityAdmin');
 
     Route::get('admin/createActivityView', [AdminController::class, 'createActivityView'])->name('admin.createActivityView');
@@ -132,7 +132,7 @@ Route::controller(AdminController::class)->group(function () {
 
     Route::delete('admin/deleteActivity/{id}', [AdminController::class, 'destroyActivity'])->name('admin.activityDestroy');
 
-    // Gestión de USER
+    /************************************** GESTIÓN DE USUARIOS ************************************** */
 
     // Eliminar user
     Route::delete('admin/destroyUser/{id}', [AdminController::class, 'destroyUser'])->name('admin.destroyUser');
@@ -156,12 +156,16 @@ Route::controller(AdminController::class)->group(function () {
     Route::put('admin/updateUser/{id}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
 
 
-    // TRAINER
+    /************************************** GESTIÓN DE ENTRENADORES ************************************** */
     Route::get('admin/trainerAdmin', [AdminController::class, 'trainerAdmin'])->name('admin.trainerAdmin');
 
+    /************************************** GESTIÓN DE INFORMACIÓN(Mensajes) ************************************** */
 
-    // INFORMATION
+    // Mensajes con los trainers
+    Route::get('admin/messageAdmin', [AdminController::class, 'adminMessagesView'])->name('admin.messageAdmin');
+
     Route::get('admin/informationAdmin', [AdminController::class, 'informationAdmin'])->name('admin.informationAdmin');
+
 
     // Contact
     // Route::get('admin/contactAdmin', [AdminController::class, 'contactAdmin'])->name('admin.contactAdmin');
@@ -173,8 +177,6 @@ Route::controller(AdminController::class)->group(function () {
 });
 
 
-
-
 // Google
 Route::controller(SocialiteController::class)->group(function () {
     Route::get('/auth/google', 'googleLogin')->name('auth.google');
@@ -184,7 +186,6 @@ Route::controller(SocialiteController::class)->group(function () {
 
 // PENDIENTE
 // Route::inertia('/about', 'About')->name('about');
-
 // Route::inertia('/noticias', 'Noticias')->name('noticias');
 // Route::inertia('/eventos', 'Eventos')->name('eventos');
 

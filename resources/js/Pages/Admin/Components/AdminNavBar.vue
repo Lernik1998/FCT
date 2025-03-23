@@ -22,14 +22,15 @@
             <li>
                 <a
                     :href="route('admin.informationAdmin')"
-                    class="hover:underline"
-                    >Solicitudes información</a
-                >
+                    class="hover:underline notification"
+                    ><span>Solicitudes información</span>
+                    <span class="badge">{{ numNotifs ? numNotifs : 0 }}</span>
+                </a>
             </li>
 
             <li>
-                <a href="#" class="hover:underline"
-                    >Solicitudes entrenadores o mejor directamente el chat</a
+                <a :href="route('admin.messageAdmin')" class="hover:underline mr-10 ml-10"
+                    >Mensajes trainers</a
                 >
             </li>
             <li>
@@ -37,19 +38,54 @@
             </li>
         </ul>
     </div>
-
-    <p>
-        Molaria poder mostrar las notificaciones, aprobaciones que se tienen que
-        aceptar... Mirarlo aquí:
-        https://www.w3schools.com/howto/howto_css_notification_button.asp
-    </p>
 </template>
 
 <script setup>
 // Importaciones
 import { router } from "@inertiajs/vue3";
+import { ref, watch } from "vue";
+
+// Variables
+const props = defineProps(["notifications"]);
+
+const numNotifs = ref(parseInt(props.notifications));
+
+// console.log(numNotifs.value);
+
 // Función para cerrar sesión
 const logout = () => {
     router.post(route("logout"));
 };
+
+// Observar cambios en props.notifications y sincronizarlos
+watch(
+    () => props.notifications,
+    (newNotifications) => {
+        numNotifs.value = parseInt(newNotifications);
+    }
+);
 </script>
+
+<style scoped>
+.notification {
+    text-decoration: none;
+    /* padding: 15px 26px; */
+    position: relative;
+    display: inline-block;
+    border-radius: 2px;
+}
+/* 
+.notification:hover {
+    background: red;
+} */
+
+.notification .badge {
+    position: absolute;
+    top: -10px;
+    right: -30px;
+    padding: 5px 10px;
+    border-radius: 50%;
+    background: red;
+    color: white;
+}
+</style>

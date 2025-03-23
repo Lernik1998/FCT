@@ -8,8 +8,13 @@ use App\Models\User; // Modelo User
 use App\Models\Activity; // Modelo Activity
 use App\Models\Category; // Modelo Category
 use App\Models\ContactMessage; // Modelo ContactMessage
+use App\Models\Message; // Modelo Message
 
 use Illuminate\Support\Str; // Modelo Str para renombrar la imagen
+use Inertia\Inertia; // Facade para Inertia
+use Illuminate\Support\Facades\Auth; // Facade para autenticación
+
+
 
 
 class AdminController extends Controller
@@ -337,21 +342,20 @@ class AdminController extends Controller
         ]);
     }
 
-    public function markAsResolved(Request $request)
+    public function markAsAssigned(Request $request)
     {
-        dd($request->all());
-        // Variable de mensaje 
-        $message = '';
+        // dd($request->all());
         try {
-            // Inserto datos en la BD
-            // ContactMessage::create($request->all());
+            // Obtengo el mensaje
             $contactMessage = ContactMessage::findOrFail($request->id);
 
             // Cambio el estado el status
-            $contactMessage->status = 'completed';
+            $contactMessage->status = 'assigned';
             $contactMessage->save();
 
-            $message = 'Mensaje marcado como resuelto';
+            /* PENDIENTE REVISAR QUE EL TRAINER EXISTA, PARA EVITAR PROBLEMAS*/
+
+            $message = 'Mensaje asginado a un entrenador';
 
             $messages = ContactMessage::where('status', 'pending')->get();
 
@@ -362,7 +366,15 @@ class AdminController extends Controller
         // Devuelvo a la vista publica un mensaje de exito
         return inertia('Admin/InformationAdmin', [
             'messageStatus' => $message,
-            'messages' => $messages
+            'messages' => $messages,
         ]);
+    }
+
+    // MENSAJES
+    public function adminMessagesView()
+    {
+        // return inertia('Trainer/TrainerMessages');
+        $users = User::where('id', '!=', Auth::user()->id)->get();
+        return Inertia::render('Admin/MessageAdmin', ['users' => $users]);
     }
 }
