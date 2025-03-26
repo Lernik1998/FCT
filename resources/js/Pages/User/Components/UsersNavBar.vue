@@ -19,11 +19,10 @@
                 >
             </li>
             <li>
-                <button @click="logout">Cerrar sesión</button>
+                <a href="" class="hover:underline">Mensajes NO GESTIONADO</a>
             </li>
-
             <li>
-                <a href="" class="hover:underline">Mensajes</a>
+                <button @click="logout">Cerrar sesión</button>
             </li>
         </ul>
     </div>

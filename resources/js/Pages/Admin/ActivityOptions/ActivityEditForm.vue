@@ -92,7 +92,7 @@
                         >Duración</label
                     >
                     <input
-                        type="number"
+                        type="text"
                         v-model="activity.duration"
                         class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
                         required
@@ -110,6 +110,22 @@
                         class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
                         required
                     />
+                </div>
+
+                <!-- Estado -->
+                <div>
+                    <label class="block text-gray-700 font-semibold"
+                        >Estado</label
+                    >
+                    <select
+                        v-model="activity.status"
+                        class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
+                        required
+                    >
+                        <option value="active">Activo</option>
+                        <option value="inactive">Inactivo</option>
+                        <option value="pending">Pendiente</option>
+                    </select>
                 </div>
 
                 <!-- Botón -->
