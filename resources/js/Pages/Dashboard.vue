@@ -1,5 +1,5 @@
 <script setup>
-import AppLayout from "@/Layouts/AppLayout.vue";
+import AppLayout from "@/Layouts/AppLayoutPREVIOUS.vue";
 import Welcome from "@/Components/Welcome.vue";
 
 import { Head, Link } from "@inertiajs/vue3";

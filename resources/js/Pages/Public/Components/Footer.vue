@@ -1,5 +1,5 @@
 <template>
-    <footer class="py-6 text-center bg-gray-700">
+    <footer class="py-6 text-center bg-gray-400">
         <div class="container mx-auto">
             <div class="mt-4 flex justify-center">
                 <a href="#" class="socialContainer containerOne">
@@ -34,7 +34,7 @@
                 </a>
             </div>
             <p class="text-gray-600 dark:text-gray-300">
-                &copy; 2025 Marina Alta Sports. Todos los derechos reservados.
+                &copy; 2025 FitWorking. Todos los derechos reservados.
             </p>
         </div>
     </footer>

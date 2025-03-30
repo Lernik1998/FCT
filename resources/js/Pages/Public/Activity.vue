@@ -3,23 +3,28 @@
         <!-- Menú de Navegación -->
         <nav class="p-4 shadow-lg">
             <div class="container mx-auto flex justify-between items-center">
-                <div class="text-xl font-bold">Marina Alta Deportes</div>
+                <div class="text-xl font-bold">FitWorking</div>
                 <NavBar />
             </div>
         </nav>
 
         <!-- Banner Principal con animación -->
-        <section class="relative w-full h-72 overflow-hidden">
-            <!-- <img
-                class="w-full h-full object-cover opacity-80 transform scale-110 animate-fade-in"
-                src="/storage/own_imgs/imgDeportes.jpg"
-                alt="Imagen Deportes"
-            /> -->
+        <section
+            class="relative w-full h-96 overflow-hidden"
+            style="
+                background-image: url(/ownImages/actividadesIMG.jpg);
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            "
+        >
             <div
-                class="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-8 bg-black"
+                class="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-8"
             >
-                <h1 class="text-4xl font-bold mb-4 animate-slide-down">
-                    Marina Alta Deportes
+                <h1
+                    class="text-4xl font-bold mb-4 animate-slide-down text-orange-500"
+                >
+                    FitWorking
                 </h1>
                 <p class="text-lg animate-fade-in">
                     Explora lo mejor del deporte en la Costa Blanca Norte
@@ -56,17 +61,15 @@
             </div>
         </section>
 
-        <h1 class="text-xl font-semibold mb-6">
-            Esto podría ser un slider pasando los datos de las categorías o de
-            actividades propias o publicitadas
-        </h1>
-
         <!-- Categorías Deportivas con efecto hover -->
         <section class="py-12">
             <div class="container mx-auto text-center">
                 <ActivityAutoSlideshow :activities="activities" />
             </div>
         </section>
+
+        <!-- FAQS -->
+        <FAQS />
 
         <!-- Pie de Página -->
         <Footer />
@@ -78,6 +81,7 @@
 import NavBar from "./Components/NavBar.vue";
 import ActivityAutoSlideshow from "./Components/ActivityAutoSlideshow.vue";
 import Footer from "./Components/Footer.vue";
+import FAQS from "./Components/FAQS.vue";
 
 const props = defineProps(["activities"]);
 </script>

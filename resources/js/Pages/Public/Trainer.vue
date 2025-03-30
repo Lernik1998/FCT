@@ -3,33 +3,40 @@
         <!-- Menú de Navegación -->
         <nav class="p-4">
             <div class="container mx-auto flex justify-between items-center">
-                <div class="text-xl font-bold">Marina Alta Sports</div>
+                <div class="text-xl font-bold">FitWorking</div>
                 <NavBar />
             </div>
         </nav>
 
         <!-- Banner Principal -->
-        <section>
-            <div class="relative z-10 text-center p-8 bg-gray-100">
-                <h1 class="text-4xl font-bold mb-4">
-                    Encuentra a los Mejores Entrenadores
+        <section
+            class="relative w-full h-96 overflow-hidden"
+            style="
+                background-image: url(/ownImages/tra.webp);
+                background-size: cover;
+                background-repeat: no-repeat;
+            "
+        >
+            <div
+                class="absolute inset-0 flex flex-col items-center justify-center text-center p-8 bg-gradient-to-t from-black/60 to-transparent"
+            >
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 text-white">
+                    Conoce a nuestro personal
                 </h1>
-                <p class="text-lg">
+                <p class="text-lg md:text-xl text-white/90">
                     Conéctate con expertos en fitness y mejora tu rendimiento.
                 </p>
             </div>
         </section>
 
-        <!-- Sección de Entrenadores Destacados -->
-        <section class="py-12 px-4 bg-white">
+        <!-- Sección de Entrenadores -->
+        <!-- <section class="py-12 px-4 bg-white">
             <div class="container mx-auto text-center">
-                <h2 class="text-3xl font-semibold mb-6">
-                    Entrenadores Destacados
-                </h2>
+                <h2 class="text-3xl font-semibold mb-6">Entrenadores</h2>
                 <div
                     class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
                 >
-                    <!-- Se recorren los trainers -->
+                    Se recorren los trainers 
                     <div
                         v-for="trainer in trainers"
                         :key="trainer.id"
@@ -52,10 +59,35 @@
                     </div>
                 </div>
             </div>
+        </section> -->
+
+        <!-- Sección de Entrenadores -->
+        <section class="py-12 px-4 bg-gray-50">
+            <div class="container mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">
+                        Entrenadores
+                    </h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                        Conoce a nuestros profesionales certificados listos para
+                        ayudarte a alcanzar tus metas
+                    </p>
+                </div>
+
+                <div
+                    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+                >
+                    <TrainerCard
+                        v-for="trainer in trainers"
+                        :key="trainer.id"
+                        :trainer="trainer"
+                    />
+                </div>
+            </div>
         </section>
 
         <!-- Servicios de Entrenamiento -->
-        <section class="py-12 bg-gray-200">
+        <!-- <section class="py-12 bg-gray-200">
             <div class="container mx-auto text-center">
                 <h2 class="text-3xl font-semibold mb-6">
                     Servicios de Entrenamiento
@@ -91,17 +123,21 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
         <!-- Pie de Página -->
+        <Footer />
     </div>
 </template>
 
 <script setup>
 // Importaciones
-import NavBar from "./Components/NavBar.vue";
+import { watch } from "vue";
 
-import { onMounted, watch, defineProps } from "vue";
+// Componentes
+import NavBar from "./Components/NavBar.vue";
+import TrainerCard from "./Components/TrainerCard.vue";
+import Footer from "./Components/Footer.vue";
 
 const props = defineProps(["trainers"]);
 
@@ -114,6 +150,4 @@ watch(
 ); // Ejecuta el watch inmediatamente con el valor inicial
 </script>
 
-<style scoped>
-/* Animaciones y estilos adicionales si es necesario */
-</style>
+<style scoped></style>
