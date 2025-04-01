@@ -136,7 +136,6 @@ function redirectToActivity(link) {
     window.location.href = link;
 }
 
-// Función para determinar la ruta correcta de la imagen
 // Función simplificada para obtener la ruta de la imagen
 const getImagePath = (imagePath) => {
     // Si la imagen ya tiene una ruta completa (empieza con /)

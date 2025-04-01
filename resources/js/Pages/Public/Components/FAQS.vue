@@ -3,7 +3,8 @@
         <!-- Encabezado -->
         <div class="flex justify-between items-center mb-12">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
-                FitWorking es para ti
+                <!-- FitWorking es para ti -->
+                ¿Por qué esto es para tí?
             </h2>
         </div>
 

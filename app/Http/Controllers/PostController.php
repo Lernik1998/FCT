@@ -12,7 +12,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        // Obtengo todos los posts
+        $posts = Post::all();
+        
+        return inertia('Public/Posts', compact('posts'));
     }
 
     /**

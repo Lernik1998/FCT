@@ -3,7 +3,7 @@
         <!-- Navegación -->
         <nav class="p-4 border-b shadow-md bg-white">
             <div class="container mx-auto flex justify-between items-center">
-                <div class="text-xl font-bold">Marina Alta Deportes</div>
+                <div class="text-xl font-bold">FitWorking</div>
                 <NavBar />
             </div>
         </nav>

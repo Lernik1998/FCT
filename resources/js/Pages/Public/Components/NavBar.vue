@@ -14,13 +14,12 @@
                     >Entrenadores</a
                 >
             </li>
-            <!-- 
-                    <li>
-                        <a :href="route('noticias')" class="hover:underline"
-                            >Noticias</a
-                        >
-                    </li>
-                    <li>
+            <li>
+                <a :href="route('posts.index')" class="hover:underline"
+                    >Posts</a
+                >
+            </li>
+            <!--    <li>
                         <a :href="route('eventos')" class="hover:underline"
                             >Eventos</a
                         >
@@ -38,7 +37,3 @@
         </ul>
     </div>
 </template>
-
-<script setup></script>
-
-<style scoped></style>

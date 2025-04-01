@@ -64,13 +64,17 @@
                 </h1>
 
                 <p class="text-lg text-gray-200 mb-12 max-w-2xl mx-auto">
-                    En FitWorking, llevamos la actividad física a otro nivel.
+                    <!-- En FitWorking, llevamos la actividad física a otro nivel.
                     Nuestro enfoque combina entrenamientos funcionales, eventos
                     deportivos y un estilo de vida activo en un entorno diseñado
                     para motivarte. Con sesiones dinámicas, una comunidad
                     apasionada y un espacio donde el movimiento es la clave,
                     FitWorking te ayuda a alcanzar tu mejor versión en cada
-                    entrenamiento.
+                    entrenamiento. -->
+                    Combinamos entrenamientos funcionales, eventos deportivos y
+                    un estilo de vida activo en un espacio diseñado para
+                    motivarte. Únete a nuestra comunidad y alcanza tu mejor
+                    versión.
                 </p>
 
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
@@ -424,9 +428,9 @@
         </section>
 
         <!-- Negocios Destacados -->
-        <section class="py-12 px-4">
+        <!-- <section class="py-12 px-4">
             <div class="container mx-auto text-center">
-                <h2 class="text-3xl font-semibold mb-6">Negocios Destacados</h2>
+                <h2 class="text-3xl font-semibold mb-6">Negocios Destacados o Patrocinadores</h2>
                 <h4 class="mb-10">
                     Mostrar con más frecuencia aquellas que hayan pagado el
                     paquete de promoción más caro.
@@ -449,7 +453,7 @@
                     />
                 </div>
             </div>
-        </section>
+        </section> -->
 
         <!-- Pie de Página -->
         <Footer />

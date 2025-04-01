@@ -9,6 +9,7 @@ use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserActivitiesReservationsController;
+use App\Http\Controllers\PostController;
 
 /* Route::get('/', function () {
 return Inertia::render('Welcome', [
@@ -39,6 +40,8 @@ Route::inertia('/', 'Index')->name('index'); // Carga la vista Index (ENTRADA AP
 Route::inertia('/contact', 'Public/Contact')->name('contact');
 
 Route::resource('activities', ActivityController::class);
+
+Route::resource('posts', PostController::class);
 
 // Mensaje contacto sin registro --> DESDE QUE CONTROLADOR SE DEBERÍA DE HACER? CONTROLADOR PUBLIC???
 Route::post('contact', [AdminController::class, 'unregisteredUserMessage'])->name('admin.unregisteredUserMessage');
