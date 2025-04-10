@@ -23,9 +23,13 @@
         "vue": "^3.3.13"
     },
     "dependencies": {
-        "@fullcalendar/core": "^6.1.15",
-        "@fullcalendar/daygrid": "^6.1.15",
-        "@fullcalendar/timegrid": "^6.1.15",
+        "@fullcalendar/core": "^6.1.17",
+        "@fullcalendar/daygrid": "^6.1.17",
+        "@fullcalendar/google-calendar": "^6.1.17",
+        "@fullcalendar/interaction": "^6.1.17",
+        "@fullcalendar/list": "^6.1.17",
+        "@fullcalendar/timegrid": "^6.1.17",
+        "@fullcalendar/vue3": "^6.1.17",
         "@inertiajs/inertia": "^0.11.1",
         "@paypal/paypal-js": "^8.2.0",
         "@stripe/stripe-js": "^6.0.0",

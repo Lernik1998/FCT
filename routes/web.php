@@ -10,6 +10,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserActivitiesReservationsController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\GoogleCalendarController;
+use Spatie\GoogleCalendar\Event;
 
 /* Route::get('/', function () {
 return Inertia::render('Welcome', [
@@ -31,7 +34,6 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 });
-
 
 
 // PUBLIC routes
@@ -186,10 +188,32 @@ Route::controller(SocialiteController::class)->group(function () {
     Route::get('/auth/google-callback', 'googleCallback')->name('auth.google-callback');
 });
 
+// Google Calendar
+Route::get('/appointments', [AppointmentController::class, 'index'])->name('calendar.index');
+Route::get('/appointments/list', [AppointmentController::class, 'list'])->name('appointments.list');
+Route::post('/appointmentsStore', [AppointmentController::class, 'store'])->name('appointments.store');
+Route::put('/appointments/{appointment}', [AppointmentController::class, 'update'])->name('appointments.update');
+Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
+
+// Route::get('/test-google', [GoogleCalendarController::class, 'testConnection']);
+
+
+// Route::get('/test-google', function () {
+// $e = Event::get();
+// $e = $e[0];
+//     $event = new Event();
+
+//     $event->name = "Test Event";
+//     $event->startDateTime = now();
+//     $event->endDateTime = now()->addHours(2);
+//     $event->summary = 'Test Event';
+//     $event->save();
+
+//     $e = Event::get();
+//     dd($e);
+// });
 
 // PENDIENTE
-// Route::inertia('/about', 'About')->name('about');
-// Route::inertia('/noticias', 'Noticias')->name('noticias');
 // Route::inertia('/eventos', 'Eventos')->name('eventos');
 
 

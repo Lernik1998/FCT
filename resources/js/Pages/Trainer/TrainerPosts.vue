@@ -1,81 +1,778 @@
 <template>
-    <!-- Barra navegación del Trainer -->
-    <nav class="p-4">
+    <!-- Barra de navegación mejorada -->
+    <nav
+        class="bg-gradient-to-r from-orange-500 to-red-600 p-4 text-white shadow-lg"
+    >
         <div class="container mx-auto flex justify-between items-center">
-            <div class="text-xl font-bold">Marina Alta Sports</div>
+            <div class="flex items-center space-x-3">
+                <!-- <img src="/logo-fitworking-white.png" alt="FitWorking Logo" class="h-8"> -->
+                <h1 class="text-xl font-bold">FitWorking</h1>
+            </div>
             <TrainersNavBar />
         </div>
     </nav>
 
-    <div class="min-h-screen bg-gray-100 p-6 flex flex-col items-center">
-        <!-- Título y botón de crear post -->
-        <div class="flex justify-between items-center w-full max-w-4xl mb-6">
-            <h1 class="text-3xl font-bold text-gray-800">📢 Trainer Posts</h1>
-            <button
-                class="bg-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-600 transition transform hover:scale-105"
-                @click="crearNuevoPost"
-            >
-                + Nuevo Post
-            </button>
-        </div>
+    <div class="min-h-screen bg-gray-100 p-6">
+        <div class="max-w-6xl mx-auto">
+            <!-- Título y botón de crear post -->
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-3xl font-bold text-gray-800">
+                    Gestión de Posts
+                </h1>
+                <button
+                    class="bg-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-600 transition transform hover:scale-105"
+                    @click="mostrarFormulario = true"
+                >
+                    + Nuevo Post
+                </button>
+            </div>
 
-        <!-- Lista de posts -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
-            <div
-                v-for="(post, index) in posts"
-                :key="index"
-                class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition transform hover:scale-105 animate-fade-in"
-            >
-                <h2 class="text-xl font-bold text-gray-800 mb-2">
-                    {{ post.titulo }}
+            <!-- Filtros y búsqueda -->
+            <div class="bg-white p-4 rounded-2xl shadow-lg mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Buscar</label>
+                        <input
+                            v-model="filtroBusqueda"
+                            type="text"
+                            class="w-full p-2 border border-gray-300 rounded-lg"
+                            placeholder="Buscar en posts..."
+                        />
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2"
+                            >Categoría</label
+                        >
+                        <select
+                            v-model="filtroCategoria"
+                            class="w-full p-2 border border-gray-300 rounded-lg"
+                        >
+                            <option value="">Todas las categorías</option>
+                            <option
+                                v-for="categoria in categorias"
+                                :value="categoria"
+                            >
+                                {{ categoria }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2"
+                            >Ordenar por</label
+                        >
+                        <select
+                            v-model="orden"
+                            class="w-full p-2 border border-gray-300 rounded-lg"
+                        >
+                            <option value="fecha-desc">
+                                Más recientes primero
+                            </option>
+                            <option value="fecha-asc">
+                                Más antiguos primero
+                            </option>
+                            <option value="titulo-asc">Título (A-Z)</option>
+                            <option value="titulo-desc">Título (Z-A)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de posts -->
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                >
+                                    Título
+                                </th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                >
+                                    Categoría
+                                </th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                >
+                                    Fecha
+                                </th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                >
+                                    Acciones
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr
+                                v-for="post in postsPaginados"
+                                :key="post.id"
+                                class="hover:bg-gray-50"
+                            >
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="font-medium text-gray-900">
+                                        {{ post.titulo }}
+                                    </div>
+                                    <div
+                                        class="text-sm text-gray-500 line-clamp-1"
+                                    >
+                                        {{ post.contenido }}
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
+                                        :class="colorCategoria(post.categoria)"
+                                    >
+                                        {{ post.categoria }}
+                                    </span>
+                                </td>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                                >
+                                    {{ formatearFecha(post.fecha) }}
+                                </td>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium"
+                                >
+                                    <button
+                                        @click="editarPost(post)"
+                                        class="text-blue-600 hover:text-blue-900 mr-3"
+                                    >
+                                        Editar
+                                    </button>
+                                    <button
+                                        @click="confirmarEliminar(post)"
+                                        class="text-red-600 hover:text-red-900"
+                                    >
+                                        Eliminar
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr v-if="postsFiltrados.length === 0">
+                                <td
+                                    colspan="4"
+                                    class="px-6 py-4 text-center text-gray-500"
+                                >
+                                    No se encontraron posts
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Paginación -->
+                <div
+                    class="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
+                >
+                    <div class="flex-1 flex justify-between sm:hidden">
+                        <button
+                            @click="paginaActual--"
+                            :disabled="paginaActual === 1"
+                            class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                        >
+                            Anterior
+                        </button>
+                        <button
+                            @click="paginaActual++"
+                            :disabled="paginaActual === totalPaginas"
+                            class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                        >
+                            Siguiente
+                        </button>
+                    </div>
+                    <div
+                        class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between"
+                    >
+                        <div>
+                            <p class="text-sm text-gray-700">
+                                Mostrando
+                                <span class="font-medium">{{
+                                    (paginaActual - 1) * porPagina + 1
+                                }}</span>
+                                a
+                                <span class="font-medium">{{
+                                    Math.min(
+                                        paginaActual * porPagina,
+                                        postsFiltrados.length
+                                    )
+                                }}</span>
+                                de
+                                <span class="font-medium">{{
+                                    postsFiltrados.length
+                                }}</span>
+                                resultados
+                            </p>
+                        </div>
+                        <div>
+                            <nav
+                                class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+                                aria-label="Pagination"
+                            >
+                                <button
+                                    @click="paginaActual = 1"
+                                    :disabled="paginaActual === 1"
+                                    class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                                >
+                                    <span class="sr-only">Primera</span>
+                                    «
+                                </button>
+                                <button
+                                    @click="paginaActual--"
+                                    :disabled="paginaActual === 1"
+                                    class="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                                >
+                                    <span class="sr-only">Anterior</span>
+                                    ‹
+                                </button>
+                                <button
+                                    v-for="page in paginasMostradas"
+                                    @click="paginaActual = page"
+                                    :class="{
+                                        'bg-blue-50 border-blue-500 text-blue-600 z-10':
+                                            paginaActual === page,
+                                        'bg-white border-gray-300 text-gray-500 hover:bg-gray-50':
+                                            paginaActual !== page,
+                                    }"
+                                    class="relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                                >
+                                    {{ page }}
+                                </button>
+                                <button
+                                    @click="paginaActual++"
+                                    :disabled="paginaActual === totalPaginas"
+                                    class="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                                >
+                                    <span class="sr-only">Siguiente</span>
+                                    ›
+                                </button>
+                                <button
+                                    @click="paginaActual = totalPaginas"
+                                    :disabled="paginaActual === totalPaginas"
+                                    class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                                >
+                                    <span class="sr-only">Última</span>
+                                    »
+                                </button>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráfico de actividad -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg mb-8">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">
+                    📊 Actividad de Posts
                 </h2>
-                <p class="text-gray-600">{{ post.contenido }}</p>
+                <div class="h-64">
+                    <canvas ref="graficoActividad"></canvas>
+                </div>
+            </div>
+
+            <!-- Formulario flotante para nuevo/editar post -->
+            <div
+                v-if="mostrarFormulario"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            >
+                <div
+                    class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-2xl"
+                >
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                        {{
+                            postEditando
+                                ? "✏️ Editar Post"
+                                : "✏️ Crear Nuevo Post"
+                        }}
+                    </h2>
+
+                    <div class="grid grid-cols-1 gap-6">
+                        <div>
+                            <label class="block text-gray-700 mb-2"
+                                >Título *</label
+                            >
+                            <input
+                                v-model="formPost.titulo"
+                                type="text"
+                                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                placeholder="Ej: Consejos para correr mejor"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 mb-2"
+                                >Contenido *</label
+                            >
+                            <textarea
+                                v-model="formPost.contenido"
+                                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 h-32"
+                                placeholder="Escribe aquí tu mensaje..."
+                                required
+                            ></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 mb-2"
+                                >Categoría *</label
+                            >
+                            <select
+                                v-model="formPost.categoria"
+                                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                required
+                            >
+                                <option value="" disabled>
+                                    Selecciona una categoría
+                                </option>
+                                <option
+                                    v-for="categoria in categorias"
+                                    :value="categoria"
+                                >
+                                    {{ categoria }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end space-x-3 mt-6">
+                        <button
+                            @click="cerrarFormulario"
+                            class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400"
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            @click="guardarPost"
+                            class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                        >
+                            {{ postEditando ? "Actualizar" : "Publicar" }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de confirmación para eliminar -->
+            <div
+                v-if="mostrarConfirmacion"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            >
+                <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">
+                        ¿Eliminar post?
+                    </h2>
+                    <p class="text-gray-600 mb-6">
+                        ¿Estás seguro de que quieres eliminar el post "{{
+                            postAEliminar?.titulo
+                        }}"? Esta acción no se puede deshacer.
+                    </p>
+
+                    <div class="flex justify-end space-x-3">
+                        <button
+                            @click="mostrarConfirmacion = false"
+                            class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400"
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            @click="eliminarPost"
+                            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                        >
+                            Sí, eliminar
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-// Importaciones
-import { ref } from "vue";
-
-// Componentes
+import { ref, computed, onMounted, nextTick } from "vue";
+import Chart from "chart.js/auto";
 import TrainersNavBar from "./Components/TrainersNavBar.vue";
 
-// Datos simulados de posts
+// Datos de posts
 const posts = ref([
     {
+        id: 1,
         titulo: "Entrenamiento de resistencia",
-        contenido: "Descubre cómo mejorar tu resistencia en 30 días.",
+        contenido:
+            "Descubre cómo mejorar tu resistencia en 30 días con estos ejercicios progresivos y rutinas específicas.",
+        categoria: "Entrenamiento",
+        fecha: new Date(2023, 5, 15),
     },
     {
+        id: 2,
         titulo: "Nutrición para atletas",
-        contenido: "Alimentos clave para mejorar el rendimiento deportivo.",
+        contenido:
+            "Alimentos clave para mejorar el rendimiento deportivo y recuperación muscular después del ejercicio.",
+        categoria: "Nutrición",
+        fecha: new Date(2023, 5, 18),
     },
     {
+        id: 3,
         titulo: "Técnicas de recuperación",
-        contenido: "Cómo evitar lesiones y mejorar la recuperación muscular.",
+        contenido:
+            "Cómo evitar lesiones y mejorar la recuperación muscular con estiramientos y descanso activo.",
+        categoria: "Salud",
+        fecha: new Date(2023, 5, 20),
+    },
+    {
+        id: 4,
+        titulo: "Preparación para maratón",
+        contenido:
+            "Plan de 12 semanas para prepararte para tu primer maratón sin lesiones.",
+        categoria: "Entrenamiento",
+        fecha: new Date(2023, 5, 22),
+    },
+    {
+        id: 5,
+        titulo: "Hidratación en verano",
+        contenido:
+            "Consejos para mantenerte hidratado durante los entrenamientos en épocas de calor.",
+        categoria: "Nutrición",
+        fecha: new Date(2023, 5, 25),
+    },
+    {
+        id: 6,
+        titulo: "Equipamiento básico",
+        contenido:
+            "Lo que realmente necesitas para empezar a entrenar sin gastar demasiado.",
+        categoria: "Equipamiento",
+        fecha: new Date(2023, 5, 28),
+    },
+    {
+        id: 7,
+        titulo: "Motivación a largo plazo",
+        contenido:
+            "Cómo mantener la constancia en tus entrenamientos durante todo el año.",
+        categoria: "Psicología",
+        fecha: new Date(2023, 6, 1),
+    },
+    {
+        id: 8,
+        titulo: "Entrenamiento en casa",
+        contenido:
+            "Rutinas efectivas que puedes hacer sin salir de casa y con poco espacio.",
+        categoria: "Entrenamiento",
+        fecha: new Date(2023, 6, 5),
+    },
+    {
+        id: 9,
+        titulo: "Suplementos deportivos",
+        contenido:
+            "Guía básica sobre qué suplementos pueden ayudarte y cuáles no son necesarios.",
+        categoria: "Nutrición",
+        fecha: new Date(2023, 6, 8),
+    },
+    {
+        id: 10,
+        titulo: "Prevención de lesiones",
+        contenido:
+            "Ejercicios de movilidad y fortalecimiento para evitar lesiones comunes.",
+        categoria: "Salud",
+        fecha: new Date(2023, 6, 12),
     },
 ]);
 
-// Acción para crear un nuevo post
-const crearNuevoPost = () => {
-    alert("Función para crear un nuevo post en desarrollo...");
+// Categorías disponibles
+const categorias = ref([
+    "Entrenamiento",
+    "Nutrición",
+    "Salud",
+    "Psicología",
+    "Equipamiento",
+    "Eventos",
+]);
+
+// Filtros
+const filtroBusqueda = ref("");
+const filtroCategoria = ref("");
+const orden = ref("fecha-desc");
+
+// Paginación
+const paginaActual = ref(1);
+const porPagina = ref(5);
+
+// Formulario
+const mostrarFormulario = ref(false);
+const postEditando = ref(null);
+const formPost = ref({
+    titulo: "",
+    contenido: "",
+    categoria: "",
+});
+
+// Confirmación de eliminación
+const mostrarConfirmacion = ref(false);
+const postAEliminar = ref(null);
+
+// Gráfico
+const graficoActividad = ref(null);
+let chartInstance = null;
+
+// Computed: Posts filtrados y ordenados
+const postsFiltrados = computed(() => {
+    let filtered = [...posts.value];
+
+    // Filtrar por búsqueda
+    if (filtroBusqueda.value) {
+        const searchTerm = filtroBusqueda.value.toLowerCase();
+        filtered = filtered.filter(
+            (post) =>
+                post.titulo.toLowerCase().includes(searchTerm) ||
+                post.contenido.toLowerCase().includes(searchTerm)
+        );
+    }
+
+    // Filtrar por categoría
+    if (filtroCategoria.value) {
+        filtered = filtered.filter(
+            (post) => post.categoria === filtroCategoria.value
+        );
+    }
+
+    // Ordenar
+    switch (orden.value) {
+        case "fecha-desc":
+            return filtered.sort((a, b) => b.fecha - a.fecha);
+        case "fecha-asc":
+            return filtered.sort((a, b) => a.fecha - b.fecha);
+        case "titulo-asc":
+            return filtered.sort((a, b) => a.titulo.localeCompare(b.titulo));
+        case "titulo-desc":
+            return filtered.sort((a, b) => b.titulo.localeCompare(a.titulo));
+        default:
+            return filtered;
+    }
+});
+
+// Computed: Posts paginados
+const postsPaginados = computed(() => {
+    const start = (paginaActual.value - 1) * porPagina.value;
+    const end = start + porPagina.value;
+    return postsFiltrados.value.slice(start, end);
+});
+
+// Computed: Total de páginas
+const totalPaginas = computed(() => {
+    return Math.ceil(postsFiltrados.value.length / porPagina.value);
+});
+
+// Computed: Páginas a mostrar en la paginación
+const paginasMostradas = computed(() => {
+    const paginas = [];
+    const maxPaginas = 5; // Máximo de números de página a mostrar
+
+    if (totalPaginas.value <= maxPaginas) {
+        for (let i = 1; i <= totalPaginas.value; i++) {
+            paginas.push(i);
+        }
+    } else {
+        let start = Math.max(
+            1,
+            paginaActual.value - Math.floor(maxPaginas / 2)
+        );
+        let end = Math.min(totalPaginas.value, start + maxPaginas - 1);
+
+        if (end - start + 1 < maxPaginas) {
+            start = Math.max(1, end - maxPaginas + 1);
+        }
+
+        for (let i = start; i <= end; i++) {
+            paginas.push(i);
+        }
+    }
+
+    return paginas;
+});
+
+// Métodos
+const formatearFecha = (fecha) => {
+    return fecha.toLocaleDateString("es-ES", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+    });
 };
+
+const colorCategoria = (categoria) => {
+    const colores = {
+        Entrenamiento: "bg-blue-100 text-blue-800",
+        Nutrición: "bg-green-100 text-green-800",
+        Salud: "bg-red-100 text-red-800",
+        Psicología: "bg-purple-100 text-purple-800",
+        Equipamiento: "bg-yellow-100 text-yellow-800",
+        Eventos: "bg-indigo-100 text-indigo-800",
+    };
+    return colores[categoria] || "bg-gray-100 text-gray-800";
+};
+
+const abrirFormularioNuevo = () => {
+    postEditando.value = null;
+    formPost.value = {
+        titulo: "",
+        contenido: "",
+        categoria: "",
+    };
+    mostrarFormulario.value = true;
+};
+
+const editarPost = (post) => {
+    postEditando.value = post;
+    formPost.value = {
+        titulo: post.titulo,
+        contenido: post.contenido,
+        categoria: post.categoria,
+    };
+    mostrarFormulario.value = true;
+};
+
+const cerrarFormulario = () => {
+    mostrarFormulario.value = false;
+};
+
+const guardarPost = () => {
+    if (
+        !formPost.value.titulo ||
+        !formPost.value.contenido ||
+        !formPost.value.categoria
+    ) {
+        alert("Por favor, completa todos los campos obligatorios");
+        return;
+    }
+
+    if (postEditando.value) {
+        // Editar post existente
+        const index = posts.value.findIndex(
+            (p) => p.id === postEditando.value.id
+        );
+        if (index !== -1) {
+            posts.value[index] = {
+                ...posts.value[index],
+                titulo: formPost.value.titulo,
+                contenido: formPost.value.contenido,
+                categoria: formPost.value.categoria,
+            };
+        }
+    } else {
+        // Crear nuevo post
+        const nuevoId = Math.max(...posts.value.map((p) => p.id), 0) + 1;
+        posts.value.unshift({
+            id: nuevoId,
+            titulo: formPost.value.titulo,
+            contenido: formPost.value.contenido,
+            categoria: formPost.value.categoria,
+            fecha: new Date(),
+        });
+    }
+
+    cerrarFormulario();
+    actualizarGrafico();
+
+    // Resetear a la primera página después de añadir/editar
+    paginaActual.value = 1;
+};
+
+const confirmarEliminar = (post) => {
+    postAEliminar.value = post;
+    mostrarConfirmacion.value = true;
+};
+
+const eliminarPost = () => {
+    if (postAEliminar.value) {
+        posts.value = posts.value.filter(
+            (p) => p.id !== postAEliminar.value.id
+        );
+        mostrarConfirmacion.value = false;
+        actualizarGrafico();
+
+        // Ajustar la página si quedó vacía
+        if (postsPaginados.value.length === 0 && paginaActual.value > 1) {
+            paginaActual.value--;
+        }
+    }
+};
+
+const inicializarGrafico = () => {
+    if (chartInstance) {
+        chartInstance.destroy();
+    }
+
+    const ctx = graficoActividad.value.getContext("2d");
+
+    // Preparar datos para el gráfico
+    const ultimos7Dias = [...Array(7)].map((_, i) => {
+        const fecha = new Date();
+        fecha.setDate(fecha.getDate() - (6 - i));
+        return fecha.toLocaleDateString("es-ES", {
+            day: "2-digit",
+            month: "short",
+        });
+    });
+
+    const conteoPosts = ultimos7Dias.map((fecha) => {
+        return posts.value.filter(
+            (post) =>
+                post.fecha.toLocaleDateString("es-ES", {
+                    day: "2-digit",
+                    month: "short",
+                }) === fecha
+        ).length;
+    });
+
+    chartInstance = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ultimos7Dias,
+            datasets: [
+                {
+                    label: "Posts publicados",
+                    data: conteoPosts,
+                    backgroundColor: "rgba(59, 130, 246, 0.7)",
+                    borderColor: "rgba(59, 130, 246, 1)",
+                    borderWidth: 1,
+                },
+            ],
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                    },
+                },
+            },
+            plugins: {
+                legend: {
+                    display: false,
+                },
+            },
+        },
+    });
+};
+
+const actualizarGrafico = () => {
+    nextTick(() => {
+        inicializarGrafico();
+    });
+};
+
+// Inicializar cuando el componente está montado
+onMounted(() => {
+    inicializarGrafico();
+});
 </script>
 
 <style scoped>
-@keyframes fade-in {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-.animate-fade-in {
-    animation: fade-in 0.6s ease-out;
+.line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 </style>

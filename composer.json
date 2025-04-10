@@ -10,6 +10,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "google/apiclient": "^2.18",
         "inertiajs/inertia-laravel": "^2.0",
         "laravel/framework": "^12.0",
         "laravel/jetstream": "^5.3",
@@ -18,6 +19,7 @@
         "laravel/socialite": "^5.18",
         "laravel/tinker": "^2.10.1",
         "paypal/paypal-checkout-sdk": "^1.0",
+        "spatie/laravel-google-calendar": "^3.8",
         "stripe/stripe-php": "^16.6",
         "tightenco/ziggy": "^2.0"
     },

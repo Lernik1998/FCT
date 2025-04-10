@@ -39,7 +39,19 @@ return [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
         'redirect' => env('GOOGLE_REDIRECT'),
+        // 'calendar_id' => env('GOOGLE_CALENDAR_ID'),
     ],
+
+    // Google Calendar
+    'google_calendar' => [
+        'client_id' => env('GOOGLE_CALENDAR_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CALENDAR_CLIENT_SECRET'),
+        'redirect_uri' => env('GOOGLE_CALENDAR_REDIRECT_URI'),
+        'application_name' => env('GOOGLE_CALENDAR_APPLICATION_NAME'),
+        'calendar_id' => env('GOOGLE_CALENDAR_ID'),
+        'credentials_path' => storage_path(env('GOOGLE_CALENDAR_CREDENTIALS_PATH')),
+    ],
+
     // Integración del servicio de Stripe
     'stripe' => [
         'key' => env('STRIPE_KEY'),
