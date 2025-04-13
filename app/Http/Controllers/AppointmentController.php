@@ -7,18 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\Appointment;
 use Inertia\Inertia;
 use Carbon\Carbon;
+use Spatie\GoogleCalendar\Event;
 
 
 class AppointmentController extends Controller
 {
-    public function index()
-    {
-        return Inertia::render('Calendar/Index', [
-            'clients' => \App\Models\User::where('role', 'client')->get(['id', 'name']),
-        ]);
-    }
-
-
     public function list(Request $request)
     {
         $request->validate([
@@ -51,22 +44,20 @@ class AppointmentController extends Controller
                 'allDay' => false,
                 'extendedProps' => [
                     'description' => $appointment->description,
-                    'clientId' => $appointment->user_id,
+                    // 'clientId' => $appointment->user_id,
                 ],
                 'backgroundColor' => '#f97316',
                 'borderColor' => '#ea580c',
             ];
         });
 
-
+        // MIRAR COMO DEVOLVER LOS DATOS JSON O INERTIA
         return response()->json($events);
     }
 
 
     public function store(Request $request)
     {
-
-        // dd($request->all());
         try {
             \Log::info('Datos recibidos:', $request->all());
 
@@ -78,38 +69,36 @@ class AppointmentController extends Controller
                 'allDay' => 'nullable|boolean'
             ]);
 
-            // Convertir fechas a formato MySQL
-            $start = Carbon::parse($validated['start'])->format('Y-m-d H:i:s');
-            $end = Carbon::parse($validated['end'])->format('Y-m-d H:i:s');
+            // Convertir fechas a la zona horaria de Google Calendar (GMT+2)
+            $timezone = 'Europe/Madrid'; // Ajusta según tu zona horaria
+            $startDateTime = Carbon::parse($validated['start'])->setTimezone($timezone);
+            $endDateTime = Carbon::parse($validated['end'])->setTimezone($timezone);
 
-            // \Log::info('Datos validados:', $validated);
 
-            // Convertir fechas ISO a formato MySQL
-            // $start = Carbon::createFromFormat('Y-m-d\TH:i:s.u\Z', $validated['start'])
-            //     ->setTimezone(config('app.timezone'))
-            //     ->format('Y-m-d H:i:s');
+            // Creo el evento en Google Calendar
+            $event = new Event();
+            $event->name = $validated['title'];
+            $event->startDateTime = $startDateTime;
+            $event->endDateTime = $endDateTime;
+            $event->summary = $validated['title'];
+            $nuevoEvento = $event->save();
 
-            // $end = Carbon::createFromFormat('Y-m-d\TH:i:s.u\Z', $validated['end'])
-            //     ->setTimezone(config('app.timezone'))
-            //     ->format('Y-m-d H:i:s');
+            $eventId = $nuevoEvento->id;
 
-            // Convertir fechas al formato correcto
-            // $start = Carbon::parse($validated['start']);
-            // $end = Carbon::parse($validated['end']);
-
-            // \Log::info('Fechas convertidas:', ['start' => $start, 'end' => $end]);
-
+            // Creo la cita y la guardo en la base de datos
             $appointment = Appointment::create([
                 'title' => $validated['title'],
-                'start' => $start,
-                'end' => $end,
+                'start' => $validated['start'],
+                'end' => $validated['end'],
                 'user_id' => auth()->id(),
                 'description' => $validated['description'] ?? null,
                 'all_day' => $validated['allDay'] ?? false,
-                // 'user_id' => auth()->user()->isAdmin ? $validated['clientId'] : auth()->id()
+                'google_calendar_event_id' => $eventId
             ]);
-            // \Log::info('Cita creada:', $appointment->toArray());
-            
+
+            return redirect()->route('trainers.pp')->with('success', 'Evento creado correctamente');
+
+
         } catch (\Exception $e) {
             \Log::error('Error completo:', [
                 'message' => $e->getMessage(),
@@ -117,64 +106,13 @@ class AppointmentController extends Controller
                 'line' => $e->getLine(),
                 'trace' => $e->getTraceAsString()
             ]);
-            return response()->json([
-                'error' => 'Error interno del servidor',
-                'details' => env('APP_DEBUG') ? $e->getMessage() : null
-            ], 500);
+            return redirect()->route('trainers.pp')->with('error', 'Error interno del servidor');
         }
-
-        // Sincronizar con Google Calendar
-        try {
-            $googleCalendarController = new GoogleCalendarController();
-            $googleEvent = $googleCalendarController->syncAppointment($appointment);
-
-            // Si se sincronizó con Google, guardar el ID del evento
-            if ($googleEvent) {
-                $appointment->update([
-                    'google_calendar_event_id' => $googleEvent->id
-                ]);
-            }
-
-        } catch (\Exception $e) {
-            \Log::error('Error al sincronizar con Google Calendar: ' . $e->getMessage());
-            // return response()->json(['error' => 'No se pudo sincronizar con Google Calendar'], 500);
-        }
-
-
-        // return response()->json([
-        //     'id' => $appointment->id,
-        //     'title' => $appointment->title,
-        //     'start' => $appointment->start,
-        //     'end' => $appointment->end,
-        //     'extendedProps' => [
-        //         'description' => $appointment->description,
-        //         // 'clientId' => $appointment->user_id,
-        //     ],
-        //     'backgroundColor' => '#f97316',
-        //     'borderColor' => '#ea580c',
-        // ]);
-        return Inertia::render('Calendar/Index', [
-            'success' => true,
-            'event' => [
-                'id' => $appointment->id,
-                'title' => $appointment->title,
-                'start' => $appointment->start,
-                'end' => $appointment->end,
-                'extendedProps' => [
-                    'description' => $appointment->description,
-                    'clientId' => $appointment->user_id,
-                ],
-                'backgroundColor' => '#f97316',
-                'borderColor' => '#ea580c',
-            ]
-        ]);
     }
 
     public function update(Request $request, Appointment $appointment)
     {
-        // $this->authorize('update', $appointment);
-
-
+        // Recibe los datos del formulario y valido
         $validated = $request->validate([
             'title' => 'sometimes|string|max:255',
             'start' => 'sometimes|date',
@@ -183,44 +121,69 @@ class AppointmentController extends Controller
             'clientId' => auth()->user()->isAdmin ? 'sometimes|exists:users,id' : 'nullable'
         ]);
 
+        try {
+            // Convertir fechas a la zona horaria de Google Calendar (GMT+2)
+            $timezone = 'Europe/Madrid';
+            $startDateTime = Carbon::parse($validated['start'])->setTimezone($timezone);
+            $endDateTime = Carbon::parse($validated['end'])->setTimezone($timezone);
 
-        $updateData = [
-            'title' => $validated['title'] ?? $appointment->title,
-            'start' => $validated['start'] ?? $appointment->start,
-            'end' => $validated['end'] ?? $appointment->end,
-            'description' => $validated['description'] ?? $appointment->description,
-        ];
+            // Preparo los datos para la actualizacion
+            $updateData = [
+                'title' => $validated['title'] ?? $appointment->title,
+                'start' => $startDateTime->toDateTimeString(),
+                'end' => $endDateTime->toDateTimeString(),
+                'description' => $validated['description'] ?? $appointment->description,
+            ];
 
 
-        if (auth()->user()->isAdmin && isset($validated['clientId'])) {
-            $updateData['user_id'] = $validated['clientId'];
+            // Busco evento en Google Calendar si existe
+            if ($appointment->google_calendar_event_id) {
+                $event = Event::find($appointment->google_calendar_event_id);
+                if ($event) {
+                    $event->name = $validated['title'] ?? $appointment->title;
+                    $event->startDateTime = Carbon::parse($validated['start'] ?? $appointment->start);
+                    $event->endDateTime = Carbon::parse($validated['end'] ?? $appointment->end);
+                    $event->summary = $validated['title'] ?? $appointment->title;
+                    $event->save();
+                }
+            }
+
+            // if (auth()->user()->isAdmin && isset($validated['clientId'])) {
+            //     $updateData['user_id'] = $validated['clientId'];
+            // }
+
+            $appointment->update($updateData);
+
+            return redirect()->route('trainers.pp')->with('success', 'Evento actualizado correctamente');
+
+        } catch (\Exception $e) {
+            \Log::error('Error al actualizar cita: ' . $e->getMessage());
+            return redirect()->route('trainers.pp')->with('error', 'Error al actualizar el evento');
         }
-
-
-        $appointment->update($updateData);
-
-
-        return response()->json([
-            'id' => $appointment->id,
-            'title' => $appointment->title,
-            'start' => $appointment->start,
-            'end' => $appointment->end,
-            'extendedProps' => [
-                'description' => $appointment->description,
-                'clientId' => $appointment->user_id,
-            ],
-            'backgroundColor' => '#f97316',
-            'borderColor' => '#ea580c',
-        ]);
     }
 
 
     public function destroy(Appointment $appointment)
     {
-        // $this->authorize('delete', $appointment);
 
-        $appointment->delete();
+        try {
+            // Eliminar primero de Google Calendar si existe
+            if ($appointment->google_calendar_event_id) {
+                $event = Event::find($appointment->google_calendar_event_id);
+                if ($event) {
+                    $event->delete();
+                }
+            }
 
-        return response()->json(['success' => true]);
+            // Elimino de la BD
+            $appointment->delete();
+
+            return redirect()->route('trainers.pp')->with('success', 'Evento eliminado correctamente');
+
+        } catch (\Exception $e) {
+            \Log::error('Error al eliminar cita: ' . $e->getMessage());
+            return redirect()->route('trainers.pp')->with('error', 'Error al eliminar el evento');
+        }
+
     }
 }

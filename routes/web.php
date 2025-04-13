@@ -189,11 +189,13 @@ Route::controller(SocialiteController::class)->group(function () {
 });
 
 // Google Calendar
-Route::get('/appointments', [AppointmentController::class, 'index'])->name('calendar.index');
+// Route::get('/appointments', [AppointmentController::class, 'index'])->name('calendar.index');
 Route::get('/appointments/list', [AppointmentController::class, 'list'])->name('appointments.list');
 Route::post('/appointmentsStore', [AppointmentController::class, 'store'])->name('appointments.store');
 Route::put('/appointments/{appointment}', [AppointmentController::class, 'update'])->name('appointments.update');
 Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
+// Test de conexión con Google Calendar
+Route::post('/test-google', [GoogleCalendarController::class, 'testConnection'])->name('test-google');
 
 // Route::get('/test-google', [GoogleCalendarController::class, 'testConnection']);
 
