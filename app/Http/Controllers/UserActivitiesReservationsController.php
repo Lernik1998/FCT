@@ -19,6 +19,8 @@ use PayPalCheckoutSdk\Orders\OrdersGetRequest;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 
+use Telegram; // Para Telegram
+
 
 
 
@@ -30,7 +32,11 @@ class UserActivitiesReservationsController extends Controller
     public function index()
     {
         // Obtengo todas las reservas del usuario
-        $reservations = UserActivitiesReservations::where('user_id', auth()->user()->id)->get();
+        // $reservations = UserActivitiesReservations::where('user_id', auth()->user()->id)->get();
+
+        $reservations = UserActivitiesReservations::with('activity')
+            ->where('user_id', auth()->user()->id)
+            ->get();
 
         // dd($reservations);
 
@@ -111,7 +117,7 @@ class UserActivitiesReservationsController extends Controller
         $reservations = UserActivitiesReservations::where('user_id', auth()->user()->id)->get();
 
         // Redirecciono
-        return inertia('User/ActivityOptions/ActivityReservations', compact('reservations'));
+        return redirect()->route('userActivitiesReservations.index');
     }
 
     public function showPayForActivity($id)
@@ -257,5 +263,26 @@ class UserActivitiesReservationsController extends Controller
 
         }
     }
+
+    public function telegram()
+    {
+        // $telegram = new Api(config('telegram.bots.default.token'));
+        // $update = $telegram->getWebhookUpdate();
+
+        // $chatId = $update->getMessage()?->getChat()?->getId();
+        // $text = $update->getMessage()?->getText();
+
+        // if ($text === '/start') {
+        //     $telegram->sendMessage([
+        //         'chat_id' => $chatId,
+        //         'text' => '¡Hola! Estás conectado con FitWorkingBot 💪'
+        //     ]);
+        // }
+
+        $updates = Telegram::getUpdates();
+
+        dd($updates);
+    }
+
 
 }

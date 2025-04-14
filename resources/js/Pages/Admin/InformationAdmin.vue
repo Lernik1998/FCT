@@ -1,137 +1,145 @@
 <template>
-    <!-- Header -->
-    <Head>
-        <title>Panel de Administración</title>
-        <meta name="description" content="Panel de Administración" />
-    </Head>
+    <div class="min-h-screen bg-gray-50">
+        <!-- Head -->
+        <Head>
+            <title>Panel de Administración</title>
+            <meta name="description" content="Panel de Administración" />
+        </Head>
 
-    <div>
         <!-- Barra de navegación -->
-        <nav class="p-4 border-b shadow-md bg-white">
-            <div class="container mx-auto flex justify-between items-center">
-                <div class="text-xl font-bold">Panel de Administración</div>
+        <nav class="bg-white shadow-sm border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+                <div class="text-2xl font-bold text-gray-800">Panel de Administración</div>
                 <AdminNavBar :notifications="numNotifs" />
             </div>
         </nav>
 
-        <section class="p-8">
-            <h1 class="text-2xl font-semibold mb-10 ml-72">
-                Gestiona los mensajes asignándolos a un entrenador o
-                respondiéndolos.
-            </h1>
-            <h2 class="text-xl font-semibold mb-4">Notificaciones</h2>
-
-            <div v-if="messageStatus" class="mb-4">
-                <p class="text-green-500" v-if="messageStatus">
-                    {{ messageStatus }}
-                </p>
+        <!-- Contenido principal -->
+        <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+            <!-- Encabezado -->
+            <div class="mb-8">
+                <h1 class="text-2xl font-semibold text-gray-800 mb-2">
+                    Gestiona los mensajes asignándolos a un entrenador o respondiéndolos
+                </h1>
+                <h2 class="text-xl font-medium text-gray-600">Notificaciones</h2>
             </div>
 
-            <div>
-                <!-- Envio de respuesta -->
-                <ConfirmationModal
-                    :show="show"
-                    @close="show = false"
-                    :max-width="'2xl'"
-                    :closeable="true"
-                    :title="'Confirmación'"
-                    :content="messageStatus"
-                    :footer="'Haga click fuera de la casilla para cerrar'"
-                />
-
-                <!-- Asignación de entrenador -->
-                <ConfirmationModal
-                    :show="showAssigned"
-                    @close="showAssigned = false"
-                    :max-width="'2xl'"
-                    :closeable="true"
-                    :title="'Asignación'"
-                    :content="'Entrenador asignado correctamente'"
-                    :footer="'Haga click fuera de la casilla para cerrar'"
-                />
+            <!-- Mensaje de estado -->
+            <div v-if="messageStatus" class="mb-6 p-4 bg-green-50 text-green-700 rounded-lg border border-green-200">
+                {{ messageStatus }}
             </div>
 
-            <div v-if="messages.length > 0" class="space-y-4">
+            <!-- Modales -->
+            <ConfirmationModal
+                :show="show"
+                @close="show = false"
+                :max-width="'2xl'"
+                :closeable="true"
+                :title="'Confirmación'"
+                :content="messageStatus"
+                :footer="'Haga click fuera de la casilla para cerrar'"
+            />
+
+            <ConfirmationModal
+                :show="showAssigned"
+                @close="showAssigned = false"
+                :max-width="'2xl'"
+                :closeable="true"
+                :title="'Asignación'"
+                :content="'Entrenador asignado correctamente'"
+                :footer="'Haga click fuera de la casilla para cerrar'"
+            />
+
+            <!-- Lista de mensajes -->
+            <div v-if="messages.length > 0" class="space-y-6">
                 <div
                     v-for="(message, index) in messages"
                     :key="index"
-                    class="p-3 border rounded-lg"
+                    class="bg-white p-6 rounded-lg shadow-sm border border-gray-200"
                 >
-                    <p class="text-gray-700">
-                        <strong>De:</strong> {{ message.name || "Anónimo" }}
-                    </p>
-                    <p class="text-gray-600">
-                        <strong>Mensaje:</strong> {{ message.message }}
-                    </p>
+                    <div class="space-y-2 mb-4">
+                        <p class="text-gray-800">
+                            <span class="font-semibold">De:</span> {{ message.name || "Anónimo" }}
+                        </p>
+                        <p class="text-gray-700">
+                            <span class="font-semibold">Mensaje:</span> {{ message.message }}
+                        </p>
+                    </div>
 
                     <!-- Asignar entrenador -->
-                    <label class="block mt-2 text-sm font-medium"
-                        >Asignar a:</label
-                    >
-                    <select
-                        v-model="message.assignedTrainer"
-                        class="w-full p-2 border rounded"
-                    >
-                        <option value="">Seleccionar entrenador</option>
-                        <template v-if="trainers.length > 0">
-                            <option
-                                v-for="trainer in trainers"
-                                :key="trainer.id"
-                                :value="trainer"
-                            >
-                                {{ trainer.name }}
-                            </option>
-                        </template>
-                        <template v-else>
-                            <option disabled>
-                                No hay entrenadores registrados
-                            </option>
-                        </template>
-                    </select>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Asignar a:</label>
+                        <select
+                            v-model="message.assignedTrainer"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        >
+                            <option value="">Seleccionar entrenador</option>
+                            <template v-if="trainers.length > 0">
+                                <option
+                                    v-for="trainer in trainers"
+                                    :key="trainer.id"
+                                    :value="trainer"
+                                    class="py-1"
+                                >
+                                    {{ trainer.name }}
+                                </option>
+                            </template>
+                            <template v-else>
+                                <option disabled class="py-1">
+                                    No hay entrenadores registrados
+                                </option>
+                            </template>
+                        </select>
+                    </div>
 
                     <!-- Responder mensaje -->
-                    <textarea
-                        v-model="message.reply"
-                        placeholder="Escribe tu respuesta..."
-                        class="w-full p-2 mt-2 border rounded"
-                    ></textarea>
-                    <button
-                        @click="sendReply(index)"
-                        class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                    >
-                        Enviar Respuesta
-                    </button>
+                    <div class="mb-4">
+                        <textarea
+                            v-model="message.reply"
+                            placeholder="Escribe tu respuesta..."
+                            rows="3"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        ></textarea>
+                    </div>
 
-                    <!-- Marcar como resuelto -->
-                    <button
-                        @click="markAsResolved(index)"
-                        class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 ml-2"
-                    >
-                        Asignar a un entrenador
-                    </button>
+                    <!-- Botones de acción -->
+                    <div class="flex flex-wrap gap-3">
+                        <button
+                            @click="sendReply(index)"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                        >
+                            Enviar Respuesta
+                        </button>
+                        <button
+                            @click="markAsResolved(index)"
+                            class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors"
+                        >
+                            Asignar a un entrenador
+                        </button>
+                    </div>
                 </div>
             </div>
-            <p v-else class="text-gray-500">No hay nuevas notificaciones.</p>
-        </section>
+
+            <!-- Estado vacío -->
+            <div v-else class="bg-white p-8 rounded-lg shadow-sm border border-gray-200 text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <p class="text-gray-500 text-lg">No hay nuevas notificaciones</p>
+            </div>
+        </main>
     </div>
 </template>
 
 <script setup>
-// Importaciones
 import { ref, watch } from "vue";
 import { router } from "@inertiajs/vue3";
-import { Head } from "@inertiajs/vue3"; // Para el head
-
-// Componentes
+import { Head } from "@inertiajs/vue3";
 import AdminNavBar from "./Components/AdminNavBar.vue";
-import ConfirmationModal from "../../Components/ConfirmationModal.vue"; // Modal de confirmación
+import ConfirmationModal from "../../Components/ConfirmationModal.vue";
 
-// Props
 const props = defineProps(["messages", "trainers", "messageStatus"]);
 
-// Variables
-// const messages = ref(props.messages); --> PARA ESCUCHAR TODOS LOS CAMBIOS DE LA VARIABLE REACTIVA
-// Hacer una copia reactiva del array
 const messages = ref([...props.messages]);
 const trainers = ref(props.trainers);
 const show = ref(false);
@@ -139,7 +147,6 @@ const messageStatus = ref(props.messageStatus);
 const showAssigned = ref(false);
 const numNotifs = ref(parseInt(messages.value.length));
 
-// Funciones
 const sendReply = (index) => {
     const message = messages.value[index];
 
@@ -155,35 +162,14 @@ const sendReply = (index) => {
 
     message.reply = "";
     show.value = true;
-
-    /* 
-        .then(() => {
-            message.reply = ""; // Limpiar el campo tras el envío
-            show.value = true; // Mostrar el modal de confirmación
-            // messageStatus.value = "Respuesta enviada correctamente";
-        })
-        .catch((error) => {
-            console.error(error);
-            // messageStatus.value = "Error al enviar la respuesta";
-        });
-        */
-
-    // location.reload(); // Refrescar la página --> No es buena práctica
 };
 
 const markAsResolved = (index) => {
-    // Verificar si se ha asignado un entrenador
     if (!messages.value[index].assignedTrainer) {
         alert("Por favor, asigna un entrenador al mensaje");
         return;
     }
 
-    // Verificar si se ha escrito una respuesta
-    // if (!messages.value[index].reply || messages.value[index].reply.trim() === "") {
-    //     alert("Por favor, escribe una respuesta");
-    //     return;
-    // }
-    // Envio al controlador
     router.post(route("admin.markAsAssigned"), {
         id: messages.value[index].id,
         trainer_id: messages.value[index].assignedTrainer.id,
@@ -191,7 +177,6 @@ const markAsResolved = (index) => {
     showAssigned.value = true;
 };
 
-// Observar cambios en props.messages y sincronizarlos
 watch(
     () => props.messages,
     (newMessages) => {
@@ -199,18 +184,4 @@ watch(
         numNotifs.value = parseInt(newMessages.length);
     }
 );
-
-// Observar cambios en props.notifications y sincronizarlos
-// watch(
-//     () => props.notifications,
-//     (newNotifications) => {
-//         numNotifs.value = parseInt(newNotifications);
-//     }
-// );
 </script>
-
-<style scoped>
-textarea {
-    resize: none;
-}
-</style>

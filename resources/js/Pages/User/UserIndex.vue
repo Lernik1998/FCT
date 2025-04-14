@@ -30,6 +30,7 @@
                     </button> -->
                     <button
                         class="border-2 border-orange-500 text-orange-500 hover:bg-orange-50 font-bold py-3 px-6 rounded-full transition-all"
+                        onclick="window.open('https://t.me/+oRCyDr_AbqQwMDM0', '_blank')"
                     >
                         Acceso a comunidad
                     </button>
@@ -504,7 +505,6 @@
 <script setup>
 // Importaciones
 import { computed } from "vue";
-
 // Importaciones de componentes
 import UsersNavBar from "./Components/UsersNavBar.vue";
 import Footer from "./Components/UserFooter.vue";

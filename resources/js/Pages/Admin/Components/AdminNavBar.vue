@@ -1,42 +1,81 @@
 <template>
-    <div>
-        <ul class="flex space-x-6">
-            <li>
-                <a :href="route('admin.index')" class="hover:underline"
-                    >Inicio</a
-                >
-            </li>
+    <div class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4">
+            <ul class="flex items-center space-x-8 py-3">
+                <!-- Inicio -->
+                <li>
+                    <a
+                        :href="route('admin.index')"
+                        class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                        :class="{
+                            'text-blue-600 bg-blue-50':
+                                route().current('admin.index'),
+                        }"
+                    >
+                        Inicio
+                    </a>
+                </li>
 
-            <!-- 
-                    <li>
-                        <a :href="route('noticias')" class="hover:underline"
-                            >Noticias</a
+                <!-- Solicitudes de información -->
+                <li class="relative">
+                    <a
+                        :href="route('admin.informationAdmin')"
+                        class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center"
+                        :class="{
+                            'text-blue-600 bg-blue-50': route().current(
+                                'admin.informationAdmin'
+                            ),
+                        }"
+                    >
+                        <span>Solicitudes información</span>
+                        <span
+                            v-if="numNotifs > 0"
+                            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center"
                         >
-                    </li>
-                    <li>
-                        <a :href="route('eventos')" class="hover:underline"
-                            >Eventos</a
+                            {{ numNotifs }}
+                        </span>
+                    </a>
+                </li>
+
+                <!-- Mensajes trainers -->
+                <li>
+                    <a
+                        :href="route('admin.messageAdmin')"
+                        class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                        :class="{
+                            'text-blue-600 bg-blue-50':
+                                route().current('admin.messageAdmin'),
+                        }"
+                    >
+                        Mensajes trainers
+                    </a>
+                </li>
+
+                <!-- Cerrar sesión -->
+                <li class="ml-auto">
+                    <button
+                        @click="logout"
+                        class="text-gray-700 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 mr-1"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
                         >
-                    </li> -->
-
-            <li>
-                <a
-                    :href="route('admin.informationAdmin')"
-                    class="hover:underline notification"
-                    ><span>Solicitudes información</span>
-                    <span class="badge">{{ numNotifs ? numNotifs : 0 }}</span>
-                </a>
-            </li>
-
-            <li>
-                <a :href="route('admin.messageAdmin')" class="hover:underline mr-10 ml-10"
-                    >Mensajes trainers</a
-                >
-            </li>
-            <li>
-                <button @click="logout">Cerrar sesión</button>
-            </li>
-        </ul>
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                            />
+                        </svg>
+                        Cerrar sesión
+                    </button>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -50,14 +89,12 @@ const props = defineProps(["notifications"]);
 
 const numNotifs = ref(parseInt(props.notifications));
 
-// console.log(numNotifs.value);
-
 // Función para cerrar sesión
 const logout = () => {
     router.post(route("logout"));
 };
 
-// Observar cambios en props.notifications y sincronizarlos
+// Observar cambios en props.notifications
 watch(
     () => props.notifications,
     (newNotifications) => {
@@ -65,27 +102,3 @@ watch(
     }
 );
 </script>
-
-<style scoped>
-.notification {
-    text-decoration: none;
-    /* padding: 15px 26px; */
-    position: relative;
-    display: inline-block;
-    border-radius: 2px;
-}
-/* 
-.notification:hover {
-    background: red;
-} */
-
-.notification .badge {
-    position: absolute;
-    top: -10px;
-    right: -30px;
-    padding: 5px 10px;
-    border-radius: 50%;
-    background: red;
-    color: white;
-}
-</style>

@@ -107,10 +107,13 @@
                                         <div class="flex-shrink-0 h-10 w-10">
                                             <!-- <img class="h-10 w-10 rounded-full object-cover" :src="reservation.activity.image ? '/images/activities/' + reservation.activity.image : '/default-activity.jpg'" alt=""> -->
                                         </div>
-                                        <div class="ml-4">
-                                            <!-- <div class="text-sm font-medium text-gray-900">{{ reservation.activity.name }}</div> -->
-                                            <!-- <div class="text-sm text-gray-500">{{ reservation.activity.location }}</div> -->
+                                        <!-- <div class="ml-4"> -->
+                                        <div
+                                            class="text-sm font-medium text-gray-900"
+                                        >
+                                            {{ reservation.activity.name }}
                                         </div>
+                                        <!-- </div> -->
                                     </div>
                                 </td>
 
@@ -132,7 +135,7 @@
 
                                 <!-- Fecha -->
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <!-- <div class="text-sm text-gray-900">{{ formatDate(reservation.activity.date) }}</div> -->
+                                    <div class="text-sm text-gray-900">{{ formatDate(reservation.activity.date) }}</div>
                                     <!-- <div class="text-sm text-gray-500">{{ reservation.activity.time }}</div> -->
                                 </td>
 
@@ -208,6 +211,7 @@
                     >
                         <div class="flex justify-between items-start">
                             <div>
+                                {{ reservation.name }}
                                 <!-- <h3 class="font-bold text-gray-800">{{ reservation.activity.name }}</h3> -->
                                 <!-- <p class="text-sm text-gray-600">{{ reservation.activity.location }}</p> -->
                             </div>

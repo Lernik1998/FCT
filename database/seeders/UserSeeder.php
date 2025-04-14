@@ -16,6 +16,13 @@ class UserSeeder extends Seeder
     {
         // Seeder de Usuarios iniciales, uno de cada tipo
         User::create([
+            'name' => 'Lernik',
+            'email' => 'lernik10@gmail.com',
+            'password' => bcrypt('1234'),
+            'role' => 'trainer',
+        ]);
+
+        User::create([
             'name' => 'admin',
             'email' => 'a@gmail.com',
             'password' => bcrypt('1234'),

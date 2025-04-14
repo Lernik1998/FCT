@@ -1,104 +1,157 @@
 <template>
-    <!-- <Head title="Inbox" /> -->
-    <!-- Barra navegación del Trainer -->
-    <nav class="p-4 mb-6">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="text-xl font-bold">Marina Alta Sports</div>
-            <AdminNavBar />
-        </div>
-    </nav>
-
-    <div class="h-screen flex bg-gray-400 border-b gap-2" style="height: 90vh">
-        <!-- Sidebar -->
-        <div class="w-1/4 border-r">
+    <div class="min-h-screen bg-gray-100">
+        <!-- Barra de navegación mejorada -->
+        <nav class="bg-white shadow-sm">
             <div
-                class="p-6 bg-green-500 font-bold text-lg border-b border-t border-gray-200"
+                class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center"
             >
-                Usuarios
-            </div>
-
-            <div class="p-4 space-y-4">
-                <!-- Cargar en un futuro solo a los usuarios que el Trainer tenga una cita programada.
-                Los usuarios si tienen amigos agregados, que puedan hablar.
-                El admin puede hablar con todos. -->
-                <div
-                    v-for="user in users"
-                    :key="user.id"
-                    @click="selectUser(user)"
-                    class="flex items-center p-2 rounded cursor-pointer"
-                    :class="{
-                        'bg-yellow-500 text-white':
-                            user.id === selectedUser?.id,
-                    }"
-                >
-                    <div class="w-12 h-18 bg-blue-200 rounded-full"></div>
-                    <div class="ml-4">
-                        <div class="font-semibold">{{ user.name }}</div>
-                    </div>
+                <div class="text-2xl font-bold text-gray-800">
+                    Panel de Administración
                 </div>
+                <AdminNavBar />
             </div>
-        </div>
+        </nav>
 
-        <!-- Chat Area -->
+        <!-- Contenedor principal del chat -->
         <div
-            class="flex flex-col w-3/4 border-l border-r border-b border-t border-gray-500"
+            class="max-w-7xl mx-auto flex h-[calc(100vh-73px)] bg-white rounded-lg shadow-md overflow-hidden mt-2"
         >
-            <div
-                v-if="!selectedUser"
-                class="h-full flex justify-center items-center text-gray-800 font-bold"
-            >
-                <h4 class="text-2xl">Seleccione un usuario</h4>
-            </div>
-            <template v-else>
-                <div class="p-4 border-b flex items-center">
-                    <div class="w-12 h-18 bg-blue-200 rounded-full"></div>
-                    <div class="ml-10">
-                        <div class="font-bold">{{ selectedUser.name }}</div>
-                    </div>
+            <!-- Sidebar de usuarios -->
+            <div class="w-1/4 border-r border-gray-200 bg-white flex flex-col">
+                <div
+                    class="p-4 bg-green-600 text-white font-bold text-lg border-b border-gray-200"
+                >
+                    Usuarios
                 </div>
 
-                <div class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+                <div class="flex-1 overflow-y-auto p-2 space-y-2">
                     <div
-                        v-for="(message, index) in currentMessages"
-                        :key="index"
-                        class="flex"
-                        :class="{
-                            'justify-end': message.sender_id === auth.user.id,
-                            'justify-start':
-                                message.recipient_id === auth.user.id,
-                        }"
+                        v-for="user in users"
+                        :key="user.id"
+                        @click="selectUser(user)"
+                        class="flex items-center p-3 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-gray-100"
+                        :class="{ 'bg-blue-100': user.id === selectedUser?.id }"
                     >
                         <div
-                            class="p-3 rounded-lg max-w-xs"
-                            :class="
-                                message.recipient_id === auth.user.id
-                                    ? 'bg-gray-200 text-gray-800'
-                                    : 'bg-blue-500 text-white'
-                            "
-                        >
-                            {{ message.message }}
+                            class="w-10 h-10 bg-blue-200 rounded-full flex-shrink-0"
+                        ></div>
+                        <div class="ml-3">
+                            <div class="font-medium text-gray-800">
+                                {{ user.name }}
+                            </div>
                         </div>
                     </div>
-                    <span ref="targetScrollRef"></span>
+                </div>
+            </div>
+
+            <!-- Área de chat -->
+            <div class="flex-1 flex flex-col border-l border-gray-200">
+                <!-- Estado vacío -->
+                <div
+                    v-if="!selectedUser"
+                    class="flex-1 flex flex-col items-center justify-center bg-gray-50 p-6"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-16 w-16 text-gray-400 mb-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                        />
+                    </svg>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-2">
+                        Seleccione un usuario
+                    </h3>
+                    <p class="text-gray-500 text-center">
+                        Elija un contacto para comenzar la conversación
+                    </p>
                 </div>
 
-                <div class="p-4 bg-white border-t border-gray-200">
-                    <div class="flex items-center">
-                        <input
-                            type="text"
-                            v-model="messageInput"
-                            placeholder="Escribe un mensaje..."
-                            class="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        <button
-                            @click="sendMessage"
-                            class="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                        >
-                            Enviar
-                        </button>
+                <!-- Chat con usuario seleccionado -->
+                <template v-else>
+                    <!-- Cabecera del chat -->
+                    <div
+                        class="p-4 border-b border-gray-200 flex items-center bg-white"
+                    >
+                        <div class="w-10 h-10 bg-blue-200 rounded-full"></div>
+                        <div class="ml-3">
+                            <div class="font-bold text-gray-800">
+                                {{ selectedUser.name }}
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </template>
+
+                    <!-- Mensajes -->
+                    <div
+                        class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50"
+                    >
+                        <div
+                            v-for="(message, index) in currentMessages"
+                            :key="index"
+                            class="flex"
+                            :class="{
+                                'justify-end':
+                                    message.sender_id === auth.user.id,
+                                'justify-start':
+                                    message.recipient_id === auth.user.id,
+                            }"
+                        >
+                            <div
+                                class="px-4 py-2 rounded-lg max-w-md"
+                                :class="
+                                    message.recipient_id === auth.user.id
+                                        ? 'bg-gray-200 text-gray-800'
+                                        : 'bg-blue-500 text-white'
+                                "
+                            >
+                                {{ message.message }}
+                            </div>
+                        </div>
+                        <span ref="targetScrollRef"></span>
+                    </div>
+
+                    <!-- Área de escritura -->
+                    <div class="p-4 bg-white border-t border-gray-200">
+                        <div class="flex items-center space-x-2">
+                            <input
+                                type="text"
+                                v-model="messageInput"
+                                @keyup.enter="sendMessage"
+                                placeholder="Escribe un mensaje..."
+                                class="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                            <button
+                                @click="sendMessage"
+                                class="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-200 flex items-center justify-center"
+                                :disabled="!messageInput.trim()"
+                                :class="{
+                                    'opacity-50 cursor-not-allowed':
+                                        !messageInput.trim(),
+                                }"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-5 w-5"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
+                                        clip-rule="evenodd"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </template>
+            </div>
         </div>
     </div>
 </template>
@@ -107,8 +160,6 @@
 import { ref, onMounted, watch, nextTick } from "vue";
 import axios from "axios";
 import { Head } from "@inertiajs/vue3";
-
-// Componentes
 import AdminNavBar from "./Components/AdminNavBar.vue";
 
 const props = defineProps({ auth: Object, users: Array });

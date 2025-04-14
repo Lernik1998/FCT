@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Appointment;
-use Inertia\Inertia;
 use Carbon\Carbon;
 use Spatie\GoogleCalendar\Event;
+// use Telegram;
 
+use Telegram\Bot\Api as Telegram;
 
 class AppointmentController extends Controller
 {
@@ -94,6 +95,21 @@ class AppointmentController extends Controller
                 'description' => $validated['description'] ?? null,
                 'all_day' => $validated['allDay'] ?? false,
                 'google_calendar_event_id' => $eventId
+            ]);
+
+            $telegram = new Telegram(env('TELEGRAM_BOT_TOKEN'));
+
+            // Envio a Telegram
+            $text = "<b>¡Nueva actividad publicada!</b>\n\n" .
+                "🏷 <b>Título:</b> " . $request->title . "\n" .
+                "📝 <b>Descripción:</b> " . $request->desc . "\n\n" .
+                "🔗 <a href='" . url('/actividades/' . $appointment->id) . "'>Ver actividad en el sitio web</a>";
+
+
+            $telegram->sendMessage([
+                "chat_id" => env('TELEGRAM_CHAT_ID', ''),
+                "text" => $text,
+                "parse_mode" => "HTML"
             ]);
 
             return redirect()->route('trainers.pp')->with('success', 'Evento creado correctamente');
