@@ -1,12 +1,12 @@
 <template>
     <div>
         <!-- Menú de Navegación -->
-        <nav class="p-4 shadow-lg">
+        <!-- <nav class="p-4 shadow-lg">
             <div class="container mx-auto flex justify-between items-center">
                 <div class="text-xl font-bold">FitWorking</div>
                 <NavBar />
             </div>
-        </nav>
+        </nav> -->
 
         <!-- Banner Principal con animación -->
         <section
@@ -27,7 +27,7 @@
                     FitWorking
                 </h1>
                 <p class="text-lg animate-fade-in">
-                    Explora lo mejor del deporte en la Costa Blanca Norte
+                    Explora lo mejor del deporte en la zona de la Marina Alta
                 </p>
             </div>
         </section>
@@ -71,8 +71,7 @@
         <!-- FAQS -->
         <FAQS />
 
-        <!-- Pie de Página -->
-        <Footer />
+        
     </div>
 </template>
 
@@ -82,6 +81,10 @@ import NavBar from "./Components/NavBar.vue";
 import ActivityAutoSlideshow from "./Components/ActivityAutoSlideshow.vue";
 import Footer from "./Components/Footer.vue";
 import FAQS from "./Components/FAQS.vue";
+
+import PublicLayout from "@/Layouts/PublicLayout.vue";
+
+defineOptions({ layout: PublicLayout });
 
 const props = defineProps(["activities"]);
 </script>

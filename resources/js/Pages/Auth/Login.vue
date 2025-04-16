@@ -3,7 +3,7 @@
 
     <!-- Fondo con gradiente y elementos decorativos -->
     <div
-        class="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex flex-col"
+        class="min-h-screen bg-gradient-to-br flex flex-col"
     >
         <!-- Botón de volver -->
         <div class="pt-6 pl-6">

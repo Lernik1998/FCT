@@ -12,6 +12,8 @@
         </div>
     </nav>
 
+    <pre> {{ $page }}</pre>
+    
     <!-- Contenido principal -->
     <main class="container mx-auto py-8 px-4 sm:px-6">
         <!-- Bienvenida -->

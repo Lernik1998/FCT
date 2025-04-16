@@ -32,12 +32,7 @@
                     <p
                         class="text-gray-600 text-lg text-center leading-relaxed"
                     >
-                        Somos un portal deportivo global, nuestro objetivo es
-                        brindar información y recursos para todos los amantes
-                        del deporte, sin importar el idioma o la nacionalidad.
-                        Nuestro portal es un espacio donde podrás encontrar
-                        información sobre las diferentes disciplinas, clubes,
-                        entrenadores, torneos y mucho más.
+                        FitWorking....
                     </p>
                     <div class="mt-6 flex justify-center">
                         <img

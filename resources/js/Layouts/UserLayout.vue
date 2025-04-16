@@ -1,4 +1,13 @@
 <template>
-    <h1>PENDIENTE!!!!!!</h1>
     <p>UserLayout</p>
+
+    <head>
+        <slot />
+    </head>
+
+    <main>
+        <slot />
+    </main>
 </template>
+
+<script setup></script>

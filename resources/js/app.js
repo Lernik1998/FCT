@@ -5,23 +5,46 @@ import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
+import { Head, Link } from "@inertiajs/vue3";
 
-const appName = import.meta.env.VITE_APP_NAME || "FitWorking";
+// const appName = import.meta.env.VITE_APP_NAME || "FitWorking";
+
+import PublicLayout from "./Layouts/PublicLayout.vue";
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
-    resolve: (name) =>
-        resolvePageComponent(
+    title: (title) => `${title}`,
+    resolve: (name) => {
+        // Antes de la modificacion
+        // resolvePageComponent(
+        //     `./Pages/${name}.vue`,
+        //     import.meta.glob("./Pages/**/*.vue")
+        // ),
+
+        const page = resolvePageComponent(
             `./Pages/${name}.vue`,
             import.meta.glob("./Pages/**/*.vue")
-        ),
+        );
+
+        // Espera a que se resuelva la promesa
+        return page.then((module) => {
+            // Si el componente de página no tiene un layout definido, establece PublicLayout como predeterminado
+            if (!module.default.layout) {
+                module.default.layout = PublicLayout;
+            }
+            return module;
+        });
+    },
+
     setup({ el, App, props, plugin }) {
+        // Se pueden registrar componentes globales
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .component("Head", Head)
+            .component("Link", Link)
             .mount(el);
     },
     progress: {
-        color: "#4B5563",
+        color: "#f97316",
     },
 });

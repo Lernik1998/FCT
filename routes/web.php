@@ -37,7 +37,8 @@ Route::middleware([
 
 
 // PUBLIC routes
-Route::inertia('/', 'Index')->name('index'); // Carga la vista Index (ENTRADA APP)
+Route::inertia('/', 'Index')->name('index'); // Entrada
+
 // Route::inertia('publicTrainers', 'Public/Trainer')->name('trainers.public');
 Route::inertia('/contact', 'Public/Contact')->name('contact');
 

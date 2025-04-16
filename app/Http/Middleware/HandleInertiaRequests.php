@@ -33,11 +33,21 @@ class HandleInertiaRequests extends Middleware
      *
      * @return array<string, mixed>
      */
-    public function share(Request $request): array
+    public function share(Request $request): array // Permite compartir información entre el resto de vistas o componentes
     {
         return array_merge(parent::share($request), [
+
+            // 'user' => 'Lernik',
+
+
+            // Lazily...
+            'auth.user' => fn() => $request->user()
+                ? $request->user()->only('id', 'name')
+                : null,
+
+
             // return array_merge(parent::share($request), [
-            //     'auth' => [
+            //     'auth' => [ 
             //         'user' => $request->user() ? [
             //             'id' => $request->user()->id,
             //             'name' => $request->user()->name,

@@ -1,13 +1,5 @@
 <template>
     <div>
-        <!-- Navegación -->
-        <nav class="p-4 border-b shadow-md bg-white">
-            <div class="container mx-auto flex justify-between items-center">
-                <div class="text-xl font-bold">FitWorking</div>
-                <NavBar />
-            </div>
-        </nav>
-
         <!-- Banner Principal -->
         <!-- <section class="text-center py-16 bg-gray-100">
                     <h1 class="text-4xl font-bold mb-4"></h1>
@@ -64,13 +56,6 @@
                 </h1>
 
                 <p class="text-lg text-gray-200 mb-12 max-w-2xl mx-auto">
-                    <!-- En FitWorking, llevamos la actividad física a otro nivel.
-                    Nuestro enfoque combina entrenamientos funcionales, eventos
-                    deportivos y un estilo de vida activo en un entorno diseñado
-                    para motivarte. Con sesiones dinámicas, una comunidad
-                    apasionada y un espacio donde el movimiento es la clave,
-                    FitWorking te ayuda a alcanzar tu mejor versión en cada
-                    entrenamiento. -->
                     Combinamos entrenamientos funcionales, eventos deportivos y
                     un estilo de vida activo en un espacio diseñado para
                     motivarte. Únete a nuestra comunidad y alcanza tu mejor
@@ -141,7 +126,7 @@
                     FitWorking es para ti
                 </h2>
                 <a
-                    href="/essentials"
+                    :href="route('posts.index')"
                     class="flex items-center text-orange-500 hover:text-orange-600 font-medium transition-colors"
                 >
                     Ver todos los posts
@@ -164,135 +149,80 @@
                 <article
                     class="group rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
                 >
-                    <a href="/essentials/ron-gets-fit" class="block">
-                        <div class="relative h-56 overflow-hidden">
-                            <img
-                                src="https://www.crossfit.com/wp-content/uploads/2020/05/13120645/ron-gets-fit-crossfit-new-york-city-1024x576.jpg"
-                                alt="A Father's Promise: Losing 84 Pounds To Run With His Kids"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"
-                            ></div>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-3">
-                                Una promesa paterna: Perder 38 kilos para correr
-                                con sus hijos
-                            </h3>
-                            <p class="text-gray-600 mb-4">
-                                "Caminar es más fácil, subir las escaleras,
-                                correr detrás de los niños, todas estas cosas
-                                son tan más fáciles ahora."
-                            </p>
-                            <button
-                                class="flex items-center text-orange-500 font-medium hover:text-orange-600 transition-colors"
-                            >
-                                Ver
-                                <svg
-                                    class="w-4 h-4 ml-1"
-                                    viewBox="0 0 17 12"
-                                    fill="currentColor"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M12.749 6.451H0v-1.7h12.749L9.2 1.202 10.402 0l5.601 5.601-5.6 5.601L9.2 10l3.549-3.549Z"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </a>
+                    <div class="relative h-56 overflow-hidden">
+                        <img
+                            src="https://www.crossfit.com/wp-content/uploads/2020/05/13120645/ron-gets-fit-crossfit-new-york-city-1024x576.jpg"
+                            alt="A Father's Promise: Losing 84 Pounds To Run With His Kids"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"
+                        ></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">
+                            Una promesa paterna: Perder 38 kilos para correr con
+                            sus hijos
+                        </h3>
+                        <p class="text-gray-600 mb-4">
+                            Caminar es más fácil, subir las escaleras, correr
+                            detrás de los niños, todas estas cosas son tan más
+                            fáciles ahora.
+                        </p>
+                    </div>
                 </article>
 
                 <!-- Artículo 2 -->
                 <article
                     class="group rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
                 >
-                    <a
-                        href="/essentials/how-the-lifting-flutist-got-back-her-grit"
-                        class="block"
-                    >
-                        <div class="relative h-56 overflow-hidden">
-                            <img
-                                src="https://www.crossfit.com/wp-content/uploads/2023/08/13115933/go-beyond-physical-develop-grit-mental-strength-with-crossfit.jpg"
-                                alt="Go Beyond The Physical: Developing Grit & Mental Strength with CrossFit"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"
-                            ></div>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-3">
-                                Supera lo Físico: Desarrolla tu Resistencia y
-                                Fortaleza Mental
-                            </h3>
-                            <p class="text-gray-600 mb-4">
-                                "Practicar un ejercicio físico que sea difícil
-                                ayuda a desarrollar la fortaleza mental cuando
-                                algo no sale bien en la vida."
-                            </p>
-                            <button
-                                class="flex items-center text-orange-500 font-medium hover:text-orange-600 transition-colors"
-                            >
-                                Ver
-                                <svg
-                                    class="w-4 h-4 ml-1"
-                                    viewBox="0 0 17 12"
-                                    fill="currentColor"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M12.749 6.451H0v-1.7h12.749L9.2 1.202 10.402 0l5.601 5.601-5.6 5.601L9.2 10l3.549-3.549Z"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </a>
+                    <div class="relative h-56 overflow-hidden">
+                        <img
+                            src="https://www.crossfit.com/wp-content/uploads/2023/08/13115933/go-beyond-physical-develop-grit-mental-strength-with-crossfit.jpg"
+                            alt="Go Beyond The Physical: Developing Grit & Mental Strength with CrossFit"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"
+                        ></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">
+                            Supera lo físico: Desarrolla tu resistencia y
+                            fortaleza mental
+                        </h3>
+                        <p class="text-gray-600 mb-4">
+                            Practicar un ejercicio físico que sea difícil ayuda
+                            a desarrollar la fortaleza mental cuando algo no
+                            sale bien en la vida.
+                        </p>
+                    </div>
                 </article>
 
                 <!-- Artículo 3 -->
                 <article
                     class="group rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
                 >
-                    <a href="/essentials/magic-crossfit-auburn" class="block">
-                        <div class="relative h-56 overflow-hidden">
-                            <img
-                                src="https://www.crossfit.com/wp-content/uploads/2023/01/13120951/annie-holmes-crossfit-member-auburn-magic-of-crossfit-1024x576.jpg"
-                                alt="Annie at Auburn CrossFit"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"
-                            ></div>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-3">
-                                Sentido de Pertenencia: Una Comunidad Que Te
-                                Ayuda a Lograr Tus Metas
-                            </h3>
-                            <p class="text-gray-600 mb-4">
-                                "Hay algo que une cuando luchamos juntos. Nos
-                                apoyamos mutuamente y hacemos muchas cosas
-                                juntos."
-                            </p>
-                            <button
-                                class="flex items-center text-orange-500 font-medium hover:text-orange-600 transition-colors"
-                            >
-                                Ver
-                                <svg
-                                    class="w-4 h-4 ml-1"
-                                    viewBox="0 0 17 12"
-                                    fill="currentColor"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M12.749 6.451H0v-1.7h12.749L9.2 1.202 10.402 0l5.601 5.601-5.6 5.601L9.2 10l3.549-3.549Z"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </a>
+                    <div class="relative h-56 overflow-hidden">
+                        <img
+                            src="https://www.crossfit.com/wp-content/uploads/2023/01/13120951/annie-holmes-crossfit-member-auburn-magic-of-crossfit-1024x576.jpg"
+                            alt="Annie at Auburn CrossFit"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"
+                        ></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">
+                            Sentido de pertenencia: Una comunidad que te ayuda a
+                            lograr tus metas
+                        </h3>
+                        <p class="text-gray-600 mb-4">
+                            Hay algo que une cuando luchamos juntos. Nos
+                            apoyamos mutuamente y hacemos muchas cosas juntos.
+                        </p>
+                    </div>
                 </article>
             </div>
         </section>
@@ -454,25 +384,22 @@
                 </div>
             </div>
         </section> -->
-
-        <!-- Pie de Página -->
-        <Footer />
     </div>
 </template>
 
 <script setup>
 // Importaciones
 import { router } from "@inertiajs/vue3";
+import { ref, onMounted } from "vue";
 
 // Componentes
-import WeatherApi from "@/Components/WeatherApi.vue";
-import NavBar from "./Public/Components/NavBar.vue";
-import Footer from "./Public/Components/Footer.vue";
-import ActivityCard from "@/Components/ActivityCard.vue";
-import TrainerCard from "@/Components/TrainerCard.vue";
-import BusinessCard from "@/Components/BusinessCard.vue";
+// import WeatherApi from "@/Components/WeatherApi.vue";
+// import ActivityCard from "@/Components/ActivityCard.vue";
+// import TrainerCard from "@/Components/TrainerCard.vue";
+// import BusinessCard from "@/Components/BusinessCard.vue";
+import PublicLayout from "@/Layouts/PublicLayout.vue";
 
-import { ref, onMounted } from "vue";
+// defineOptions({ layout: PublicLayout });
 
 const videoSrc = ref(
     "https://www.crossfit.com/wp-content/uploads/2023/11/13114552/CrossFit-Where-Fitness-Meets-Health.mp4"
@@ -526,7 +453,7 @@ const trainers = ref([...initialTrainers]);
 
 import BenefitCard from "./Public/Components/BenefitCard.vue";
 
-// Datos de ejemplo (pueden venir de props o API)
+// Pueden venir de props o API
 const benefits = [
     {
         icon: "M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z",
@@ -568,7 +495,7 @@ const benefits = [
         icon: "M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z",
         title: "Flexibilidad Horaria",
         description:
-            "Encontraremos el mejor horario para ti, para que no sea un rompecabezas venir a entrenar. Tenemos una app que te facilitará la vida.",
+            "Encontraremos el mejor horario para ti, para que no sea un rompecabezas venir a entrenar.",
     },
     {
         icon: "M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z",
