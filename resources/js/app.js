@@ -9,10 +9,12 @@ import { Head, Link } from "@inertiajs/vue3";
 
 // const appName = import.meta.env.VITE_APP_NAME || "FitWorking";
 
+const appName = "FitWorking";
+
 import PublicLayout from "./Layouts/PublicLayout.vue";
 
 createInertiaApp({
-    title: (title) => `${title}`,
+    title: (title) => `${appName} | ${title}`,
     resolve: (name) => {
         // Antes de la modificacion
         // resolvePageComponent(

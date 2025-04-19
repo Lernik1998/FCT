@@ -1,9 +1,16 @@
 <template>
     <!-- Botón para volver -->
-    <div>
-        <button @click="volver">Volver</button>
+
+    <div class="mb-4 mt-10 ml-10">
+        <button
+            @click="volver"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+            Volver
+        </button>
     </div>
-    <section class="min-h-screen bg-gray-100 py-12 px-6 flex justify-center">
+
+    <section class="py-12 px-6 flex justify-center">
         <div
             class="max-w-3xl w-full bg-white shadow-lg rounded-lg p-6 animate-fade-in"
         >
@@ -145,7 +152,9 @@
 <script setup>
 import { ref } from "vue";
 import { router } from "@inertiajs/vue3";
-import { defineProps } from "vue";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
+
+defineOptions({ layout: AdminLayout });
 
 const props = defineProps({
     categories: Array,

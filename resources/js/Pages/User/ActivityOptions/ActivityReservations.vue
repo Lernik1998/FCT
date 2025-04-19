@@ -1,17 +1,6 @@
 <template>
     <div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-        <!-- Barra de Navegación Mejorada -->
-        <nav
-            class="bg-gradient-to-r from-orange-500 to-red-600 p-4 text-white shadow-lg"
-        >
-            <div class="container mx-auto flex justify-between items-center">
-                <div class="flex items-center space-x-3">
-                    <!-- <img src="/logo-fitworking-white.png" alt="FitWorking Logo" class="h-8"> -->
-                    <h1 class="text-xl font-bold">Mis Reservas</h1>
-                </div>
-                <UsersNavBar />
-            </div>
-        </nav>
+        <h1 class="text-xl font-bold">Mis Reservas</h1>
 
         <!-- Contenido Principal -->
         <main class="container mx-auto py-8 px-4 sm:px-6">
@@ -135,7 +124,13 @@
 
                                 <!-- Fecha -->
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">{{ formatDate(reservation.activity.date) }}</div>
+                                    <div class="text-sm text-gray-900">
+                                        {{
+                                            formatDate(
+                                                reservation.activity.date
+                                            )
+                                        }}
+                                    </div>
                                     <!-- <div class="text-sm text-gray-500">{{ reservation.activity.time }}</div> -->
                                 </td>
 
@@ -340,11 +335,11 @@
 </template>
 
 <script setup>
-// Componentes
-import UsersNavBar from "../Components/UsersNavBar.vue";
-
 // Importaciones
 import { router } from "@inertiajs/vue3";
+import UserLayout from "@/Layouts/UserLayout.vue";
+
+defineOptions({ layout: UserLayout });
 
 // Props
 const props = defineProps(["reservations"]);

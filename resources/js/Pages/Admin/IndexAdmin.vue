@@ -1,12 +1,5 @@
 <template>
     <div class="min-h-screen bg-gray-50">
-        <!-- Barra de navegación mejorada -->
-        <nav class="bg-white border-b border-gray-200 shadow-sm px-4 py-3">
-            <div class="max-w-7xl mx-auto flex justify-between items-center">
-                <div class="text-2xl font-bold text-gray-800">Panel de Administración</div>
-                <AdminNavBar />
-            </div>
-        </nav>
 
         <!-- Contenido principal -->
         <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
@@ -160,7 +153,9 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import { router } from "@inertiajs/vue3";
 
 // Componentes
-import AdminNavBar from "@/Pages/Admin/Components/AdminNavBar.vue";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
+
+defineOptions({ layout: AdminLayout });
 
 onMounted(() => {
     const calendarEl = document.getElementById("calendar");

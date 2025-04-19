@@ -12,7 +12,8 @@
                             :href="route('index')"
                             class="hover:underline"
                             :class="{
-                                'font-bold text-orange-500 underline': $page.component === 'Index',
+                                'font-bold text-orange-500 underline':
+                                    $page.component === 'Index',
                             }"
                             >Inicio</Link
                         >
@@ -23,7 +24,8 @@
                             :href="route('activities.index')"
                             class="hover:underline"
                             :class="{
-                                'font-bold': $page.component === 'Activities',
+                                'font-bold text-orange-500 underline':
+                                    $page.component === 'Public/Activity',
                             }"
                             >Actividades</Link
                         >
@@ -32,6 +34,10 @@
                         <Link
                             :href="route('trainers.index')"
                             class="hover:underline"
+                            :class="{
+                                'font-bold text-orange-500 underline':
+                                    $page.component === 'Public/Trainer',
+                            }"
                             >Entrenadores</Link
                         >
                     </li>
@@ -39,6 +45,10 @@
                         <Link
                             :href="route('posts.index')"
                             class="hover:underline"
+                            :class="{
+                                'font-bold text-orange-500 underline':
+                                    $page.component === 'Public/Posts',
+                            }"
                             >Posts</Link
                         >
                     </li>
@@ -53,7 +63,13 @@
             </li> -->
 
                     <li>
-                        <Link :href="route('contact')" class="hover:underline"
+                        <Link
+                            :href="route('contact')"
+                            class="hover:underline"
+                            :class="{
+                                'font-bold text-orange-500 underline':
+                                    $page.component === 'Public/Contact',
+                            }"
                             >Contacto</Link
                         >
                     </li>

@@ -1,12 +1,4 @@
 <template>
-    <!-- Navegación -->
-    <nav class="p-4 border-b shadow-md bg-white sticky top-0 z-10">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="text-xl font-bold">FitWorking</div>
-            <NavBar />
-        </div>
-    </nav>
-
     <section class="py-16 bg-gray-50 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">

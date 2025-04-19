@@ -1,13 +1,3 @@
-<script setup>
-import AppLayout from "@/Layouts/AppLayoutPREVIOUS.vue";
-import Welcome from "@/Components/Welcome.vue";
-
-import { Head, Link } from "@inertiajs/vue3";
-import { usePage } from "@inertiajs/vue3";
-
-const auth = usePage().props.auth;
-</script>
-
 <template>
     <AppLayout title="Dashboard">
         <template #header>
@@ -45,3 +35,13 @@ const auth = usePage().props.auth;
         </div>
     </div>
 </template>
+
+<script setup>
+// import AppLayout from "@/Layouts/AppLayoutPREVIOUS.vue";
+import Welcome from "@/Components/Welcome.vue";
+
+// import { Head, Link } from "@inertiajs/vue3";
+import { usePage } from "@inertiajs/vue3";
+
+const auth = usePage().props.auth;
+</script>

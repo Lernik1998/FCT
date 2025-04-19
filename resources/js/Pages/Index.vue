@@ -1,4 +1,6 @@
 <template>
+    <Head :title="'Home'"/>
+
     <div>
         <!-- Banner Principal -->
         <!-- <section class="text-center py-16 bg-gray-100">

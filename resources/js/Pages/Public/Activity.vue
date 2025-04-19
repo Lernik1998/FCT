@@ -1,4 +1,7 @@
 <template>
+
+<Head :title="'Actividades'"/>
+
     <div>
         <!-- Menú de Navegación -->
         <!-- <nav class="p-4 shadow-lg">

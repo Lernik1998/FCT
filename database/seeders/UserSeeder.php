@@ -63,5 +63,15 @@ class UserSeeder extends Seeder
             'password' => bcrypt('1234'),
             'role' => 'trainer',
         ]);
+
+        // 100 usuarios
+        User::factory(100)->create([
+            'role' => 'user',
+        ]);
+
+        // 100 entrenadores
+        User::factory(100)->create([
+            'role' => 'trainer',
+        ]);
     }
 }

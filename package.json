@@ -6,7 +6,7 @@
         "dev": "vite"
     },
     "devDependencies": {
-        "@inertiajs/vue3": "^2.0",
+        "@inertiajs/vue3": "^2.0.8",
         "@tailwindcss/forms": "^0.5.7",
         "@tailwindcss/typography": "^0.5.10",
         "@tailwindcss/vite": "^4.0.0",
@@ -34,6 +34,7 @@
         "@paypal/paypal-js": "^8.2.0",
         "@stripe/stripe-js": "^6.0.0",
         "chart.js": "^4.4.8",
-        "dayjs": "^1.11.13"
+        "dayjs": "^1.11.13",
+        "lodash": "^4.17.21"
     }
 }

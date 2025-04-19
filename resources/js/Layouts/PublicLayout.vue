@@ -1,8 +1,4 @@
 <template>
-    <p>Public Layout</p>
-
-    <Head title="FitWorking" />
-
     <!-- Cabecera -->
     <NavBar />
 

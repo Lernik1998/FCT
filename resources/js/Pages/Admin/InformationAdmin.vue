@@ -1,18 +1,15 @@
 <template>
     <div class="min-h-screen bg-gray-50">
         <!-- Head -->
-        <Head>
-            <title>Panel de Administración</title>
-            <meta name="description" content="Panel de Administración" />
-        </Head>
+        <Head :title="'Panel de Administración'" />
 
         <!-- Barra de navegación -->
-        <nav class="bg-white shadow-sm border-b border-gray-200">
+        <!-- <nav class="bg-white shadow-sm border-b border-gray-200">
             <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
                 <div class="text-2xl font-bold text-gray-800">Panel de Administración</div>
                 <AdminNavBar :notifications="numNotifs" />
             </div>
-        </nav>
+        </nav> -->
 
         <!-- Contenido principal -->
         <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
@@ -139,6 +136,11 @@ import AdminNavBar from "./Components/AdminNavBar.vue";
 import ConfirmationModal from "../../Components/ConfirmationModal.vue";
 
 const props = defineProps(["messages", "trainers", "messageStatus"]);
+
+// Componentes
+import AdminLayout from "@/Layouts/AdminLayout.vue";
+
+defineOptions({ layout: AdminLayout });
 
 const messages = ref([...props.messages]);
 const trainers = ref(props.trainers);

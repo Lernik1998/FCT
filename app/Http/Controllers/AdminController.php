@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
+// use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
 use App\Models\User; // Modelo User
 use App\Models\Activity; // Modelo Activity
 use App\Models\Category; // Modelo Category
@@ -78,11 +78,17 @@ class AdminController extends Controller
     // USER
     public function userAdmin()
     {
-        // Obtenemos todos los users con rol user
-        $users = User::where('role', 'user')->get();
+        $users = User::query()
+            ->when(request('search'), function ($query, $search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->select(['id', 'name', 'email', 'role'])
+            ->paginate(10)
+            ->appends(['search' => request('search')]); // Mantiene el parámetro de búsqueda en la paginación
 
         return inertia('Admin/UserAdmin', [
             'users' => $users,
+            'filters' => ['search' => request('search')] // Envía el filtro actual a la vista
         ]);
     }
 
@@ -159,10 +165,26 @@ class AdminController extends Controller
     {
 
         // Obtenemos todos los users con rol trainer
-        $trainers = User::where('role', 'trainer')->get();
+        // $trainers = User::where('role', 'trainer')->get();
+
+        // return inertia('Admin/TrainerAdmin', [
+        //     'trainers' => $trainers
+        // ]);
+
+        $trainers = User::where('role', 'trainer')
+            ->when(request('search'), function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%');
+                });
+            })
+            ->select(['id', 'name', 'email', 'role'])
+            ->paginate(10)
+            ->appends(['search' => request('search')]);
 
         return inertia('Admin/TrainerAdmin', [
-            'trainers' => $trainers
+            'trainers' => $trainers,
+            'filters' => ['search' => request('search')]
         ]);
     }
 
@@ -171,10 +193,27 @@ class AdminController extends Controller
     public function activityAdmin()
     {
         // Obtenemos todas las activities
-        $activities = Activity::all();
+        // $activities = Activity::all();
+
+        // return inertia('Admin/ActivityAdmin', [
+        //     'activities' => $activities
+        // ]);
+        $activities = Activity::query()
+            ->when(request('search'), function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%');
+                });
+            })
+            
+          //  ->with('category') // Si tienes relación con categorías
+            ->orderBy('date', 'desc')
+            ->paginate(10)
+            ->appends(['search' => request('search')]);
 
         return inertia('Admin/ActivityAdmin', [
-            'activities' => $activities
+            'activities' => $activities,
+            'filters' => ['search' => request('search')]
         ]);
     }
 
@@ -194,13 +233,13 @@ class AdminController extends Controller
 
         // Crear la actividad
         $activity = Activity::create([
-            'name' => $request['name'],
-            'description' => $request['description'],
-            'image' => $request['image'],  // Guardamos la ruta, no el archivo
-            'price' => $request['price'],
-            'duration' => $request['duration'],
-            'date' => $request['date'],
-            'category_id' => $request['category_id'],
+            'name' => $request->name,
+            'description' => $request->description,
+            'image' => $request->image,  // Guardamos la ruta, no el archivo
+            'price' => $request->price,
+            'duration' => $request->duration,
+            'date' => $request->date,
+            'category_id' => $request->category_id,
             'user_id' => auth()->id(),
         ]);
 
@@ -253,12 +292,12 @@ class AdminController extends Controller
 
         // Actualizar la actividad
         $activity->update([
-            'name' => $request['name'],
-            'description' => $request['description'],
-            'image' => $request['image'],  // Guardamos la ruta, no el archivo
-            'price' => $request['price'],
-            'duration' => $request['duration'],
-            'date' => $request['date'],
+            'name' => $request->name,
+            'description' => $request->description,
+            'image' => $request->image,  // Guardamos la ruta, no el archivo
+            'price' => $request->price,
+            'duration' => $request->duration,
+            'date' => $request->date,
             'user_id' => auth()->id(),
         ]);
 

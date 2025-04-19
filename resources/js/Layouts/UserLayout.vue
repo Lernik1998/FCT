@@ -1,13 +1,19 @@
 <template>
-    <p>UserLayout</p>
+    <!-- Cabecera -->
 
-    <head>
+    <UsersNavBar />
+    <!-- <head>
         <slot />
-    </head>
+    </head> -->
 
+    <!-- Cuerpo -->
     <main>
         <slot />
     </main>
+
+    <!-- Pie -->
 </template>
 
-<script setup></script>
+<script setup>
+import UsersNavBar from "@/Pages/User/Components/UsersNavBar.vue";
+</script>

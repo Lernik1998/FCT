@@ -110,5 +110,17 @@ class ActivitySeeder extends Seeder
             'user_id' => 3,
             'category_id' => 4,
         ]);
+
+        Activity::factory(100)->create([
+            'status' => 'pending',
+            'user_id' => 3,
+            'category_id' => 4,
+        ]);
+
+        Activity::factory(20)->create([
+            'status' => 'inactive',
+            'user_id' => 3,
+            'category_id' => 4,
+        ]);
     }
 }

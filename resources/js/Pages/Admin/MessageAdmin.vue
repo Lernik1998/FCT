@@ -1,17 +1,6 @@
 <template>
     <div class="min-h-screen bg-gray-100">
-        <!-- Barra de navegación mejorada -->
-        <nav class="bg-white shadow-sm">
-            <div
-                class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center"
-            >
-                <div class="text-2xl font-bold text-gray-800">
-                    Panel de Administración
-                </div>
-                <AdminNavBar />
-            </div>
-        </nav>
-
+        
         <!-- Contenedor principal del chat -->
         <div
             class="max-w-7xl mx-auto flex h-[calc(100vh-73px)] bg-white rounded-lg shadow-md overflow-hidden mt-2"
@@ -159,8 +148,11 @@
 <script setup>
 import { ref, onMounted, watch, nextTick } from "vue";
 import axios from "axios";
-import { Head } from "@inertiajs/vue3";
-import AdminNavBar from "./Components/AdminNavBar.vue";
+
+// Componentes
+import AdminLayout from "@/Layouts/AdminLayout.vue";
+
+defineOptions({ layout: AdminLayout });
 
 const props = defineProps({ auth: Object, users: Array });
 const selectedUser = ref(null);

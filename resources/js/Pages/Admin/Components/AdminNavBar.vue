@@ -1,6 +1,10 @@
 <template>
-    <div class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4">
+    <nav class="bg-white border-b border-gray-200 shadow-sm px-4 py-3">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold text-gray-800">
+                Panel de Administración
+            </div>
+
             <ul class="flex items-center space-x-8 py-3">
                 <!-- Inicio -->
                 <li>
@@ -76,7 +80,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </nav>
 </template>
 
 <script setup>
