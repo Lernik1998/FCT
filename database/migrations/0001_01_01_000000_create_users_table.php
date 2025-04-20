@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -15,17 +14,19 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->enum('role', ['admin', 'user','trainer'])->default('user');
+            $table->enum('role', ['admin', 'user', 'trainer'])->default('user');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
+            $table->enum('category', ['Resistencia', 'Baile', 'Flexibilidad y cuerpo-mente', 'Fuerza y acondicionamiento', 'Rehabilitación o movimiento suave', 'General'])->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
             $table->boolean('is_active')->default(true);
             $table->string('google_id')->nullable();
             $table->timestamps();
         });
 
+        // Más adelante se verá la gestión de los resets de password
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');

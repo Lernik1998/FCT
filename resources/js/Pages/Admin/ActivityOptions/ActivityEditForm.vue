@@ -1,12 +1,4 @@
 <template>
-    <!-- Barra de navegación -->
-    <nav class="p-4 border-b shadow-md bg-white">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="text-xl font-bold">Panel de Administración</div>
-            <AdminNavBar />
-        </div>
-    </nav>
-
     <section class="min-h-screen bg-gray-100 py-12 px-6 flex justify-center">
         <div
             class="max-w-3xl w-full bg-white shadow-lg rounded-lg p-6 animate-fade-in"
@@ -152,9 +144,11 @@
 // Importaciones
 import { ref, defineProps } from "vue";
 import { router } from "@inertiajs/vue3";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
 
-// Componentes
-import AdminNavBar from "@/Pages/Admin/Components/AdminNavBar.vue";
+defineOptions({
+    layout: AdminLayout,
+});
 
 // Recibe la actividad como prop
 const props = defineProps({

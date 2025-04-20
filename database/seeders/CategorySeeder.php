@@ -14,29 +14,28 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         Category::create([
-            'name' => 'Deportes acuáticos',
-            'description' => 'Actividades físicas que se realizan en el agua, como natación, surf o aquagym.',
+            'name' => 'Resistencia y cardio',
+            'description' => 'Running en cinta, ciclismo indoor, HIIT cardiovascular, remo. Mejorar la coordinación, velocidad, fuerza, y resistencia.',
         ]);
 
         Category::create([
-            'name' => 'Danza',
-            'description' => 'Ejercicios que combinan movimiento rítmico con música, mejorando la coordinación y el equilibrio.',
+            'name' => 'Baile',
+            'description' => 'Zumba, dance fitness, ritmos latinos, aerodance. Ejercicios que combinan movimiento rítmico con música, mejorando la coordinación y el equilibrio.',
         ]);
 
         Category::create([
-            'name' => 'Ejercicios de fuerza',
-            'description' => 'Entrenamientos enfocados en el desarrollo muscular mediante pesas y resistencia.',
+            'name' => 'Flexibilidad y cuerpo-mente',
+            'description' => 'Yoga, pilates, stretching, meditación guiada. Mejorar la movilidad, reducir el estrés, trabajar cuerpo y mente.',
         ]);
 
         Category::create([
-            'name' => 'Ejercicios de resistencia',
-            'description' => 'Actividades físicas diseñadas para mejorar la capacidad aeróbica y la resistencia muscular.',
+            'name' => 'Fuerza y acondicionamiento',
+            'description' => 'Circuitos funcionales, pesas, core, TRX, calistenia. Entrenamientos enfocados en el desarrollo muscular mediante pesas y resistencia.',
         ]);
 
         Category::create([
-            'name' => 'Cardio',
-            'description' => 'Ejercicios enfocados en mejorar la salud cardiovascular, como correr, saltar la cuerda o ciclismo.',
+            'name' => 'Rehabilitación o movimiento suave',
+            'description' => 'Movilidad articular, fisioterapia preventiva, ejercicios posturales, entrenamiento adaptado.',
         ]);
-
     }
 }

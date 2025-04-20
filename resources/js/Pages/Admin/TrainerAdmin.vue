@@ -6,6 +6,15 @@
 
         <!-- Barra de acciones y búsqueda -->
         <div class="mb-10 flex justify-between items-center">
+            <div>
+                <!--  :href="route('admin.createTrainerView')" -->
+                <a
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow transition duration-200"
+                >
+                    Crear Entrenador
+                </a>
+            </div>
+
             <!-- Búsqueda -->
             <div class="relative">
                 <input
@@ -48,12 +57,12 @@
                         >
                             Email
                         </th>
-                        <!-- <th
+                        <th
                             scope="col"
                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                            Especialidad
-                        </th> -->
+                            Categoría
+                        </th>
                         <th
                             scope="col"
                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -78,19 +87,22 @@
                         >
                             {{ trainer.email }}
                         </td>
-                        <!-- <td
-                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
-                        >
-                            {{ trainer.specialty ?? "Sin especialidad" }}
-                        </td> -->
                         <td
                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
                         >
-                            <!-- <a
+                            {{ trainer.category }}
+                        </td>
+                        <td
+                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                        >
+                            <a
+                                class="text-blue-600 hover:text-blue-900 hover:underline"
                                 :href="route('admin.trainerShow', trainer.id)"
-                                class="text-blue-600 hover:text-blue-900
-                                hover:underline" > Ver ficha
-                            </a> -->
+                            >
+                                Ver ficha
+                            </a>
+
+                            <!-- admin.trainerShow' -->
                         </td>
                     </tr>
                 </tbody>
@@ -126,16 +138,6 @@
 </template>
 
 <script setup>
-/* 
-
- <a
-                :href="route('admin.createTrainerView')" <!-- Asegúrate de tener esta ruta -->
-                class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow transition duration-200"
-            >
-                Crear Entrenador
-            </a>
-*/
-
 import { ref, watch } from "vue";
 import { router } from "@inertiajs/vue3";
 import { debounce } from "lodash";

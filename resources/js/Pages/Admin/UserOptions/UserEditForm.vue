@@ -1,12 +1,4 @@
 <template>
-    <!-- Barra de navegación -->
-    <nav class="p-4 border-b shadow-md bg-white">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="text-xl font-bold">Panel de Administración</div>
-            <AdminNavBar />
-        </div>
-    </nav>
-
     <div class="container mx-auto p-4">
         <h1 class="text-3xl font-bold mb-4">Edición del usuario</h1>
         <form @submit.prevent="submit" class="space-y-4">
@@ -52,21 +44,24 @@
                     <option value="admin">Administrador</option>
                 </select>
             </div>
-            <button
-                @click="editarUsuario"
-                type="submit"
-                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-                Guardar cambios
-            </button>
 
-            <button
-                @click="() => router.visit(route('admin.userAdmin'))"
-                type="button"
-                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-            >
-                Cancelar
-            </button>
+            <div class="flex space-x-4">
+                <button
+                    @click="editarUsuario"
+                    type="submit"
+                    class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                    Guardar cambios
+                </button>
+
+                <button
+                    @click="() => router.visit(route('admin.userAdmin'))"
+                    type="button"
+                    class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                >
+                    Cancelar
+                </button>
+            </div>
         </form>
     </div>
 </template>
@@ -75,9 +70,9 @@
 // Importaciones
 import { defineProps, ref } from "vue";
 import { router } from "@inertiajs/vue3";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
 
-// Componentes
-import AdminNavBar from "@/Pages/Admin/Components/AdminNavBar.vue";
+defineOptions({ layout: AdminLayout });
 
 // Propiedades
 const props = defineProps({

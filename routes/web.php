@@ -166,6 +166,12 @@ Route::controller(AdminController::class)->group(function () {
     /************************************** GESTIÓN DE ENTRENADORES ************************************** */
     Route::get('admin/trainerAdmin', [AdminController::class, 'trainerAdmin'])->name('admin.trainerAdmin');
 
+    Route::get('admin/trainerShow/{id}', [AdminController::class, 'trainerShow'])->name('admin.trainerShow');
+
+    Route::get('admin/editTrainer/{id}', [AdminController::class, 'editTrainerView'])->name('admin.editTrainer');
+
+    Route::put('admin/updateTrainer/{id}', [AdminController::class, 'updateTrainer'])->name('admin.updateTrainer');
+
     /************************************** GESTIÓN DE INFORMACIÓN(Mensajes) ************************************** */
 
     // Mensajes con los trainers

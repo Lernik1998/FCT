@@ -1,9 +1,8 @@
 <template>
-    <Head :title="'Home'"/>
+    <Head :title="'Home'" />
 
-    <div>
-        <!-- Banner Principal -->
-        <!-- <section class="text-center py-16 bg-gray-100">
+    <!-- Banner Principal -->
+    <!-- <section class="text-center py-16 bg-gray-100">
                     <h1 class="text-4xl font-bold mb-4"></h1>
                     <p class="text-lg mb-6">
                         Encuentra actividades, conecta con entrenadores y únete
@@ -26,76 +25,62 @@
                      <WeatherApi /> 
                 </section> -->
 
-        <section
-            class="relative h-screen flex items-center justify-center overflow-hidden"
-        >
-            <!-- Video de fondo -->
-            <div class="absolute inset-0 z-0">
-                <video
-                    autoplay
-                    loop
-                    muted
-                    playsinline
-                    :poster="videoPoster"
-                    class="w-full h-full object-cover opacity-90"
+    <section
+        class="relative flex items-center justify-center overflow-hidden"
+        style="height: 75vh; min-height: 600px"
+    >
+        <!-- Video de fondo -->
+        <div class="absolute inset-0 z-0">
+            <video
+                autoplay
+                loop
+                muted
+                playsinline
+                :poster="videoPoster"
+                class="w-full h-full object-cover opacity-90"
+            >
+                <source :src="videoSrc" type="video/mp4" />
+                Tu navegador no soporta videos HTML5.
+            </video>
+            <!-- Capa oscura para mejor contraste -->
+            <div class="absolute inset-0 bg-black/50"></div>
+        </div>
+
+        <!-- Contenido sobre el video -->
+        <div class="relative z-10 text-center max-w-4xl px-4 py-20">
+            <h1
+                class="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 leading-tight"
+            >
+                MEJORA TU VIDA<br />
+                <span class="text-orange-500">DENTRO Y FUERA DEL GIMNASIO</span>
+            </h1>
+
+            <p class="text-lg text-gray-200 mb-8 max-w-2xl mx-auto">
+                Combinamos entrenamientos funcionales, eventos deportivos y un
+                estilo de vida activo en un espacio diseñado para motivarte.
+                Únete a nuestra comunidad y alcanza tu mejor versión.
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button
+                    class="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg transition-colors duration-300"
+                    @click="login"
                 >
-                    <source :src="videoSrc" type="video/mp4" />
-                    Tu navegador no soporta videos HTML5.
-                </video>
-                <!-- Capa oscura para mejor contraste -->
-                <div class="absolute inset-0 bg-black/50"></div>
-            </div>
+                    Empieza ya
+                </button>
 
-            <!-- Contenido sobre el video -->
-            <div class="relative z-10 text-center max-w-4xl px-4">
-                <h1
-                    class="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-8 leading-tight"
+                <button
+                    class="px-6 py-3 border-2 border-white hover:border-orange-500 text-white hover:text-orange-500 font-medium rounded-lg transition-colors duration-300"
+                    @click="exploreActivities"
                 >
-                    MEJORA TU VIDA<br />
-                    <span class="text-orange-500"
-                        >DENTRO Y FUERA DEL GIMNASIO</span
-                    >
-                </h1>
-
-                <p class="text-lg text-gray-200 mb-12 max-w-2xl mx-auto">
-                    Combinamos entrenamientos funcionales, eventos deportivos y
-                    un estilo de vida activo en un espacio diseñado para
-                    motivarte. Únete a nuestra comunidad y alcanza tu mejor
-                    versión.
-                </p>
-
-                <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <!-- <button
-                                class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all transform hover:scale-105"
-                            >
-                                JOIN CRISSFIT
-                            </button> -->
-
-                    <button
-                        class="px-6 py-2 bg-black text-white rounded-lg"
-                        @click="login"
-                    >
-                        Empieza ya
-                    </button>
-
-                    <!-- <button
-                                class="bg-transparent border-2 border-white hover:border-orange-500 text-white hover:text-orange-500 font-bold py-4 px-8 rounded-lg text-lg transition-all transform hover:scale-105"
-                            >
-                                LEARN MORE
-                            </button> -->
-
-                    <button
-                        class="px-6 py-2 border border-gray-800 rounded-lg"
-                        @click="exploreActivities"
-                    >
-                        Explorar actividades
-                    </button>
-                </div>
+                    Explorar actividades
+                </button>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Actividades Populares -->
-        <!-- <section class="py-12 px-4">
+    <!-- Actividades Populares -->
+    <!-- <section class="py-12 px-4">
             <div class="container mx-auto text-center">
                 <h2 class="text-3xl font-semibold mb-6">
                     Actividades Populares - - Algoritmo para filtrar las 3
@@ -120,117 +105,117 @@
             </div>
         </section> -->
 
-        <!-- FitWorking es para ti -->
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <!-- Encabezado -->
-            <div class="flex justify-between items-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
-                    FitWorking es para ti
-                </h2>
-                <a
-                    :href="route('posts.index')"
-                    class="flex items-center text-orange-500 hover:text-orange-600 font-medium transition-colors"
+    <!-- FitWorking es para ti -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <!-- Encabezado -->
+        <div class="flex justify-between items-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+                FitWorking es para ti
+            </h2>
+            <a
+                :href="route('posts.index')"
+                class="flex items-center text-orange-500 hover:text-orange-600 font-medium transition-colors"
+            >
+                Ver todos los posts
+                <svg
+                    class="w-5 h-5 ml-2"
+                    viewBox="0 0 17 12"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
                 >
-                    Ver todos los posts
-                    <svg
-                        class="w-5 h-5 ml-2"
-                        viewBox="0 0 17 12"
-                        fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M12.749 6.451H0v-1.7h12.749L9.2 1.202 10.402 0l5.601 5.601-5.6 5.601L9.2 10l3.549-3.549Z"
-                        />
-                    </svg>
-                </a>
-            </div>
+                    <path
+                        d="M12.749 6.451H0v-1.7h12.749L9.2 1.202 10.402 0l5.601 5.601-5.6 5.601L9.2 10l3.549-3.549Z"
+                    />
+                </svg>
+            </a>
+        </div>
 
-            <!-- Grid de artículos -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Artículo 1 -->
-                <article
-                    class="group rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
-                >
-                    <div class="relative h-56 overflow-hidden">
-                        <img
-                            src="https://www.crossfit.com/wp-content/uploads/2020/05/13120645/ron-gets-fit-crossfit-new-york-city-1024x576.jpg"
-                            alt="A Father's Promise: Losing 84 Pounds To Run With His Kids"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"
-                        ></div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-3">
-                            Una promesa paterna: Perder 38 kilos para correr con
-                            sus hijos
-                        </h3>
-                        <p class="text-gray-600 mb-4">
-                            Caminar es más fácil, subir las escaleras, correr
-                            detrás de los niños, todas estas cosas son tan más
-                            fáciles ahora.
-                        </p>
-                    </div>
-                </article>
+        <!-- Grid de artículos -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Artículo 1 -->
+            <article
+                class="group rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+            >
+                <div class="relative h-56 overflow-hidden">
+                    <img
+                        src="https://www.crossfit.com/wp-content/uploads/2020/05/13120645/ron-gets-fit-crossfit-new-york-city-1024x576.jpg"
+                        alt="A Father's Promise: Losing 84 Pounds To Run With His Kids"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"
+                    ></div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                        Una promesa paterna: Perder 38 kilos para correr con sus
+                        hijos
+                    </h3>
+                    <p class="text-gray-600 mb-4">
+                        Caminar es más fácil, subir las escaleras, correr detrás
+                        de los niños, todas estas cosas son tan más fáciles
+                        ahora.
+                    </p>
+                </div>
+            </article>
 
-                <!-- Artículo 2 -->
-                <article
-                    class="group rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
-                >
-                    <div class="relative h-56 overflow-hidden">
-                        <img
-                            src="https://www.crossfit.com/wp-content/uploads/2023/08/13115933/go-beyond-physical-develop-grit-mental-strength-with-crossfit.jpg"
-                            alt="Go Beyond The Physical: Developing Grit & Mental Strength with CrossFit"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"
-                        ></div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-3">
-                            Supera lo físico: Desarrolla tu resistencia y
-                            fortaleza mental
-                        </h3>
-                        <p class="text-gray-600 mb-4">
-                            Practicar un ejercicio físico que sea difícil ayuda
-                            a desarrollar la fortaleza mental cuando algo no
-                            sale bien en la vida.
-                        </p>
-                    </div>
-                </article>
+            <!-- Artículo 2 -->
+            <article
+                class="group rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+            >
+                <div class="relative h-56 overflow-hidden">
+                    <img
+                        src="https://www.crossfit.com/wp-content/uploads/2023/08/13115933/go-beyond-physical-develop-grit-mental-strength-with-crossfit.jpg"
+                        alt="Go Beyond The Physical: Developing Grit & Mental Strength with CrossFit"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"
+                    ></div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                        Supera lo físico: Desarrolla tu resistencia y fortaleza
+                        mental
+                    </h3>
+                    <p class="text-gray-600 mb-4">
+                        Practicar un ejercicio físico que sea difícil ayuda a
+                        desarrollar la fortaleza mental cuando algo no sale bien
+                        en la vida.
+                    </p>
+                </div>
+            </article>
 
-                <!-- Artículo 3 -->
-                <article
-                    class="group rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
-                >
-                    <div class="relative h-56 overflow-hidden">
-                        <img
-                            src="https://www.crossfit.com/wp-content/uploads/2023/01/13120951/annie-holmes-crossfit-member-auburn-magic-of-crossfit-1024x576.jpg"
-                            alt="Annie at Auburn CrossFit"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"
-                        ></div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-3">
-                            Sentido de pertenencia: Una comunidad que te ayuda a
-                            lograr tus metas
-                        </h3>
-                        <p class="text-gray-600 mb-4">
-                            Hay algo que une cuando luchamos juntos. Nos
-                            apoyamos mutuamente y hacemos muchas cosas juntos.
-                        </p>
-                    </div>
-                </article>
-            </div>
-        </section>
+            <!-- Artículo 3 -->
+            <article
+                class="group rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+            >
+                <div class="relative h-56 overflow-hidden">
+                    <img
+                        src="https://www.crossfit.com/wp-content/uploads/2023/01/13120951/annie-holmes-crossfit-member-auburn-magic-of-crossfit-1024x576.jpg"
+                        alt="Annie at Auburn CrossFit"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"
+                    ></div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                        Sentido de pertenencia: Una comunidad que te ayuda a
+                        lograr tus metas
+                    </h3>
+                    <p class="text-gray-600 mb-4">
+                        Hay algo que une cuando luchamos juntos. Nos apoyamos
+                        mutuamente y hacemos muchas cosas juntos.
+                    </p>
+                </div>
+            </article>
+        </div>
+    </section>
 
-        <!-- Entrenadores Destacados -->
-        <!-- <section class="py-12 px-4 bg-gray-100">
+    <!-- Entrenadores Destacados -->
+    <!-- <section class="py-12 px-4 bg-gray-100">
             <div class="container mx-auto text-center">
                 <h2 class="text-3xl font-semibold mb-6">
                     Entrenadores Destacados Hacer un sort() con los 3
@@ -256,7 +241,7 @@
             </div>
         </section> -->
 
-        <!-- <section class="py-16 bg-gray-50">
+    <!-- <section class="py-16 bg-gray-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">
                     NUESTROS ENTRENADORES
@@ -326,41 +311,39 @@
             </div>
         </section> -->
 
-        <!-- Funcionamiento -->
-        <section>
-            <div class="bg-white py-16 px-4 sm:px-6 lg:px-8">
-                <div class="max-w-7xl mx-auto">
-                    <!-- Título de sección (opcional) -->
-                    <h2
-                        class="text-3xl font-bold text-center text-gray-900 mb-12"
-                    >
-                        ¿Cómo funcionamos?
-                    </h2>
+    <!-- Funcionamiento -->
+    <section>
+        <div class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto">
+                <!-- Título de sección (opcional) -->
+                <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">
+                    ¿Cómo funcionamos?
+                </h2>
 
-                    <h4 class="mb-10 text-center">
-                        Si tienes dudas de cómo trabajamos aquí y qué
-                        características tiene nuestro servicio, te cuento
-                        brevemente abajo.
-                    </h4>
+                <h4 class="mb-10 text-center">
+                    Si tienes dudas de cómo trabajamos aquí y qué
+                    características tiene nuestro servicio, te cuento brevemente
+                    abajo.
+                </h4>
 
-                    <!-- Grid de beneficios -->
-                    <div
-                        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
-                    >
-                        <BenefitCard
-                            v-for="(benefit, index) in benefits"
-                            :key="index"
-                            :icon="benefit.icon"
-                            :title="benefit.title"
-                            :description="benefit.description"
-                        />
-                    </div>
+                <!-- Grid de beneficios -->
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+                >
+                    <BenefitCard
+                        v-for="(benefit, index) in benefits"
+                        :key="index"
+                        :icon="benefit.icon"
+                        :title="benefit.title"
+                        :description="benefit.description"
+                    />
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Negocios Destacados -->
-        <!-- <section class="py-12 px-4">
+    <!-- Negocios Destacados -->
+    <!-- <section class="py-12 px-4">
             <div class="container mx-auto text-center">
                 <h2 class="text-3xl font-semibold mb-6">Negocios Destacados o Patrocinadores</h2>
                 <h4 class="mb-10">
@@ -386,7 +369,6 @@
                 </div>
             </div>
         </section> -->
-    </div>
 </template>
 
 <script setup>

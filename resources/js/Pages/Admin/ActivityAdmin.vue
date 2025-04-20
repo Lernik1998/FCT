@@ -1,6 +1,8 @@
 <template>
     <div class="container mx-auto p-6">
-        <h1 class="text-3xl font-bold mb-6 text-center">Gestión de Actividades</h1>
+        <h1 class="text-3xl font-bold mb-6 text-center">
+            Gestión de Actividades
+        </h1>
 
         <!-- Barra de acciones y búsqueda -->
         <div class="mb-10 flex justify-between items-center">
@@ -37,46 +39,66 @@
         </div>
 
         <!-- Tabla de actividades -->
-        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="bg-white shadow-md rounded-lg overflow-y-auto h-96">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
                             Nombre
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
                             Descripción
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
                             Fecha
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
                             Precio
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
                             Estado
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
                             Acciones
                         </th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    <tr 
-                        v-for="activity in activities.data" 
+                    <tr
+                        v-for="activity in activities.data"
                         :key="activity.id"
                         class="hover:bg-gray-50"
                     >
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        <td
+                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                        >
                             {{ activity.name }}
                         </td>
-                        <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
+                        <td
+                            class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate"
+                        >
                             {{ activity.description }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td
+                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                        >
                             {{ formatDate(activity.date) }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td
+                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                        >
                             {{ formatCurrency(activity.price) }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
@@ -84,16 +106,22 @@
                                 {{ statusText(activity.status) }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <td
+                            class="px-6 py-4 whitespace-nowrap text-sm font-medium"
+                        >
                             <div class="flex space-x-2">
                                 <a
-                                    :href="route('admin.activityShow', activity.id)"
+                                    :href="
+                                        route('admin.activityShow', activity.id)
+                                    "
                                     class="text-blue-600 hover:text-blue-900 hover:underline"
                                 >
                                     Ver
                                 </a>
                                 <a
-                                    :href="route('admin.activityEdit', activity.id)"
+                                    :href="
+                                        route('admin.activityEdit', activity.id)
+                                    "
                                     class="text-yellow-600 hover:text-yellow-900 hover:underline"
                                 >
                                     Editar
@@ -114,9 +142,10 @@
         <!-- Paginación -->
         <div class="mt-6 flex items-center justify-between">
             <div class="text-sm text-gray-500">
-                Mostrando página {{ activities.current_page }} de {{ activities.last_page }}
+                Mostrando página {{ activities.current_page }} de
+                {{ activities.last_page }}
             </div>
-            
+
             <div class="flex space-x-1">
                 <Component
                     :is="link.url ? 'Link' : 'span'"
@@ -125,9 +154,11 @@
                     :href="link.url"
                     class="px-3 py-1 rounded-md border"
                     :class="{
-                        'border-gray-300 text-gray-500 hover:bg-gray-50': link.url && !link.active,
+                        'border-gray-300 text-gray-500 hover:bg-gray-50':
+                            link.url && !link.active,
                         'border-blue-500 bg-blue-50 text-blue-600': link.active,
-                        'border-gray-200 text-gray-400 cursor-not-allowed': !link.url
+                        'border-gray-200 text-gray-400 cursor-not-allowed':
+                            !link.url,
                     }"
                     v-html="translatePaginationLabel(link.label)"
                 />
@@ -169,42 +200,44 @@ watch(
 // Función para traducir las etiquetas de paginación
 const translatePaginationLabel = (label) => {
     const translations = {
-        '&laquo; Previous': '&laquo; Anterior',
-        'Next &raquo;': 'Siguiente &raquo;',
-        'Previous': 'Anterior',
-        'Next': 'Siguiente'
+        "&laquo; Previous": "&laquo; Anterior",
+        "Next &raquo;": "Siguiente &raquo;",
+        Previous: "Anterior",
+        Next: "Siguiente",
     };
-    
+
     return translations[label] || label;
 };
 
 const statusClass = (status) => {
     const classes = {
-        'active': 'bg-green-100 text-green-800',
-        'inactive': 'bg-red-100 text-red-800',
-        'pending': 'bg-yellow-100 text-yellow-800'
+        active: "bg-green-100 text-green-800",
+        inactive: "bg-red-100 text-red-800",
+        pending: "bg-yellow-100 text-yellow-800",
     };
-    return `${classes[status] || 'bg-gray-100 text-gray-800'} inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium`;
+    return `${
+        classes[status] || "bg-gray-100 text-gray-800"
+    } inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium`;
 };
 
 const statusText = (status) => {
     const texts = {
-        'active': 'Activo',
-        'inactive': 'Inactivo',
-        'pending': 'Pendiente'
+        active: "Activo",
+        inactive: "Inactivo",
+        pending: "Pendiente",
     };
     return texts[status] || status;
 };
 
 const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString('es-ES', options);
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString("es-ES", options);
 };
 
 const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('es-ES', { 
-        style: 'currency', 
-        currency: 'EUR' 
+    return new Intl.NumberFormat("es-ES", {
+        style: "currency",
+        currency: "EUR",
     }).format(amount);
 };
 

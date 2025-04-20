@@ -79,6 +79,7 @@ class AdminController extends Controller
     public function userAdmin()
     {
         $users = User::query()
+            ->where('role', 'user') // Filtra solo usuarios con rol 'user'
             ->when(request('search'), function ($query, $search) {
                 $query->where('name', 'like', '%' . $search . '%');
             })
@@ -178,7 +179,7 @@ class AdminController extends Controller
                         ->orWhere('email', 'like', '%' . $search . '%');
                 });
             })
-            ->select(['id', 'name', 'email', 'role'])
+            ->select(['id', 'name', 'email', 'role', 'category', 'is_active'])
             ->paginate(10)
             ->appends(['search' => request('search')]);
 
@@ -186,6 +187,43 @@ class AdminController extends Controller
             'trainers' => $trainers,
             'filters' => ['search' => request('search')]
         ]);
+    }
+
+    // Mostrar ficha Trainer
+    public function trainerShow(string $id)
+    {
+        //Obtengo el trainer con el id
+        $trainer = User::findOrFail($id);
+
+        //Retornar el trainer
+        return inertia('Admin/TrainerOptions/TrainerShow', compact('trainer'));
+    }
+
+    // Editar Trainer
+    public function editTrainerView(string $id)
+    {
+        //Obtengo el trainer con el id
+        $trainer = User::findOrFail($id);
+
+        // Obtengo las categorías
+        $categories = Category::all();
+
+        // return inertia('Admin/UserOptions/UserEdit', compact('user'));
+        return inertia('Admin/TrainerOptions/TrainerEditForm', compact('trainer', 'categories'));
+    }
+
+
+    public function updateTrainer(Request $request, string $id)
+    {
+        dd($request->all());
+        //Obtengo el trainer con el id
+        $trainer = User::findOrFail($id);
+
+        //Actualizo el trainer
+        $trainer->update($request->all());
+
+        //Retornar un mensaje de exito
+        return inertia('Admin/TrainerOptions/TrainerShow', compact('trainer'));
     }
 
     // ACTIVITY
@@ -205,8 +243,8 @@ class AdminController extends Controller
                         ->orWhere('description', 'like', '%' . $search . '%');
                 });
             })
-            
-          //  ->with('category') // Si tienes relación con categorías
+
+            //  ->with('category') // Si tienes relación con categorías
             ->orderBy('date', 'desc')
             ->paginate(10)
             ->appends(['search' => request('search')]);
