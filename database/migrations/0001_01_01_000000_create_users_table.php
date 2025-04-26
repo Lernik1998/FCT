@@ -19,10 +19,11 @@ return new class extends Migration {
             $table->string('password');
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
-            $table->enum('category', ['Resistencia', 'Baile', 'Flexibilidad y cuerpo-mente', 'Fuerza y acondicionamiento', 'Rehabilitación o movimiento suave', 'General'])->nullable();
+            $table->enum('category', ['Resistencia y cardio', 'Baile', 'Flexibilidad y cuerpo-mente', 'Fuerza y acondicionamiento', 'Rehabilitación o movimiento suave', 'General'])->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
             $table->boolean('is_active')->default(true);
             $table->string('google_id')->nullable();
+            $table->string('google_calendar_id')->nullable(); // Para los trainers
             $table->timestamps();
         });
 

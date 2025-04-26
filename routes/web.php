@@ -12,6 +12,7 @@ use App\Http\Controllers\UserActivitiesReservationsController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\GoogleCalendarController;
+use App\Http\Controllers\MembershipController;
 use Spatie\GoogleCalendar\Event;
 
 /* Route::get('/', function () {
@@ -20,10 +21,7 @@ return Inertia::render('Welcome', [
     'canRegister' => Route::has('register'),
     'laravelVersion' => Application::VERSION,
     'phpVersion' => PHP_VERSION,
-]);
-return Inertia::render('Index'); es lo mismo que return inertia('Index');
-    return inertia('Index');
-});*/
+]);*/
 
 Route::middleware([
     'auth:sanctum',
@@ -34,7 +32,6 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 });
-
 
 // PUBLIC routes
 Route::inertia('/', 'Index')->name('index'); // Entrada
@@ -59,11 +56,12 @@ Route::controller(TrainerController::class)->group(function () {
 
     Route::post('trainers/storeActivity', [TrainerController::class, 'storeActivity'])->name('trainers.storeActivity');
 
-    // Gestión de Payments
+    /************************************** PAYMENTS ************************************** */
 
     Route::get('trainers/payments', [TrainerController::class, 'payments'])->name('trainers.payments');
 
-    // Planes personalizados
+    /************************************** PLANES PERSONALIZADOS ************************************** */
+
     Route::get('trainers/personalizedTraining', [TrainerController::class, 'personalizedTraining'])->name('trainers.pp');
 
     // Creación de un plan personalizado por el trainer
@@ -72,7 +70,8 @@ Route::controller(TrainerController::class)->group(function () {
     // Crear un plan personalizado PUBLICO
     Route::post('trainers/storePlan', [TrainerController::class, 'storePlan'])->name('trainers.storePlan');
 
-    // Posts del Trainer
+    /************************************** POSTS ************************************** */
+
     Route::get('trainers/posts', [TrainerController::class, 'trainerPostsView'])->name('trainers.posts');
 
     /************************************** MENSAJES ************************************** */
@@ -119,6 +118,11 @@ Route::controller(UserController::class)->group(function () {
 
     // Telegram TODO:
     Route::get('user/telegram', [UserActivitiesReservationsController::class, 'telegram'])->name('user.telegram');
+
+    /************************************** MEMBERSHIP ************************************** */
+
+    Route::resource('user/membership', MembershipController::class);
+
 });
 
 
@@ -160,8 +164,7 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('admin/editUser/{id}', [AdminController::class, 'editUserView'])->name('admin.editUser');
 
     // Actualizar user
-    Route::put('admin/updateUser/{id}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
-
+    Route::put('admin//trainers/createActivity/{id}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
 
     /************************************** GESTIÓN DE ENTRENADORES ************************************** */
     Route::get('admin/trainerAdmin', [AdminController::class, 'trainerAdmin'])->name('admin.trainerAdmin');
@@ -196,17 +199,93 @@ Route::controller(SocialiteController::class)->group(function () {
     Route::get('/auth/google-callback', 'googleCallback')->name('auth.google-callback');
 });
 
+/************************************** CALENDARIO GENERAL ************************************** */
 // Google Calendar
 // Route::get('/appointments', [AppointmentController::class, 'index'])->name('calendar.index');
 Route::get('/appointments/list', [AppointmentController::class, 'list'])->name('appointments.list');
 Route::post('/appointmentsStore', [AppointmentController::class, 'store'])->name('appointments.store');
 Route::put('/appointments/{appointment}', [AppointmentController::class, 'update'])->name('appointments.update');
 Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
+
+/************************************** CALENDARIO RESISTENCIA Y CARDIO ************************************** */
+
+// Listado
+Route::get('/appointments/listaResistencia', [AppointmentController::class, 'listResistencia'])->name('appointments.listResistencia');
+
+// Crear
+Route::post('/appointments/createResistencia', [AppointmentController::class, 'createResistencia'])->name('appointments.createResistencia');
+
+// Editar
+Route::get('/appointments/editResistencia/{id}', [AppointmentController::class, 'editResistencia'])->name('appointments.editResistencia');
+
+// Eliminar
+Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
+
+/************************************** CALENDARIO BAILE ************************************** */
+
+// Listado
+Route::get('/appointments/listaBaile', [AppointmentController::class, 'listBaile'])->name('appointments.listBaile');
+
+// Crear
+Route::post('/appointments/createBaile', [AppointmentController::class, 'createBaile'])->name('appointments.createBaile');
+
+// Editar
+Route::get('/appointments/editBaile/{id}', [AppointmentController::class, 'editBaile'])->name('appointments.editBaile');
+
+// Eliminar
+Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
+
+/************************************** CALENDARIO FLEXIBILIDAD ************************************** */
+
+// Listado
+Route::get('/appointments/listaFlexibilidad', [AppointmentController::class, 'listFlexibilidad'])->name('appointments.listFlexibilidad');
+
+// Crear
+Route::post('/appointments/createFlexibilidad', [AppointmentController::class, 'createFlexibilidad'])->name('appointments.createFlexibilidad');
+
+// Editar
+Route::get('/appointments/editFlexibilidad/{id}', [AppointmentController::class, 'editFlexibilidad'])->name('appointments.editFlexibilidad');
+
+// Eliminar
+Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
+
+/************************************** CALENDARIO FUERZA ************************************** */
+
+// Listado
+Route::get('/appointments/listaFuerza', [AppointmentController::class, 'listFuerza'])->name('appointments.listFuerza');
+
+// Crear
+Route::post('/appointments/createFuerza', [AppointmentController::class, 'createFuerza'])->name('appointments.createFuerza');
+
+// Editar
+Route::get('/appointments/editFuerza/{id}', [AppointmentController::class, 'editFuerza'])->name('appointments.editFuerza');
+
+// Eliminar
+Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
+
+/************************************** CALENDARIO REHABILITACIÓN ************************************** */
+
+// Listado
+Route::get('/appointments/listaRehabilitacion', [AppointmentController::class, 'listRehabilitacion'])->name('appointments.listRehabilitacion');
+
+// Crear
+Route::post('/appointments/createRehabilitacion', [AppointmentController::class, 'createRehabilitacion'])->name('appointments.createRehabilitacion');
+
+// Editar
+Route::get('/appointments/editRehabilitacion/{id}', [AppointmentController::class, 'editRehabilitacion'])->name('appointments.editRehabilitacion');
+
+// Eliminar
+Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
+
+
+
+
+
+/************************************** CALENDARIO TEST ************************************** */
+
 // Test de conexión con Google Calendar
 Route::post('/test-google', [GoogleCalendarController::class, 'testConnection'])->name('test-google');
-
 // Route::get('/test-google', [GoogleCalendarController::class, 'testConnection']);
-
 
 // Route::get('/test-google', function () {
 // $e = Event::get();
@@ -223,12 +302,10 @@ Route::post('/test-google', [GoogleCalendarController::class, 'testConnection'])
 //     dd($e);
 // });
 
-// PENDIENTE
+// TODO:
 // Route::inertia('/eventos', 'Eventos')->name('eventos');
 
-
-// Por ahora lo pongo aquí
-
+//FIXME: Por ahora lo pongo aquí
 Route::get('/inbox', [MessageController::class, 'inbox'])->name('inbox');
 Route::post('/message/{user}', [MessageController::class, 'store'])->name('message.store');
 Route::get('/message/{user}', [MessageController::class, 'show'])->name('message.show');

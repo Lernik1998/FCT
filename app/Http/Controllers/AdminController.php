@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Request;
 use App\Models\User; // Modelo User
 use App\Models\Activity; // Modelo Activity
 use App\Models\Category; // Modelo Category
@@ -215,12 +215,42 @@ class AdminController extends Controller
 
     public function updateTrainer(Request $request, string $id)
     {
-        dd($request->all());
+        // dd(Request::all());
+
         //Obtengo el trainer con el id
         $trainer = User::findOrFail($id);
 
+        // Validar los datos del request
+        // $validatedData = $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'email' => 'required|email|unique:users,email,' . $id,
+        //     'role' => 'required|in:user,trainer,admin',
+        //     'category' => 'nullable|string',
+        //     'is_active' => 'required|boolean',
+        // ]);
+
+        // Categoría - ID
+        $categoryCalendar = [
+            'General' => env('GOOGLE_CALENDAR_ID'),
+            'Resistencia y cardio' => env('GOOGLE_CALENDAR_RESISTENCIA_CARDIO_ID'),
+            'Baile' => env('GOOGLE_CALENDAR_BAILE_ID'),
+            'Flexibilidad y cuerpo-mente' => env('GOOGLE_CALENDAR_FLEXIBILIDAD_ID'),
+            'Fuerza y acondicionamiento' => env('GOOGLE_CALENDAR_FUERZA_ID'),
+            'Rehabilitación o movimiento suave' => env('GOOGLE_CALENDAR_REHAB_ID'),
+        ];
+
+
+        // Obtener los datos del formulario
+        $data = $request->all();
+
+        $categoryCalendar = config('services.google_calendars');
+
+        if (isset($data['category']) && isset($categoryCalendar[$data['category']])) {
+            $data['google_calendar_id'] = $categoryCalendar[$data['category']];
+        }
+
         //Actualizo el trainer
-        $trainer->update($request->all());
+        $trainer->update($data);
 
         //Retornar un mensaje de exito
         return inertia('Admin/TrainerOptions/TrainerShow', compact('trainer'));

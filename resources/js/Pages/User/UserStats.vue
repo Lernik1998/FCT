@@ -93,7 +93,7 @@
                 </div>
 
                 <!-- Gráfica de progreso -->
-                <div
+                <!-- <div
                     class="bg-white rounded-xl shadow-lg p-6 animate-slide-in lg:col-span-2"
                 >
                     <div class="flex justify-between items-center mb-6">
@@ -130,9 +130,9 @@
                         </select>
                     </div>
 
-                    <div class="h-64">
+                    <div class="h-64"> -->
                         <!-- Aquí iría el componente de gráfica real -->
-                        <div
+                        <!-- <div
                             class="w-full h-full bg-gray-100 rounded-lg flex items-center justify-center text-gray-400"
                         >
                             [Gráfica de progreso anual]
@@ -153,10 +153,10 @@
                             </p>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Ranking de amigos -->
-                <div
+                <!-- <div
                     class="bg-white rounded-xl shadow-lg p-6 animate-slide-in lg:col-span-2"
                 >
                     <h2
@@ -285,7 +285,7 @@
                         </svg>
                         Invitar más amigos
                     </button>
-                </div>
+                </div> -->
 
                 <!-- Logros -->
                 <div class="bg-white rounded-xl shadow-lg p-6 animate-slide-in">

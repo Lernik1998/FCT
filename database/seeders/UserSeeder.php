@@ -72,7 +72,7 @@ class UserSeeder extends Seeder
         // Entrenadores
         User::factory(10)->create([
             'role' => 'trainer',
-            'category' => 'Resistencia',
+            'category' => 'Resistencia y cardio',
         ]);
         User::factory(10)->create([
             'role' => 'trainer',

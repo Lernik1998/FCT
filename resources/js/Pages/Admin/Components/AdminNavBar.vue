@@ -55,6 +55,18 @@
                     </a>
                 </li>
 
+                <li>
+                    <Link
+                        :href="route('profile.show')"
+                        class="hover:underline"
+                        :class="{
+                            'font-bold text-orange-500 underline':
+                                $page.component === 'User/UserProfile',
+                        }"
+                        >Mi cuenta</Link
+                    >
+                </li>
+
                 <!-- Cerrar sesión -->
                 <li class="ml-auto">
                     <button

@@ -1,18 +1,4 @@
 <template>
-    <!-- Barra de navegación mejorada -->
-    <!-- Barra de navegación mejorada -->
-    <nav
-        class="bg-gradient-to-r from-orange-500 to-red-600 p-4 text-white shadow-lg"
-    >
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <!-- <img src="/logo-fitworking-white.png" alt="FitWorking Logo" class="h-8"> -->
-                <h1 class="text-xl font-bold">Mensajes</h1>
-            </div>
-            <TrainersNavBar />
-        </div>
-    </nav>
-
     <!-- Contenedor principal -->
     <div class="flex h-[90vh] bg-gray-100">
         <!-- Panel lateral -->
@@ -96,10 +82,10 @@
                         <div
                             class="w-10 h-10 bg-gray-300 rounded-full overflow-hidden"
                         >
-                            <img
+                            <!-- <img
                                 :src="user.avatar || '/default-avatar.png'"
                                 class="w-full h-full object-cover"
-                            />
+                            /> -->
                         </div>
                         <span
                             v-if="user.online"
@@ -511,10 +497,14 @@
     </div>
 </template>
 
+
 <script setup>
 import { ref, computed, onMounted, nextTick } from "vue";
-import { Head } from "@inertiajs/vue3";
-import TrainersNavBar from "./Components/TrainersNavBar.vue";
+import TrainerLayout from "@/Layouts/TrainerLayout.vue";
+
+defineOptions({
+    layout: TrainerLayout,
+});
 
 const props = defineProps({
     auth: Object,

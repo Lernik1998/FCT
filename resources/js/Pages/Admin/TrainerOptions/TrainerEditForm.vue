@@ -1,4 +1,12 @@
 <template>
+    <!-- Asignar categoria para acceso del calendario -->
+    <div>
+        <p class="text-gray-600">
+            Pendiente gestión de asignación de categorias para enlazar con el
+            Calendario a mostrar en el Trainer
+        </p>
+    </div>
+
     <section
         class="max-w-4xl mx-auto mt-10 bg-white shadow-lg rounded-2xl overflow-hidden"
     >
@@ -38,7 +46,6 @@
                 </span>
             </div>
 
-            <!-- Formulario a la derecha -->
             <div class="md:col-span-2 space-y-4">
                 <h2 class="text-2xl font-bold text-gray-800 mb-2">
                     Editar entrenador
@@ -106,36 +113,31 @@
                         >
                             <option value="">Selecciona una categoría</option>
                             <option
-                                v-for="category in categories"
-                                :key="category.id"
-                                :value="category.id"
+                                v-for="cat in categories"
+                                :key="cat.name"
+                                :value="cat.name"
                             >
-                                {{ category.name }}
+                                {{ cat.name }}
                             </option>
                         </select>
                     </div>
 
                     <!-- Activar (Estado) -->
-                    <div>
-                        <label
-                            for="active"
-                            class="block text-sm font-medium text-gray-600"
-                            >Activar</label
-                        >
+                    <div class="flex items-center space-x-2">
                         <input
                             type="checkbox"
-                            id="active"
-                            v-model="active"
-                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                            id="is_active"
+                            v-model="is_active"
+                            :true-value="1"
+                            :false-value="0"
+                            class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                         />
-                    </div>
-
-                    <!-- Asignar categoria para acceso del calendario -->
-                    <div>
-                        <p class="text-gray-600">
-                            Pendiente gestión de asignación de categorias para
-                            enlazar con el Calendario a mostrar en el Trainer
-                        </p>
+                        <label
+                            for="is_active"
+                            class="text-sm font-medium text-gray-600"
+                        >
+                            {{ is_active ? "Desactivar" : "Activar" }}
+                        </label>
                     </div>
 
                     <!-- Acciones -->
@@ -165,7 +167,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from "vue";
+import { ref, defineProps, onMounted } from "vue";
 import { router } from "@inertiajs/vue3";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 
@@ -176,30 +178,43 @@ const props = defineProps({
     categories: Array,
 });
 
-const categories = ref(props.categories);
-
 const name = ref(props.trainer.name);
 const email = ref(props.trainer.email);
 const role = ref(props.trainer.role);
-const category = ref(props.trainer.category);
-const active = ref(props.trainer.active);
+const category = ref(props.trainer.category || "");
+const is_active = ref(props.trainer.is_active);
+const categories = ref(props.categories);
+
+onMounted(() => {
+    if (!category.value && categories.value.length > 0) {
+        category.value = categories.value[0].name;
+    }
+});
 
 const editarEntrenador = () => {
+    // Convertir el booleano a 1/0 para enviar al backend
+    // const isActiveValue = is_active.value ? 1 : 0;
+
     if (
         name.value === props.trainer.name &&
         email.value === props.trainer.email &&
-        role.value === props.trainer.role
+        role.value === props.trainer.role &&
+        category.value === props.trainer.category &&
+        is_active.value === props.trainer.is_active
     ) {
         return alert("No se ha hecho ninguna modificación");
     }
 
     if (confirm("¿Seguro que deseas editar este usuario?")) {
+        // Convertir el booleano a 1/0 para enviar al backend
+        const isActiveValue = is_active.value ? 1 : 0;
+
         router.put(route("admin.updateTrainer", props.trainer.id), {
             name: name.value,
             email: email.value,
             role: role.value,
             category: category.value,
-            active: active.value,
+            is_active: isActiveValue, // Enviamos 1 o 0
         });
     }
 };

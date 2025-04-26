@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         // Indicamos los seeders que queremos llamar
         $this->call([
-            UserSeeder::class,
             CategorySeeder::class,
+            UserSeeder::class,
             ActivitySeeder::class,
             PostSeeder::class,
         ]);

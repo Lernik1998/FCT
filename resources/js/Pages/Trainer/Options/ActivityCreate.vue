@@ -1,172 +1,261 @@
 <template>
-    <!-- Navbar Trainer -->
-    <nav class="p-4 border-b shadow-md bg-white">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="text-xl font-bold">Marina Alta Deportes</div>
-            <TrainersNavBar />
-        </div>
-    </nav>
-
-    <!-- Botón para volver -->
-    <div class="mt-10 ml-10">
-        <button
-            @click="volver"
-            class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
-        >
-            Volver
-        </button>
-    </div>
-    <section class="min-h-screen py-12 px-6 flex justify-center">
-        <div
-            class="max-w-3xl w-full bg-white shadow-lg rounded-lg p-6 animate-fade-in"
-        >
-            <!-- Título -->
-            <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">
-                Crear Nueva Actividad
-            </h1>
-
-            <!-- Formulario -->
-            <form
-                @submit.prevent="submitForm"
-                class="space-y-4"
-                enctype="multipart/form-data"
-            >
-                <!-- Nombre -->
-                <div>
-                    <label class="block text-gray-700 font-semibold"
-                        >Nombre de la actividad</label
-                    >
-                    <input
-                        type="text"
-                        v-model="activity.name"
-                        class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
-                        placeholder="Ej. CrossFit, Yoga, Spinning..."
-                        required
-                    />
-                </div>
-
-                <!-- Descripción -->
-                <div>
-                    <label class="block text-gray-700 font-semibold"
-                        >Descripción</label
-                    >
-                    <textarea
-                        v-model="activity.description"
-                        class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
-                        placeholder="Describe la actividad..."
-                        rows="3"
-                        required
-                    ></textarea>
-                </div>
-
-                <!-- Imagen -->
-                <div>
-                    <label class="block text-gray-700 font-semibold"
-                        >Imagen</label
-                    >
-                    <input
-                        type="file"
-                        @change="handleFileUpload"
-                        accept="image/*"
-                        class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
-                        required
-                    />
-                </div>
-
-                <!-- Precio -->
-                <div>
-                    <label class="block text-gray-700 font-semibold"
-                        >Precio</label
-                    >
-                    <input
-                        type="number"
-                        v-model="activity.price"
-                        class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
-                        required
-                    />
-                </div>
-
-                <!-- Duración -->
-                <div>
-                    <label class="block text-gray-700 font-semibold"
-                        >Duración</label
-                    >
-                    <input
-                        type="number"
-                        v-model="activity.duration"
-                        class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
-                        required
-                    />
-                </div>
-
-                <!-- Fecha -->
-                <div>
-                    <label class="block text-gray-700 font-semibold"
-                        >Fecha</label
-                    >
-                    <input
-                        type="date"
-                        v-model="activity.date"
-                        class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
-                        required
-                    />
-                </div>
-
-                <!-- Categoría -->
-                <div>
-                    <label class="block text-gray-700 font-semibold"
-                        >Categoría</label
-                    >
-                    <select
-                        v-model="activity.category_id"
-                        class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
-                        required
-                    >
-                        <option value="" disabled>
-                            Selecciona una categoría
-                        </option>
-                        <option
-                            v-for="category in categories"
-                            :key="category.id"
-                            :value="category.id"
-                        >
-                            {{ category.name }}
-                        </option>
-                    </select>
-                </div>
-
-                <!-- Botón -->
+    <div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Contenedor principal -->
+        <div class="max-w-3xl mx-auto">
+            <!-- Header con botón de volver -->
+            <div class="flex items-center justify-between mb-8">
                 <button
-                    type="submit"
-                    class="w-full bg-gray-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
+                    @click="volver"
+                    class="flex items-center text-blue-600 hover:text-blue-800 transition-colors"
                 >
-                    Crear Actividad
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 mr-1"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                            clip-rule="evenodd"
+                        />
+                    </svg>
+                    Volver
                 </button>
-            </form>
+                <h1 class="text-2xl font-bold text-gray-900">
+                    Nueva Actividad
+                </h1>
+                <div class="w-6"></div>
+                <!-- Espaciador para alinear -->
+            </div>
+
+            <!-- Card del formulario -->
+            <div class="bg-white shadow rounded-lg overflow-hidden">
+                <form
+                    @submit.prevent="submitForm"
+                    class="divide-y divide-gray-200"
+                    enctype="multipart/form-data"
+                >
+                    <!-- Sección 1: Información básica -->
+                    <div class="px-6 py-5">
+                        <h2 class="text-lg font-medium text-gray-900 mb-4">
+                            Información básica
+                        </h2>
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <!-- Nombre -->
+                            <div class="col-span-2">
+                                <label
+                                    class="block text-sm font-medium text-gray-700 mb-1"
+                                    >Nombre</label
+                                >
+                                <input
+                                    type="text"
+                                    v-model="activity.name"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="Ej: CrossFit, Yoga, Spinning"
+                                    required
+                                />
+                            </div>
+
+                            <!-- Descripción -->
+                            <div class="col-span-2">
+                                <label
+                                    class="block text-sm font-medium text-gray-700 mb-1"
+                                    >Descripción</label
+                                >
+                                <textarea
+                                    v-model="activity.description"
+                                    rows="3"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="Describe la actividad..."
+                                    required
+                                ></textarea>
+                            </div>
+
+                            <!-- Imagen -->
+                            <div class="col-span-2">
+                                <label
+                                    class="block text-sm font-medium text-gray-700 mb-1"
+                                    >Imagen</label
+                                >
+                                <div
+                                    class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md"
+                                >
+                                    <div class="space-y-1 text-center">
+                                        <div class="flex text-sm text-gray-600">
+                                            <label
+                                                class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none"
+                                            >
+                                                <span>Subir archivo</span>
+                                                <input
+                                                    type="file"
+                                                    @change="handleFileUpload"
+                                                    accept="image/*"
+                                                    class="sr-only"
+                                                    required
+                                                />
+                                            </label>
+                                            <p class="pl-1">
+                                                o arrastrar y soltar
+                                            </p>
+                                        </div>
+                                        <p class="text-xs text-gray-500">
+                                            PNG, JPG, GIF hasta 2MB
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sección 2: Detalles de la actividad -->
+                    <div class="px-6 py-5">
+                        <h2 class="text-lg font-medium text-gray-900 mb-4">
+                            Detalles de la actividad
+                        </h2>
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                            <!-- Precio -->
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700 mb-1"
+                                    >Precio (€)</label
+                                >
+                                <div class="mt-1 relative rounded-md shadow-sm">
+                                    <input
+                                        type="number"
+                                        v-model="activity.price"
+                                        class="block w-full pr-12 pl-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                        required
+                                    />
+                                    <div
+                                        class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"
+                                    >
+                                        <span class="text-gray-500 sm:text-sm"
+                                            >€</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Duración -->
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700 mb-1"
+                                    >Duración (min)</label
+                                >
+                                <div class="mt-1 relative rounded-md shadow-sm">
+                                    <input
+                                        type="number"
+                                        v-model="activity.duration"
+                                        class="block w-full pr-12 pl-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                        required
+                                    />
+                                    <div
+                                        class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"
+                                    >
+                                        <span class="text-gray-500 sm:text-sm"
+                                            >min</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Fecha -->
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700 mb-1"
+                                    >Fecha</label
+                                >
+                                <input
+                                    type="date"
+                                    v-model="activity.date"
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                    required
+                                />
+                            </div>
+
+                            <!-- Categoría -->
+                            <!-- <div class="col-span-3">
+                                <label
+                                    class="block text-sm font-medium text-gray-700 mb-1"
+                                    >Categoría</label
+                                >
+                                <select
+                                    v-model="activity.category_id"
+                                    class="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
+                                    required
+                                >
+                                    <option value="" disabled selected>
+                                        Selecciona una categoría
+                                    </option>
+                                    <option
+                                        v-for="category in categories"
+                                        :key="category.id"
+                                        :value="category.id"
+                                    >
+                                        {{ category.name }}
+                                    </option>
+                                </select>
+                            </div> -->
+                        </div>
+                    </div>
+
+                    <!-- Sección de acciones -->
+                    <div class="px-6 py-4 bg-gray-50 text-right">
+                        <button
+                            type="submit"
+                            class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        >
+                            Crear actividad
+                        </button>
+                    </div>
+                </form>
+            </div>
 
             <!-- Mensaje de éxito -->
-            <p
-                v-if="successMessage"
-                class="mt-4 text-green-600 font-semibold text-center"
-            >
-                ¡Actividad creada exitosamente! 🎉
-            </p>
+            <div v-if="successMessage" class="mt-4">
+                <div class="rounded-md bg-green-50 p-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg
+                                class="h-5 w-5 text-green-400"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"
+                                />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-green-800">
+                                {{ successMessage }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
 </template>
 
 <script setup>
 // Importaciones
 import { ref } from "vue";
 import { router } from "@inertiajs/vue3";
-import {defineProps} from "vue";
+import { defineProps } from "vue";
+import TrainerLayout from "@/Layouts/TrainerLayout.vue";
+
+defineOptions({
+    layout: TrainerLayout,
+});
 
 const props = defineProps({
     categories: Array,
 });
-
-// Componentes
-import TrainersNavBar from "../Components/TrainersNavBar.vue";
 
 const handleFileUpload = (event) => {
     activity.value.image = event.target.files[0];

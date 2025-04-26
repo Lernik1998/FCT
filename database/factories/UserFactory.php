@@ -33,7 +33,7 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
-            'category' => fake()->randomElement(['Resistencia', 'Baile', 'Flexibilidad y cuerpo-mente', 'Fuerza y acondicionamiento', 'Rehabilitación o movimiento suave', 'General']),
+            'category' => fake()->randomElement(['Resistencia y cardio', 'Baile', 'Flexibilidad y cuerpo-mente', 'Fuerza y acondicionamiento', 'Rehabilitación o movimiento suave', 'General']),
             'is_active' => true,
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,

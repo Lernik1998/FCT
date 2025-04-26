@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('activity_id')->constrained()->cascadeOnDelete();
+            $table->dateTime('activity_datetime'); // Fecha y hora de la actividad (inicio)
             $table->enum('status', ['reserved', 'confirmed', 'cancelled'])->default('reserved');
             $table->decimal('price', 10, 2)->default(0.00);
             $table->string('payment_method')->nullable();
@@ -23,6 +24,9 @@ return new class extends Migration {
             $table->text('payment_description')->nullable();
             $table->timestamp('payment_date')->nullable(); // Mayor precisión que date
             $table->timestamps();
+
+            $table->unique(['user_id', 'activity_datetime']); // 'activity_id',
+
         });
     }
 

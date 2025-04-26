@@ -19,6 +19,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // FIXME: Por ahora, para testing
+
+        config([
+            'google_calendars' => [
+                'General' => env('GOOGLE_CALENDAR_ID'),
+                'Resistencia y cardio' => env('GOOGLE_CALENDAR_RESISTENCIA_CARDIO_ID'),
+                'Baile' => env('GOOGLE_CALENDAR_BAILE_ID'),
+                'Flexibilidad y cuerpo-mente' => env('GOOGLE_CALENDAR_FLEXIBILIDAD_ID'),
+                'Fuerza y acondicionamiento' => env('GOOGLE_CALENDAR_FUERZA_ID'),
+                'Rehabilitación o movimiento suave' => env('GOOGLE_CALENDAR_REHAB_ID'),
+            ],
+        ]);
     }
 }

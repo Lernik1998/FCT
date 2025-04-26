@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PersonalizedTraining;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
-class PersonalizedTrainingController extends Controller
+class MembershipController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return inertia::render('User/UserMemberships');
     }
 
     /**
@@ -34,7 +34,7 @@ class PersonalizedTrainingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PersonalizedTraining $personalizedTraining)
+    public function show(string $id)
     {
         //
     }
@@ -42,7 +42,7 @@ class PersonalizedTrainingController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(PersonalizedTraining $personalizedTraining)
+    public function edit(string $id)
     {
         //
     }
@@ -50,7 +50,7 @@ class PersonalizedTrainingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PersonalizedTraining $personalizedTraining)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -58,7 +58,7 @@ class PersonalizedTrainingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PersonalizedTraining $personalizedTraining)
+    public function destroy(string $id)
     {
         //
     }

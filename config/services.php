@@ -52,11 +52,19 @@ return [
         'credentials_path' => storage_path(env('GOOGLE_CALENDAR_CREDENTIALS_PATH')),
     ],
 
+    // Calendario para los Trainers
+    'google_calendars' => [
+        'General' => env('GOOGLE_CALENDAR_ID'),
+        'Resistencia y cardio' => env('GOOGLE_CALENDAR_RESISTENCIA_CARDIO_ID'),
+        'Baile' => env('GOOGLE_CALENDAR_BAILE_ID'),
+        'Flexibilidad y cuerpo-mente' => env('GOOGLE_CALENDAR_FLEXIBILIDAD_ID'),
+        'Fuerza y acondicionamiento' => env('GOOGLE_CALENDAR_FUERZA_ID'),
+        'Rehabilitación o movimiento suave' => env('GOOGLE_CALENDAR_REHAB_ID'),
+    ],
+
     // Integración del servicio de Stripe
     'stripe' => [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
-
-
 ];

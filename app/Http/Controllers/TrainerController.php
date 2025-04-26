@@ -79,7 +79,7 @@ class TrainerController extends Controller
         $trainer = User::findOrFail($id);
 
         // Obtengo los planes personalizados del entrenador
-        $plans = PersonalizedTraining::where('user_id', $trainer->id)->get();
+        // $plans = PersonalizedTraining::where('user_id', $trainer->id)->get();
 
         //Retornar el entrenador
         return inertia('Trainer/TrainerShow', compact('trainer', 'plans'));
@@ -157,9 +157,9 @@ class TrainerController extends Controller
     public function personalizedTraining()
     {
         // Obtengo los planes personalizados del entrenador
-        $plans = PersonalizedTraining::where('user_id', auth()->id())->get();
+        // $plans = PersonalizedTraining::where('user_id', auth()->id())->get();
 
-        return inertia('Trainer/TrainerPPlans', compact('plans'));
+        return inertia('Trainer/TrainerPPlans');
     }
 
     public function createPersonalizedTraining()
@@ -174,13 +174,13 @@ class TrainerController extends Controller
         // Validar los datos $request->validate([]);
 
         // Crear el plan
-        $plan = PersonalizedTraining::create([
-            // 'name' => $request['name'],
-            'user_id' => auth()->id(),
-            'description' => $request['description'],
-            'price' => $request['price'],
-            'status' => 'approved',
-        ]);
+        // $plan = PersonalizedTraining::create([
+        //     // 'name' => $request['name'],
+        //     'user_id' => auth()->id(),
+        //     'description' => $request['description'],
+        //     'price' => $request['price'],
+        //     'status' => 'approved',
+        // ]);
 
         // Retornar una respuesta exitosa
         return redirect()->route('trainers.pp');

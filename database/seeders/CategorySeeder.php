@@ -14,6 +14,11 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         Category::create([
+            'name' => 'General',
+            'description' => 'Acceso general a todos los calendarios',
+        ]);
+
+        Category::create([
             'name' => 'Resistencia y cardio',
             'description' => 'Running en cinta, ciclismo indoor, HIIT cardiovascular, remo. Mejorar la coordinación, velocidad, fuerza, y resistencia.',
         ]);

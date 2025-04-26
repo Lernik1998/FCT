@@ -23,7 +23,6 @@ use Telegram; // Para Telegram
 
 
 
-
 class UserActivitiesReservationsController extends Controller
 {
     /**
@@ -49,12 +48,26 @@ class UserActivitiesReservationsController extends Controller
         // Obtengo la actividad con el id
         $act = Activity::findOrFail($id);
 
-        // dd($act);
+        // Verificar si ya existe una reserva para esta actividad y hora
+        // $reservaExistente = UserActivitiesReservations::where('user_id', auth()->user()->id)
+        //     ->where('activity_id', $act->id)
+        //     ->where('activity_datetime', $act->date . ' ' . $act->start_time)
+        //     ->exists();
+        $reservaExistente = UserActivitiesReservations::where('user_id', auth()->user()->id)
+            ->where('activity_datetime', $act->date . ' ' . $act->start_time)
+            ->exists();
+
+        if ($reservaExistente) {
+            return back()->with('error', 'Ya tienes una reserva para esta actividad a esa hora.');
+        }
 
         // Creo la reserva
         UserActivitiesReservations::create([
             'user_id' => auth()->user()->id,
             'activity_id' => $act->id,
+            // 'start_time' => $act->start_time,
+            // 'end_time' => $act->end_time,
+            'activity_datetime' => $act->date . ' ' . $act->start_time,
             'status' => 'reserved',
             'price' => $act->price,
             'payment_method' => null,
@@ -66,7 +79,9 @@ class UserActivitiesReservationsController extends Controller
         ]);
 
         // Vuelvo al index de user
-        return redirect()->route('users.index');
+        // return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('success', 'Reserva realizada con éxito.');
+
     }
 
     /**

@@ -29,7 +29,7 @@
                             :class="{
                                 'font-bold text-orange-500 underline':
                                     $page.component ===
-                                    'User/UserActivitiesReservations',
+                                    'User/ActivityOptions/ActivityReservations',
                             }"
                             >Gestión de reservas</Link
                         >
@@ -53,9 +53,22 @@
                                 'font-bold text-orange-500 underline':
                                     $page.component === 'User/UserMessages',
                             }"
-                            >Mensajes NO GESTIONADO</Link
+                            >Mensajes X</Link
                         >
                     </li>
+
+                    <li>
+                        <Link
+                            :href="route('membership.index')"
+                            class="hover:underline"
+                            :class="{
+                                'font-bold text-orange-500 underline':
+                                    $page.component === 'User/UserMemberships',
+                            }"
+                            >Suscripción X</Link
+                        >
+                    </li>
+
                     <li>
                         <button @click="logout">Cerrar sesión</button>
                     </li>

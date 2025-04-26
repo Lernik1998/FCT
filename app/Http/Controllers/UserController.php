@@ -12,19 +12,49 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // public function index()
+    // {
+    //     // Obtengo los datos del user actual, obtengo el id del user actual
+    //     $userId = auth()->id();
+
+    //     $user = User::findOrFail($userId);
+
+    //     // Obtengo todas las actividades disponibles
+    //     $activities = Activity::all();
+
+    //     // dd($user);
+    //     return inertia('User/UserIndex', compact('user', 'activities'));
+    // }
+
     public function index()
     {
-        // Obtengo los datos del user actual, obtengo el id del user actual
+        // Obtener el usuario autenticado
         $userId = auth()->id();
-
         $user = User::findOrFail($userId);
 
-        // Obtengo todas las actividades disponibles
-        $activities = Activity::all();
+        // Primeras 3 actividades con imagen
+        $featuredActivities = Activity::query()
+            ->select(['id', 'name', 'description', 'date', 'category_id', 'image', 'start_time', 'end_time', 'price'])
+            ->limit(3)
+            ->get();
 
-        // dd($user);
+        // Obtener actividades con paginación y búsqueda
+        $activities = Activity::query()
+            ->where('status', 'active') // Solo las activas
+            ->when(request('search'), function ($query, $search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            })
+            ->select(['id', 'name', 'description', 'date', 'category_id', 'start_time', 'end_time', 'price'])
+            ->paginate(10)
+            ->appends(['search' => request('search')]);
 
-        return inertia('User/UserIndex', compact('user', 'activities'));
+        return inertia('User/UserIndex', [
+            'user' => $user,
+            'activities' => $activities,
+            'filters' => ['search' => request('search')],
+            'popularAct' => $featuredActivities
+        ]);
     }
 
     /**

@@ -1,17 +1,4 @@
 <template>
-    <!-- Barra de navegación mejorada -->
-    <nav
-        class="bg-gradient-to-r from-orange-500 to-red-600 p-4 text-white shadow-lg"
-    >
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <!-- <img src="/logo-fitworking-white.png" alt="FitWorking Logo" class="h-8"> -->
-                <h1 class="text-xl font-bold">FitWorking</h1>
-            </div>
-            <TrainersNavBar />
-        </div>
-    </nav>
-
     <div class="min-h-screen bg-gray-100 p-6">
         <div class="max-w-6xl mx-auto">
             <!-- Título y botón de crear post -->
@@ -262,16 +249,6 @@
                 </div>
             </div>
 
-            <!-- Gráfico de actividad -->
-            <div class="bg-white p-6 rounded-2xl shadow-lg mb-8">
-                <h2 class="text-xl font-bold text-gray-800 mb-4">
-                    📊 Actividad de Posts
-                </h2>
-                <div class="h-64">
-                    <canvas ref="graficoActividad"></canvas>
-                </div>
-            </div>
-
             <!-- Formulario flotante para nuevo/editar post -->
             <div
                 v-if="mostrarFormulario"
@@ -391,7 +368,11 @@
 <script setup>
 import { ref, computed, onMounted, nextTick } from "vue";
 import Chart from "chart.js/auto";
-import TrainersNavBar from "./Components/TrainersNavBar.vue";
+import TrainerLayout from "@/Layouts/TrainerLayout.vue";
+
+defineOptions({
+    layout: TrainerLayout,
+});
 
 // Datos de posts
 const posts = ref([
@@ -696,82 +677,15 @@ const eliminarPost = () => {
     }
 };
 
-const inicializarGrafico = () => {
-    if (chartInstance) {
-        chartInstance.destroy();
-    }
-
-    const ctx = graficoActividad.value.getContext("2d");
-
-    // Preparar datos para el gráfico
-    const ultimos7Dias = [...Array(7)].map((_, i) => {
-        const fecha = new Date();
-        fecha.setDate(fecha.getDate() - (6 - i));
-        return fecha.toLocaleDateString("es-ES", {
-            day: "2-digit",
-            month: "short",
-        });
-    });
-
-    const conteoPosts = ultimos7Dias.map((fecha) => {
-        return posts.value.filter(
-            (post) =>
-                post.fecha.toLocaleDateString("es-ES", {
-                    day: "2-digit",
-                    month: "short",
-                }) === fecha
-        ).length;
-    });
-
-    chartInstance = new Chart(ctx, {
-        type: "bar",
-        data: {
-            labels: ultimos7Dias,
-            datasets: [
-                {
-                    label: "Posts publicados",
-                    data: conteoPosts,
-                    backgroundColor: "rgba(59, 130, 246, 0.7)",
-                    borderColor: "rgba(59, 130, 246, 1)",
-                    borderWidth: 1,
-                },
-            ],
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 1,
-                    },
-                },
-            },
-            plugins: {
-                legend: {
-                    display: false,
-                },
-            },
-        },
-    });
-};
-
 const actualizarGrafico = () => {
-    nextTick(() => {
-        inicializarGrafico();
-    });
+    nextTick(() => {});
 };
-
-// Inicializar cuando el componente está montado
-onMounted(() => {
-    inicializarGrafico();
-});
 </script>
 
 <style scoped>
 .line-clamp-1 {
     display: -webkit-box;
-    -webkit-line-clamp: 1;
+    /* -webkit-line-clamp: 1; */
     -webkit-box-orient: vertical;
     overflow: hidden;
 }

@@ -1,30 +1,32 @@
 <template>
-    <div class="payment-container bg-white rounded-lg shadow-md p-4">
-        <h1 class="text-3xl font-bold mb-4">Pagar Actividad</h1>
-        <div v-if="activity" class="grid grid-cols-2 gap-4">
-            <p class="text-lg font-semibold">
-                <strong>Actividad:</strong> {{ activity.name }}
-            </p>
-            <p class="text-lg font-semibold mb-10">
-                <strong>Precio:</strong> {{ formatPrice(activity.price) }}
-            </p>
+    <section class="mt-28">
+        <div class="payment-container bg-white rounded-lg shadow-md p-4">
+            <h1 class="text-3xl font-bold mb-4">Pagar Actividad</h1>
+            <div v-if="activity" class="grid grid-cols-2 gap-4">
+                <p class="text-lg font-semibold">
+                    <strong>Actividad:</strong> {{ activity.name }}
+                </p>
+                <p class="text-lg font-semibold mb-10">
+                    <strong>Precio:</strong> {{ formatPrice(activity.price) }}
+                </p>
 
-            <!-- Stripe -->
-            <div id="card-element"></div>
-            <button
-                @click="handlePayment"
-                class="col-span-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-                Pagar con Stripe
-            </button>
-        </div>
-        <div v-else class="text-center">
-            <p class="text-lg">Cargando actividad...</p>
-        </div>
+                <!-- Stripe -->
+                <div id="card-element"></div>
+                <button
+                    @click="handlePayment"
+                    class="col-span-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                    Pagar con Stripe
+                </button>
+            </div>
+            <div v-else class="text-center">
+                <p class="text-lg">Cargando actividad...</p>
+            </div>
 
-        <!-- Paypal -->
-        <PaypalButton :activity="activity" :reservation="reservation" />
-    </div>
+            <!-- Paypal -->
+            <PaypalButton :activity="activity" :reservation="reservation" />
+        </div>
+    </section>
 </template>
 
 <script setup>
@@ -32,6 +34,10 @@
 import { ref, onMounted } from "vue";
 import { loadStripe } from "@stripe/stripe-js";
 import { router } from "@inertiajs/vue3";
+
+import UserLayout from "@/Layouts/UserLayout.vue";
+
+defineOptions({ layout: UserLayout });
 
 // Componentes
 import PaypalButton from "./PaypalButton.vue";

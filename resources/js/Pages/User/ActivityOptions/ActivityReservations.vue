@@ -1,7 +1,5 @@
 <template>
     <div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-        <h1 class="text-xl font-bold">Mis Reservas</h1>
-
         <!-- Contenido Principal -->
         <main class="container mx-auto py-8 px-4 sm:px-6">
             <!-- Encabezado -->
@@ -26,7 +24,7 @@
                                 d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
                             />
                         </svg>
-                        Tus reservas activas
+                        Mis Reservas
                     </h1>
                     <p class="text-gray-600 mt-2">
                         Revisa y gestiona todas tus actividades reservadas

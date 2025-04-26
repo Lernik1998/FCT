@@ -1,4 +1,21 @@
 <template>
-    <h1>PENDIENTE!!!!!!</h1>
-    <p>TrainerLayout</p>
+    <p>Trainer Layout</p>
+
+    <!-- Cabecera -->
+
+    <TrainersNavBar />
+    <!-- <head>
+        <slot />
+    </head> -->
+
+    <!-- Cuerpo -->
+    <main>
+        <slot />
+    </main>
+
+    <!-- Pie -->
 </template>
+
+<script setup>
+import TrainersNavBar from "@/Pages/Trainer/Components/TrainersNavBar.vue";
+</script>

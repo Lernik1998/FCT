@@ -16,12 +16,6 @@ import PublicLayout from "./Layouts/PublicLayout.vue";
 createInertiaApp({
     title: (title) => `${appName} | ${title}`,
     resolve: (name) => {
-        // Antes de la modificacion
-        // resolvePageComponent(
-        //     `./Pages/${name}.vue`,
-        //     import.meta.glob("./Pages/**/*.vue")
-        // ),
-
         const page = resolvePageComponent(
             `./Pages/${name}.vue`,
             import.meta.glob("./Pages/**/*.vue")
@@ -35,6 +29,18 @@ createInertiaApp({
             }
             return module;
         });
+
+        // Antes de la modificacion
+        // return resolvePageComponent(
+        //     `./Pages/${name}.vue`,
+        //     import.meta.glob("./Pages/**/*.vue")
+        // ).then((module) => {
+        //     // Layout por defecto si no está definido
+        //     if (!module.default.layout) {
+        //         module.default.layout = PublicLayout;
+        //     }
+        //     return module;
+        // });
     },
 
     setup({ el, App, props, plugin }) {

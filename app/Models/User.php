@@ -27,11 +27,15 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    // protected $fillable = [
-    //     'name',
-    //     'email',
-    //     'password',
-    // ];
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'role',
+        'category',
+        'google_calendar_id',
+        'is_active',
+    ];
 
     protected $guarded = [];
 

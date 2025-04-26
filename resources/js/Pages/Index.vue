@@ -374,16 +374,14 @@
 <script setup>
 // Importaciones
 import { router } from "@inertiajs/vue3";
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 
 // Componentes
 // import WeatherApi from "@/Components/WeatherApi.vue";
 // import ActivityCard from "@/Components/ActivityCard.vue";
 // import TrainerCard from "@/Components/TrainerCard.vue";
 // import BusinessCard from "@/Components/BusinessCard.vue";
-import PublicLayout from "@/Layouts/PublicLayout.vue";
 
-// defineOptions({ layout: PublicLayout });
 
 const videoSrc = ref(
     "https://www.crossfit.com/wp-content/uploads/2023/11/13114552/CrossFit-Where-Fitness-Meets-Health.mp4"
