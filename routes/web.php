@@ -13,7 +13,10 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\GoogleCalendarController;
 use App\Http\Controllers\MembershipController;
-use Spatie\GoogleCalendar\Event;
+// use Spatie\GoogleCalendar\Event;
+use App\Http\Middleware\TranslationsMiddleware;
+
+use App\Mail\ReservationPayment;
 
 /* Route::get('/', function () {
 return Inertia::render('Welcome', [
@@ -33,19 +36,22 @@ Route::middleware([
     })->name('dashboard');
 });
 
-// PUBLIC routes
-Route::inertia('/', 'Index')->name('index'); // Entrada
-
+Route::middleware(TranslationsMiddleware::class)->group(function () {
+    // PUBLIC routes
+    Route::inertia('/', 'Index')->name('index'); // Entrada
 // Route::inertia('publicTrainers', 'Public/Trainer')->name('trainers.public');
-Route::inertia('/contact', 'Public/Contact')->name('contact');
+    Route::inertia('/contact', 'Public/Contact')->name('contact');
+    Route::resource('activities', ActivityController::class);
+    Route::resource('posts', PostController::class);
+    // Mensaje contacto sin registro --> DESDE QUE CONTROLADOR SE DEBERÍA DE HACER? CONTROLADOR PUBLIC???
+    Route::post('contact', [AdminController::class, 'unregisteredUserMessage'])->name('admin.unregisteredUserMessage');
+});
 
-Route::resource('activities', ActivityController::class);
-
-Route::resource('posts', PostController::class);
-
-// Mensaje contacto sin registro --> DESDE QUE CONTROLADOR SE DEBERÍA DE HACER? CONTROLADOR PUBLIC???
-Route::post('contact', [AdminController::class, 'unregisteredUserMessage'])->name('admin.unregisteredUserMessage');
-
+// Gestión de idioma
+Route::get('/language/{language}', function ($language) {
+    Session::put('locale', $language);
+    return redirect()->back();
+})->name('language');
 
 // TRAINERS routes
 Route::controller(TrainerController::class)->group(function () {
@@ -309,3 +315,14 @@ Route::post('/test-google', [GoogleCalendarController::class, 'testConnection'])
 Route::get('/inbox', [MessageController::class, 'inbox'])->name('inbox');
 Route::post('/message/{user}', [MessageController::class, 'store'])->name('message.store');
 Route::get('/message/{user}', [MessageController::class, 'show'])->name('message.show');
+
+
+
+// TODO: Probando envios de email
+Route::get('/test-email', function () {
+
+    $name = 'Lernik Test';
+
+    Mail::to('lernikgpt@gmail.com')->send(new ReservationPayment($name));
+
+});

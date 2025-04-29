@@ -1,5 +1,5 @@
 <template>
-    <main class="container mx-auto py-8 px-4">
+    <main class="container mx-auto py-8 px-4 dark:bg-gray-800 dark:text-gray-600">
         <!-- Mensajes de éxito y error -->
         <section>
             <div
@@ -18,7 +18,7 @@
         </section>
 
         <!-- Sección de Eventos Destacados -->
-        <section class="mb-16">
+        <section class="mb-16 dark:bg-gray-800 dark:text-gray-600">
             <h3 class="text-2xl font-bold mb-6">Actividades más destacadas</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div
@@ -63,7 +63,7 @@
         </section>
 
         <!-- Sección de Todas las Actividades -->
-        <section>
+        <section class="mb-16 dark:bg-gray-800 dark:text-gray-600">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-2xl font-bold">Todas las actividades</h3>
                 <div class="relative">
@@ -90,7 +90,7 @@
             </div>
 
             <!-- Tabla de actividades -->
-            <div class="bg-white rounded-xl shadow overflow-hidden">
+            <div class="bg-white rounded-xl shadow overflow-hidden dark:bg-gray-800 dark:text-gray-600">
                 <div class="overflow-x-auto">
                     <table class="w-full min-w-max">
                         <thead class="bg-gray-50">

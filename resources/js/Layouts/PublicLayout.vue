@@ -1,14 +1,19 @@
 <template>
-    <!-- Cabecera -->
-    <NavBar />
+    <div
+        class="min-h-screen bg-gray-100 dark:bg-gray-900"
+        :class="{ dark: isDark }"
+    >
+        <!-- Cabecera -->
+        <NavBar />
 
-    <!-- Cuerpo -->
-    <main>
-        <slot />
-    </main>
+        <!-- Cuerpo -->
+        <main>
+            <slot />
+        </main>
 
-    <!-- Pie -->
-    <Footer />
+        <!-- Pie -->
+        <Footer />
+    </div>
 </template>
 
 <script setup>

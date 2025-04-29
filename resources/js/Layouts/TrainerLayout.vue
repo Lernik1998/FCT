@@ -1,6 +1,4 @@
 <template>
-    <p>Trainer Layout</p>
-
     <!-- Cabecera -->
 
     <TrainersNavBar />

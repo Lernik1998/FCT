@@ -1,6 +1,6 @@
 <template>
     <!-- Contenido principal -->
-    <main class="container mx-auto py-8 px-4 sm:px-6">
+    <main class="container mx-auto py-8 px-4 sm:px-6 dark:bg-gray-800 dark:text-gray-600">
         <!-- Bienvenida -->
         <div class="mb-10 bg-white rounded-xl shadow-lg p-6 animate-fade-in">
             <div

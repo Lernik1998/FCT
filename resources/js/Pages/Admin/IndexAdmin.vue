@@ -1,10 +1,10 @@
 <template>
-    <div class="min-h-screen bg-gray-50">
+    <div class="min-h-screen bg-gray-50 dark:bg-gray-800 dark:text-gray-600">
         <!-- Contenido principal -->
         <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
             <!-- Encabezado -->
             <div class="text-center mb-10">
-                <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl dark:text-white">
                     Gestiona todos los aspectos de tu plataforma
                 </h1>
                 <!-- <p class="mt-3 text-lg text-gray-500">

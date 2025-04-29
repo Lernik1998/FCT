@@ -26,7 +26,7 @@
                 </section> -->
 
     <section
-        class="relative flex items-center justify-center overflow-hidden"
+        class="relative flex items-center justify-center overflow-hidden dark:bg-gray-900 dark:text-white"
         style="height: 75vh; min-height: 600px"
     >
         <!-- Video de fondo -->
@@ -106,10 +106,10 @@
         </section> -->
 
     <!-- FitWorking es para ti -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 dark:bg-gray-900 dark:text-white">
         <!-- Encabezado -->
         <div class="flex justify-between items-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
                 FitWorking es para ti
             </h2>
             <a
@@ -147,11 +147,11 @@
                     ></div>
                 </div>
                 <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 dark:text-white">
                         Una promesa paterna: Perder 38 kilos para correr con sus
                         hijos
                     </h3>
-                    <p class="text-gray-600 mb-4">
+                    <p class="text-gray-600 mb-4 dark:text-gray-300">
                         Caminar es más fácil, subir las escaleras, correr detrás
                         de los niños, todas estas cosas son tan más fáciles
                         ahora.
@@ -174,11 +174,11 @@
                     ></div>
                 </div>
                 <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 dark:text-white">
                         Supera lo físico: Desarrolla tu resistencia y fortaleza
                         mental
                     </h3>
-                    <p class="text-gray-600 mb-4">
+                    <p class="text-gray-600 mb-4 dark:text-gray-300">
                         Practicar un ejercicio físico que sea difícil ayuda a
                         desarrollar la fortaleza mental cuando algo no sale bien
                         en la vida.
@@ -201,11 +201,11 @@
                     ></div>
                 </div>
                 <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 dark:text-white">
                         Sentido de pertenencia: Una comunidad que te ayuda a
                         lograr tus metas
                     </h3>
-                    <p class="text-gray-600 mb-4">
+                    <p class="text-gray-600 mb-4 dark:text-gray-300">
                         Hay algo que une cuando luchamos juntos. Nos apoyamos
                         mutuamente y hacemos muchas cosas juntos.
                     </p>
@@ -313,14 +313,14 @@
 
     <!-- Funcionamiento -->
     <section>
-        <div class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="bg-white py-16 px-4 sm:px-6 lg:px-8 dark:bg-gray-900 dark:text-white">
             <div class="max-w-7xl mx-auto">
                 <!-- Título de sección (opcional) -->
-                <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">
+                <h2 class="text-3xl font-bold text-center text-gray-900 mb-12 dark:text-white">
                     ¿Cómo funcionamos?
                 </h2>
 
-                <h4 class="mb-10 text-center">
+                <h4 class="mb-10 text-center dark:text-white">
                     Si tienes dudas de cómo trabajamos aquí y qué
                     características tiene nuestro servicio, te cuento brevemente
                     abajo.
@@ -381,7 +381,6 @@ import { ref } from "vue";
 // import ActivityCard from "@/Components/ActivityCard.vue";
 // import TrainerCard from "@/Components/TrainerCard.vue";
 // import BusinessCard from "@/Components/BusinessCard.vue";
-
 
 const videoSrc = ref(
     "https://www.crossfit.com/wp-content/uploads/2023/11/13114552/CrossFit-Where-Fitness-Meets-Health.mp4"

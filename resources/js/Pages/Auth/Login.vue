@@ -2,9 +2,7 @@
     <Head title="Iniciar sesión" />
 
     <!-- Fondo con gradiente y elementos decorativos -->
-    <div
-        class="min-h-screen bg-gradient-to-br flex flex-col"
-    >
+    <div class="min-h-screen bg-gradient-to-br flex flex-col">
         <!-- Botón de volver -->
         <div class="pt-6 pl-6">
             <Link
@@ -61,10 +59,10 @@
                                 v-model="form.email"
                                 type="email"
                                 class="mt-1 block w-full bg-gray-700 text-white border-gray-600 focus:border-orange-500 focus:ring-orange-500 rounded-md shadow-sm"
-                                required
                                 autofocus
                                 autocomplete="username"
                             />
+                            <!--  required -->
                             <InputError
                                 class="mt-2"
                                 :message="form.errors.email"
@@ -82,9 +80,9 @@
                                 v-model="form.password"
                                 type="password"
                                 class="mt-1 block w-full bg-gray-700 text-white border-gray-600 focus:border-orange-500 focus:ring-orange-500 rounded-md shadow-sm"
-                                required
                                 autocomplete="current-password"
                             />
+                            <!--  required -->
                             <InputError
                                 class="mt-2"
                                 :message="form.errors.password"
