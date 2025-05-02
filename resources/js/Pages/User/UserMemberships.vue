@@ -16,6 +16,7 @@
                         Acceso limitado a áreas comunes y 5 horas mensuales de
                         coworking.
                     </p>
+                    <a :href="route('stripe.checkout', 'basico')" class="mt-4 inline-block bg-orange-500 text-white py-2 px-4 rounded">Suscribirse</a>
                 </div>
 
                 <div
@@ -26,6 +27,7 @@
                         Acceso completo al coworking, 10 horas mensuales de
                         fitness y Wi-Fi premium.
                     </p>
+                    <a :href="route('stripe.checkout', 'pro')" class="mt-4 inline-block bg-orange-500 text-white py-2 px-4 rounded">Suscribirse</a>
                 </div>
 
                 <div
@@ -36,6 +38,7 @@
                         Acceso 24/7, zona fitness completa, eventos exclusivos y
                         oficina privada.
                     </p>
+                    <a :href="route('stripe.checkout', 'elite')" class="mt-4 inline-block bg-orange-500 text-white py-2 px-4 rounded">Suscribirse</a>
                 </div>
             </div>
         </section>

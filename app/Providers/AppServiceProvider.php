@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+use Laravel\Cashier\Cashier;
+use App\Models\Subscription;
+use App\Models\SubscriptionItem;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -19,8 +23,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // FIXME: Por ahora, para testing
+        // Cashier
+        // Cashier::useSubscriptionModel(Subscription::class);
+        // Cashier::useSubscriptionItemModel(SubscriptionItem::class);
 
+
+
+        // FIXME: Por ahora, para testing
         config([
             'google_calendars' => [
                 'General' => env('GOOGLE_CALENDAR_ID'),

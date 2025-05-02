@@ -29,6 +29,20 @@ class ActivitySeeder extends Seeder
         ]);
 
         Activity::create([
+            'name' => 'Spinning',
+            'description' => 'Ejercicio cardiovascular de alta intensidad realizado en bicicletas estáticas con cambios de ritmo y resistencia.',
+            'image' => '/ownImages/activities/spinning.jpg',
+            'price' => 10.00,
+            'start_time' => '15:30:00',
+            'end_time' => '17:00:00',
+            'status' => 'active',
+            'date' => '2025-05-05',
+            'user_id' => 3,
+            'category_id' => 5,
+            'slots' => 10,
+        ]);
+
+        Activity::create([
             'name' => 'Pesas',
             'description' => 'Entrenamiento de fuerza basado en el levantamiento de pesas para desarrollar masa muscular y resistencia.',
             'image' => '/ownImages/activities/pesas.jpg',

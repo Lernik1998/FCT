@@ -15,6 +15,7 @@ use App\Http\Controllers\GoogleCalendarController;
 use App\Http\Controllers\MembershipController;
 // use Spatie\GoogleCalendar\Event;
 use App\Http\Middleware\TranslationsMiddleware;
+use App\Http\Controllers\StripeController;
 
 use App\Mail\ReservationPayment;
 
@@ -25,6 +26,15 @@ return Inertia::render('Welcome', [
     'laravelVersion' => Application::VERSION,
     'phpVersion' => PHP_VERSION,
 ]);*/
+
+
+
+
+Route::get('/checkout/{name}', [StripeController::class, 'checkout'])->name('stripe.checkout');
+
+Route::get('/success', [StripeController::class, 'success'])->name('stripe.success');
+Route::get('/cancel', [StripeController::class, 'cancel'])->name('stripe.cancel');
+
 
 Route::middleware([
     'auth:sanctum',

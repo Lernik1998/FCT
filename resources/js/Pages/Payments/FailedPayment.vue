@@ -6,6 +6,13 @@
             nuevo.
         </p>
         <p>{{ message }}</p>
+
+        <!-- Botoón volver a la página de inicio -->
+        <a
+            :href="route('users.index')"
+            class="inline-block bg-orange-500 text-white py-2 px-4 rounded mt-4"
+            >Volver a la página de inicio</a
+        >
     </div>
 </template>
 
