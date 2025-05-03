@@ -4,7 +4,9 @@
         <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
             <!-- Encabezado -->
             <div class="text-center mb-10">
-                <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl dark:text-white">
+                <h1
+                    class="text-3xl font-extrabold text-gray-900 sm:text-4xl dark:text-white"
+                >
                     Gestiona todos los aspectos de tu plataforma
                 </h1>
                 <!-- <p class="mt-3 text-lg text-gray-500">
@@ -228,6 +230,114 @@
                                     <path
                                         fill-rule="evenodd"
                                         d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                                        clip-rule="evenodd"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta de Suscripciones -->
+                <div
+                    class="bg-white overflow-hidden shadow rounded-lg transition-all duration-200 hover:shadow-lg"
+                >
+                    <div class="px-6 py-5">
+                        <div class="flex items-center">
+                            <div
+                                class="flex-shrink-0 bg-blue-500 rounded-md p-3"
+                            >
+                                <svg
+                                    class="h-6 w-6 text-white"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M17 9V7a2 2 0 00-2-2H9a2 2 0 00-2 2v2M7 15v2a2 2 0 002 2h6a2 2 0 002-2v-2M3 10h18M3 14h18"
+                                    />
+                                </svg>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <h3 class="text-lg font-medium text-gray-900">
+                                    Gestión de Suscripciones
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500 truncate">
+                                    Administra suscripciones registradas
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <a
+                                :href="route('admin.subscriptionAdmin')"
+                                class="inline-flex items-center text-blue-600 hover:text-blue-800"
+                            >
+                                Acceder
+                                <svg
+                                    class="ml-1 h-4 w-4"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                                        clip-rule="evenodd"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta de pagos -->
+                <div
+                    class="bg-white overflow-hidden shadow rounded-lg transition-all duration-200 hover:shadow-lg"
+                >
+                    <div class="px-6 py-5">
+                        <div class="flex items-center">
+                            <div
+                                class="flex-shrink-0 bg-blue-500 rounded-md p-3"
+                            >
+                                <svg
+                                    class="h-6 w-6 text-white"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M17 9V7a2 2 0 00-2-2H9a2 2 0 00-2 2v2M7 15v2a2 2 0 002 2h6a2 2 0 002-2v-2M3 10h18M3 14h18"
+                                    />
+                                </svg>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <h3 class="text-lg font-medium text-gray-900">
+                                    Gestión de pagos
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500 truncate">
+                                    Administra pagos registrados
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <a
+                                :href="route('admin.membershipReservations')"
+                                class="inline-flex items-center text-blue-600 hover:text-blue-800"
+                            >
+                                Acceder
+                                <svg
+                                    class="ml-1 h-4 w-4"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
                                         clip-rule="evenodd"
                                     />
                                 </svg>

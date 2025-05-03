@@ -29,7 +29,7 @@ return Inertia::render('Welcome', [
 
 
 
-
+// PAYMENTS
 Route::get('/checkout/{name}', [StripeController::class, 'checkout'])->name('stripe.checkout');
 
 Route::get('/success', [StripeController::class, 'success'])->name('stripe.success');
@@ -55,6 +55,10 @@ Route::middleware(TranslationsMiddleware::class)->group(function () {
     Route::resource('posts', PostController::class);
     // Mensaje contacto sin registro --> DESDE QUE CONTROLADOR SE DEBERÍA DE HACER? CONTROLADOR PUBLIC???
     Route::post('contact', [AdminController::class, 'unregisteredUserMessage'])->name('admin.unregisteredUserMessage');
+
+    Route::inertia('empezarAhora', 'Public/BeforeStart')->name('beforeStart');
+    Route::inertia('bodyChanges', 'Public/BodyChanges')->name('bodyChanges');
+    Route::inertia('firstClass', 'Public/FirstClass')->name('firstClass');
 });
 
 // Gestión de idioma
@@ -204,6 +208,22 @@ Route::controller(AdminController::class)->group(function () {
 
     // Route::post('admin/contactAdmin', [AdminController::class, 'contactAdmin'])->name('admin.contactAdmin');
 
+    /************************************** GESTIÓN DE SUSCRIPTIONS ************************************** */
+    Route::get('admin/subscriptionAdmin', [AdminController::class, 'subscriptionAdmin'])->name('admin.subscriptionAdmin');
+
+    Route::get('admin/createMembershipView', [AdminController::class, 'createMembershipView'])->name('admin.createMembershipView');
+
+    Route::post('admin/createMembership', [AdminController::class, 'storeMembership'])->name('admin.storeMembership');
+
+    Route::delete('admin/deleteMembership/{id}', [AdminController::class, 'destroyMembership'])->name('admin.destroyMembership');
+
+    Route::get('admin/membershipReservations', [AdminController::class, 'getMemberships'])->name('admin.membershipReservations');
+
+    Route::get('admin/paymentOptions/{name}', [AdminController::class, 'paymentOptions'])->name('admin.paymentOptions');
+
+    Route::post('admin/cancelSubscription/{name}', [AdminController::class, 'cancelSubscription'])->name('admin.cancelSubscription');
+
+    Route::post('admin/reactivateSubscription/{name}', [AdminController::class, 'reactivateSubscription'])->name('admin.reactivateSubscription');
 
     Route::resource('admin', AdminController::class); // Siempre al final
 });

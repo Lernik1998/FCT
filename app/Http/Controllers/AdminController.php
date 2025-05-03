@@ -14,8 +14,11 @@ use Illuminate\Support\Str; // Modelo Str para renombrar la imagen
 use Inertia\Inertia; // Facade para Inertia
 use Illuminate\Support\Facades\Auth; // Facade para autenticación
 
-
-
+// Stripe
+// use Stripe\Plan;
+use App\Models\Plan;
+use Stripe\Price;
+use Stripe\Stripe;
 
 class AdminController extends Controller
 {
@@ -484,4 +487,239 @@ class AdminController extends Controller
         $users = User::where('id', '!=', Auth::user()->id)->get();
         return Inertia::render('Admin/MessageAdmin', ['users' => $users]);
     }
+
+
+    // SUSCRIPTIONS
+    public function subscriptionAdmin()
+    {
+        // $subscriptions = Subscription::all();
+        // $plans = Plan::all();
+
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        $plans = Plan::all()->map(function ($plan) {
+            try {
+                $stripePrice = Price::retrieve($plan->stripe_price_id);
+                $plan->price = number_format($stripePrice->unit_amount / 100, 2); // en euros
+                $plan->duration = $stripePrice->recurring->interval;
+            } catch (\Exception $e) {
+                $plan->price = 'N/D';
+                $plan->duration = 'N/D';
+            }
+
+            return $plan;
+        });
+
+        return Inertia::render('Admin/PaymentOptions/PaymentsShow', ['plans' => $plans]); //['subscriptions' => $subscriptions]
+    }
+
+    public function createMembershipView()
+    {
+        return Inertia::render('Admin/PaymentOptions/PaymentCreate');
+    }
+
+    // public function storeMembership(Request $request)
+    // {
+    //     // dd($request->all());
+    //     \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+
+    //     $cantidad = $request->price * 100;
+
+    //     try {
+    //         $plan = Plan::create([
+    //             'name' => $request->name,
+    //             'price' => $cantidad,
+    //             'duration' => $request->duration,
+    //         ]);
+    //     } catch (\Throwable $th) {
+    //         $message = 'Error en el envío del mensaje, intentelo de nuevo más tarde!';
+    //     }
+
+    //     // Con el plan creado, lo guardo en la base de datos
+    //     $membership = \App\Models\Plan::create([
+    //         'name' => $request->name,
+    //         'stripe_plan_id' => $plan->id,
+    //         'stripe_price_id' => $plan->price,
+    //     ]);
+
+    //     return redirect()->route('admin.subscriptionAdmin');
+
+    // }
+
+    // public function storeMembership(Request $request)
+    // {
+    //     \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+
+    //     $amount = $request->price * 100;
+
+    //     try {
+    //         // 1. Crear el producto en Stripe
+    //         $product = \Stripe\Product::create([
+    //             'name' => $request->name,
+    //         ]);
+
+    //         // 2. Crear el precio en Stripe
+    //         $price = \Stripe\Price::create([
+    //             'unit_amount' => $amount,
+    //             'currency' => 'eur', // o el que uses
+    //             'recurring' => ['interval' => $request->duration], // e.g. 'month'
+    //             'product' => $product->id,
+    //         ]);
+
+    //         // 3. Guardar en tu base de datos
+    //         $plan = Plan::create([
+    //             'name' => $request->name,
+    //             'stripe_plan_id' => $product->id,
+    //             'stripe_price_id' => $price->id,
+    //         ]);
+
+    //         return redirect()->route('admin.subscriptionAdmin')->with('success', 'Plan creado correctamente.');
+
+    //     } catch (\Throwable $th) {
+    //         return back()->withErrors(['error' => 'Error al crear el plan: ' . $th->getMessage()]);
+    //     }
+    // }
+
+    public function storeMembership(Request $request)
+    {
+        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+
+        $amount = $request->price * 100;
+
+        // Mapear duración a intervalo Stripe
+        $durationMap = [
+            '1' => 'month',
+            '3' => 'month',
+            '6' => 'month',
+            '12' => 'month',
+        ];
+
+        $interval = $durationMap[$request->duration] ?? 'month';
+
+        try {
+            // Crear producto
+            $product = \Stripe\Product::create([
+                'name' => $request->name,
+            ]);
+
+            // Crear precio
+            $price = \Stripe\Price::create([
+                'unit_amount' => $amount,
+                'currency' => 'eur',
+                'recurring' => ['interval' => $interval],
+                'product' => $product->id,
+            ]);
+
+            // Guardar en BD
+            $plan = Plan::create([
+                'name' => $request->name,
+                'stripe_plan_id' => $product->id,
+                'stripe_price_id' => $price->id,
+            ]);
+
+            return redirect()->route('admin.subscriptionAdmin')->with('success', 'Plan creado correctamente.');
+
+        } catch (\Throwable $th) {
+            return back()->withErrors(['error' => 'Error al crear el plan: ' . $th->getMessage()]);
+        }
+    }
+
+    public function destroyMembership(string $id)
+    {
+        /* No se puede eliminar directamente un Price ni un Product si ha sido usado alguna vez.
+         Por lo tanto, lo que se hace es desactivarlos */
+        $plan = Plan::findOrFail($id);
+
+        try {
+            \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+            // Desactivar el precio en Stripe
+            \Stripe\Price::update($plan->stripe_price_id, [
+                'active' => false,
+            ]);
+
+            // Archivar el producto en Stripe
+            \Stripe\Product::update($plan->stripe_plan_id, [
+                'active' => false,
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('Error al desactivar en Stripe: ' . $e->getMessage());
+        }
+
+        $plan->delete();
+
+        return redirect()->route('admin.subscriptionAdmin')->with('success', 'Membresía eliminada correctamente.');
+    }
+
+
+    // Obtener todas las membresias reservadas y gestionarlas
+
+    public function getMemberships()
+    {
+        // Carga todos los usuarios con su suscripción (de la tabla subscriptions)
+        $memberships = User::where('stripe_id', '!=', null)->get();
+
+        $memberships->map(function ($user) {
+            $user->membership = $user->subscriptions()->first();
+        });
+
+        return Inertia::render('Admin/PaymentOptions/MembershipReservations', [
+            'memberships' => $memberships,
+        ]);
+    }
+
+
+    public function paymentOptions($stripe_id)
+    {
+        $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
+
+        $subscription = $stripe->subscriptions->retrieve($stripe_id, []);
+
+        return Inertia::render('Admin/PaymentOptions/PaymentOptions', [
+            'stripe_id' => $stripe_id,
+            'subscription' => $subscription, // Añadir esto si quieres acceder a los datos en la vista
+        ]);
+    }
+
+    public function cancelSubscription($stripe_id)
+    {
+        $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
+
+        $subscription = $stripe->subscriptions->cancel($stripe_id, []);
+
+        return redirect()->route('admin.membershipReservations')->with('success', 'Suscripción cancelada correctamente.');
+    }
+
+
+    // FIXME: ALTERNATIVA DE CREAR OTRA SUSCRIPCION, PORQUE NO SE PUEDE REACTIVAR
+    // public function reactivateSubscription($stripe_id)
+    // {
+    //     $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
+
+    //     // Quitamos la cancelación al final del periodo
+    //     $subscription = $stripe->subscriptions->update($stripe_id, [
+    //         'cancel_at_period_end' => false,
+    //     ]);
+
+    //     return redirect()->route('admin.getMemberships')->with('success', 'Suscripción reactivada correctamente.');
+    // }
+
+    // public function recreateSubscription($stripeCustomerId, $priceId)
+    // {
+    //     $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
+
+    //     $subscription = $stripe->subscriptions->create([
+    //         'customer' => $stripeCustomerId,
+    //         'items' => [
+    //             ['price' => $priceId],
+    //         ],
+    //         'default_payment_method' => 'pm_xxxx', // si ya tienes uno guardado
+    //     ]);
+
+    //     return redirect()->route('admin.getMemberships')->with('success', 'Suscripción creada nuevamente.');
+    // }
+
+
+
 }

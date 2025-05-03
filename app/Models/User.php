@@ -12,6 +12,9 @@ use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Cashier\Billable;
 
+
+use Laravel\Cashier\Subscription;
+
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -76,7 +79,7 @@ class User extends Authenticatable
     }
 
 
-    // Para la gestión de los roles, pendiente probar si funciona
+    // Para la gestión de los roles,TODO: pendiente probar si funciona
 
     public function setRoleAttribute($value)
     {
@@ -95,5 +98,22 @@ class User extends Authenticatable
                 break;
         }
     }
+
+    // Relación con membresía
+    // User.php
+    // public function membership()
+    // {
+    //     return $this->belongsTo(Plan::class, 'plan_id');
+    // }
+
+
+    // User.php
+
+
+    // public function subscriptions()
+    // {
+    //     return $this->hasMany(Subscription::class);
+    // }
+
 
 }

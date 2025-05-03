@@ -1,7 +1,13 @@
 <template>
     <main>
         <section class="ml-6 mt-10">
-            <h1 class="text-2xl font-bold mb-4">Memberships User</h1>
+            <h1 class="text-2xl font-bold mb-4">Membresía en uso</h1>
+
+            <div>
+                <h2 class="text-xl font-semibold mb-4 text-gray-700">
+                    Información de la membresía, hacer un Componente
+                </h2>
+            </div>
         </section>
 
         <section class="mt-16">
@@ -16,7 +22,14 @@
                         Acceso limitado a áreas comunes y 5 horas mensuales de
                         coworking.
                     </p>
-                    <a :href="route('stripe.checkout', 'basico')" class="mt-4 inline-block bg-orange-500 text-white py-2 px-4 rounded">Suscribirse</a>
+                    <p>Precio: $10</p>
+
+                    
+                    <a
+                        :href="route('stripe.checkout', 'basico')"
+                        class="mt-4 inline-block bg-orange-500 text-white py-2 px-4 rounded"
+                        >Suscribirse</a
+                    >
                 </div>
 
                 <div
@@ -27,7 +40,11 @@
                         Acceso completo al coworking, 10 horas mensuales de
                         fitness y Wi-Fi premium.
                     </p>
-                    <a :href="route('stripe.checkout', 'pro')" class="mt-4 inline-block bg-orange-500 text-white py-2 px-4 rounded">Suscribirse</a>
+                    <a
+                        :href="route('stripe.checkout', 'pro')"
+                        class="mt-4 inline-block bg-orange-500 text-white py-2 px-4 rounded"
+                        >Suscribirse</a
+                    >
                 </div>
 
                 <div
@@ -38,7 +55,11 @@
                         Acceso 24/7, zona fitness completa, eventos exclusivos y
                         oficina privada.
                     </p>
-                    <a :href="route('stripe.checkout', 'elite')" class="mt-4 inline-block bg-orange-500 text-white py-2 px-4 rounded">Suscribirse</a>
+                    <a
+                        :href="route('stripe.checkout', 'elite')"
+                        class="mt-4 inline-block bg-orange-500 text-white py-2 px-4 rounded"
+                        >Suscribirse</a
+                    >
                 </div>
             </div>
         </section>

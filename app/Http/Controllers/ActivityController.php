@@ -13,7 +13,12 @@ class ActivityController extends Controller
     public function index()
     {
         // Obtengo todas las actividades donde el status sea active
-        $activities = Activity::where('status', 'active')->get();
+        // $activities = Activity::where('status', 'active')->get();
+
+        $activities = Activity::where('status', 'active')
+            ->get()
+            ->unique('name') // Filtra por nombre
+            ->values(); // Reindexa la colección
 
         return inertia('Public/Activity', compact('activities'));
     }

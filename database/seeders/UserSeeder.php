@@ -70,27 +70,27 @@ class UserSeeder extends Seeder
         ]);
 
         // Entrenadores
-        User::factory(10)->create([
+        User::factory(3)->create([
             'role' => 'trainer',
             'category' => 'Resistencia y cardio',
         ]);
-        User::factory(10)->create([
+        User::factory(3)->create([
             'role' => 'trainer',
             'category' => 'Baile',
         ]);
-        User::factory(10)->create([
+        User::factory(3)->create([
             'role' => 'trainer',
             'category' => 'Flexibilidad y cuerpo-mente',
         ]);
-        User::factory(10)->create([
+        User::factory(3)->create([
             'role' => 'trainer',
             'category' => 'Fuerza y acondicionamiento',
         ]);
-        User::factory(10)->create([
+        User::factory(3)->create([
             'role' => 'trainer',
             'category' => 'Rehabilitación o movimiento suave',
         ]);
-        User::factory(10)->create([
+        User::factory(3)->create([
             'role' => 'trainer',
             'category' => 'General',
         ]);

@@ -19,17 +19,15 @@
             >
                 FitWorking
             </h1>
-            <p class="text-lg animate-fade-in">
-                Explora lo mejor del deporte en la zona de la Marina Alta
-            </p>
+            <p class="text-lg animate-fade-in">Explora lo mejor del deporte</p>
         </div>
     </section>
 
     <!-- Sección de Destacados con hover -->
-    <section class="py-12 px-4 bg-gray-100">
-        <div class="container mx-auto text-center">
+    <section class="py-12 px-4 bg-gray-100 mt-8">
+        <!-- <div class="container mx-auto text-center">
             <h2 class="text-3xl font-semibold mb-6">
-                Actividades de esta semana
+                Actividades que puedes encontrar en FitWorking
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div
@@ -49,15 +47,49 @@
                     >
                 </div>
             </div>
+        </div>  -->
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div
+                v-for="activity in activities"
+                class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300 flex flex-col"
+            >
+                <!-- Imagen de la actividad (puedes añadir una propiedad image a tus actividades) -->
+                <div class="h-40 bg-gray-300 overflow-hidden">
+                    <img
+                        :src="activity.image || '/placeholder-actividad.jpg'"
+                        :alt="activity.name"
+                        class="w-full h-full object-cover"
+                    />
+                </div>
+                <div class="p-4 flex-grow">
+                    <h3
+                        class="text-lg font-semibold mb-2 text-gray-800 line-clamp-1"
+                    >
+                        {{ activity.name }}
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                        {{ activity.description }}
+                    </p>
+                </div>
+                <div class="px-4 pb-4">
+                    <a
+                        :href="route('activities.show', activity.id)"
+                        class="block w-full py-2 bg-orange-500 text-white text-center rounded hover:bg-orange-600 transition"
+                    >
+                        Ver detalles
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Categorías Deportivas con efecto hover -->
-    <section class="py-12">
+    <!-- Categorías Deportivas con efecto hover SE PUEDE PONER EN OTRO LUGAR, TANTO EN USER COMO EN PUBLIC TODO:-->
+    <!-- <section class="py-12">
         <div class="container mx-auto text-center">
             <ActivityAutoSlideshow :activities="activities" />
         </div>
-    </section>
+    </section> -->
 
     <!-- FAQS -->
     <FAQS />
@@ -65,7 +97,7 @@
 
 <script setup>
 // Componentes
-import ActivityAutoSlideshow from "./Components/ActivityAutoSlideshow.vue";
+// import ActivityAutoSlideshow from "./Components/ActivityAutoSlideshow.vue";
 import FAQS from "./Components/FAQS.vue";
 import PublicLayout from "@/Layouts/PublicLayout.vue";
 
