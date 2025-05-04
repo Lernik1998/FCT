@@ -1,12 +1,4 @@
 <template>
-    <!-- Navegación -->
-    <nav class="p-4 border-b shadow-md bg-white">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="text-xl font-bold">Marina Alta Deportes</div>
-            <NavBar />
-        </div>
-    </nav>
-
     <div class="ml-20 mt-10">
         <button
             @click="() => router.visit(route('activities.index'))"
@@ -16,19 +8,19 @@
         </button>
     </div>
 
-    <section class="min-h-screen bg-gray-50 flex flex-col items-center p-6">
+    <section class="min-h-screen flex flex-col items-center p-6">
         <div
             class="max-w-4xl w-full bg-white shadow-lg rounded-lg overflow-hidden animate-fade-in"
         >
             <!-- Imagen de portada -->
             <div class="relative">
-                <!-- <img
+                <img
                     :src="activity.image"
                     alt="Imagen de la actividad"
-                    class="w-full h-80 object-cover"
-                /> -->
+                    class="w-full h-full object-cover"
+                />
                 <div
-                    class="absolute inset-0 bg-black bg-opacity-30 flex items-center mt-10"
+                    class="absolute inset-0  bg-opacity-30 flex items-center mt-10"
                 >
                     <h1
                         class="text-4xl font-bold drop-shadow-lg ml-5 mb-6 mt-6"
@@ -53,6 +45,7 @@
                 <!-- Botón de acción -->
                 <div class="mt-6 text-center space-x-4">
                     <button
+                        @click="() => router.visit(route('login'))"
                         class="bg-blue-500 text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-md hover:bg-blue-600 transition"
                     >
                         ¡Reserva tu plaza!
@@ -65,11 +58,11 @@
                         ¡Compartir!
                     </button>
 
-                    <button
+                    <!-- <button
                         class="bg-yellow-500 text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-md hover:bg-yellow-600 transition"
                     >
                         Siguiente actividad
-                    </button>
+                    </button> -->
                 </div>
             </div>
         </div>
@@ -80,9 +73,6 @@
 // Importaciones
 import { ref, defineProps, computed } from "vue";
 import { router } from "@inertiajs/vue3";
-
-// Componentes
-import NavBar from "../Public/Components/NavBar.vue";
 
 // Recibe la actividad como prop
 const props = defineProps({

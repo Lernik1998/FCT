@@ -1,5 +1,7 @@
 <template>
-    <main class="container mx-auto py-8 px-4 dark:bg-gray-800 dark:text-gray-600">
+    <main
+        class="container mx-auto py-8 px-4 dark:bg-gray-800 dark:text-gray-600"
+    >
         <!-- Mensajes de éxito y error -->
         <section>
             <div
@@ -90,7 +92,9 @@
             </div>
 
             <!-- Tabla de actividades -->
-            <div class="bg-white rounded-xl shadow overflow-hidden dark:bg-gray-800 dark:text-gray-600">
+            <div
+                class="bg-white rounded-xl shadow overflow-hidden dark:bg-gray-800 dark:text-gray-600"
+            >
                 <div class="overflow-x-auto">
                     <table class="w-full min-w-max">
                         <thead class="bg-gray-50">
@@ -118,6 +122,11 @@
                                 <th
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
+                                    Capacidad
+                                </th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                >
                                     Precio
                                 </th>
                                 <th
@@ -140,23 +149,35 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="text-gray-600 line-clamp-2">
-                                        {{ activity.description }}
+                                        {{
+                                            activity.description.length < 50
+                                                ? activity.description
+                                                : activity.description.slice(
+                                                      0,
+                                                      50
+                                                  ) + "..."
+                                        }}
                                     </div>
                                 </td>
+
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-gray-600">
                                         {{ formatDate(activity.date) }}
                                     </div>
                                 </td>
+
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-gray-600">
                                         {{ activity.start_time }} -
                                         {{ activity.end_time }}
                                     </div>
                                 </td>
+
+                                <td>{{ activity.slots }} espacios</td>
+
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-gray-600">
-                                        {{ activity.price }}€
+                                        {{ activity.price }} €
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -168,7 +189,7 @@
                                                     activity.id
                                                 )
                                             "
-                                            class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 text-center py-2 px-4 rounded-lg transition-colors"
+                                            class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 text-center py-2 px-4 rounded-lg transition-colors mr-2"
                                         >
                                             Detalles
                                         </a>

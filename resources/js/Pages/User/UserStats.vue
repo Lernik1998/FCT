@@ -10,26 +10,18 @@
                 <h1
                     class="text-3xl sm:text-4xl font-bold text-gray-800 flex items-center justify-center"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-10 w-10 mr-3 text-orange-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                        />
-                    </svg>
-                    Tu Evolución Deportiva
+                    Evolución deportiva
                 </h1>
                 <p class="text-lg text-gray-600 mt-3 max-w-2xl mx-auto">
                     Visualiza tus logros y compite sanamente con tus amigos
                 </p>
             </div>
+
+            <pre>{{ reservations }}</pre>
+
+            <pre>{{ totalHours }}</pre>
+
+            <pre>{{ totalActivities }}</pre>
 
             <!-- Grid de contenido -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -62,18 +54,18 @@
                             </p>
                             <p class="text-gray-500">Horas este mes</p>
                         </div>
-                        <div class="text-center">
+                        <!-- <div class="text-center">
                             <p class="text-4xl font-bold text-blue-500">
                                 {{ progressPercentage }}%
                             </p>
                             <p class="text-gray-500">Progreso</p>
-                        </div>
-                        <div class="text-center">
+                        </div> -->
+                        <!-- <div class="text-center">
                             <p class="text-4xl font-bold text-green-500">
                                 {{ currentStreak }}
                             </p>
                             <p class="text-gray-500">Días seguidos</p>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="bg-gray-100 rounded-lg p-4">
@@ -84,7 +76,7 @@
                             <div
                                 class="bg-orange-500 h-4 rounded-full"
                                 :style="`width: ${progressPercentage}%`"
-                            ></div>
+                            />
                         </div>
                         <p class="text-right text-sm text-gray-500 mt-1">
                             {{ currentMonthHours }} de {{ monthlyGoal }} horas
@@ -131,8 +123,8 @@
                     </div>
 
                     <div class="h-64"> -->
-                        <!-- Aquí iría el componente de gráfica real -->
-                        <!-- <div
+                <!-- Aquí iría el componente de gráfica real -->
+                <!-- <div
                             class="w-full h-full bg-gray-100 rounded-lg flex items-center justify-center text-gray-400"
                         >
                             [Gráfica de progreso anual]
@@ -288,7 +280,7 @@
                 </div> -->
 
                 <!-- Logros -->
-                <div class="bg-white rounded-xl shadow-lg p-6 animate-slide-in">
+                <!-- <div class="bg-white rounded-xl shadow-lg p-6 animate-slide-in">
                     <h2
                         class="text-xl font-bold text-gray-800 mb-4 flex items-center"
                     >
@@ -385,7 +377,7 @@
                     >
                         Ver todos los logros
                     </button>
-                </div>
+                </div>-->
             </div>
         </div>
     </main>
@@ -393,94 +385,68 @@
 
 <script setup>
 // Importaciones de componentes
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import UserLayout from "@/Layouts/UserLayout.vue";
 
 defineOptions({ layout: UserLayout });
 
+// Props
+// Props - asignar el resultado de defineProps a una variable
+const props = defineProps({
+    reservations: Array,
+    totalHours: Number,
+    totalActivities: Number,
+    user: Object,
+});
+
 // Datos de progreso
-const currentMonthHours = ref(28);
-const monthlyGoal = ref(30);
-const currentStreak = ref(7);
-const selectedYear = ref(new Date().getFullYear());
-const availableYears = ref([2022, 2023, 2024]);
-
-// Calcular porcentaje de progreso
-const progressPercentage = computed(() => {
-    return Math.min(
-        Math.round((currentMonthHours.value / monthlyGoal.value) * 100),
-        100
-    );
-});
-
-// Estadísticas rápidas
-const quickStats = ref([
-    { label: "Horas totales", value: "156", color: "text-orange-500" },
-    { label: "Días activos", value: "24", color: "text-blue-500" },
-    { label: "Actividades", value: "18", color: "text-green-500" },
-    { label: "Calorías", value: "12.5k", color: "text-red-500" },
-]);
-
-// Ranking de amigos
-const friendsRanking = ref([
-    {
-        id: 1,
-        name: "Carlos",
-        points: 1200,
-        avatar: "https://source.unsplash.com/100x100/?portrait-man",
-    },
-    {
-        id: 2,
-        name: "Andrea",
-        points: 1100,
-        avatar: "https://source.unsplash.com/100x100/?portrait-woman",
-    },
-    {
-        id: 3,
-        name: "David",
-        points: 1050,
-        avatar: "https://source.unsplash.com/100x100/?man-smiling",
-    },
-    {
-        id: 4,
-        name: "Laura",
-        points: 980,
-        avatar: "https://source.unsplash.com/100x100/?woman-smiling",
-    },
-    {
-        id: 5,
-        name: "Pedro",
-        points: 950,
-        avatar: "https://source.unsplash.com/100x100/?young-man",
-    },
-]);
-
-// Calcular puntos máximos para el ranking
-const maxPoints = computed(() => {
-    return Math.max(...friendsRanking.value.map((f) => f.points));
-});
+const currentMonthHours = ref(0);
+const monthlyGoal = ref(20);
+const currentStreak = ref(0);
 
 // Logros
-const totalAchievements = 12;
-const unlockedAchievements = ref([1, 2, 3, 4, 5, 8]);
-const allAchievements = ref([
-    { id: 1, name: "Principiante", unlocked: true },
-    { id: 2, name: "5 días", unlocked: true },
-    { id: 3, name: "10 horas", unlocked: true },
-    { id: 4, name: "Maratón", unlocked: true },
-    { id: 5, name: "Rutina", unlocked: true },
-    { id: 6, name: "50 horas", unlocked: false },
-    { id: 7, name: "Reto 30d", unlocked: false },
-    { id: 8, name: "Social", unlocked: true },
-    { id: 9, name: "Élite", unlocked: false },
-    { id: 10, name: "100h", unlocked: false },
-    { id: 11, name: "Maestro", unlocked: false },
-    { id: 12, name: "Leyenda", unlocked: false },
-]);
+// const totalAchievements = 12;
+// const unlockedAchievements = ref([1, 2, 3, 4, 5, 8]);
+// const allAchievements = ref([
+//     { id: 1, name: "Principiante", unlocked: true },
+//     { id: 2, name: "5 días", unlocked: true },
+//     { id: 3, name: "10 horas", unlocked: true },
+//     { id: 4, name: "Maratón", unlocked: true },
+//     { id: 5, name: "Rutina", unlocked: true },
+//     { id: 6, name: "50 horas", unlocked: false },
+//     { id: 7, name: "Reto 30d", unlocked: false },
+//     { id: 8, name: "Social", unlocked: true },
+//     { id: 9, name: "Élite", unlocked: false },
+//     { id: 10, name: "100h", unlocked: false },
+//     { id: 11, name: "Maestro", unlocked: false },
+//     { id: 12, name: "Leyenda", unlocked: false },
+// ]);
 
 // Mostrar solo 6 logros (3x2 grid)
 const achievementsDisplay = computed(() => {
     return allAchievements.value.slice(0, 6);
+});
+
+// Calcular porcentaje de progreso
+// const progressPercentage = computed(() => {
+//     return Math.min(
+//         Math.round((currentMonthHours.value / monthlyGoal.value) * 100),
+//         100
+//     );
+// });
+
+const progressPercentage = computed(() => {
+    if (monthlyGoal.value === 0) return 0;
+    return Math.min(
+        (currentMonthHours.value / monthlyGoal.value) * 100,
+        100
+    ).toFixed(2);
+});
+
+onMounted(() => {
+    currentMonthHours.value = props.totalHours || 0;
+
+    // monthlyGoal.value = props.user?.monthly_goal || 20; // Valor por defecto si no existe
 });
 </script>
 

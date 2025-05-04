@@ -113,7 +113,7 @@
                                 'font-bold text-orange-500 underline':
                                     $page.component === 'User/UserMemberships',
                             }"
-                            >Suscripción X</Link
+                            >Suscripción, aplicar un Prefetch, es ideal </Link
                         >
                     </li>
 

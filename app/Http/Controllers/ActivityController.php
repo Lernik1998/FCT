@@ -48,7 +48,7 @@ class ActivityController extends Controller
         $activity = Activity::findOrFail($activity->id);
 
         //Retornar la actividad
-        return inertia('Activity/ActivityCard', compact('activity'));
+        return inertia('Public/Activity/ActivityCard', compact('activity'));
     }
 
     /**

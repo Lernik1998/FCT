@@ -63,13 +63,13 @@
                             >Inicio</a
                         >
                     </li>
-                    <li>
+                    <!-- <li>
                         <a
                             :href="route('trainers.payments')"
                             class="hover:underline"
                             >Pagos e ingresos</a
                         >
-                    </li>
+                    </li> -->
                     <li>
                         <a href="#" class="hover:underline"
                             >Gestión de reservas</a

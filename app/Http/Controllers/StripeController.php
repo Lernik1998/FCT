@@ -6,9 +6,8 @@ use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Charge;
 use App\Models\Plan;
-use App\Models\Subscription;
-use App\Models\SubscriptionItem;
-
+use Illuminate\Support\Facades\Auth;
+use Stripe\Subscription;
 
 class StripeController extends Controller
 {
@@ -40,9 +39,6 @@ class StripeController extends Controller
 
     public function success()
     {
-        // Creo en la bd FIXME:
-
-
         return inertia('Payments/SuccessPayment');
     }
 
@@ -70,6 +66,46 @@ class StripeController extends Controller
         \Log::info('Stripe webhook recibido');
 
         return response()->json(['status' => 'success']);
+    }
+
+    public function cancelMembership()
+    {
+
+        $user = Auth::user()->id;
+
+        // dd($user);
+
+        try {
+
+            // Obtener información de suscripción del usuario
+            $user = auth()->user();
+
+            $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
+
+            // Verificar si el usuario tiene una suscripción activa
+            if ($user->subscription('default')) {
+                $stripeSubscription = $stripe->subscriptions->retrieve($user->subscription('default')->stripe_id);
+                $currentProduct = $stripe->products->retrieve($stripeSubscription->items->data[0]->price->product);
+
+                // Opción 2: Cancelar al final del período de pago (recomendado)
+                $stripeSubscription->cancel();
+            }
+
+            // dd($stripeSubscription);
+
+            // Cancelar la suscripción en Stripe
+            // $subscription = $user->subscription('default');
+
+            // Opción 1: Cancelar inmediatamente
+            // $subscription->cancelNow();
+
+
+
+            return redirect()->back()->with('success', 'Tu suscripción ha sido cancelada y permanecerá activa hasta el final del período actual');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error al cancelar la suscripción: ' . $e->getMessage());
+        }
     }
 
 }

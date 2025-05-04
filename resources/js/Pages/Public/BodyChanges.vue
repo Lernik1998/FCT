@@ -1,5 +1,5 @@
 <template>
-    <section class="min-h-screen bg-white p-10 flex flex-col items-center justify-center text-center">
+    <section class="min-h-screen bg-white p-10 flex flex-col items-center text-center">
       <div class="max-w-3xl">
         <h1 class="text-4xl font-bold text-gray-900 mb-6">
           ¿Cómo cambiará tu cuerpo con FitWorking?

@@ -13,13 +13,22 @@
             Imprimir/Guardar
         </a> -->
 
-
         <!-- Botoón volver a la página de inicio -->
-        <a :href="route('users.index')" class="inline-block bg-orange-500 text-white py-2 px-4 rounded mt-4">Volver a la página de inicio</a>
+        <a
+            :href="route('users.index')"
+            class="inline-block bg-orange-500 text-white py-2 px-4 rounded mt-4"
+            >Volver a la página de inicio</a
+        >
     </div>
 </template>
 
 <script setup>
+import UserLayout from "@/Layouts/UserLayout.vue";
+
+defineOptions({
+    layout: UserLayout,
+});
+
 import { ref, onMounted } from "vue";
 
 const reservation = ref(null);

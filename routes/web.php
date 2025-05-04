@@ -143,6 +143,8 @@ Route::controller(UserController::class)->group(function () {
 
     Route::resource('user/membership', MembershipController::class);
 
+    Route::post('stripe/cancel', [StripeController::class, 'cancelMembership'])->name('stripe.cancel');
+
 });
 
 

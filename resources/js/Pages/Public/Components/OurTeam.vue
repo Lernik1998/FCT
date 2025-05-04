@@ -1,5 +1,5 @@
 <template>
-    <h2 class="text-center text-2xl font-semibold mt-8">Nuestro equipo</h2>
+    <h2 class="text-center text-2xl font-semibold mt-8 dark:text-white">Nuestro equipo</h2>
     <div class="flex flex-wrap justify-center mt-8">
         <div class="w-full sm:w-1/2 lg:w-1/3 p-4">
             <div class="bg-white shadow-lg rounded-lg overflow-hidden">

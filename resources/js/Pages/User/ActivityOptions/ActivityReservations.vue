@@ -1,5 +1,8 @@
 <template>
     <div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+
+
+    <pre>{{ reservations }}</pre>
         <!-- Contenido Principal -->
         <main class="container mx-auto py-8 px-4 sm:px-6">
             <!-- Encabezado -->
@@ -10,27 +13,13 @@
                     <h1
                         class="text-2xl sm:text-3xl font-bold text-gray-800 flex items-center"
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-8 w-8 mr-3 text-orange-500"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                            />
-                        </svg>
-                        Mis Reservas
+                        Reservas
                     </h1>
                     <p class="text-gray-600 mt-2">
                         Revisa y gestiona todas tus actividades reservadas
                     </p>
                 </div>
-                <div class="mt-4 md:mt-0">
+                <!--TODO: <div class="mt-4 md:mt-0">
                     <select
                         class="bg-white border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
                     >
@@ -40,7 +29,7 @@
                         <option>Pendientes</option>
                         <option>Canceladas</option>
                     </select>
-                </div>
+                </div> -->
             </div>
 
             <!-- Lista de Reservas -->
@@ -304,7 +293,7 @@
                     <p class="mt-1 text-gray-500">
                         Cuando hagas una reserva, aparecerá aquí.
                     </p>
-                    <div class="mt-6">
+                    <!-- <div class="mt-6">
                         <a
                             href="#"
                             class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600"
@@ -325,7 +314,7 @@
                             </svg>
                             Buscar actividades
                         </a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </main>

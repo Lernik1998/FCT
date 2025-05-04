@@ -17,7 +17,11 @@
 </template>
 
 <script setup>
-// Importaciones
+import UserLayout from "@/Layouts/UserLayout.vue";
+
+defineOptions({
+    layout: UserLayout,
+});
 
 const props = defineProps(["message"]);
 </script>

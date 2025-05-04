@@ -1,8 +1,6 @@
 <template>
     <!-- Barra de navegación mejorada -->
-    <nav
-        class="bg-gradient-to-r from-orange-500 to-red-600 p-4 text-white shadow-lg"
-    >
+    <nav class="p-4">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-2">
                 <button
@@ -19,23 +17,21 @@
                         <path
                             stroke-linecap="round"
                             stroke-linejoin="round"
-                            stroke-width="2"
+                            stroke-width="1"
                             d="M10 19l-7-7m0 0l7-7m-7 7h18"
                         />
                     </svg>
                 </button>
-                <h1 class="text-xl font-bold">Detalles de la actividad</h1>
+                <h1 class="font-bold">Actividades</h1>
             </div>
         </div>
     </nav>
 
     <!-- Contenido principal -->
-    <main class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <main class="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl mx-auto">
             <!-- Tarjeta principal -->
-            <div
-                class="bg-white rounded-xl shadow-lg overflow-hidden animate-fade-in"
-            >
+            <div class="rounded-xl shadow-lg overflow-hidden animate-fade-in">
                 <!-- Imagen destacada -->
                 <div class="relative h-64 sm:h-80 w-full overflow-hidden">
                     <img
@@ -79,7 +75,7 @@
                                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                                     />
                                 </svg>
-                                {{ activity.duration }} minutos
+                                {{ duration }} minutos
                             </span>
                         </div>
                     </div>
@@ -171,7 +167,6 @@
                             </p>
                         </div>
 
-                        <!-- Dificultad -->
                         <div class="bg-orange-50 p-4 rounded-lg">
                             <h3
                                 class="font-semibold text-gray-700 mb-2 flex items-center"
@@ -190,37 +185,16 @@
                                         d="M13 10V3L4 14h7v7l9-11h-7z"
                                     />
                                 </svg>
-                                Nivel de intensidad
+                                Hora
                             </h3>
                             <div class="flex items-center">
                                 <div class="flex space-x-1">
-                                    <span
-                                        v-for="i in 5"
-                                        :key="i"
-                                        :class="
-                                            i <= activity.intensity
-                                                ? 'bg-orange-500'
-                                                : 'bg-gray-300'
-                                        "
-                                        class="h-2 w-6 rounded-full"
-                                    ></span>
+                                    {{ activity.start_time }} -
+                                    {{ activity.end_time }}
                                 </div>
-                                <span class="ml-2 text-sm text-gray-600">
-                                    {{
-                                        [
-                                            "Baja",
-                                            "Moderada",
-                                            "Media",
-                                            "Alta",
-                                            "Extrema",
-                                        ][activity.intensity - 1] ||
-                                        "No especificado"
-                                    }}
-                                </span>
                             </div>
                         </div>
 
-                        <!-- Instructor -->
                         <div class="bg-orange-50 p-4 rounded-lg">
                             <h3
                                 class="font-semibold text-gray-700 mb-2 flex items-center"
@@ -239,10 +213,10 @@
                                         d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                                     />
                                 </svg>
-                                Instructor
+                                Plazas
                             </h3>
                             <p class="text-gray-600">
-                                {{ activity.instructor || "Por confirmar" }}
+                                {{ activity.slots }} plazas disponibles
                             </p>
                         </div>
                     </div>
@@ -290,25 +264,6 @@
                                 />
                             </svg>
                             No disponible
-                        </button>
-                        <button
-                            class="flex-1 border-2 border-orange-500 text-orange-500 hover:bg-orange-50 font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5 mr-2"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-                                />
-                            </svg>
-                            Compartir
                         </button>
                     </div>
                 </div>
@@ -411,6 +366,16 @@
 </template>
 
 <script setup>
+import UserLayout from "@/Layouts/UserLayout.vue";
+import { onMounted } from "vue";
+import { ref } from "vue";
+
+const duration = ref(0);
+
+defineOptions({
+    layout: UserLayout,
+});
+
 // Recibe la actividad como prop
 const props = defineProps({
     activity: Object,
@@ -448,6 +413,19 @@ const statusClass = (status) => {
 const goBack = () => {
     window.history.back();
 };
+
+onMounted(() => {
+    // Función para convertir tiempo HH:MM:SS a minutos totales
+    const timeToMinutes = (timeStr) => {
+        const [hours, minutes] = timeStr.split(":").map(Number);
+        return hours * 60 + minutes;
+    };
+
+    const startMinutes = timeToMinutes(props.activity.start_time);
+    const endMinutes = timeToMinutes(props.activity.end_time);
+
+    duration.value = endMinutes - startMinutes;
+});
 </script>
 
 <style scoped>

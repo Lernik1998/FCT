@@ -1,8 +1,5 @@
 <template>
-    <div
-        class="min-h-screen bg-gray-100 dark:bg-gray-900"
-        :class="{ dark: isDark }"
-    >
+    <div class="min-h-screen dark:bg-gray-900" :class="{ dark: isDark }">
         <!-- Cabecera -->
         <NavBar />
 

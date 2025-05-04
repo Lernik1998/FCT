@@ -9,18 +9,26 @@
         </div>
     </section>
 
-    <section class="min-h-screen bg-gray-100 py-12 px-6">
+    <section class="py-12 px-6">
         <div class="max-w-5xl mx-auto">
             <!-- Sección Acerca de Nosotros -->
             <div
                 class="bg-white shadow-lg rounded-lg p-8 mb-12 animate-fade-in transition-transform transform hover:scale-105 hover:shadow-2xl"
             >
-                <h1 class="text-3xl font-bold text-gray-800 text-center mb-4">
+                <h1 class="text-3xl font-bold text-gray-900 text-center mb-4">
                     Acerca de Nosotros
                 </h1>
-                <p class="text-gray-600 text-lg text-center leading-relaxed">
-                    FitWorking....
+                <p
+                    class="text-gray-600 dark:text-gray-900 text-lg text-center leading-relaxed"
+                >
+                    FitWorking es un centro fitness moderno y accesible que
+                    promueve un estilo de vida activo y saludable. Contamos con
+                    instalaciones de última generación, entrenadores
+                    cualificados y un ambiente motivador para personas de todas
+                    las edades. Aquí no solo entrenas, también formas parte de
+                    una comunidad que comparte tus objetivos de bienestar.
                 </p>
+
                 <div class="mt-6 flex justify-center">
                     <img
                         src="../../../../public/ownImages/comunidad.jpg"
@@ -32,10 +40,12 @@
 
             <!-- Sección de Contacto -->
             <div class="bg-white shadow-lg rounded-lg p-8 animate-slide-in">
-                <h2 class="text-3xl font-bold text-gray-800 text-center mb-4">
+                <h2 class="text-3xl font-bold text-gray-900 text-center mb-4">
                     Contáctanos
                 </h2>
-                <p class="text-gray-600 text-lg text-center mb-6">
+                <p
+                    class="text-gray-600 dark:text-gray-900 text-lg text-center mb-6"
+                >
                     Si tienes dudas, sugerencias o necesitas asistencia, no
                     dudes en escribirnos. ¡Te responderemos lo antes posible!
                 </p>
@@ -51,7 +61,7 @@
                             v-model="form.name"
                             type="text"
                             id="name"
-                            class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 dark:text-black"
                             placeholder="Tu nombre"
                             required
                         />
@@ -67,7 +77,7 @@
                             v-model="form.email"
                             type="email"
                             id="email"
-                            class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 dark:text-black"
                             placeholder="Tu correo"
                             required
                         />
@@ -82,7 +92,7 @@
                         <textarea
                             v-model="form.message"
                             id="message"
-                            class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 dark:text-black"
                             placeholder="Escribe tu mensaje"
                             rows="4"
                             required
@@ -91,9 +101,9 @@
 
                     <button
                         type="submit"
-                        class="w-full bg-gray-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300"
+                        class="w-full bg-gray-500 text-white dark:bg-orange-500 dark:text-black py-2 rounded-lg hover:bg-green-600 transition duration-300"
                     >
-                        Enviar Mensaje
+                        Enviar mensaje
                     </button>
                 </form>
             </div>
