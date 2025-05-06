@@ -20,7 +20,7 @@ use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 
 use Telegram; // Para Telegram
-
+use Illuminate\Support\Facades\DB;
 
 
 class UserActivitiesReservationsController extends Controller
@@ -43,30 +43,97 @@ class UserActivitiesReservationsController extends Controller
     }
 
     // Función para reservar la actividad
+    // public function create($id)
+    // {
+    //     // Obtengo la actividad con el id
+    //     $act = Activity::findOrFail($id);
+
+    //     // Verificar si ya existe una reserva para esta actividad y hora
+    //     // $reservaExistente = UserActivitiesReservations::where('user_id', auth()->user()->id)
+    //     //     ->where('activity_id', $act->id)
+    //     //     ->where('activity_datetime', $act->date . ' ' . $act->start_time)
+    //     //     ->exists();
+    //     $reservaExistente = UserActivitiesReservations::where('user_id', auth()->user()->id)
+    //         ->where('activity_datetime', operator: $act->date . ' ' . $act->start_time)
+    //         ->exists();
+
+    //     if ($reservaExistente) {
+    //         return back()->with('message', 'Ya tienes una reserva para esta actividad a esa hora.');
+    //     } else {
+
+    //         // dd($act->slots);
+
+    //         //  Verificar si hay slots disponibles
+    //         if ($act->slots <= 0) {
+    //             return back()->with('message', 'No hay cupos disponibles para esta actividad.');
+    //         }
+    //         // }else{
+    //         //     $slots = $act->slots;
+
+    //         //     $slotsActual = parse_int($slots);
+    //         //     $slotsActual--;
+    //         // }
+
+    //         // Resta un cupo a la actividad
+    //         $act->update([
+    //             'slots' => $act->slots --
+    //         ]);
+    //     }
+
+    //     // Creo la reserva
+    //     UserActivitiesReservations::create([
+    //         'user_id' => auth()->user()->id,
+    //         'activity_id' => $act->id,
+    //         // 'start_time' => $act->start_time,
+    //         // 'end_time' => $act->end_time,
+    //         'activity_datetime' => $act->date . ' ' . $act->start_time,
+    //         'status' => 'reserved',
+    //         'price' => $act->price,
+    //         'payment_method' => null,
+    //         'payment_id' => null,
+    //         'payment_status' => null,
+    //         'payment_url' => null,
+    //         'payment_description' => null,
+    //         'payment_date' => null,
+    //     ]);
+
+    //     // Vuelvo al index de user
+    //     // return redirect()->route('users.index');
+    //     return redirect()->route('users.index')->with('message', 'Reserva realizada con éxito.');
+
+    // }
+
     public function create($id)
-    {
-        // Obtengo la actividad con el id
-        $act = Activity::findOrFail($id);
+{
+    // Obtengo la actividad con el id
+    $act = Activity::findOrFail($id);
 
-        // Verificar si ya existe una reserva para esta actividad y hora
-        // $reservaExistente = UserActivitiesReservations::where('user_id', auth()->user()->id)
-        //     ->where('activity_id', $act->id)
-        //     ->where('activity_datetime', $act->date . ' ' . $act->start_time)
-        //     ->exists();
-        $reservaExistente = UserActivitiesReservations::where('user_id', auth()->user()->id)
-            ->where('activity_datetime', $act->date . ' ' . $act->start_time)
-            ->exists();
+    // Verificar si ya existe una reserva para esta actividad y hora
+    $reservaExistente = UserActivitiesReservations::where('user_id', auth()->user()->id)
+        ->where('activity_datetime', $act->date . ' ' . $act->start_time)
+        ->exists();
 
-        if ($reservaExistente) {
-            return back()->with('error', 'Ya tienes una reserva para esta actividad a esa hora.');
-        }
+    if ($reservaExistente) {
+        return back()->with('error', 'Ya tienes una reserva para esta actividad a esa hora.');
+    }
 
-        // Creo la reserva
+    // Verificar si hay slots disponibles
+    if ($act->slots <= 0) {
+        return back()->with('error', 'No hay cupos disponibles para esta actividad.');
+    }
+
+    // Usar una transacción para asegurar la consistencia de los datos
+    DB::transaction(function () use ($act) {
+        // Resta un cupo a la actividad (forma correcta)
+        $act->decrement('slots');
+        
+        // O también podrías usar:
+        // $act->update(['slots' => $act->slots - 1]);
+
+        // Crear la reserva
         UserActivitiesReservations::create([
             'user_id' => auth()->user()->id,
             'activity_id' => $act->id,
-            // 'start_time' => $act->start_time,
-            // 'end_time' => $act->end_time,
             'activity_datetime' => $act->date . ' ' . $act->start_time,
             'status' => 'reserved',
             'price' => $act->price,
@@ -77,12 +144,10 @@ class UserActivitiesReservationsController extends Controller
             'payment_description' => null,
             'payment_date' => null,
         ]);
+    });
 
-        // Vuelvo al index de user
-        // return redirect()->route('users.index');
-        return redirect()->route('users.index')->with('success', 'Reserva realizada con éxito.');
-
-    }
+    return redirect()->route('users.index')->with('success', 'Reserva realizada con éxito.');
+}
 
     /**
      * Store a newly created resource in storage.
@@ -132,7 +197,7 @@ class UserActivitiesReservationsController extends Controller
         $reservations = UserActivitiesReservations::where('user_id', auth()->user()->id)->get();
 
         // Redirecciono
-        return redirect()->route('userActivitiesReservations.index');
+        return redirect()->route('userActivitiesReservations.index')->with('message', 'Reserva eliminada con éxito.');
     }
 
     public function showPayForActivity($id)

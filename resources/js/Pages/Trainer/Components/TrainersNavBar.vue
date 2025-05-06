@@ -71,8 +71,10 @@
                         >
                     </li> -->
                     <li>
-                        <a href="#" class="hover:underline"
-                            >Gestión de reservas</a
+                        <a
+                            :href="route('trainers.reservations')"
+                            class="hover:underline"
+                            >Reservas</a
                         >
                     </li>
                     <li>

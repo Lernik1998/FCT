@@ -33,6 +33,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
         'name',
         'email',
         'password',
@@ -115,5 +116,14 @@ class User extends Authenticatable
     //     return $this->hasMany(Subscription::class);
     // }
 
+    // public function activities()
+    // {
+    //     return $this->hasMany(Activity::class);
+    // }
+
+    // public function reservations()
+    // {
+    //     return $this->hasMany(UserActivitiesReservations::class);
+    // }
 
 }

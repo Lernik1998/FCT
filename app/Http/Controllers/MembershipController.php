@@ -13,10 +13,10 @@ class MembershipController extends Controller
     public function index()
     {
         $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
-    
+
         // Obtener productos activos
         $products = $stripe->products->all(['active' => true])->data;
-        
+
         // Obtener precios para cada producto
         $productsWithPrices = [];
         foreach ($products as $product) {
@@ -31,22 +31,22 @@ class MembershipController extends Controller
                 'recurring' => $price->recurring ?? null,
             ];
         }
-    
+
         // Obtener información de suscripción del usuario
         $user = auth()->user();
         $currentMembership = null;
         $nextPayment = null;
         $status = 'Inactivo';
-    
+
         if ($user->subscription('default')) {
             $stripeSubscription = $stripe->subscriptions->retrieve($user->subscription('default')->stripe_id);
             $currentProduct = $stripe->products->retrieve($stripeSubscription->items->data[0]->price->product);
-            
+
             $currentMembership = $currentProduct->name;
             $nextPayment = date('d F, Y', $stripeSubscription->current_period_end);
             $status = $stripeSubscription->status === 'active' ? 'Activo' : 'Inactivo';
         }
-    
+
         return inertia::render('User/UserMemberships', [
             'memberships' => $productsWithPrices,
             'current_membership' => [

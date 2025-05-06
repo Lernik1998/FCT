@@ -78,7 +78,7 @@ Route::controller(TrainerController::class)->group(function () {
 
     /************************************** PAYMENTS ************************************** */
 
-    Route::get('trainers/payments', [TrainerController::class, 'payments'])->name('trainers.payments');
+    Route::get('trainers/payments', [TrainerController::class, 'reservations'])->name('trainers.reservations');
 
     /************************************** PLANES PERSONALIZADOS ************************************** */
 

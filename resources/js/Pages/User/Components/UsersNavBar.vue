@@ -55,7 +55,6 @@
                         </svg>
                     </transition>
                 </button>
-
             </div>
             <div>
                 <ul class="flex space-x-6">
@@ -113,7 +112,8 @@
                                 'font-bold text-orange-500 underline':
                                     $page.component === 'User/UserMemberships',
                             }"
-                            >Suscripción, aplicar un Prefetch, es ideal </Link
+                            prefetch
+                            >Suscripción</Link
                         >
                     </li>
 

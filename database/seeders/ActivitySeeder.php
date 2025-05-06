@@ -23,8 +23,8 @@ class ActivitySeeder extends Seeder
             'end_time' => '15:30:00',
             'status' => 'active',
             'date' => '2025-05-05',
-            'user_id' => 3,
-            'category_id' => 5,
+            'user_id' => 4,
+            'category_id' => 2,
             'slots' => 10,
         ]);
 
@@ -37,8 +37,8 @@ class ActivitySeeder extends Seeder
             'end_time' => '17:00:00',
             'status' => 'active',
             'date' => '2025-05-05',
-            'user_id' => 3,
-            'category_id' => 5,
+            'user_id' => 4,
+            'category_id' => 2,
             'slots' => 10,
         ]);
 

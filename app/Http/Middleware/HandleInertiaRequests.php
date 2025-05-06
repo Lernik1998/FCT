@@ -42,8 +42,13 @@ class HandleInertiaRequests extends Middleware
 
             // Lazily...
             'auth.user' => fn() => $request->user()
-                ? $request->user()->only('id', 'name','role')
+                ? $request->user()->only('id', 'name', 'role')
                 : null,
+
+            // También añadimos mensajes flash FIXME:
+            'flash' => [
+                'message' => fn() => $request->session()->get('message')
+            ],
 
 
             // return array_merge(parent::share($request), [
