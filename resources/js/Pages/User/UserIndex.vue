@@ -5,23 +5,16 @@
         <!-- Mensajes de éxito y error -->
         <section>
             <div
-                v-if="props.flash && props.flash.success"
-                class="mb-4 p-4 bg-green-100 text-green-800 rounded-lg"
+                v-if="$page.props.flash.message"
+                class="mb-4 p-4 bg-green-100 rounded-lg"
             >
-                {{ props.flash.success }}
-            </div>
-
-            <div
-                v-if="props.flash && props.flash.error"
-                class="mb-4 p-4 bg-red-100 text-red-800 rounded-lg"
-            >
-                {{ props.flash.error }}
+                {{ $page.props.flash.message }}
             </div>
         </section>
 
         <!-- Sección de Eventos Destacados -->
         <section class="mb-16 dark:bg-gray-800 dark:text-gray-600">
-            <h3 class="text-2xl font-bold mb-6">Actividades más destacadas</h3>
+            <h3 class="text-2xl font-bold mb-6">Proximas actividades</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div
                     v-for="activity in popularAct"
@@ -66,8 +59,52 @@
 
         <!-- Sección de Todas las Actividades -->
         <section class="mb-16 dark:bg-gray-800 dark:text-gray-600">
+            <h3 class="text-2xl font-bold mb-6">Todas las actividades</h3>
+
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold">Todas las actividades</h3>
+                <div class="flex gap-4">
+                    <button
+                        @click="filters.showFilters = !filters.showFilters"
+                        class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors"
+                    >
+                        {{
+                            filters.showFilters
+                                ? "Ocultar filtros"
+                                : "Mostrar filtros"
+                        }}
+                    </button>
+                    <button
+                        @click="filters.showFilters = !filters.showFilters"
+                        class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors"
+                    >
+                        {{
+                            filters.showFilters
+                                ? "Ocultar filtros"
+                                : "Mostrar filtros"
+                        }}
+                    </button>
+                    <button
+                        @click="filters.showFilters = !filters.showFilters"
+                        class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors"
+                    >
+                        {{
+                            filters.showFilters
+                                ? "Ocultar filtros"
+                                : "Mostrar filtros"
+                        }}
+                    </button>
+                    <button
+                        @click="filters.showFilters = !filters.showFilters"
+                        class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors"
+                    >
+                        {{
+                            filters.showFilters
+                                ? "Ocultar filtros"
+                                : "Mostrar filtros"
+                        }}
+                    </button>
+                </div>
+
                 <div class="relative">
                     <input
                         type="text"

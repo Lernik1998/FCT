@@ -1,15 +1,7 @@
 <template>
-    <main class="p-6 bg-gray-50 min-h-screen">
+    <main class="p-6 min-h-screen">
         <section class="max-w-6xl mx-auto">
             <!-- Encabezado -->
-            <div class="mb-10">
-                <h1 class="text-3xl font-bold text-gray-800">
-                    Membresía en uso
-                </h1>
-                <p class="text-lg text-gray-600 mt-2">
-                    Administra tu suscripción actual
-                </p>
-            </div>
 
             <pre>{{ current_membership }}</pre>
 

@@ -1,8 +1,10 @@
 <template>
     <div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
 
+        <!-- <pre>{{ reservations }}</pre> -->
 
-    <pre>{{ reservations }}</pre>
+        <!-- <pre>{{ hasMembership }}</pre> -->
+
         <!-- Contenido Principal -->
         <main class="container mx-auto py-8 px-4 sm:px-6">
             <!-- Encabezado -->
@@ -19,17 +21,62 @@
                         Revisa y gestiona todas tus actividades reservadas
                     </p>
                 </div>
-                <!--TODO: <div class="mt-4 md:mt-0">
-                    <select
-                        class="bg-white border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                <!--TODO: -->
+
+                <div class="mt-4 md:mt-0">
+                    <div
+                        class="flex flex-col sm:flex-row gap-4 mb-8 items-center justify-between"
                     >
-                        <option>Filtrar por estado</option>
-                        <option>Todas</option>
-                        <option>Confirmadas</option>
-                        <option>Pendientes</option>
-                        <option>Canceladas</option>
-                    </select>
-                </div> -->
+                        <div class="flex gap-3 w-full sm:w-auto">
+                            <!-- Selector de filtro -->
+                            <div class="relative inline-block w-full md:w-64">
+                                <select
+                                    class="appearance-none bg-white border border-gray-300 rounded-full px-5 py-3 pr-10 text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 w-full transition-all duration-200 hover:border-orange-400"
+                                >
+                                    <option
+                                        class="text-gray-400"
+                                        disabled
+                                        selected
+                                    >
+                                        Filtrar por estado
+                                    </option>
+                                    <option class="text-gray-700">Todas</option>
+                                    <option class="text-gray-700">
+                                        Confirmadas
+                                    </option>
+                                    <option class="text-gray-700">
+                                        Pendientes
+                                    </option>
+                                    <option class="text-gray-700">
+                                        Canceladas
+                                    </option>
+                                </select>
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-700"
+                                >
+                                    <svg
+                                        class="h-5 w-5"
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <path
+                                            fill-rule="evenodd"
+                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                            clip-rule="evenodd"
+                                        />
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <!-- Botón adicional si necesitas -->
+                            <button
+                                class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-3 rounded-full transition-colors duration-200 whitespace-nowrap"
+                            >
+                                Restaurar
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Lista de Reservas -->
@@ -56,6 +103,13 @@
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
                                     Fecha
+                                </th>
+
+                                <th
+                                    scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                >
+                                    Hora
                                 </th>
                                 <th
                                     scope="col"
@@ -118,7 +172,14 @@
                                             )
                                         }}
                                     </div>
-                                    <!-- <div class="text-sm text-gray-500">{{ reservation.activity.time }}</div> -->
+                                </td>
+
+                                <!-- Hora -->
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">
+                                        {{ reservation.activity.start_time }} -
+                                        {{ reservation.activity.end_time }}
+                                    </div>
                                 </td>
 
                                 <!-- Importe -->
@@ -132,30 +193,6 @@
                                 <td
                                     class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                                 >
-                                    <button
-                                        @click="
-                                            showPayForReservation(
-                                                reservation.id
-                                            )
-                                        "
-                                        class="text-orange-500 hover:text-orange-700 mr-4"
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="h-5 w-5 inline mr-1"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                                            />
-                                        </svg>
-                                        Pagar
-                                    </button>
                                     <button
                                         @click="
                                             deleteReservation(reservation.id)
@@ -227,26 +264,6 @@
                         </div>
 
                         <div class="mt-4 flex space-x-3">
-                            <button
-                                @click="showPayForReservation(reservation.id)"
-                                class="flex-1 bg-orange-500 hover:bg-orange-600 text-white text-sm py-2 px-3 rounded-lg flex items-center justify-center"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-4 w-4 mr-1"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                                    />
-                                </svg>
-                                Pagar
-                            </button>
                             <button
                                 @click="deleteReservation(reservation.id)"
                                 class="flex-1 border border-red-500 text-red-500 hover:bg-red-50 text-sm py-2 px-3 rounded-lg flex items-center justify-center"
@@ -329,7 +346,7 @@ import UserLayout from "@/Layouts/UserLayout.vue";
 defineOptions({ layout: UserLayout });
 
 // Props
-const props = defineProps(["reservations"]);
+const props = defineProps(["reservations", "hasMembership"]);
 
 // Formatear fecha
 const formatDate = (dateString) => {
@@ -355,9 +372,9 @@ const deleteReservation = (id) => {
 };
 
 // Mostrar pago
-const showPayForReservation = (id) => {
-    router.get(route("userActivitiesReservations.showPayForActivity", id));
-};
+// const showPayForReservation = (id) => {
+//     router.get(route("userActivitiesReservations.showPayForActivity", id));
+// };
 </script>
 
 <style scoped>

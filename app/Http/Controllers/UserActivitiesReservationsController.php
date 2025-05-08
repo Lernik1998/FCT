@@ -31,84 +31,22 @@ class UserActivitiesReservationsController extends Controller
      */
     public function index()
     {
-        // Obtengo todas las reservas del usuario
-        // $reservations = UserActivitiesReservations::where('user_id', auth()->user()->id)->get();
+
+        // Verifico si el usuario tiene membresía activa y lo almaceno en una varible
+        $hasMembership = auth()->user()->hasActiveMembership();
 
         $reservations = UserActivitiesReservations::with('activity')
             ->where('user_id', auth()->user()->id)
             ->get();
 
-        // dd($reservations);
+        // dd($hasMembership);
 
-        return inertia('User/ActivityOptions/ActivityReservations', compact('reservations'));
+        return inertia('User/ActivityOptions/ActivityReservations', compact('reservations', 'hasMembership'));
     }
-
-    // Función para reservar la actividad
-    // public function create($id)
-    // {
-    //     // Obtengo la actividad con el id
-    //     $act = Activity::findOrFail($id);
-
-    //     // Verificar si ya existe una reserva para esta actividad y hora
-    //     // $reservaExistente = UserActivitiesReservations::where('user_id', auth()->user()->id)
-    //     //     ->where('activity_id', $act->id)
-    //     //     ->where('activity_datetime', $act->date . ' ' . $act->start_time)
-    //     //     ->exists();
-    //     $reservaExistente = UserActivitiesReservations::where('user_id', auth()->user()->id)
-    //         ->where('activity_datetime', operator: $act->date . ' ' . $act->start_time)
-    //         ->exists();
-
-    //     if ($reservaExistente) {
-    //         return back()->with('message', 'Ya tienes una reserva para esta actividad a esa hora.');
-    //     } else {
-
-    //         // dd($act->slots);
-
-    //         //  Verificar si hay slots disponibles
-    //         if ($act->slots <= 0) {
-    //             return back()->with('message', 'No hay cupos disponibles para esta actividad.');
-    //         }
-    //         // }else{
-    //         //     $slots = $act->slots;
-
-    //         //     $slotsActual = parse_int($slots);
-    //         //     $slotsActual--;
-    //         // }
-
-    //         // Resta un cupo a la actividad
-    //         $act->update([
-    //             'slots' => $act->slots --
-    //         ]);
-    //     }
-
-    //     // Creo la reserva
-    //     UserActivitiesReservations::create([
-    //         'user_id' => auth()->user()->id,
-    //         'activity_id' => $act->id,
-    //         // 'start_time' => $act->start_time,
-    //         // 'end_time' => $act->end_time,
-    //         'activity_datetime' => $act->date . ' ' . $act->start_time,
-    //         'status' => 'reserved',
-    //         'price' => $act->price,
-    //         'payment_method' => null,
-    //         'payment_id' => null,
-    //         'payment_status' => null,
-    //         'payment_url' => null,
-    //         'payment_description' => null,
-    //         'payment_date' => null,
-    //     ]);
-
-    //     // Vuelvo al index de user
-    //     // return redirect()->route('users.index');
-    //     return redirect()->route('users.index')->with('message', 'Reserva realizada con éxito.');
-
-    // }
-
 
     /* 
     Crear una reserva verificando si el cliente tiene o no membresía activa
     */
-    // Crear reserva
     public function create($id)
     {
         // Obtengo la actividad con el id
@@ -131,33 +69,6 @@ class UserActivitiesReservationsController extends Controller
             return back()->with('error', 'No hay cupos disponibles para esta actividad.');
         }
 
-        // // Usar una transacción para asegurar la consistencia de los datos
-        // DB::transaction(function () use ($act) {
-        //     // Resta un cupo a la actividad (forma correcta)
-        //     $act->decrement('slots');
-
-        //     // O también podrías usar:
-        //     // $act->update(['slots' => $act->slots - 1]);
-
-        //     // Crear la reserva
-        //     UserActivitiesReservations::create([
-        //         'user_id' => auth()->user()->id,
-        //         'activity_id' => $act->id,
-        //         'activity_datetime' => $act->date . ' ' . $act->start_time,
-        //         'status' => 'reserved',
-        //         'price' => $act->price,
-        //         'payment_method' => null,
-        //         'payment_id' => null,
-        //         'payment_status' => null,
-        //         'payment_url' => null,
-        //         'payment_description' => null,
-        //         'payment_date' => null,
-        //     ]);
-        // });
-
-        // return redirect()->route('users.index')->with('success', 'Reserva realizada con éxito.');
-
-
         // Usuario con membresía activa
         if ($user->hasActiveMembership()) {
             // Inicio una transacción
@@ -176,78 +87,15 @@ class UserActivitiesReservationsController extends Controller
                     'payment_date' => now(),
                 ]);
 
+                // Redirecciono al inicio
                 return redirect()->route('users.index')
                     ->with('success', 'Reserva realizada con tu membresía.');
             });
         }
 
-        // Usuario sin membresía - procesar pago
+        // Usuario sin membresía, se redirecciona a Stripe
         return $this->processPayment($act);
     }
-
-    /**
-     * Almacena una nueva reserva TODO: pendiente implementar
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(UserActivitiesReservations $userActivitiesReservations)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(UserActivitiesReservations $userActivitiesReservations)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, UserActivitiesReservations $userActivitiesReservations)
-    {
-        //
-    }
-
-    /**
-     * Elimina una reserva especifica
-     */
-    public function destroy($id)
-    {
-        // Obtengo la reserva
-        $userActivitiesReservations = UserActivitiesReservations::findOrFail($id);
-
-        // Elimino la reserva
-        $userActivitiesReservations->delete();
-
-        // Obtengo todas las reservas del usuario (Actualizo) FIXME:
-        $reservations = UserActivitiesReservations::where('user_id', auth()->user()->id)->get();
-
-        // Redirecciono
-        return redirect()->route('userActivitiesReservations.index')->with('message', 'Reserva eliminada con éxito.');
-    }
-
-
-    // FIXME: Pendiente implementar la parte de URL succes or cancel
-    // public function showPayForActivity($id)
-    // {
-    //     // Obtenemos el id de la reserva
-    //     $reservation = UserActivitiesReservations::findOrFail($id);
-
-    //     // Según la reserva obtengo la actividad
-    //     $activity = Activity::findOrFail($reservation->activity_id);
-
-    //     // Cargo la vista de pago
-    //     return inertia('Payments/ActivityCardPayment', compact('activity', 'reservation'));
-    // }
 
 
     protected function processPayment($activity)
@@ -271,8 +119,7 @@ class UserActivitiesReservationsController extends Controller
                     ]
                 ],
                 'mode' => 'payment',
-                //  Redirección al éxito o cancelación
-                'success_url' => route('userActivitiesReservations.index'),
+                'success_url' => route('payment.success', $activity->id) . '?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => route('users.index'),
                 'metadata' => [
                     'activity_id' => $activity->id,
@@ -282,15 +129,14 @@ class UserActivitiesReservationsController extends Controller
             ]);
 
             // Guardar temporalmente la intención de reserva FIXME: Pendiente hacer una transacción y gestión de la sesión (Según el tipo de usuarios redireccionar a X pag)
-            // TemporalReservation::create([
-            //     'user_id' => auth()->id(),
-            //     'activity_id' => $activity->id,
-            //     'session_id' => $checkout->id,
-            //     'expires_at' => now()->addMinutes(30)
-            // ]);
+            TemporalReservation::create([
+                'user_id' => auth()->id(),
+                'activity_id' => $activity->id,
+                'session_id' => $checkout->id,
+                'expires_at' => now()->addMinutes(30)
+            ]);
 
-
-            // Redirecciono al usuario a Stripe
+            // Redirección a Stripe
             return redirect($checkout->url);
 
         } catch (\Exception $e) {
@@ -302,11 +148,11 @@ class UserActivitiesReservationsController extends Controller
     public function paymentSuccess($activityId)
     {
 
-        dd('Recibido ');
-
         $activity = Activity::findOrFail($activityId);
         $user = auth()->user();
         $sessionId = request()->get('session_id');
+
+        // dd($sessionId);
 
         if (!$sessionId) {
             return redirect()->route('activities.show', $activityId)
@@ -351,11 +197,11 @@ class UserActivitiesReservationsController extends Controller
             });
 
             return redirect()->route('users.index')
-                ->with('success', 'Reserva y pago completados con éxito.');
+                ->with('message', 'Reserva y pago completados con éxito.');
 
         } catch (\Exception $e) {
-            return redirect()->route('activities.show', $activityId)
-                ->with('error', 'Error al procesar el pago: ' . $e->getMessage());
+            return redirect()->route('users.index')
+                ->with('message', 'Error al procesar el pago: ' . $e->getMessage());
         }
     }
 
@@ -510,5 +356,21 @@ class UserActivitiesReservationsController extends Controller
         dd($updates);
     }
 
+    /**
+     * Elimina una reserva especifica
+     */
+    public function destroy($id)
+    {
+        // Obtengo la reserva
+        $userActivitiesReservations = UserActivitiesReservations::findOrFail($id);
 
+        // Elimino la reserva
+        $userActivitiesReservations->delete();
+
+        // Obtengo todas las reservas del usuario (Actualizo) FIXME:
+        $reservations = UserActivitiesReservations::where('user_id', auth()->user()->id)->get();
+
+        // Redirecciono
+        return redirect()->route('userActivitiesReservations.index')->with('message', 'Reserva eliminada con éxito.');
+    }
 }

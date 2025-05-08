@@ -1,8 +1,12 @@
 <template>
+    <pre>{{ reservations }}</pre>
+
+    <pre>{{ totalHours }}</pre>
+
+    <pre>{{ totalActivities }}</pre>
+
     <!-- Contenido principal -->
-    <main
-        class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-8 px-4 sm:px-6"
-    >
+    <main class="min-h-screen bg-gradient-to-b py-8 px-4 sm:px-6">
         <h1 class="text-xl font-bold">Mi Progreso</h1>
         <div class="max-w-6xl mx-auto">
             <!-- Encabezado -->
@@ -13,15 +17,9 @@
                     Evolución deportiva
                 </h1>
                 <p class="text-lg text-gray-600 mt-3 max-w-2xl mx-auto">
-                    Visualiza tus logros y compite sanamente con tus amigos
+                    Visualiza tus logros y supera tus propias metas
                 </p>
             </div>
-
-            <pre>{{ reservations }}</pre>
-
-            <pre>{{ totalHours }}</pre>
-
-            <pre>{{ totalActivities }}</pre>
 
             <!-- Grid de contenido -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
