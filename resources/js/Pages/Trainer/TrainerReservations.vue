@@ -91,7 +91,7 @@ import TrainerLayout from "@/Layouts/TrainerLayout.vue";
 import { usePoll } from "@inertiajs/vue3";
 
 usePoll(2000, {
-    only: ["activities"],
+    // only: ["activities", "reservations"],
 });
 
 defineOptions({

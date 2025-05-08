@@ -308,8 +308,10 @@ class AdminController extends Controller
             'description' => $request->description,
             'image' => $request->image,  // Guardamos la ruta, no el archivo
             'price' => $request->price,
-            'duration' => $request->duration,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
             'date' => $request->date,
+            'slots' => $request->slots,
             'category_id' => $request->category_id,
             'user_id' => auth()->id(),
         ]);

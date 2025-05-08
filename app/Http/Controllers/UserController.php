@@ -14,28 +14,27 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    // public function index()
-    // {
-    //     // Obtengo los datos del user actual, obtengo el id del user actual
-    //     $userId = auth()->id();
-
-    //     $user = User::findOrFail($userId);
-
-    //     // Obtengo todas las actividades disponibles
-    //     $activities = Activity::all();
-
-    //     // dd($user);
-    //     return inertia('User/UserIndex', compact('user', 'activities'));
-    // }
-
     public function index()
     {
         // Obtener el usuario autenticado
         $userId = auth()->id();
         $user = User::findOrFail($userId);
 
-        // Primeras 3 actividades con imagen
+        // Fecha y hora actual
+        $now = now();
+        $currentDate = $now->format('Y-m-d');
+        $currentTime = $now->format('H:i:s');
+
+        // Proximas 3 actividades con imagen
         $featuredActivities = Activity::query()
+        ->where('status', 'active')
+        ->where(function($query) use ($currentDate, $currentTime) {
+            $query->where('date', '>', $currentDate)
+                  ->orWhere(function($q) use ($currentDate, $currentTime) {
+                      $q->where('date', $currentDate)
+                        ->where('start_time', '>', $currentTime);
+                  });
+        })
             ->select(['id', 'name', 'description', 'date', 'category_id', 'image', 'start_time', 'end_time', 'price','slots'])
             ->limit(3)
             ->get();
@@ -43,11 +42,20 @@ class UserController extends Controller
         // Obtener actividades con paginación y búsqueda
         $activities = Activity::query()
             ->where('status', 'active') // Solo las activas
+            ->where(function($query) use ($currentDate, $currentTime) {
+                $query->where('date', '>', $currentDate)
+                      ->orWhere(function($q) use ($currentDate, $currentTime) {
+                          $q->where('date', $currentDate)
+                            ->where('start_time', '>', $currentTime);
+                      });
+            })
             ->when(request('search'), function ($query, $search) {
                 $query->where('name', 'like', '%' . $search . '%')
                     ->orWhere('description', 'like', '%' . $search . '%');
             })
             ->select(['id', 'name', 'description', 'date', 'category_id', 'start_time', 'end_time', 'price','slots'])
+            ->orderBy('date', 'asc') // Ordenar por fecha
+            ->orderBy('start_time', 'asc') // Ordenar por hora
             ->paginate(10)
             ->appends(['search' => request('search')]);
 

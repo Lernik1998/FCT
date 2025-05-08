@@ -106,10 +106,14 @@
         </section> -->
 
     <!-- FitWorking es para ti -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 dark:bg-gray-900 dark:text-white">
+    <section
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 dark:bg-gray-900 dark:text-white"
+    >
         <!-- Encabezado -->
         <div class="flex justify-between items-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+            <h2
+                class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white"
+            >
                 FitWorking es para ti
             </h2>
             <a
@@ -138,7 +142,7 @@
             >
                 <div class="relative h-56 overflow-hidden">
                     <img
-                        src="https://www.crossfit.com/wp-content/uploads/2020/05/13120645/ron-gets-fit-crossfit-new-york-city-1024x576.jpg"
+                        src="https://images.unsplash.com/photo-1616803689943-5601631c7fec?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                         alt="A Father's Promise: Losing 84 Pounds To Run With His Kids"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -147,14 +151,15 @@
                     ></div>
                 </div>
                 <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 dark:text-white">
-                        Una promesa paterna: Perder 38 kilos para correr con sus
-                        hijos
+                    <h3
+                        class="text-xl font-bold text-gray-900 mb-3 dark:text-white"
+                    >
+                        Una promesa de padre: perder 38 kilos para correr con
+                        sus hijos
                     </h3>
                     <p class="text-gray-600 mb-4 dark:text-gray-300">
-                        Caminar es más fácil, subir las escaleras, correr detrás
-                        de los niños, todas estas cosas son tan más fáciles
-                        ahora.
+                        Ahora es mucho más fácil caminar, subir escaleras y
+                        correr detrás de los niños.
                     </p>
                 </div>
             </article>
@@ -165,7 +170,7 @@
             >
                 <div class="relative h-56 overflow-hidden">
                     <img
-                        src="https://www.crossfit.com/wp-content/uploads/2023/08/13115933/go-beyond-physical-develop-grit-mental-strength-with-crossfit.jpg"
+                        src="https://images.unsplash.com/photo-1616279969856-759f316a5ac1?q=80&w=1965&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                         alt="Go Beyond The Physical: Developing Grit & Mental Strength with CrossFit"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -174,8 +179,10 @@
                     ></div>
                 </div>
                 <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 dark:text-white">
-                        Supera lo físico: Desarrolla tu resistencia y fortaleza
+                    <h3
+                        class="text-xl font-bold text-gray-900 mb-3 dark:text-white"
+                    >
+                        Supera lo físico desarrollando tu resistencia y fortaleza
                         mental
                     </h3>
                     <p class="text-gray-600 mb-4 dark:text-gray-300">
@@ -192,7 +199,7 @@
             >
                 <div class="relative h-56 overflow-hidden">
                     <img
-                        src="https://www.crossfit.com/wp-content/uploads/2023/01/13120951/annie-holmes-crossfit-member-auburn-magic-of-crossfit-1024x576.jpg"
+                        src="https://images.unsplash.com/photo-1550657636-67d6a3a05a5d?q=80&w=2074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                         alt="Annie at Auburn CrossFit"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -201,13 +208,15 @@
                     ></div>
                 </div>
                 <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 dark:text-white">
-                        Sentido de pertenencia: Una comunidad que te ayuda a
-                        lograr tus metas
+                    <h3
+                        class="text-xl font-bold text-gray-900 mb-3 dark:text-white"
+                    >
+                    Sentido de pertenencia: Una comunidad que camina contigo hacia el cambio
+
                     </h3>
                     <p class="text-gray-600 mb-4 dark:text-gray-300">
-                        Hay algo que une cuando luchamos juntos. Nos apoyamos
-                        mutuamente y hacemos muchas cosas juntos.
+                        Cuando compartimos el esfuerzo, el camino se hace más llevadero. Aquí, cada logro es celebrado y cada tropiezo, sostenido por otros. No estás solo: somos una comunidad que avanza unida.
+
                     </p>
                 </div>
             </article>
@@ -313,10 +322,14 @@
 
     <!-- Funcionamiento -->
     <section>
-        <div class="bg-white py-16 px-4 sm:px-6 lg:px-8 dark:bg-gray-900 dark:text-white">
+        <div
+            class="bg-white py-16 px-4 sm:px-6 lg:px-8 dark:bg-gray-900 dark:text-white"
+        >
             <div class="max-w-7xl mx-auto">
                 <!-- Título de sección (opcional) -->
-                <h2 class="text-3xl font-bold text-center text-gray-900 mb-12 dark:text-white">
+                <h2
+                    class="text-3xl font-bold text-center text-gray-900 mb-12 dark:text-white"
+                >
                     ¿Cómo funcionamos?
                 </h2>
 

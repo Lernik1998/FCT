@@ -108,8 +108,64 @@ class User extends Authenticatable
     // }
 
 
-    // User.php
+    // TODO: No se usa
+    /* public function hasActiveMembership()
+     {
+         return $this->subscribed('default') &&
+             !$this->subscription('default')->cancelled() &&
+             !$this->subscription('default')->ended();
+    } */
 
+
+    /**
+     * Verifica si el usuario tiene una membresía activa
+     * Compatible con Laravel Cashier v12+
+     */
+    public function hasActiveMembership()
+    {
+        if (!$this->subscribed('default')) {
+            return false;
+        }
+
+        $subscription = $this->subscription('default');
+
+        // Para Laravel Cashier v12/v13
+        return $subscription->valid();
+
+        // Alternativa más explícita:
+        // return $subscription->active() || $subscription->onGracePeriod();
+    }
+
+    /**
+     * Obtiene el tipo de membresía del usuario
+     */
+    public function membershipType()
+    {
+        return $this->subscribed('default')
+            ? $this->subscription('default')->stripe_price
+            : null;
+    }
+
+    /**
+     * Verifica si el usuario tiene una membresía específica
+     */
+    public function hasMembershipType($type)
+    {
+        return $this->membershipType() === $type;
+    }
+
+    /**
+     * Obtiene la fecha de finalización de la membresía
+     */
+    public function membershipEndsAt()
+    {
+        return $this->subscribed('default')
+            ? $this->subscription('default')->ends_at
+            : null;
+    }
+
+
+    // FIXME: Pendiente gestión de las relaciones
 
     // public function subscriptions()
     // {
@@ -125,5 +181,4 @@ class User extends Authenticatable
     // {
     //     return $this->hasMany(UserActivitiesReservations::class);
     // }
-
 }

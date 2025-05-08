@@ -53,7 +53,7 @@
         </section> -->
 
     <!-- Sección de Entrenadores -->
-    <section class="py-12 px-4 bg-gray-50">
+    <section class="py-12 px-4 ">
         <div class="container mx-auto">
             <div class="text-center mb-12">
                 <h2 class="text-3xl font-bold text-gray-800 mb-4">

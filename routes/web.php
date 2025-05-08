@@ -136,8 +136,10 @@ Route::controller(UserController::class)->group(function () {
     // Gestión de pago
     Route::post('UAR/{id}/payPaypal', [UserActivitiesReservationsController::class, 'payForActivityWithPaypal'])->name('userActivitiesReservations.payForActivityWithPaypal');
 
-    // Telegram TODO:
-    Route::get('user/telegram', [UserActivitiesReservationsController::class, 'telegram'])->name('user.telegram');
+    // FIXME:
+
+    Route::get('/payment/success/{activity}', [UserActivitiesReservationsController::class, 'paymentSuccess'])
+        ->name('payment.success');
 
     /************************************** MEMBERSHIP ************************************** */
 
@@ -145,6 +147,11 @@ Route::controller(UserController::class)->group(function () {
 
     Route::post('stripe/cancel', [StripeController::class, 'cancelMembership'])->name('stripe.cancel');
 
+
+    /************************************** TELEGRAM ************************************** */
+
+    // Telegram TODO:
+    Route::get('user/telegram', [UserActivitiesReservationsController::class, 'telegram'])->name('user.telegram');
 });
 
 

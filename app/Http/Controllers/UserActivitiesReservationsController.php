@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 // use Inertia\Inertia;
-use App\Models\UserActivitiesReservations;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+
+use App\Models\TemporalReservation;
+use App\Models\UserActivitiesReservations;
 use App\Models\Activity; // Modelo de actividad
 
 use Stripe\Stripe; // Para Stripe
 // use Stripe\Checkout\Session as StripeSession;  // Para Stripe
-
 use Stripe\Charge;
 // use Stripe\CardException;
 
@@ -20,7 +22,6 @@ use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 
 use Telegram; // Para Telegram
-use Illuminate\Support\Facades\DB;
 
 
 class UserActivitiesReservationsController extends Controller
@@ -103,54 +104,89 @@ class UserActivitiesReservationsController extends Controller
 
     // }
 
+
+    /* 
+    Crear una reserva verificando si el cliente tiene o no membresía activa
+    */
+    // Crear reserva
     public function create($id)
-{
-    // Obtengo la actividad con el id
-    $act = Activity::findOrFail($id);
+    {
+        // Obtengo la actividad con el id
+        $act = Activity::findOrFail($id);
+        $user = auth()->user();
 
-    // Verificar si ya existe una reserva para esta actividad y hora
-    $reservaExistente = UserActivitiesReservations::where('user_id', auth()->user()->id)
-        ->where('activity_datetime', $act->date . ' ' . $act->start_time)
-        ->exists();
 
-    if ($reservaExistente) {
-        return back()->with('error', 'Ya tienes una reserva para esta actividad a esa hora.');
+        // Verificar si ya existe una reserva para esta actividad y hora exacta
+        $reservaExistente = UserActivitiesReservations::where('user_id', auth()->user()->id)
+            ->where('activity_datetime', $act->date . ' ' . $act->start_time)
+            ->exists();
+
+        // Si ya existe una reserva, devuelvo un error
+        if ($reservaExistente) {
+            return back()->with('error', 'Ya tienes una reserva para esta actividad a esa hora.');
+        }
+
+        // Verificar si hay slots disponibles
+        if ($act->slots <= 0) {
+            return back()->with('error', 'No hay cupos disponibles para esta actividad.');
+        }
+
+        // // Usar una transacción para asegurar la consistencia de los datos
+        // DB::transaction(function () use ($act) {
+        //     // Resta un cupo a la actividad (forma correcta)
+        //     $act->decrement('slots');
+
+        //     // O también podrías usar:
+        //     // $act->update(['slots' => $act->slots - 1]);
+
+        //     // Crear la reserva
+        //     UserActivitiesReservations::create([
+        //         'user_id' => auth()->user()->id,
+        //         'activity_id' => $act->id,
+        //         'activity_datetime' => $act->date . ' ' . $act->start_time,
+        //         'status' => 'reserved',
+        //         'price' => $act->price,
+        //         'payment_method' => null,
+        //         'payment_id' => null,
+        //         'payment_status' => null,
+        //         'payment_url' => null,
+        //         'payment_description' => null,
+        //         'payment_date' => null,
+        //     ]);
+        // });
+
+        // return redirect()->route('users.index')->with('success', 'Reserva realizada con éxito.');
+
+
+        // Usuario con membresía activa
+        if ($user->hasActiveMembership()) {
+            // Inicio una transacción
+            return DB::transaction(function () use ($act, $user) {
+                $act->decrement('slots');
+
+                UserActivitiesReservations::create([
+                    'user_id' => $user->id,
+                    'activity_id' => $act->id,
+                    'activity_datetime' => $act->date . ' ' . $act->start_time,
+                    'status' => 'reserved',
+                    'price' => 0, // Gratis para miembros
+                    'payment_method' => 'membership',
+                    'payment_status' => 'paid',
+                    // Pondria en Payment description el tipo de membresía que dispone el usuario
+                    'payment_date' => now(),
+                ]);
+
+                return redirect()->route('users.index')
+                    ->with('success', 'Reserva realizada con tu membresía.');
+            });
+        }
+
+        // Usuario sin membresía - procesar pago
+        return $this->processPayment($act);
     }
-
-    // Verificar si hay slots disponibles
-    if ($act->slots <= 0) {
-        return back()->with('error', 'No hay cupos disponibles para esta actividad.');
-    }
-
-    // Usar una transacción para asegurar la consistencia de los datos
-    DB::transaction(function () use ($act) {
-        // Resta un cupo a la actividad (forma correcta)
-        $act->decrement('slots');
-        
-        // O también podrías usar:
-        // $act->update(['slots' => $act->slots - 1]);
-
-        // Crear la reserva
-        UserActivitiesReservations::create([
-            'user_id' => auth()->user()->id,
-            'activity_id' => $act->id,
-            'activity_datetime' => $act->date . ' ' . $act->start_time,
-            'status' => 'reserved',
-            'price' => $act->price,
-            'payment_method' => null,
-            'payment_id' => null,
-            'payment_status' => null,
-            'payment_url' => null,
-            'payment_description' => null,
-            'payment_date' => null,
-        ]);
-    });
-
-    return redirect()->route('users.index')->with('success', 'Reserva realizada con éxito.');
-}
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena una nueva reserva TODO: pendiente implementar
      */
     public function store(Request $request)
     {
@@ -182,35 +218,145 @@ class UserActivitiesReservationsController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina una reserva especifica
      */
     public function destroy($id)
     {
-        // dd($id);
         // Obtengo la reserva
         $userActivitiesReservations = UserActivitiesReservations::findOrFail($id);
 
         // Elimino la reserva
         $userActivitiesReservations->delete();
 
-        // Obtengo todas las reservas del usuario (Actualizo)
+        // Obtengo todas las reservas del usuario (Actualizo) FIXME:
         $reservations = UserActivitiesReservations::where('user_id', auth()->user()->id)->get();
 
         // Redirecciono
         return redirect()->route('userActivitiesReservations.index')->with('message', 'Reserva eliminada con éxito.');
     }
 
-    public function showPayForActivity($id)
+
+    // FIXME: Pendiente implementar la parte de URL succes or cancel
+    // public function showPayForActivity($id)
+    // {
+    //     // Obtenemos el id de la reserva
+    //     $reservation = UserActivitiesReservations::findOrFail($id);
+
+    //     // Según la reserva obtengo la actividad
+    //     $activity = Activity::findOrFail($reservation->activity_id);
+
+    //     // Cargo la vista de pago
+    //     return inertia('Payments/ActivityCardPayment', compact('activity', 'reservation'));
+    // }
+
+
+    protected function processPayment($activity)
+    {
+        $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
+
+        try {
+            $checkout = $stripe->checkout->sessions->create([
+                'payment_method_types' => ['card'],
+                'line_items' => [
+                    [
+                        'price_data' => [
+                            'currency' => 'eur',
+                            'product_data' => [
+                                'name' => $activity->name,
+                                'description' => $activity->description,
+                            ],
+                            'unit_amount' => $activity->price * 100, // Precio €
+                        ],
+                        'quantity' => 1,
+                    ]
+                ],
+                'mode' => 'payment',
+                //  Redirección al éxito o cancelación
+                'success_url' => route('userActivitiesReservations.index'),
+                'cancel_url' => route('users.index'),
+                'metadata' => [
+                    'activity_id' => $activity->id,
+                    'user_id' => auth()->id()
+                ],
+                'customer_email' => auth()->user()->email,
+            ]);
+
+            // Guardar temporalmente la intención de reserva FIXME: Pendiente hacer una transacción y gestión de la sesión (Según el tipo de usuarios redireccionar a X pag)
+            // TemporalReservation::create([
+            //     'user_id' => auth()->id(),
+            //     'activity_id' => $activity->id,
+            //     'session_id' => $checkout->id,
+            //     'expires_at' => now()->addMinutes(30)
+            // ]);
+
+
+            // Redirecciono al usuario a Stripe
+            return redirect($checkout->url);
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error al procesar el pago: ' . $e->getMessage());
+        }
+    }
+
+
+    public function paymentSuccess($activityId)
     {
 
-        // Obtenemos el id de la reserva
-        $reservation = UserActivitiesReservations::findOrFail($id);
+        dd('Recibido ');
 
-        // Según la reserva obtengo la actividad
-        $activity = Activity::findOrFail($reservation->activity_id);
+        $activity = Activity::findOrFail($activityId);
+        $user = auth()->user();
+        $sessionId = request()->get('session_id');
 
-        // Cargo la vista de pago
-        return inertia('Payments/ActivityCardPayment', compact('activity', 'reservation'));
+        if (!$sessionId) {
+            return redirect()->route('activities.show', $activityId)
+                ->with('error', 'Sesión de pago no válida.');
+        }
+
+        $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
+
+        try {
+            $session = $stripe->checkout->sessions->retrieve($sessionId);
+
+            if ($session->payment_status !== 'paid') {
+                throw new \Exception('El pago no se completó correctamente.');
+            }
+
+            // Verificar si ya existe la reserva
+            $existingReservation = UserActivitiesReservations::where('payment_id', $session->payment_intent)->first();
+
+            if ($existingReservation) {
+                return redirect()->route('users.index')
+                    ->with('info', 'Esta reserva ya fue procesada anteriormente.');
+            }
+
+            // Procesar la reserva
+            DB::transaction(function () use ($activity, $user, $session) {
+                $activity->decrement('slots');
+
+                UserActivitiesReservations::create([
+                    'user_id' => $user->id,
+                    'activity_id' => $activity->id,
+                    'activity_datetime' => $activity->date . ' ' . $activity->start_time,
+                    'status' => 'reserved',
+                    'price' => $activity->price,
+                    'payment_method' => 'stripe',
+                    'payment_id' => $session->payment_intent,
+                    'payment_status' => 'paid',
+                    'payment_date' => now(),
+                ]);
+
+                // Eliminar reserva temporal
+                TemporalReservation::where('session_id', $session->id)->delete();
+            });
+
+            return redirect()->route('users.index')
+                ->with('success', 'Reserva y pago completados con éxito.');
+
+        } catch (\Exception $e) {
+            return redirect()->route('activities.show', $activityId)
+                ->with('error', 'Error al procesar el pago: ' . $e->getMessage());
+        }
     }
 
 

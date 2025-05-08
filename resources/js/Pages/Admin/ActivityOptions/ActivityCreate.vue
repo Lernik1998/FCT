@@ -9,12 +9,18 @@
     </div>
 
     <section class="py-12 px-6 flex justify-center">
-        <div class="max-w-4xl w-full bg-white shadow-lg rounded-2xl p-8 animate-fade-in">
+        <div
+            class="max-w-4xl w-full bg-white shadow-lg rounded-2xl p-8 animate-fade-in"
+        >
             <h1 class="text-4xl font-bold text-gray-800 text-center mb-10">
                 Crear Nueva Actividad
             </h1>
 
-            <form @submit.prevent="submitForm" class="space-y-8" enctype="multipart/form-data">
+            <form
+                @submit.prevent="submitForm"
+                class="space-y-8"
+                enctype="multipart/form-data"
+            >
                 <!-- Nombre y Precio -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -36,8 +42,24 @@
                         <input
                             type="number"
                             v-model="activity.price"
+                            min="0"
+                            step="0.01"
                             class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300"
                             placeholder="Precio en euros"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1">
+                            Capacidad
+                        </label>
+                        <input
+                            type="number"
+                            v-model="activity.slots"
+                            min="5"
+                            class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300"
+                            placeholder="Capacidad"
                             required
                         />
                     </div>
@@ -80,9 +102,13 @@
                         <input
                             type="date"
                             v-model="activity.date"
+                            :min="minDate"
                             class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300"
                             required
                         />
+                        <p v-if="dateError" class="text-red-500 text-sm mt-1">
+                            {{ dateError }}
+                        </p>
                     </div>
                     <div>
                         <label class="block text-gray-700 font-semibold mb-1">
@@ -118,7 +144,9 @@
                         class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300"
                         required
                     >
-                        <option value="" disabled>Selecciona una categoría</option>
+                        <option value="" disabled>
+                            Selecciona una categoría
+                        </option>
                         <option
                             v-for="category in categories"
                             :key="category.id"
@@ -135,21 +163,32 @@
                         type="submit"
                         class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition font-semibold text-lg"
                     >
-                        Crear Actividad
+                        <!--  -->
+                        <!-- {{ isSubmitting ? "Creando..." : "Crear Actividad" }} -->
+                        Crear actividad
                     </button>
                 </div>
             </form>
 
-            <!-- Mensaje de éxito -->
-            <p v-if="successMessage" class="mt-6 text-green-600 font-semibold text-center text-xl">
-                ¡Actividad creada exitosamente! 🎉
+            <!-- Mensajes de estado -->
+            <!-- <p
+                v-if="successMessage"
+                class="mt-6 text-green-600 font-semibold text-center text-xl"
+            >
+                {{ successMessage }}
             </p>
+            <p
+                v-if="errorMessage"
+                class="mt-6 text-red-600 font-semibold text-center text-xl"
+            >
+                {{ errorMessage }}
+            </p> -->
         </div>
     </section>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch, computed } from "vue";
 import { router } from "@inertiajs/vue3";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 
@@ -167,27 +206,62 @@ const handleFileUpload = (event) => {
 const activity = ref({
     name: "",
     description: "",
+    start_time: "",
+    end_time: "",
     image: "",
     date: "",
     duration: "",
     price: "",
+    slots: "",
     category_id: "",
 });
 
-const successMessage = ref("");
+// const successMessage = ref("");
+// const errorMessage = ref("");
+// const dateError = ref("");
+// const isSubmitting = ref(false);
+
+// Obtener la fecha mínima (hoy)
+const today = new Date();
+const minDate = computed(() => {
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+});
 
 // Función para enviar formulario
 const submitForm = () => {
+    // isSubmitting.value = true;
     console.log("Actividad creada:", activity.value);
-    successMessage.value = "¡Actividad creada exitosamente! 🎉";
+    // successMessage.value = "¡Actividad creada exitosamente! 🎉";
 
     // Envio los datos al controlador
     router.post(route("admin.storeActivity"), activity.value);
+    // isSubmitting.value = false;
 };
 
 const volver = () => {
     window.history.back();
 };
+
+// Validar fecha en tiempo real
+watch(
+    () => activity.value.date,
+    (newDate) => {
+        if (newDate) {
+            const selectedDate = new Date(newDate);
+            if (
+                selectedDate < today &&
+                selectedDate.toDateString() !== today.toDateString()
+            ) {
+                // dateError.value = "No puedes seleccionar una fecha pasada";
+            } else {
+                // dateError.value = "";
+            }
+        }
+    }
+);
 </script>
 
 <style scoped>
