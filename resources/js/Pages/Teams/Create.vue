@@ -1,5 +1,5 @@
 <script setup>
-import AppLayout from "@/Layouts/AppLayoutPREVIOUS.vue";
+// import AppLayout from "@/Layouts/AppLayoutPREVIOUS.vue";
 import CreateTeamForm from "@/Pages/Teams/Partials/CreateTeamForm.vue";
 </script>
 
