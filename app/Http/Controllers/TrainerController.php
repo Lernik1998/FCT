@@ -12,6 +12,7 @@ use App\Models\Message; // Modelo de Message
 use App\Models\UserActivitiesReservations; // Modelo de UserActivitiesReservations
 use Illuminate\Support\Facades\Auth; // Facade para autenticación
 use Inertia\Inertia; // Facade para Inertia
+use App\Models\Post; // Modelo de Post
 
 class TrainerController extends Controller
 {
@@ -225,12 +226,37 @@ class TrainerController extends Controller
         return redirect()->route('trainers.pp');
     }
 
-
     // POSTS
 
     public function trainerPostsView()
     {
-        return inertia('Trainer/TrainerPosts');
+        $posts = Post::query()
+            ->where('user_id', auth()->id()) // Por el trainer autenticado
+            ->when(request('search'), function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', '%' . $search . '%')
+                        ->orWhere('content', 'like', '%' . $search . '%');
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(10)
+            ->appends(['search' => request('search')]);
+
+
+        // dd($posts->toArray());
+
+        $totalPosts = Post::where('user_id', auth()->id())->count();
+
+        return inertia('Trainer/TrainerPosts', [
+            'posts' => $posts,
+            'filters' => ['search' => request('search')],
+            'totalPosts' => $totalPosts
+        ]);
+    }
+
+    public function storePost(Request $request)
+    {
+        dd($request->all());
     }
 
     // MENSAJES

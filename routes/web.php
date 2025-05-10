@@ -94,6 +94,8 @@ Route::controller(TrainerController::class)->group(function () {
 
     Route::get('trainers/posts', [TrainerController::class, 'trainerPostsView'])->name('trainers.posts');
 
+    Route::post('trainers/storePost', [TrainerController::class, 'storePost'])->name('trainers.storePost');
+
     /************************************** MENSAJES ************************************** */
     Route::get('trainers/messages', [TrainerController::class, 'trainerMessagesView'])->name('trainers.messages');
 

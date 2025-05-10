@@ -1,6 +1,6 @@
 <template>
     <nav
-        class="bg-gradient-to-r from-orange-500 to-red-600 p-4 text-white shadow-lg dark:bg-gray-800 dark:text-gray-600"
+        class="bg-gradient-to-r from-blue-500 to-blue-800 p-4 text-white shadow-lg dark:bg-gray-800 dark:text-gray-600"
     >
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-3">
@@ -63,13 +63,6 @@
                             >Inicio</a
                         >
                     </li>
-                    <!-- <li>
-                        <a
-                            :href="route('trainers.payments')"
-                            class="hover:underline"
-                            >Pagos e ingresos</a
-                        >
-                    </li> -->
                     <li>
                         <a
                             :href="route('trainers.reservations')"
