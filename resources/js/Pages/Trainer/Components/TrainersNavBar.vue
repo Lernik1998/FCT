@@ -1,8 +1,7 @@
 <template>
-    <nav
-        class="bg-gradient-to-r from-blue-500 to-blue-800 p-4 text-white shadow-lg dark:bg-gray-800 dark:text-gray-600"
-    >
+    <nav class="bg-gradient-to-r from-blue-500 to-blue-800 p-4 text-white shadow-lg dark:bg-gray-800 dark:text-gray-600">
         <div class="container mx-auto flex justify-between items-center">
+            <!-- Logo y título -->
             <div class="flex items-center space-x-3">
                 <!-- <img src="/logo-fitworking-white.png" alt="FitWorking Logo" class="h-8"> -->
                 <h1 class="text-xl font-bold">Panel de entrenador</h1>
@@ -11,11 +10,7 @@
                 <button
                     @click="themeStore.toggleDarkMode"
                     class="p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-700 ml-2"
-                    :aria-label="
-                        isDark
-                            ? 'Cambiar a modo claro'
-                            : 'Cambiar a modo oscuro'
-                    "
+                    :aria-label="isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
                     :title="isDark ? 'Modo claro' : 'Modo oscuro'"
                 >
                     <transition name="fade" mode="out-in">
@@ -54,52 +49,70 @@
                     </transition>
                 </button>
             </div>
-            <div>
+
+            <!-- Menú de navegación -->
+            <div class="hidden md:flex">
                 <ul class="flex space-x-6">
                     <li>
-                        <a
-                            :href="route('trainers.index')"
-                            class="hover:underline"
-                            >Inicio</a
-                        >
+                        <a :href="route('trainers.index')" class="hover:underline">Inicio</a>
                     </li>
                     <li>
-                        <a
-                            :href="route('trainers.reservations')"
-                            class="hover:underline"
-                            >Reservas</a
-                        >
+                        <a :href="route('trainers.reservations')" class="hover:underline">Reservas</a>
                     </li>
                     <li>
-                        <a
-                            :href="route('trainers.messages')"
-                            class="hover:underline"
-                            >Mensajes</a
-                        >
+                        <a :href="route('trainers.messages')" class="hover:underline">Mensajes</a>
                     </li>
                     <li>
-                        <a :href="route('trainers.pp')" class="hover:underline"
-                            >Actividades</a
-                        >
+                        <a :href="route('trainers.pp')" class="hover:underline">Actividades</a>
                     </li>
                     <li>
-                        <a
-                            :href="route('trainers.posts')"
-                            class="hover:underline"
-                            >Posts</a
-                        >
+                        <a :href="route('trainers.posts')" class="hover:underline">Posts</a>
                     </li>
                     <li>
-                        <button @click="logout">Cerrar sesión</button>
+                        <button @click="logout" class="text-white">Cerrar sesión</button>
                     </li>
                 </ul>
             </div>
+
+            <!-- Botón para abrir el menú en dispositivos móviles -->
+            <div class="md:hidden">
+                <button @click="toggleMenu" class="p-2 rounded-full text-white focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
     </nav>
+
+    <!-- Menú móvil -->
+    <div v-if="isMenuOpen" class="md:hidden bg-gray-800 text-white py-2">
+        <ul class="space-y-4 px-4">
+            <li>
+                <a :href="route('trainers.index')" class="hover:underline">Inicio</a>
+            </li>
+            <li>
+                <a :href="route('trainers.reservations')" class="hover:underline">Reservas</a>
+            </li>
+            <li>
+                <a :href="route('trainers.messages')" class="hover:underline">Mensajes</a>
+            </li>
+            <li>
+                <a :href="route('trainers.pp')" class="hover:underline">Actividades</a>
+            </li>
+            <li>
+                <a :href="route('trainers.posts')" class="hover:underline">Posts</a>
+            </li>
+            <li>
+                <button @click="logout" class="text-white">Cerrar sesión</button>
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script setup>
 // Importaciones
+import { ref } from "vue";
 import { router } from "@inertiajs/vue3";
 import { useThemeStore } from "../../../../stores/useThemeStore.js";
 import { storeToRefs } from "pinia";
@@ -107,6 +120,13 @@ import { storeToRefs } from "pinia";
 // Obtener el store y sus valores
 const themeStore = useThemeStore();
 const { isDark } = storeToRefs(themeStore);
+
+// Variables para el menú móvil
+let isMenuOpen = ref(false);
+
+const toggleMenu = () => {
+    isMenuOpen.value = !isMenuOpen.value;
+};
 
 const logout = () => {
     router.post(route("logout"));

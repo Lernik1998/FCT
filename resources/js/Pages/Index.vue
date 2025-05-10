@@ -182,8 +182,8 @@
                     <h3
                         class="text-xl font-bold text-gray-900 mb-3 dark:text-white"
                     >
-                        Supera lo físico desarrollando tu resistencia y fortaleza
-                        mental
+                        Supera lo físico desarrollando tu resistencia y
+                        fortaleza mental
                     </h3>
                     <p class="text-gray-600 mb-4 dark:text-gray-300">
                         Practicar un ejercicio físico que sea difícil ayuda a
@@ -211,12 +211,14 @@
                     <h3
                         class="text-xl font-bold text-gray-900 mb-3 dark:text-white"
                     >
-                    Sentido de pertenencia: Una comunidad que camina contigo hacia el cambio
-
+                        Sentido de pertenencia: Una comunidad que camina contigo
+                        hacia el cambio
                     </h3>
                     <p class="text-gray-600 mb-4 dark:text-gray-300">
-                        Cuando compartimos el esfuerzo, el camino se hace más llevadero. Aquí, cada logro es celebrado y cada tropiezo, sostenido por otros. No estás solo: somos una comunidad que avanza unida.
-
+                        Cuando compartimos el esfuerzo, el camino se hace más
+                        llevadero. Aquí, cada logro es celebrado y cada
+                        tropiezo, sostenido por otros. No estás solo: somos una
+                        comunidad que avanza unida.
                     </p>
                 </div>
             </article>
@@ -388,6 +390,7 @@
 // Importaciones
 import { router } from "@inertiajs/vue3";
 import { ref } from "vue";
+import BenefitCard from "./Public/Components/BenefitCard.vue";
 
 // Componentes
 // import WeatherApi from "@/Components/WeatherApi.vue";
@@ -409,43 +412,6 @@ const exploreActivities = () => {
     router.visit(route("activities.index"));
 };
 
-// Datos de ejemplo (en un proyecto real vendrían de una API)
-const initialTrainers = [
-    {
-        name: "Carlos Méndez",
-        specialty: "CrossFit L3 Coach",
-        bio: "Especialista en entrenamiento funcional con más de 10 años de experiencia.",
-        image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        certifications: ["CF-L3", "Nutrition", "Olympic WL"],
-    },
-    {
-        name: "Ana Rodríguez",
-        specialty: "Gymnastics Specialist",
-        bio: "Ex gimnasta olímpica convertida en entrenadora de élite.",
-        image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        certifications: ["CF-L2", "Gymnastics", "Mobility"],
-    },
-    {
-        name: "David Johnson",
-        specialty: "Strength Coach",
-        bio: "Powerlifter profesional enfocado en desarrollo de fuerza.",
-        image: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        certifications: ["CF-L1", "Powerlifting", "Strongman"],
-    },
-    {
-        name: "María Fernández",
-        specialty: "Endurance Coach",
-        bio: "Triatleta Ironman con enfoque en resistencia metabólica.",
-        image: "https://images.unsplash.com/photo-1517649763962-0c623066013b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-        certifications: ["CF-L2", "Endurance", "Running"],
-    },
-];
-
-const trainers = ref([...initialTrainers]);
-
-// Apartado como funcionamos
-
-import BenefitCard from "./Public/Components/BenefitCard.vue";
 
 // Pueden venir de props o API
 const benefits = [

@@ -1,5 +1,5 @@
 <template>
-    <section class="py-16  min-h-screen">
+    <section class="min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">
                 Comparte tu esfuerzo, celebra tus logros.

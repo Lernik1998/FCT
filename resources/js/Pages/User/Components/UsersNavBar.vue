@@ -2,14 +2,13 @@
     <nav
         class="bg-gradient-to-r from-orange-500 to-red-600 p-4 text-white shadow-lg sticky top-0 z-50 dark:bg-gray-800 dark:text-gray-600"
     >
-        <div class="container mx-auto flex justify-between items-center">
+        <div
+            class="container mx-auto flex flex-wrap justify-between items-center"
+        >
             <div class="flex items-center space-x-4">
-                <!-- <img src="/logo-fitworking.png" alt="FitWorking Logo" class="h-10"> -->
-                <h1 class="text-xl font-bold">
-                    <!-- ¡Hola, {{ $page.props.user.name }}! -->
-                </h1>
+                <h1 class="text-xl font-bold"></h1>
 
-                <!-- Botón de toggle mejorado -->
+                <!-- Botón de tema -->
                 <button
                     @click="themeStore.toggleDarkMode"
                     class="p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-700 ml-2"
@@ -56,69 +55,105 @@
                     </transition>
                 </button>
             </div>
-            <div>
-                <ul class="flex space-x-6">
+
+            <!-- Botón hamburguesa -->
+            <button
+                @click="isMobileMenuOpen = !isMobileMenuOpen"
+                class="md:hidden mt-2 text-white focus:outline-none"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16"
+                    />
+                </svg>
+            </button>
+
+            <!-- Menú de navegación -->
+            <div
+                :class="[
+                    'w-full md:w-auto',
+                    isMobileMenuOpen ? 'block' : 'hidden',
+                    'md:block',
+                ]"
+            >
+                <ul
+                    class="flex flex-col md:flex-row md:items-center md:space-x-6 mt-4 md:mt-0 space-y-2 md:space-y-0"
+                >
                     <li>
                         <Link
                             :href="route('users.index')"
                             class="hover:underline"
                             :class="{
-                                'font-bold text-orange-500 underline':
+                                'font-bold text-orange-300 underline':
                                     $page.component === 'User/UserIndex',
                             }"
-                            >Inicio</Link
                         >
+                            Inicio
+                        </Link>
                     </li>
                     <li>
                         <Link
                             :href="route('userActivitiesReservations.index')"
                             class="hover:underline"
                             :class="{
-                                'font-bold text-orange-500 underline':
+                                'font-bold text-orange-300 underline':
                                     $page.component ===
                                     'User/ActivityOptions/ActivityReservations',
                             }"
-                            >Gestión de reservas</Link
                         >
+                            Gestión de reservas
+                        </Link>
                     </li>
                     <li>
                         <Link
                             :href="route('users.stats')"
                             class="hover:underline"
                             :class="{
-                                'font-bold text-orange-500 underline':
+                                'font-bold text-orange-300 underline':
                                     $page.component === 'User/UserStats',
                             }"
-                            >Progreso</Link
                         >
+                            Progreso
+                        </Link>
                     </li>
                     <li>
                         <Link
-                            href=""
+                            href="#"
                             class="hover:underline"
                             :class="{
-                                'font-bold text-orange-500 underline':
+                                'font-bold text-orange-300 underline':
                                     $page.component === 'User/UserMessages',
                             }"
-                            >Mensajes X</Link
                         >
+                            Mensajes X
+                        </Link>
                     </li>
-
                     <li>
                         <Link
                             :href="route('membership.index')"
                             class="hover:underline"
                             :class="{
-                                'font-bold text-orange-500 underline':
+                                'font-bold text-orange-300 underline':
                                     $page.component === 'User/UserMemberships',
                             }"
                             prefetch
-                            >Suscripción</Link
                         >
+                            Suscripción
+                        </Link>
                     </li>
-
                     <li>
-                        <button @click="logout">Cerrar sesión</button>
+                        <button @click="logout" class="hover:underline">
+                            Cerrar sesión
+                        </button>
                     </li>
                 </ul>
             </div>
@@ -127,17 +162,16 @@
 </template>
 
 <script setup>
-// Importaciones
+import { ref } from "vue";
 import { router } from "@inertiajs/vue3";
-
 import { useThemeStore } from "../../../../stores/useThemeStore.js";
 import { storeToRefs } from "pinia";
 
-// Obtener el store y sus valores
 const themeStore = useThemeStore();
 const { isDark } = storeToRefs(themeStore);
 
-// Función para cerrar sesión
+const isMobileMenuOpen = ref(false);
+
 const logout = () => {
     router.post(route("logout"));
 };
@@ -148,7 +182,6 @@ const logout = () => {
 .fade-leave-active {
     transition: opacity 0.15s ease;
 }
-
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
