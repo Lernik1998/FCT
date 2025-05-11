@@ -1,4 +1,8 @@
 <template>
+
+
+<h1>HACERLO CON TABLA PAGINADA</h1>
+
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold mb-8">Gestión de Reservas</h1>
 

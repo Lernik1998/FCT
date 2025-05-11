@@ -1,20 +1,20 @@
 <template>
-    <!-- Contenedor principal -->
-    <div class="flex h-[90vh] bg-gray-100">
-        <!-- Panel lateral -->
-        <div class="w-1/3 bg-white border-r border-gray-200 flex flex-col">
+    <!-- Contenedor principal con dark mode -->
+    <div class="flex h-[90vh] bg-gray-100 dark:bg-gray-900">
+        <!-- Panel lateral - responsive -->
+        <div class="w-full md:w-1/3 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col" :class="{ 'hidden md:flex': selectedUser }">
             <!-- Filtros y búsqueda -->
-            <div class="p-3 bg-gray-50 border-b border-gray-200">
-                <div class="flex space-x-2 mb-2">
+            <div class="p-3 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-700">
+                <div class="flex space-x-2 mb-2 overflow-x-auto pb-2">
                     <button
                         v-for="filter in filters"
                         :key="filter.value"
                         @click="activeFilter = filter.value"
-                        class="px-3 py-1 text-sm rounded-full"
+                        class="px-3 py-1 text-sm rounded-full whitespace-nowrap"
                         :class="
                             activeFilter === filter.value
                                 ? 'bg-blue-500 text-white'
-                                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                : 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-500'
                         "
                     >
                         {{ filter.label }}
@@ -25,10 +25,10 @@
                         v-model="searchQuery"
                         type="text"
                         placeholder="Buscar contactos..."
-                        class="w-full py-2 pl-10 pr-4 bg-white rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        class="w-full py-2 pl-10 pr-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent dark:text-white dark:placeholder-gray-300"
                     />
                     <svg
-                        class="absolute left-3 top-2.5 h-4 w-4 text-gray-500"
+                        class="absolute left-3 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-300"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -45,12 +45,12 @@
 
             <!-- Gestión de contactos -->
             <div
-                class="p-3 border-b border-gray-200 flex justify-between items-center bg-white"
+                class="p-3 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center bg-white dark:bg-gray-800"
             >
-                <h3 class="font-medium">Mis contactos</h3>
+                <h3 class="font-medium dark:text-white">Mis contactos</h3>
                 <button
                     @click="showContactForm = true"
-                    class="text-green-600 hover:text-green-800 p-1 rounded-full hover:bg-green-50"
+                    class="text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 p-1 rounded-full hover:bg-green-50 dark:hover:bg-gray-700"
                     title="Añadir contacto"
                 >
                     <svg
@@ -75,12 +75,12 @@
                     v-for="user in filteredUsers"
                     :key="user.id"
                     @click="selectUser(user)"
-                    class="flex items-center p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50"
-                    :class="{ 'bg-green-50': user.id === selectedUser?.id }"
+                    class="flex items-center p-3 border-b border-gray-100 dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700"
+                    :class="{ 'bg-green-50 dark:bg-green-900': user.id === selectedUser?.id }"
                 >
                     <div class="relative">
                         <div
-                            class="w-10 h-10 bg-gray-300 rounded-full overflow-hidden"
+                            class="w-10 h-10 bg-gray-300 dark:bg-gray-600 rounded-full overflow-hidden"
                         >
                             <!-- <img
                                 :src="user.avatar || '/default-avatar.png'"
@@ -89,19 +89,19 @@
                         </div>
                         <span
                             v-if="user.online"
-                            class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white"
+                            class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white dark:border-gray-800"
                         ></span>
                     </div>
                     <div class="ml-3 flex-1 min-w-0">
                         <div class="flex justify-between">
-                            <p class="font-medium text-gray-900 truncate">
+                            <p class="font-medium text-gray-900 dark:text-white truncate">
                                 {{ user.name }}
                             </p>
-                            <span class="text-xs text-gray-500">{{
+                            <span class="text-xs text-gray-500 dark:text-gray-400">{{
                                 formatLastMessageTime(user.lastMessage)
                             }}</span>
                         </div>
-                        <p class="text-sm text-gray-500 truncate">
+                        <p class="text-sm text-gray-500 dark:text-gray-400 truncate">
                             {{ user.lastMessage?.message || "Nuevo contacto" }}
                         </p>
                     </div>
@@ -116,13 +116,13 @@
         </div>
 
         <!-- Área de chat -->
-        <div class="flex-1 flex flex-col bg-gray-50">
+        <div class="flex-1 flex flex-col bg-gray-50 dark:bg-gray-900">
             <div
                 v-if="!selectedUser"
-                class="flex-1 flex flex-col items-center justify-center bg-gray-100 p-6"
+                class="flex-1 flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800 p-6"
             >
                 <div
-                    class="w-24 h-24 bg-gray-200 rounded-full mb-4 flex items-center justify-center text-gray-400"
+                    class="w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded-full mb-4 flex items-center justify-center text-gray-400 dark:text-gray-500"
                 >
                     <svg
                         class="h-12 w-12"
@@ -138,10 +138,10 @@
                         />
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">
+                <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">
                     Selecciona un contacto
                 </h3>
-                <p class="text-gray-500 text-center max-w-md">
+                <p class="text-gray-500 dark:text-gray-400 text-center max-w-md">
                     Elige un contacto de la lista para comenzar una conversación
                     o añade nuevos contactos.
                 </p>
@@ -151,12 +151,12 @@
             <template v-else>
                 <!-- Encabezado del chat -->
                 <div
-                    class="p-3 bg-white border-b border-gray-200 flex justify-between items-center"
+                    class="p-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center"
                 >
                     <div class="flex items-center">
                         <button
                             @click="selectedUser = null"
-                            class="md:hidden mr-2 text-gray-500 hover:text-gray-700"
+                            class="md:hidden mr-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                         >
                             <svg
                                 class="h-5 w-5"
@@ -174,7 +174,7 @@
                         </button>
                         <div class="relative">
                             <div
-                                class="w-10 h-10 bg-gray-300 rounded-full overflow-hidden"
+                                class="w-10 h-10 bg-gray-300 dark:bg-gray-600 rounded-full overflow-hidden"
                             >
                                 <img
                                     :src="
@@ -186,12 +186,12 @@
                             </div>
                             <span
                                 v-if="selectedUser.online"
-                                class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white"
+                                class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white dark:border-gray-800"
                             ></span>
                         </div>
                         <div class="ml-3">
-                            <p class="font-semibold">{{ selectedUser.name }}</p>
-                            <p class="text-xs text-gray-500">
+                            <p class="font-semibold dark:text-white">{{ selectedUser.name }}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">
                                 {{
                                     selectedUser.online
                                         ? "En línea"
@@ -203,7 +203,7 @@
                     </div>
                     <div class="flex space-x-4">
                         <button
-                            class="text-gray-500 hover:text-gray-700"
+                            class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                             title="Llamar"
                         >
                             <svg
@@ -222,7 +222,7 @@
                         </button>
                         <button
                             @click="openUserSettings(selectedUser)"
-                            class="text-gray-500 hover:text-gray-700"
+                            class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                             title="Editar contacto"
                         >
                             <svg
@@ -244,7 +244,7 @@
 
                 <!-- Mensajes -->
                 <div
-                    class="flex-1 overflow-y-auto p-4 bg-[#e5ddd5] bg-opacity-30 bg-[url('/whatsapp-bg.png')]"
+                    class="flex-1 overflow-y-auto p-4 bg-[#e5ddd5] dark:bg-gray-700 bg-opacity-30 bg-[url('/whatsapp-bg.png')] dark:bg-opacity-50"
                     style="background-size: contain"
                 >
                     <div
@@ -264,15 +264,15 @@
                             <div
                                 class="max-w-xs lg:max-w-md px-4 py-2 rounded-lg"
                                 :class="{
-                                    'bg-white rounded-tr-none':
+                                    'bg-white dark:bg-gray-600 rounded-tr-none':
                                         message.recipient_id === auth.user.id,
-                                    'bg-green-100 rounded-tl-none':
+                                    'bg-green-100 dark:bg-green-800 rounded-tl-none':
                                         message.sender_id === auth.user.id,
                                 }"
                             >
-                                <p class="text-sm">{{ message.message }}</p>
+                                <p class="text-sm dark:text-white">{{ message.message }}</p>
                                 <div
-                                    class="text-right mt-1 text-xs text-gray-500"
+                                    class="text-right mt-1 text-xs text-gray-500 dark:text-gray-400"
                                 >
                                     {{ formatMessageTime(message.created_at) }}
                                     <span
@@ -318,9 +318,9 @@
                 </div>
 
                 <!-- Input de mensaje -->
-                <div class="p-3 bg-white border-t border-gray-200">
+                <div class="p-3 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
                     <div class="flex items-center">
-                        <button class="p-2 text-gray-500 hover:text-gray-700">
+                        <button class="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
                             <svg
                                 class="h-6 w-6"
                                 fill="none"
@@ -335,7 +335,7 @@
                                 />
                             </svg>
                         </button>
-                        <button class="p-2 text-gray-500 hover:text-gray-700">
+                        <button class="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
                             <svg
                                 class="h-6 w-6"
                                 fill="none"
@@ -355,12 +355,12 @@
                             @keyup.enter="sendMessage"
                             type="text"
                             placeholder="Escribe un mensaje..."
-                            class="flex-1 py-2 px-4 mx-2 bg-white rounded-full border-none focus:outline-none focus:ring-1 focus:ring-green-500"
+                            class="flex-1 py-2 px-4 mx-2 bg-white dark:bg-gray-700 rounded-full border-none focus:outline-none focus:ring-1 focus:ring-green-500 dark:text-white dark:placeholder-gray-300"
                         />
                         <button
                             @click="sendMessage"
-                            class="p-2 text-gray-500 hover:text-gray-700"
-                            :class="{ 'text-green-600': messageInput.trim() }"
+                            class="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                            :class="{ 'text-green-600 dark:text-green-400': messageInput.trim() }"
                         >
                             <svg
                                 v-if="messageInput.trim()"
@@ -402,16 +402,16 @@
         v-if="showContactForm"
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
     >
-        <div class="bg-white rounded-lg w-full max-w-md">
+        <div class="bg-white dark:bg-gray-800 rounded-lg w-full max-w-md">
             <div
-                class="p-4 border-b border-gray-200 flex justify-between items-center"
+                class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center"
             >
-                <h3 class="text-lg font-semibold">
+                <h3 class="text-lg font-semibold dark:text-white">
                     {{ editingContact ? "Editar Contacto" : "Nuevo Contacto" }}
                 </h3>
                 <button
                     @click="closeContactForm"
-                    class="text-gray-500 hover:text-gray-700"
+                    class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                 >
                     <svg
                         class="h-6 w-6"
@@ -433,38 +433,38 @@
                 <div class="space-y-4">
                     <div>
                         <label
-                            class="block text-sm font-medium text-gray-700 mb-1"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                             >Nombre completo</label
                         >
                         <input
                             v-model="contactForm.name"
                             type="text"
-                            class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+                            class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white"
                             placeholder="Ej: Juan Pérez"
                         />
                     </div>
 
                     <div>
                         <label
-                            class="block text-sm font-medium text-gray-700 mb-1"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                             >Número de teléfono</label
                         >
                         <input
                             v-model="contactForm.phone"
                             type="tel"
-                            class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+                            class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white"
                             placeholder="Ej: +34611223344"
                         />
                     </div>
 
                     <div>
                         <label
-                            class="block text-sm font-medium text-gray-700 mb-1"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                             >Tipo de contacto</label
                         >
                         <select
                             v-model="contactForm.type"
-                            class="w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+                            class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white"
                         >
                             <option value="client">Cliente</option>
                             <option value="colleague">Colega</option>
@@ -477,7 +477,7 @@
                 <div class="flex justify-end space-x-3 mt-6">
                     <button
                         @click="closeContactForm"
-                        class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                        class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                     >
                         Cancelar
                     </button>
@@ -496,6 +496,7 @@
         </div>
     </div>
 </template>
+
 
 
 <script setup>
@@ -615,24 +616,8 @@ const loadMessages = (userId) => {
             recipient_id: props.auth.user.id,
             created_at: new Date(Date.now() - 3600000).toISOString(),
             read: true,
-        },
-        {
-            id: 2,
-            message: "¡Hola! Estoy bien, gracias por preguntar. ¿Y tú qué tal?",
-            sender_id: props.auth.user.id,
-            recipient_id: userId,
-            created_at: new Date(Date.now() - 1800000).toISOString(),
-            read: true,
-        },
-        {
-            id: 3,
-            message: "¿Estás disponible para una sesión mañana por la mañana?",
-            sender_id: userId,
-            recipient_id: props.auth.user.id,
-            created_at: new Date(Date.now() - 600000).toISOString(),
-            read: false,
-        },
-    ];
+        }]
+     
     scrollToBottom();
 };
 

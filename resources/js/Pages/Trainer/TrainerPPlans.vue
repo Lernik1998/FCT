@@ -1,156 +1,112 @@
 <template>
     <!-- Contenido principal -->
-    <main class="mx-auto mt-4 px-4 dark:bg-gray-800">
-        <div class="my-6">
-            <h3 class="text-lg font-semibold mb-2 dark:text-orange-600">
+    <main class="px-4 sm:px-6 lg:px-8 py-6 dark:bg-gray-900 min-h-screen transition-colors duration-300">
+        <!-- Normas para creación de actividades -->
+        <div class="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-md mb-6 transition-colors duration-300">
+            <h3 class="text-lg font-semibold mb-3 text-gray-800 dark:text-orange-400">
                 Normas para la creación de actividades:
             </h3>
-            <ul class="list-disc list-inside text-gray-700 space-y-1 dark:text-white">
+            <ul class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1 text-sm sm:text-base">
                 <li>La actividad debe tener un título claro y descriptivo.</li>
                 <li>Debe incluir una fecha y hora de inicio definidas.</li>
-                <li>
-                    Se requiere una descripción con el objetivo de la actividad.
-                </li>
-                <li>
-                    No se permiten actividades duplicadas o con contenido
-                    similar en horarios solapados.
-                </li>
+                <li>Se requiere una descripción con el objetivo de la actividad.</li>
+                <li>No se permiten actividades duplicadas o con contenido similar en horarios solapados.</li>
                 <li>El aforo máximo debe estar definido si aplica.</li>
                 <li>Se recomienda añadir una imagen o icono representativo.</li>
             </ul>
         </div>
 
-        <h1>
-            En funcionamiento con lernik10@gmail.com pendiente asignar permisos
-            al resto de usuarios
-        </h1>
-
-        <!-- Verifico mensaje de exito o error -->
-        <div v-if="success !== null">
-            <p v-if="success" class="text-green-500">
-                Conexión exitosa con Google Calendar
+        <!-- Mensaje de estado -->
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mb-6 transition-colors duration-300">
+            <p class="text-gray-700 dark:text-gray-300 text-sm sm:text-base">
+                En funcionamiento con lernik10@gmail.com pendiente asignar permisos al resto de usuarios
             </p>
-            <p v-else class="text-red-500">
-                Error al conectar con Google Calendar
-            </p>
+            
+            <!-- Verifico mensaje de exito o error -->
+            <div v-if="success !== null" class="mt-3">
+                <p v-if="success" class="text-green-600 dark:text-green-400">Conexión exitosa con Google Calendar</p>
+                <p v-else class="text-red-600 dark:text-red-400">Error al conectar con Google Calendar</p>
+            </div>
         </div>
 
-        <div class="bg-white p-4 rounded-lg shadow-md">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold text-gray-800">
-                    Calendario de actividades
-                </h2>
+        <!-- Calendario de actividades -->
+        <div class="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-md transition-colors duration-300">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 sm:mb-6">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">Calendario de actividades</h2>
                 <button
                     @click="handleNewEventClick"
-                    class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md flex items-center"
+                    class="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 dark:bg-orange-600 dark:hover:bg-orange-700 text-white px-4 py-2 rounded-md flex items-center justify-center transition-colors duration-200"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5 mr-1"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                        />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
                     Nueva actividad
                 </button>
             </div>
 
-            <FullCalendar
-                ref="calendar"
-                class="trainer-calendar"
-                :options="calendarOptions"
-            />
+            <FullCalendar ref="calendar" class="trainer-calendar" :options="calendarOptions" />
 
             <!-- Modal para crear/editar/eliminar eventos -->
             <div
                 v-if="showEventModal"
-                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-300"
             >
-                <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
-                    <div
-                        class="p-5 border-b border-gray-200 flex justify-between items-center"
-                    >
-                        <h3 class="text-lg font-semibold text-gray-800">
-                            {{
-                                editingEvent ? "Editar actividad" : "Nueva actividad"
-                            }}
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4 transition-all duration-300 border border-gray-200 dark:border-gray-700">
+                    <div class="p-5 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
+                            {{ editingEvent ? "Editar actividad" : "Nueva actividad" }}
                         </h3>
-                        <button
-                            @click="closeEventModal"
-                            class="text-gray-500 hover:text-gray-700"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-6 w-6"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
+                        <button @click="closeEventModal" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
                     </div>
 
                     <div class="p-5 space-y-4">
                         <div>
-                            <label
-                                class="block text-sm font-medium text-gray-700 mb-1"
-                                >Título del evento</label
-                            >
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                Título del evento
+                            </label>
                             <input
                                 v-model="eventoAct.title"
                                 type="text"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors duration-200"
                                 placeholder="Sesión de entrenamiento"
                             />
                         </div>
 
-                        <div class="grid grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label
-                                    class="block text-sm font-medium text-gray-700 mb-1"
-                                    >Fecha inicio</label
-                                >
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    Fecha inicio
+                                </label>
                                 <input
                                     v-model="eventoAct.start"
                                     type="datetime-local"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors duration-200"
                                 />
                             </div>
                             <div>
-                                <label
-                                    class="block text-sm font-medium text-gray-700 mb-1"
-                                    >Fecha fin</label
-                                >
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    Fecha fin
+                                </label>
                                 <input
                                     v-model="eventoAct.end"
                                     type="datetime-local"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors duration-200"
                                 />
                             </div>
                         </div>
 
                         <div>
-                            <label
-                                class="block text-sm font-medium text-gray-700 mb-1"
-                                >Descripción</label
-                            >
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                Descripción
+                            </label>
                             <textarea
                                 v-model="eventoAct.extendedProps.description"
                                 rows="3"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors duration-200"
                                 placeholder="Detalles del evento..."
                             ></textarea>
                         </div>
@@ -160,34 +116,30 @@
                                 <input
                                     v-model="eventoAct.allDay"
                                     type="checkbox"
-                                    class="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 rounded"
+                                    class="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 dark:border-gray-600 rounded transition-colors duration-200"
                                 />
-                                <span class="ml-2 text-sm text-gray-700"
-                                    >Todo el día</span
-                                >
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Todo el día</span>
                             </label>
                         </div>
                     </div>
 
-                    <div
-                        class="p-5 border-t border-gray-200 flex justify-end space-x-3"
-                    >
+                    <div class="p-5 border-t border-gray-200 dark:border-gray-700 flex justify-end space-x-3">
                         <button
                             @click="closeEventModal"
-                            class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                            class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
                         >
                             Cancelar
                         </button>
                         <button
                             @click="saveEvent"
-                            class="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600"
+                            class="px-4 py-2 bg-orange-500 hover:bg-orange-600 dark:bg-orange-600 dark:hover:bg-orange-700 text-white rounded-md transition-colors duration-200"
                         >
                             Guardar
                         </button>
                         <button
                             v-if="editingEvent"
                             @click="deleteEvent"
-                            class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                            class="px-4 py-2 bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white rounded-md transition-colors duration-200"
                         >
                             Eliminar
                         </button>
@@ -197,6 +149,7 @@
         </div>
     </main>
 </template>
+
 
 <script setup>
 import { ref, computed } from "vue";
@@ -305,6 +258,7 @@ const calendarOptions = ref({
         center: "title",
         right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
     },
+    
     firstDay: 1,
     height: "auto",
     contentHeight: "auto",
