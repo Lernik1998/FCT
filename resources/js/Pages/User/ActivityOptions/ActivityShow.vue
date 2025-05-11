@@ -1,15 +1,15 @@
 <template>
-    <!-- Barra de navegación mejorada -->
-    <nav class="p-4">
-        <div class="container mx-auto flex justify-between items-center">
+    <!-- Contenido principal -->
+    <main class="py-8 px-4 sm:px-6 lg:px-8 dark:bg-gray-900">
+        <div class="items-center mb-10">
             <div class="flex items-center space-x-2">
                 <button
                     @click="goBack"
-                    class="p-2 rounded-full hover:bg-orange-600 transition-colors"
+                    class="px-5 py-2 rounded-full bg-orange-500 hover:bg-orange-600 text-white font-medium shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6"
+                        class="h-5 w-5"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -17,18 +17,15 @@
                         <path
                             stroke-linecap="round"
                             stroke-linejoin="round"
-                            stroke-width="1"
-                            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                            stroke-width="2"
+                            d="M15 19l-7-7 7-7"
                         />
                     </svg>
+                    Volver
                 </button>
-                <h1 class="font-bold">Actividades</h1>
             </div>
         </div>
-    </nav>
 
-    <!-- Contenido principal -->
-    <main class="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl mx-auto">
             <!-- Tarjeta principal -->
             <div class="rounded-xl shadow-lg overflow-hidden animate-fade-in">
@@ -42,7 +39,9 @@
                     <div
                         class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4"
                     >
-                        <h1 class="text-2xl sm:text-3xl font-bold text-white">
+                        <h1
+                            class="text-2xl sm:text-3xl font-bold text-white dark:text-orange-600"
+                        >
                             {{ activity.name }}
                         </h1>
                         <div class="flex items-center mt-2">
@@ -82,11 +81,11 @@
                 </div>
 
                 <!-- Contenido informativo -->
-                <div class="p-6 sm:p-8">
+                <div class="p-6 sm:p-8 dark:bg-gray-700">
                     <!-- Descripción -->
                     <div class="mb-8">
                         <h2
-                            class="text-xl font-bold text-gray-800 mb-4 flex items-center"
+                            class="text-xl font-bold text-gray-800 mb-4 flex items-center dark:text-white"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +101,9 @@
                             </svg>
                             Sobre esta actividad
                         </h2>
-                        <p class="text-gray-600 leading-relaxed">
+                        <p
+                            class="text-gray-600 leading-relaxed dark:text-white"
+                        >
                             {{ activity.description }}
                         </p>
                     </div>
@@ -110,9 +111,11 @@
                     <!-- Detalles en grid -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
                         <!-- Fecha y hora -->
-                        <div class="bg-orange-50 p-4 rounded-lg">
+                        <div
+                            class="dark:bg-gray-800 p-4 rounded-lg bg-gray-100"
+                        >
                             <h3
-                                class="font-semibold text-gray-700 mb-2 flex items-center"
+                                class="font-semibold text-gray-700 mb-2 flex items-center dark:text-white"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -130,15 +133,17 @@
                                 </svg>
                                 Fecha y hora
                             </h3>
-                            <p class="text-gray-600">
+                            <p class="text-gray-600 dark:text-white">
                                 {{ formatDateTime(activity.date) }}
                             </p>
                         </div>
 
                         <!-- Ubicación -->
-                        <div class="bg-orange-50 p-4 rounded-lg">
+                        <div
+                            class="dark:bg-gray-800 p-4 rounded-lg bg-gray-100"
+                        >
                             <h3
-                                class="font-semibold text-gray-700 mb-2 flex items-center"
+                                class="font-semibold text-gray-700 mb-2 flex items-center dark:text-white"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -162,14 +167,16 @@
                                 </svg>
                                 Ubicación
                             </h3>
-                            <p class="text-gray-600">
+                            <p class="text-gray-600 dark:text-white">
                                 {{ activity.location || "Por determinar" }}
                             </p>
                         </div>
 
-                        <div class="bg-orange-50 p-4 rounded-lg">
+                        <div
+                            class="dark:bg-gray-800 p-4 rounded-lg bg-gray-100"
+                        >
                             <h3
-                                class="font-semibold text-gray-700 mb-2 flex items-center"
+                                class="font-semibold text-gray-700 mb-2 flex items-center dark:text-white"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -188,16 +195,18 @@
                                 Hora
                             </h3>
                             <div class="flex items-center">
-                                <div class="flex space-x-1">
+                                <div class="flex space-x-1 dark:text-white">
                                     {{ activity.start_time }} -
                                     {{ activity.end_time }}
                                 </div>
                             </div>
                         </div>
 
-                        <div class="bg-orange-50 p-4 rounded-lg">
+                        <div
+                            class="dark:bg-gray-800 p-4 rounded-lg bg-gray-100"
+                        >
                             <h3
-                                class="font-semibold text-gray-700 mb-2 flex items-center"
+                                class="font-semibold text-gray-700 mb-2 flex items-center dark:text-white"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -215,7 +224,7 @@
                                 </svg>
                                 Plazas
                             </h3>
-                            <p class="text-gray-600">
+                            <p class="text-gray-600 dark:text-white">
                                 {{ activity.slots }} plazas disponibles
                             </p>
                         </div>
@@ -270,9 +279,9 @@
             </div>
 
             <!-- Sección adicional (Recomendaciones) -->
-            <div class="mt-10 bg-white rounded-xl shadow-lg p-6">
+            <div class="mt-10 rounded-xl shadow-lg p-6 dark:bg-gray-700">
                 <h2
-                    class="text-xl font-bold text-gray-800 mb-4 flex items-center"
+                    class="text-xl font-bold text-gray-800 mb-4 flex items-center dark:text-white"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -290,7 +299,7 @@
                     </svg>
                     Recomendaciones
                 </h2>
-                <ul class="space-y-3 text-gray-600">
+                <ul class="space-y-3 dark:text-white">
                     <li class="flex items-start">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

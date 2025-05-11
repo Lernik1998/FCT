@@ -1,72 +1,80 @@
 <template>
-    <div class="ml-20 mt-10">
-        <button
-            @click="() => router.visit(route('activities.index'))"
-            class="bg-gray-500 text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-md hover:bg-gray-600 transition"
-        >
-            Volver
-        </button>
-    </div>
+    <div class="p-4 md:p-8 max-w-6xl mx-auto space-y-8">
+        <!-- Botón de volver -->
+        <div>
+            <button
+                @click="() => router.visit(route('activities.index'))"
+                class="px-4 py-2 rounded-md text-base md:text-lg font-medium shadow hover:bg-gray-700 transition dark:bg-orange-500 dark:text-white"
+            >
+                ← Volver
+            </button>
+        </div>
 
-    <section class="min-h-screen flex flex-col items-center p-6">
-        <div
-            class="max-w-4xl w-full bg-white shadow-lg rounded-lg overflow-hidden animate-fade-in"
-        >
-            <!-- Imagen de portada -->
-            <div class="relative">
+        <!-- Título -->
+        <div class="text-center">
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-800 mb-4 dark:text-white">
+                {{ activity.name }}
+            </h1>
+        </div>
+
+        <!-- Contenedor principal -->
+        <section class="bg-white rounded-xl shadow-xl overflow-hidden">
+            <!-- Imagen -->
+            <!-- <div class="w-full aspect-video overflow-hidden">
                 <img
                     :src="activity.image"
                     alt="Imagen de la actividad"
                     class="w-full h-full object-cover"
                 />
+            </div> -->
+
+            <!-- Imagen -->
+<div class="w-full h-64 sm:h-80 md:h-[350px] lg:h-[300px] overflow-hidden">
+    <img
+        :src="activity.image"
+        alt="Imagen de la actividad"
+        class="w-full h-full object-cover"
+    />
+</div>
+
+
+            <!-- Contenido -->
+            <div class="p-4 md:p-6 space-y-6">
+                <!-- Descripción -->
+                <p class="text-gray-700 text-base md:text-lg leading-relaxed">
+                    {{ activity.description }}
+                </p>
+
+                <!-- Detalles -->
                 <div
-                    class="absolute inset-0  bg-opacity-30 flex items-center mt-10"
+                    class="grid grid-cols-1 md:grid-cols-3 gap-6 text-gray-800 text-base md:text-lg"
                 >
-                    <h1
-                        class="text-4xl font-bold drop-shadow-lg ml-5 mb-6 mt-6"
-                    >
-                        {{ activity.name }}
-                    </h1>
-                </div>
-            </div>
-
-            <!-- Contenido de la actividad -->
-            <div class="p-6 space-y-4 mt-10">
-                <p class="text-gray-700 text-lg">{{ activity.description }}</p>
-
-                <div class="grid grid-cols-2 gap-4 text-gray-800 text-lg">
-                    <p>
-                        <strong>Duración:</strong> {{ activity.duration }} min
-                    </p>
+                    <p><strong>📅 Fecha:</strong> {{ formattedDate }}</p>
+                    <p><strong>🕒 Horario:</strong> {{ formattedTime }}</p>
                     <p><strong>Precio:</strong> {{ activity.price }}€</p>
-                    <p><strong>Fecha:</strong> {{ formattedDate }}</p>
                 </div>
 
-                <!-- Botón de acción -->
-                <div class="mt-6 text-center space-x-4">
+                <!-- Botones de acción -->
+                <div
+                    class="flex flex-col md:flex-row justify-center items-center gap-4 mt-6"
+                >
                     <button
                         @click="() => router.visit(route('login'))"
-                        class="bg-blue-500 text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-md hover:bg-blue-600 transition"
+                        class="bg-blue-600 text-white px-5 py-3 rounded-lg font-semibold hover:bg-blue-700 transition w-full md:w-auto"
                     >
                         ¡Reserva tu plaza!
                     </button>
 
                     <button
                         @click="shareActivity"
-                        class="bg-green-500 text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-md hover:bg-green-600 transition"
+                        class="bg-green-600 text-white px-5 py-3 rounded-lg font-semibold hover:bg-green-700 transition w-full md:w-auto"
                     >
                         ¡Compartir!
                     </button>
-
-                    <!-- <button
-                        class="bg-yellow-500 text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-md hover:bg-yellow-600 transition"
-                    >
-                        Siguiente actividad
-                    </button> -->
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </template>
 
 <script setup>
@@ -88,6 +96,19 @@ const formattedDate = computed(() => {
         month: "long",
         day: "numeric",
     });
+});
+
+// Formatea la hora en un formato más amigable
+const formattedTime = computed(() => {
+    const [startHours, startMinutes] = props.activity.start_time.split(":");
+    const [endHours, endMinutes] = props.activity.end_time.split(":");
+
+    const format = (h, m) => `${h.padStart(2, "0")}:${m.padStart(2, "0")}`;
+
+    return `${format(startHours, startMinutes)} - ${format(
+        endHours,
+        endMinutes
+    )}`;
 });
 
 // Generar enlace para compartir

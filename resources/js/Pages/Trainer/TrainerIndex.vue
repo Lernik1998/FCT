@@ -43,12 +43,12 @@
 
         <!-- Gestión de actividades -->
         <section
-            class="mb-10 bg-white rounded-xl shadow-lg overflow-hidden animate-slide-in"
+            class="mb-10 bg-white rounded-xl shadow-lg overflow-hidden animate-slide-in dark:bg-gray-700"
         >
             <div
-                class="p-6 border-b border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center"
+                class="p-6 border-b border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center dark:border-gray-600"
             >
-                <h2 class="text-xl font-bold text-gray-800 flex items-center">
+                <h2 class="text-xl font-bold text-gray-800 flex items-center dark:text-white">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="h-6 w-6 mr-2 text-orange-500"

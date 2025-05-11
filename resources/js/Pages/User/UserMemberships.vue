@@ -1,13 +1,13 @@
 <template>
-    <main class="p-6 min-h-screen">
+    <main class="p-6 min-h-screen dark:bg-gray-900">
         <section class="max-w-6xl mx-auto">
             <!-- Encabezado -->
 
-            <pre>{{ current_membership }}</pre>
+            <!-- <pre>{{ current_membership }}</pre> -->
 
             <!-- Tarjetas de membresías -->
             <section class="mb-12">
-                <h2 class="text-2xl font-semibold text-gray-700 mb-6">
+                <h2 class="text-2xl font-semibold text-gray-700 mb-6 dark:text-orange-600">
                     Planes disponibles
                 </h2>
 
@@ -17,7 +17,7 @@
                     <div
                         v-for="membership in memberships"
                         :key="membership.id"
-                        class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                        class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
                         :class="{
                             'ring-2 ring-blue-500':
                                 current_membership.name === membership.name,
@@ -25,7 +25,7 @@
                     >
                         <div class="p-6">
                             <div class="flex justify-between items-start">
-                                <h3 class="text-xl font-bold text-gray-800">
+                                <h3 class="text-xl font-bold text-gray-800 dark:text-white">
                                     {{ membership.name }}
                                 </h3>
                                 <div class="flex gap-2">
@@ -46,12 +46,12 @@
                                     </span>
                                 </div>
                             </div>
-                            <p class="text-gray-600 mt-2">
+                            <p class="text-gray-600 mt-2 dark:text-gray-400">
                                 {{ membership.description }}
                             </p>
 
                             <div class="mt-6">
-                                <span class="text-3xl font-bold text-gray-900">
+                                <span class="text-3xl font-bold text-gray-900 dark:text-white">
                                     {{
                                         formatPrice(
                                             membership.unit_amount,
@@ -91,43 +91,42 @@
             </section>
 
             <!-- Información adicional -->
-            <section class="bg-white rounded-xl shadow-sm p-6">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">
+             <!-- Información adicional -->
+             <section class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">
                     Detalles de tu membresía actual
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <p class="text-gray-500">Plan actual</p>
-                        <p class="font-medium">
+                        <p class="text-gray-500 dark:text-gray-400">Plan actual</p>
+                        <p class="font-medium text-gray-800 dark:text-white">
                             {{ current_membership.name || "Ninguno" }}
                         </p>
                     </div>
                     <div>
-                        <p class="text-gray-500">Próxima renovación</p>
-                        <p class="font-medium">
+                        <p class="text-gray-500 dark:text-gray-400">Próxima renovación</p>
+                        <p class="font-medium text-gray-800 dark:text-white">
                             {{ current_membership.next_payment || "No aplica" }}
                         </p>
                     </div>
                     <div>
-                        <p class="text-gray-500">Estado</p>
+                        <p class="text-gray-500 dark:text-gray-400">Estado</p>
                         <p
                             class="font-medium"
                             :class="{
-                                'text-green-600':
-                                    current_membership.status === 'Activo',
-                                'text-red-600':
-                                    current_membership.status === 'Inactivo',
-                                'text-gray-600': !current_membership.status,
+                                'text-green-600 dark:text-green-400': current_membership.status === 'Activo',
+                                'text-red-600 dark:text-red-400': current_membership.status === 'Inactivo',
+                                'text-gray-600 dark:text-gray-300': !current_membership.status,
                             }"
                         >
                             {{ current_membership.status || "No suscrito" }}
                         </p>
                     </div>
                     <div v-if="current_membership.name">
-                        <p class="text-gray-500">Acciones</p>
+                        <p class="text-gray-500 dark:text-gray-400">Acciones</p>
                         <a
                             href="#"
-                            class="text-blue-600 hover:text-blue-800 font-medium"
+                            class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
                             @click.prevent="cancelSubscription"
                         >
                             Cancelar suscripción

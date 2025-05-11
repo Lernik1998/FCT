@@ -1,11 +1,12 @@
 <template>
-    <section class="min-h-screen">
+    <section class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">
+            <h2
+                class="text-3xl font-bold text-center dark:text-white text-orange-600 mb-12 mt-4"
+            >
                 Comparte tu esfuerzo, celebra tus logros.
             </h2>
 
-            <!-- Contenedor sin scroll interno -->
             <div
                 class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
             >
@@ -13,7 +14,7 @@
                 <div
                     v-for="(post, index) in visiblePosts"
                     :key="`post-${index}-${post.id}`"
-                    class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                    class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
                 >
                     <div class="relative h-64 overflow-hidden">
                         <img
@@ -25,35 +26,28 @@
                         />
                         <div
                             v-else
-                            class="w-full h-full bg-gray-200 flex items-center justify-center"
+                            class="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center"
                         >
-                            <span class="text-gray-500">Sin imagen</span>
+                            <span class="text-gray-500 dark:text-gray-300"
+                                >Sin imagen</span
+                            >
                         </div>
                         <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"
+                            class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"
                         ></div>
                     </div>
                     <div class="p-6">
                         <h3
-                            class="text-xl font-bold text-gray-900 line-clamp-2"
+                            class="text-xl font-bold line-clamp-2 text-orange-500 dark:text-orange-400"
                         >
                             {{ post.title }}
                         </h3>
                         <p
-                            class="text-orange-500 font-medium mb-2 line-clamp-2"
+                            class="text-gray-900 dark:text-gray-200 font-medium mb-2 line-clamp-2"
                         >
                             {{ post.content }}
                         </p>
-                        <div
-                            v-if="post.user_id"
-                            class="mt-4 flex flex-wrap gap-2"
-                        >
-                            <span
-                                class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded"
-                            >
-                                User ID: {{ post.user_id }}
-                            </span>
-                        </div>
+                        <!-- Etiquetas u otros datos adicionales si se activan -->
                     </div>
                 </div>
             </div>
@@ -63,10 +57,12 @@
                 <div
                     class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-orange-500"
                 ></div>
-                <p class="mt-2 text-gray-600">Cargando más posts...</p>
+                <p class="mt-2 text-gray-600 dark:text-gray-300">
+                    Cargando más posts...
+                </p>
             </div>
 
-            <!-- Elemento observador para carga infinita -->
+            <!-- Observador para scroll infinito -->
             <div ref="observerElement" class="h-1"></div>
         </div>
     </section>

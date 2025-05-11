@@ -1,10 +1,12 @@
 <template>
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Encabezado -->
         <div class="flex justify-between items-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+            <h2
+                class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-orange-500"
+            >
                 <!-- FitWorking es para ti -->
-                ¿Por qué esto es para tí?
+                ¿Por qué esto es para ti?
             </h2>
         </div>
 
@@ -13,7 +15,7 @@
             <!-- Artículo 1 -->
             <article
                 @click="irABeforeStart()"
-                class="group rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+                class="group rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow dark:bg-gray-800"
             >
                 <div class="relative h-56 overflow-hidden">
                     <!-- <img
@@ -33,11 +35,13 @@
                     ></div>
                 </div>
                 <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                    <h3
+                        class="text-xl font-bold text-gray-900 dark:text-white mb-3"
+                    >
                         ¿Necesito estar en forma antes de apuntarme a
                         FitWorking?
                     </h3>
-                    <p class="text-gray-600">
+                    <p class="text-gray-600 dark:text-white">
                         No necesitas "prepararte" antes de empezar; el
                         entrenamiento funcional está diseñado para que progreses
                         desde donde estés, con el apoyo de una comunidad que te
@@ -50,7 +54,7 @@
             <!-- Artículo 2 -->
             <article
                 @click="irABodyChanges()"
-                class="group rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+                class="group rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow dark:bg-gray-800"
             >
                 <div class="relative h-56 overflow-hidden">
                     <!-- <img
@@ -69,10 +73,12 @@
                     ></div>
                 </div>
                 <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">
-                        ¿Como cambiará mi cuerpo al apuntarme a FitWorking?
+                    <h3
+                        class="text-xl font-bold text-gray-900 dark:text-white mb-3"
+                    >
+                        ¿Cómo cambiará mi cuerpo al apuntarme a FitWorking?
                     </h3>
-                    <p class="text-gray-600 mb-4">
+                    <p class="text-gray-600 dark:text-white mb-4">
                         Tus objetivos y esfuerzo determinarán tus resultados. En
                         FitWorking, nuestros usuarios suelen sentirse más
                         fuertes y mejorar significativamente su resistencia.
@@ -85,8 +91,8 @@
 
             <!-- Artículo 3 -->
             <article
-                @click="irAFisrtClass()"
-                class="group rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+                @click="irFirstClass()"
+                class="group rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow dark:bg-gray-800"
             >
                 <div class="relative h-56 overflow-hidden">
                     <!-- <img
@@ -106,10 +112,12 @@
                     ></div>
                 </div>
                 <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                    <h3
+                        class="text-xl font-bold text-gray-900 dark:text-white mb-3"
+                    >
                         ¿Qué debo esperar en mi primera clase en FitWorking?
                     </h3>
-                    <p class="text-gray-600 mb-4">
+                    <p class="text-gray-600 dark:text-white mb-4">
                         Es normal sentirse nervioso, ¡y está bien! Desde saber
                         qué llevar hasta conocer a tu entrenador y aprender los
                         ejercicios, te guiaremos a través de todo el proceso.
@@ -131,7 +139,7 @@ const irABodyChanges = () => {
     router.visit(route("bodyChanges"));
 };
 
-const irAFisrtClass = () => {
+const irFirstClass = () => {
     router.visit(route("firstClass"));
 };
 </script>

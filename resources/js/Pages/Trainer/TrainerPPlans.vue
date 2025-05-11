@@ -1,11 +1,11 @@
 <template>
     <!-- Contenido principal -->
-    <main class="container mx-auto py-8 px-4">
+    <main class="mx-auto mt-4 px-4 dark:bg-gray-800">
         <div class="my-6">
-            <h3 class="text-lg font-semibold mb-2">
+            <h3 class="text-lg font-semibold mb-2 dark:text-orange-600">
                 Normas para la creación de actividades:
             </h3>
-            <ul class="list-disc list-inside text-gray-700 space-y-1">
+            <ul class="list-disc list-inside text-gray-700 space-y-1 dark:text-white">
                 <li>La actividad debe tener un título claro y descriptivo.</li>
                 <li>Debe incluir una fecha y hora de inicio definidas.</li>
                 <li>

@@ -1,32 +1,38 @@
 <template>
-    <pre>{{ reservations }}</pre>
+    <!-- <pre>{{ reservations }}</pre>
 
     <pre>{{ totalHours }}</pre>
 
-    <pre>{{ totalActivities }}</pre>
+    <pre>{{ totalActivities }}</pre> -->
 
     <!-- Contenido principal -->
-    <main class="min-h-screen bg-gradient-to-b py-8 px-4 sm:px-6">
-        <h1 class="text-xl font-bold">Mi Progreso</h1>
+    <main
+        class="w-full min-h-screen mx-auto py-8 px-4 sm:px-6 dark:bg-gray-900 transition-colors duration-300"
+    >
+        <h1 class="text-xl font-bold text-gray-800 dark:text-white">
+            Mi Progreso
+        </h1>
         <div class="max-w-6xl mx-auto">
             <!-- Encabezado -->
             <div class="text-center mb-10 animate-fade-in">
                 <h1
-                    class="text-3xl sm:text-4xl font-bold text-gray-800 flex items-center justify-center"
+                    class="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-orange-600 flex items-center justify-center"
                 >
                     Evolución deportiva
                 </h1>
-                <p class="text-lg text-gray-600 mt-3 max-w-2xl mx-auto">
+                <p
+                    class="text-lg text-gray-600 mt-3 max-w-2xl mx-auto dark:text-white"
+                >
                     Visualiza tus logros y supera tus propias metas
                 </p>
             </div>
 
-            <!-- Grid de contenido -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Tarjeta de resumen -->
-                <div class="bg-white rounded-xl shadow-lg p-6 animate-slide-in">
+            <div>
+                <div
+                    class="bg-white rounded-xl shadow-lg p-6 animate-slide-in dark:bg-gray-600"
+                >
                     <h2
-                        class="text-xl font-bold text-gray-800 mb-4 flex items-center"
+                        class="text-xl font-bold text-gray-800 dark:text-white mb-4 flex items-center"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -50,20 +56,14 @@
                             <p class="text-4xl font-bold text-orange-500">
                                 {{ currentMonthHours }}
                             </p>
-                            <p class="text-gray-500">Horas este mes</p>
+                            <p class="text-gray-500 dark:text-white">Horas este mes</p>
                         </div>
-                        <!-- <div class="text-center">
+                        <div class="text-center">
                             <p class="text-4xl font-bold text-blue-500">
                                 {{ progressPercentage }}%
                             </p>
                             <p class="text-gray-500">Progreso</p>
-                        </div> -->
-                        <!-- <div class="text-center">
-                            <p class="text-4xl font-bold text-green-500">
-                                {{ currentStreak }}
-                            </p>
-                            <p class="text-gray-500">Días seguidos</p>
-                        </div> -->
+                        </div>
                     </div>
 
                     <div class="bg-gray-100 rounded-lg p-4">
@@ -81,9 +81,11 @@
                         </p>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Gráfica de progreso -->
-                <!-- <div
+        <!-- Gráfica de progreso -->
+        <!-- <div
                     class="bg-white rounded-xl shadow-lg p-6 animate-slide-in lg:col-span-2"
                 >
                     <div class="flex justify-between items-center mb-6">
@@ -121,8 +123,8 @@
                     </div>
 
                     <div class="h-64"> -->
-                <!-- Aquí iría el componente de gráfica real -->
-                <!-- <div
+        <!-- Aquí iría el componente de gráfica real -->
+        <!-- <div
                             class="w-full h-full bg-gray-100 rounded-lg flex items-center justify-center text-gray-400"
                         >
                             [Gráfica de progreso anual]
@@ -145,8 +147,8 @@
                     </div>
                 </div> -->
 
-                <!-- Ranking de amigos -->
-                <!-- <div
+        <!-- Ranking de amigos -->
+        <!-- <div
                     class="bg-white rounded-xl shadow-lg p-6 animate-slide-in lg:col-span-2"
                 >
                     <h2
@@ -277,8 +279,8 @@
                     </button>
                 </div> -->
 
-                <!-- Logros -->
-                <!-- <div class="bg-white rounded-xl shadow-lg p-6 animate-slide-in">
+        <!-- Logros -->
+        <!-- <div class="bg-white rounded-xl shadow-lg p-6 animate-slide-in">
                     <h2
                         class="text-xl font-bold text-gray-800 mb-4 flex items-center"
                     >
@@ -376,8 +378,6 @@
                         Ver todos los logros
                     </button>
                 </div>-->
-            </div>
-        </div>
     </main>
 </template>
 
@@ -449,6 +449,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+body {
+    @apply bg-white dark:bg-gray-900;
+}
+
 @keyframes fade-in {
     from {
         opacity: 0;
