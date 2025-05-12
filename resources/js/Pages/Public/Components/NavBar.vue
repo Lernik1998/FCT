@@ -96,6 +96,7 @@
                                 'font-bold text-orange-500 underline':
                                     $page.component === 'Index',
                             }"
+                            @click="isMobileMenuOpen = false"
                             >{{ $t("pages.Nav.home") }}</Link
                         >
                     </li>
@@ -107,6 +108,7 @@
                                 'font-bold text-orange-500 underline':
                                     $page.component === 'Public/Activity',
                             }"
+                            @click="isMobileMenuOpen = false"
                             >{{ $t("pages.Nav.activities") }}</Link
                         >
                     </li>
@@ -118,6 +120,7 @@
                                 'font-bold text-orange-500 underline':
                                     $page.component === 'Public/Trainer',
                             }"
+                            @click="isMobileMenuOpen = false"
                             >{{ $t("pages.Nav.trainers") }}</Link
                         >
                     </li>
@@ -129,6 +132,7 @@
                                 'font-bold text-orange-500 underline':
                                     $page.component === 'Public/Posts',
                             }"
+                            @click="isMobileMenuOpen = false"
                             >{{ $t("pages.Nav.posts") }}</Link
                         >
                     </li>
@@ -140,13 +144,21 @@
                                 'font-bold text-orange-500 underline':
                                     $page.component === 'Public/Contact',
                             }"
+                            @click="isMobileMenuOpen = false"
                             >{{ $t("pages.Nav.contact") }}</Link
                         >
                     </li>
                     <li>
-                        <Link :href="route('login')" class="hover:underline">{{
-                            $t("pages.Nav.login")
-                        }}</Link>
+                        <Link
+                            :href="route('login')"
+                            class="hover:underline"
+                            :class="{
+                                'font-bold text-orange-500 underline':
+                                    $page.component === 'Auth/Login',
+                            }"
+                            @click="isMobileMenuOpen = false"
+                            >{{ $t("pages.Nav.login") }}</Link
+                        >
                     </li>
                 </ul>
             </div>

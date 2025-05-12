@@ -1,5 +1,5 @@
 <template>
-    <section class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <section class="min-h-screen dark:bg-gray-900 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2
                 class="text-3xl font-bold text-center dark:text-white text-orange-600 mb-12 mt-4"

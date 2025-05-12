@@ -488,3 +488,100 @@ onMounted(() => {
     });
 });
 </script>
+
+<style scoped>
+:deep(.fc-button) {
+    background-color: #0072c6 !important;
+    color: white !important;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+:deep(.fc-button:hover) {
+    background-color: #0072c6 !important;
+}
+
+/* Botón activo (vista seleccionada) */
+:deep(.fc-button-active) {
+    background-color: #28a745 !important;
+    color: white !important;
+}
+
+:deep(.fc-button-active) {
+    background-color: #28a745 !important;
+    color: white !important;
+}
+
+/* :deep(.q-menu) {
+  z-index: 9999;
+} */
+
+:deep(.fc-button) {
+    padding: 0.25em 0.4em;
+    font-size: 0.8rem;
+}
+
+:deep(.fc-toolbar-title) {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+:deep(.fc) {
+    height: 600px;
+}
+
+/* Ajustes para tablets */
+@media (min-width: 768px) and (max-width: 1024px) {
+    :deep(.fc-header-toolbar) {
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    :deep(.fc-toolbar-title) {
+        font-size: 1.1rem;
+        margin: 0.5rem 0;
+        font-weight: 700;
+    }
+
+    :deep(.fc-toolbar-chunk:nth-child(2)) {
+        order: 3;
+        width: 100%;
+        text-align: center;
+        margin-top: 0.5rem;
+    }
+
+    :deep(.fc) {
+        height: 900px;
+    }
+}
+
+/* Ajustes para teléfonos */
+@media (max-width: 767px) {
+    :deep(.fc-header-toolbar) {
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    :deep(.fc-toolbar-title) {
+        font-size: 1.1rem;
+        margin: 0.5rem 0;
+        font-weight: 700;
+    }
+
+    :deep(.fc-toolbar-chunk:nth-child(2)) {
+        order: 3;
+        width: 100%;
+        text-align: center;
+        margin-top: 0.5rem;
+    }
+
+    :deep(.fc) {
+        height: 900px;
+    }
+}
+</style>

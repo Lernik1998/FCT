@@ -1,20 +1,20 @@
 <template>
-    <section class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <h2 class="mb-8 font-bold text-2xl">Ficha del entrenador</h2>
+    <section class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 dark:bg-gray-900">
+        <h2 class="mb-8 font-bold text-2xl dark:text-white">Ficha del entrenador</h2>
 
         <div class="max-w-4xl mx-auto">
             <div
-                class="bg-white shadow-xl rounded-2xl overflow-hidden transition-all hover:shadow-2xl"
+                class="bg-white dark:bg-gray-800 shadow-xl rounded-2xl overflow-hidden transition-all hover:shadow-2xl dark:hover:shadow-gray-700/50"
             >
                 <div class="flex flex-col sm:flex-row p-8 gap-8">
                     <div
                         class="flex flex-col items-center sm:items-start sm:w-1/3"
                     >
                         <div
-                            class="h-28 w-28 rounded-full bg-blue-100 flex items-center justify-center mb-4"
+                            class="h-28 w-28 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mb-4"
                         >
                             <svg
-                                class="h-14 w-14 text-blue-600"
+                                class="h-14 w-14 text-blue-600 dark:text-blue-400"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -28,7 +28,7 @@
                             </svg>
                         </div>
                         <h2
-                            class="text-xl font-semibold text-gray-800 text-center sm:text-left"
+                            class="text-xl font-semibold text-gray-800 dark:text-white text-center sm:text-left"
                         >
                             {{ trainer.name }}
                         </h2>
@@ -36,28 +36,28 @@
 
                     <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <p class="text-sm text-gray-500 font-medium">
+                            <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">
                                 Email
                             </p>
-                            <p class="text-lg text-gray-800 font-semibold mt-1">
+                            <p class="text-lg text-gray-800 dark:text-gray-100 font-semibold mt-1">
                                 {{ trainer.email }}
                             </p>
                         </div>
                         <div class="ml-10">
-                            <p class="text-sm text-gray-500 font-medium">
+                            <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">
                                 Categoría
                             </p>
                             <span
                                 class="inline-flex items-center px-4 py-2 mt-1 rounded-full text-sm font-medium"
-                            >
-                                <!-- :class="{
-                                    'bg-blue-100 text-blue-800':
+                                :class="{
+                                    'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300':
                                         trainer.category === 'user',
-                                    'bg-green-100 text-green-800':
+                                    'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300':
                                         trainer.category === 'admin',
-                                    'bg-purple-100 text-purple-800':
+                                    'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300':
                                         trainer.category === 'trainer',
-                                }" -->
+                                }"
+                            >
                                 {{ trainer.category }}
                             </span>
                         </div>
@@ -65,14 +65,14 @@
                 </div>
 
                 <!-- Actions -->
-                <div class="border-t border-gray-200 px-8 py-6 bg-gray-50">
+                <div class="border-t border-gray-200 dark:border-gray-700 px-8 py-6 bg-gray-50 dark:bg-gray-700/30">
                     <div
                         class="flex flex-col sm:flex-row justify-between items-center gap-4"
                     >
                         <div class="flex flex-col sm:flex-row gap-4">
                             <a
                                 :href="route('admin.editTrainer', trainer.id)"
-                                class="inline-flex items-center px-5 py-2.5 rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 text-base font-medium transition"
+                                class="inline-flex items-center px-5 py-2.5 rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-base font-medium transition"
                             >
                                 <svg
                                     class="-ml-1 mr-2 h-5 w-5"
@@ -92,7 +92,7 @@
 
                             <a
                                 :href="route('admin.userAdmin')"
-                                class="inline-flex items-center px-5 py-2.5 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-100 text-base font-medium border transition"
+                                class="inline-flex items-center px-5 py-2.5 rounded-md shadow-sm text-gray-700 dark:text-gray-300 bg-white hover:bg-gray-100 dark:bg-gray-600 dark:hover:bg-gray-500 text-base font-medium border dark:border-gray-600 transition"
                             >
                                 <svg
                                     class="-ml-1 mr-2 h-5 w-5"
@@ -113,7 +113,7 @@
 
                         <button
                             @click="deleteTrainer(trainer.id)"
-                            class="inline-flex items-center px-5 py-2.5 rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 text-base font-medium transition"
+                            class="inline-flex items-center px-5 py-2.5 rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-base font-medium transition"
                         >
                             <svg
                                 class="-ml-1 mr-2 h-5 w-5"

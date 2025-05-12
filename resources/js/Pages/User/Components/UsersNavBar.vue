@@ -6,7 +6,7 @@
             class="container mx-auto flex flex-wrap justify-between items-center"
         >
             <div class="flex items-center space-x-4">
-                <h1 class="text-xl font-bold"></h1>
+                <h1 class="text-xl font-bold">FitWorking</h1>
 
                 <!-- Botón de tema -->
                 <button
@@ -96,6 +96,7 @@
                                 'font-bold text-orange-300 underline':
                                     $page.component === 'User/UserIndex',
                             }"
+                            @click="isMobileMenuOpen = false"
                         >
                             Inicio
                         </Link>
@@ -109,6 +110,7 @@
                                     $page.component ===
                                     'User/ActivityOptions/ActivityReservations',
                             }"
+                            @click="isMobileMenuOpen = false"
                         >
                             Gestión de reservas
                         </Link>
@@ -121,6 +123,7 @@
                                 'font-bold text-orange-300 underline':
                                     $page.component === 'User/UserStats',
                             }"
+                            @click="isMobileMenuOpen = false"
                         >
                             Progreso
                         </Link>
@@ -133,6 +136,7 @@
                                 'font-bold text-orange-300 underline':
                                     $page.component === 'User/UserMessages',
                             }"
+                            @click="isMobileMenuOpen = false"
                         >
                             Mensajes X
                         </Link>
@@ -146,6 +150,7 @@
                                     $page.component === 'User/UserMemberships',
                             }"
                             prefetch
+                            @click="isMobileMenuOpen = false"
                         >
                             Suscripción
                         </Link>

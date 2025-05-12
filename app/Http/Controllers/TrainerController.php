@@ -169,26 +169,43 @@ class TrainerController extends Controller
     // }
 
 
-    public function reservations()
+    public function reservations(Request $request)
     {
         // 1. Obtener el ID del entrenador autenticado
         $trainerId = auth()->id();
 
         // 2. Obtener las actividades que ha creado este entrenador
+        // $activities = Activity::where('user_id', $trainerId)
+        //     ->orderBy('date', 'desc')
+        //     ->orderBy('start_time', 'desc')
+        //     ->get();
+
         $activities = Activity::where('user_id', $trainerId)
+            ->when($request->search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%');
+                });
+            })
             ->orderBy('date', 'desc')
             ->orderBy('start_time', 'desc')
-            ->get();
+            ->paginate(10)
+            ->withQueryString();
 
         // 3. Obtener las reservas para estas actividades
-        $reservations = UserActivitiesReservations::whereIn('activity_id', $activities->pluck('id'))
-            ->with('user') // Opcional: si necesitas datos del usuario
+        // $reservations = UserActivitiesReservations::whereIn('activity_id', $activities->pluck('id'))
+        //     ->with('user') // Opcional: si necesitas datos del usuario
+        //     ->get();
+        $reservationIds = $activities->pluck('id');
+        $reservations = UserActivitiesReservations::whereIn('activity_id', $reservationIds)
+            ->with('user')
             ->get();
 
         // 4. Pasar los datos a la vista
         return inertia('Trainer/TrainerReservations', [
             'activities' => $activities,
-            'reservations' => $reservations
+            'reservations' => $reservations,
+            'filters' => $request->only(['search'])
         ]);
     }
 

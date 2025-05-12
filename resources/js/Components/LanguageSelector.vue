@@ -30,10 +30,12 @@
 
 <script setup>
 import { ref, reactive, onMounted, onUnmounted } from "vue";
-import { router } from "@inertiajs/vue3";
 import { loadLanguageAsync } from "laravel-vue-i18n";
 
+// Estado del menú
 const languageMenuOpen = ref(false);
+
+// Lenguajes disponibles
 const availableLanguages = reactive({
     items: [
         { title: "Español", value: "es" },
@@ -42,33 +44,41 @@ const availableLanguages = reactive({
     ],
 });
 
-// Función para alternar el estado del menú
+// Referencia al contenedor del menú
+const languageMenuContainer = ref(null);
+
+// Alternar menú
 function toggleLanguageMenu() {
     languageMenuOpen.value = !languageMenuOpen.value;
 }
 
-// Función para cerrar el menú al hacer clic fuera de él
+// Cerrar menú si se hace clic fuera
 function closeMenuIfClickedOutside(event) {
-    if ($refs.languageMenuContainer && !$refs.languageMenuContainer.contains(event.target)) {
+    if (
+        languageMenuContainer.value &&
+        !languageMenuContainer.value.contains(event.target)
+    ) {
         languageMenuOpen.value = false;
     }
 }
 
-// Cambiar el idioma y cerrar el menú
-const changeLanguage = (item) => {
+// Cambiar idioma
+const changeLanguage = async (item) => {
     localStorage.setItem("lang", item.value);
-    loadLanguageAsync(item.value);
-    router.get(route("language", item.value));
-    languageMenuOpen.value = false; // Cerrar el menú al cambiar el idioma
+    await loadLanguageAsync(item.value);
+    languageMenuOpen.value = false; // Cierra el menú correctamente
 };
 
-// Cerrar el menú cuando se haga clic fuera
-onMounted(() => {
-    document.addEventListener('click', closeMenuIfClickedOutside);
+// Inicializar idioma desde localStorage o usar español
+onMounted(async () => {
+    const storedLang = localStorage.getItem("lang") || "es";
+    await loadLanguageAsync(storedLang);
+
+    document.addEventListener("click", closeMenuIfClickedOutside);
 });
 
 onUnmounted(() => {
-    document.removeEventListener('click', closeMenuIfClickedOutside);
+    document.removeEventListener("click", closeMenuIfClickedOutside);
 });
 </script>
 
@@ -83,20 +93,12 @@ onUnmounted(() => {
     opacity: 0;
 }
 
-/* Estilo adicional para el menú desplegable */
 ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-/* El menú debe estar alineado correctamente */
-/* button:focus + div {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(156, 163, 175, 0.5);
-} */
-
-/* Animación para el menú desplegable */
 div {
     transition: transform 0.2s ease-out;
 }
@@ -105,7 +107,6 @@ div[style*="transform"] {
     transform: translateY(10px);
 }
 
-/* Asegurarse de que el menú se apile correctamente por encima de otros elementos */
 .z-50 {
     z-index: 50 !important;
 }

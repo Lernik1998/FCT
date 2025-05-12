@@ -1,71 +1,133 @@
 <template>
     <!-- Contenido principal -->
-    <main class="px-4 sm:px-6 lg:px-8 py-6 dark:bg-gray-900 min-h-screen transition-colors duration-300">
+    <main
+        class="px-4 sm:px-6 lg:px-8 py-6 dark:bg-gray-900 min-h-screen transition-colors duration-300"
+    >
         <!-- Normas para creación de actividades -->
-        <div class="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-md mb-6 transition-colors duration-300">
-            <h3 class="text-lg font-semibold mb-3 text-gray-800 dark:text-orange-400">
+        <div
+            class="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-md mb-6 transition-colors duration-300"
+        >
+            <h3
+                class="text-lg font-semibold mb-3 text-gray-800 dark:text-orange-400"
+            >
                 Normas para la creación de actividades:
             </h3>
-            <ul class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1 text-sm sm:text-base">
+            <ul
+                class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1 text-sm sm:text-base"
+            >
                 <li>La actividad debe tener un título claro y descriptivo.</li>
                 <li>Debe incluir una fecha y hora de inicio definidas.</li>
-                <li>Se requiere una descripción con el objetivo de la actividad.</li>
-                <li>No se permiten actividades duplicadas o con contenido similar en horarios solapados.</li>
+                <li>
+                    Se requiere una descripción con el objetivo de la actividad.
+                </li>
+                <li>
+                    No se permiten actividades duplicadas o con contenido
+                    similar en horarios solapados.
+                </li>
                 <li>El aforo máximo debe estar definido si aplica.</li>
                 <li>Se recomienda añadir una imagen o icono representativo.</li>
             </ul>
         </div>
 
         <!-- Mensaje de estado -->
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mb-6 transition-colors duration-300">
+        <!-- <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mb-6 transition-colors duration-300">
             <p class="text-gray-700 dark:text-gray-300 text-sm sm:text-base">
                 En funcionamiento con lernik10@gmail.com pendiente asignar permisos al resto de usuarios
             </p>
             
-            <!-- Verifico mensaje de exito o error -->
+             Verifico mensaje de exito o error 
             <div v-if="success !== null" class="mt-3">
                 <p v-if="success" class="text-green-600 dark:text-green-400">Conexión exitosa con Google Calendar</p>
                 <p v-else class="text-red-600 dark:text-red-400">Error al conectar con Google Calendar</p>
             </div>
-        </div>
+        </div> -->
 
         <!-- Calendario de actividades -->
-        <div class="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-md transition-colors duration-300">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 sm:mb-6">
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">Calendario de actividades</h2>
+        <div
+            class="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-md transition-colors duration-300"
+        >
+            <div
+                class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 sm:mb-6"
+            >
+                <h2
+                    class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white"
+                >
+                    Calendario de actividades
+                </h2>
                 <button
                     @click="handleNewEventClick"
                     class="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 dark:bg-orange-600 dark:hover:bg-orange-700 text-white px-4 py-2 rounded-md flex items-center justify-center transition-colors duration-200"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 mr-1"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                        />
                     </svg>
                     Nueva actividad
                 </button>
             </div>
 
-            <FullCalendar ref="calendar" class="trainer-calendar" :options="calendarOptions" />
+            <FullCalendar
+                ref="calendar"
+                class="trainer-calendar"
+                :options="calendarOptions"
+            />
 
             <!-- Modal para crear/editar/eliminar eventos -->
             <div
                 v-if="showEventModal"
                 class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-300"
             >
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4 transition-all duration-300 border border-gray-200 dark:border-gray-700">
-                    <div class="p-5 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
-                            {{ editingEvent ? "Editar actividad" : "Nueva actividad" }}
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4 transition-all duration-300 border border-gray-200 dark:border-gray-700"
+                >
+                    <div
+                        class="p-5 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center"
+                    >
+                        <h3
+                            class="text-lg font-semibold text-gray-800 dark:text-white"
+                        >
+                            {{
+                                editingEvent
+                                    ? "Editar actividad"
+                                    : "Nueva actividad"
+                            }}
                         </h3>
-                        <button @click="closeEventModal" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        <button
+                            @click="closeEventModal"
+                            class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-6 w-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
                             </svg>
                         </button>
                     </div>
 
                     <div class="p-5 space-y-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            <label
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                            >
                                 Título del evento
                             </label>
                             <input
@@ -78,7 +140,9 @@
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                <label
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                                >
                                     Fecha inicio
                                 </label>
                                 <input
@@ -88,7 +152,9 @@
                                 />
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                <label
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                                >
                                     Fecha fin
                                 </label>
                                 <input
@@ -100,7 +166,9 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            <label
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                            >
                                 Descripción
                             </label>
                             <textarea
@@ -111,19 +179,24 @@
                             ></textarea>
                         </div>
 
-                        <div>
+                        <!-- <div>
                             <label class="flex items-center">
                                 <input
                                     v-model="eventoAct.allDay"
                                     type="checkbox"
                                     class="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 dark:border-gray-600 rounded transition-colors duration-200"
                                 />
-                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Todo el día</span>
+                                <span
+                                    class="ml-2 text-sm text-gray-700 dark:text-gray-300"
+                                    >Todo el día</span
+                                >
                             </label>
-                        </div>
+                        </div> -->
                     </div>
 
-                    <div class="p-5 border-t border-gray-200 dark:border-gray-700 flex justify-end space-x-3">
+                    <div
+                        class="p-5 border-t border-gray-200 dark:border-gray-700 flex justify-end space-x-3"
+                    >
                         <button
                             @click="closeEventModal"
                             class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
@@ -149,7 +222,6 @@
         </div>
     </main>
 </template>
-
 
 <script setup>
 import { ref, computed } from "vue";
@@ -258,7 +330,7 @@ const calendarOptions = ref({
         center: "title",
         right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
     },
-    
+
     firstDay: 1,
     height: "auto",
     contentHeight: "auto",
@@ -359,7 +431,7 @@ function handleDateSelect(selectInfo) {
         title: "",
         start: formatForInput(startDate),
         end: formatForInput(endDate),
-        allDay: selectInfo.allDay,
+        // allDay: selectInfo.allDay,
         extendedProps: {
             description: "",
         },
@@ -777,51 +849,98 @@ onMounted(() => {
 }
 
 /* Calendario */
-.trainer-calendar {
-    width: 100%;
-    min-height: 600px;
-}
-
-.fc-event {
-    cursor: pointer;
-    border-radius: 4px;
-    padding: 2px 5px;
-}
-
-.fc-daygrid-event {
-    margin-bottom: 2px;
-}
-
-.fc-toolbar-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-}
-
-.fc-button {
-    background-color: #f97316 !important;
-    border-color: #f97316 !important;
+:deep(.fc-button) {
+    background-color: #0072c6 !important;
     color: white !important;
-    padding: 0.4em 0.65em !important;
-    font-size: 0.9em !important;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 14px;
+    transition: background 0.3s;
 }
 
-.fc-button:hover {
-    background-color: #ea580c !important;
-    border-color: #ea580c !important;
+:deep(.fc-button:hover) {
+    background-color: #0072c6 !important;
 }
 
-.fc-button-active {
-    background-color: #c2410c !important;
-    border-color: #c2410c !important;
+/* Botón activo (vista seleccionada) */
+:deep(.fc-button-active) {
+    background-color: #28a745 !important;
+    color: white !important;
 }
 
-.fc-today-button {
-    background-color: #f97316 !important;
-    border-color: #f97316 !important;
+:deep(.fc-button-active) {
+    background-color: #28a745 !important;
+    color: white !important;
 }
 
-.fc-today-button:hover {
-    background-color: #ea580c !important;
-    border-color: #ea580c !important;
+/* :deep(.q-menu) {
+  z-index: 9999;
+} */
+
+:deep(.fc-button) {
+    padding: 0.25em 0.4em;
+    font-size: 0.8rem;
+}
+
+:deep(.fc-toolbar-title) {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+:deep(.fc) {
+    height: 600px;
+}
+
+/* Ajustes para tablets */
+@media (min-width: 768px) and (max-width: 1024px) {
+    :deep(.fc-header-toolbar) {
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    :deep(.fc-toolbar-title) {
+        font-size: 1.1rem;
+        margin: 0.5rem 0;
+        font-weight: 700;
+    }
+
+    :deep(.fc-toolbar-chunk:nth-child(2)) {
+        order: 3;
+        width: 100%;
+        text-align: center;
+        margin-top: 0.5rem;
+    }
+
+    :deep(.fc) {
+        height: 900px;
+    }
+}
+
+/* Ajustes para teléfonos */
+@media (max-width: 767px) {
+    :deep(.fc-header-toolbar) {
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    :deep(.fc-toolbar-title) {
+        font-size: 1.1rem;
+        margin: 0.5rem 0;
+        font-weight: 700;
+    }
+
+    :deep(.fc-toolbar-chunk:nth-child(2)) {
+        order: 3;
+        width: 100%;
+        text-align: center;
+        margin-top: 0.5rem;
+    }
+
+    :deep(.fc) {
+        height: 900px;
+    }
 }
 </style>

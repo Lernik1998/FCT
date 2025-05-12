@@ -1,30 +1,26 @@
 <template>
-    <!-- Barra de navegación -->
-    <nav class="p-4 border-b shadow-md bg-white">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="text-xl font-bold">Panel de Administración</div>
-            <AdminNavBar />
-        </div>
-    </nav>
-
-    <section class="flex justify-center mt-10 p-6">
+    <section class="flex justify-center p-4 sm:p-6 dark:bg-gray-900">
         <div
-            class="bg-white shadow-lg rounded-lg p-6 w-full max-w-md animate-fade-in"
+            class="dark:bg-gray-800 shadow-lg rounded-lg p-6 w-full max-w-md animate-fade-in"
         >
-            <h1 class="text-2xl font-bold text-gray-800 mb-4 text-center">
+            <h1
+                class="text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center"
+            >
                 Crear Usuario
             </h1>
             <form @submit.prevent="crearUsuario" class="space-y-4">
                 <!-- Nombre -->
                 <div>
-                    <label for="name" class="block text-gray-700 font-medium"
+                    <label
+                        for="name"
+                        class="block text-gray-700 dark:text-gray-300 font-medium"
                         >Nombre</label
                     >
                     <input
                         v-model="form.name"
                         type="text"
                         id="name"
-                        class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
+                        class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                         placeholder="Introduce el nombre"
                         required
                     />
@@ -32,14 +28,16 @@
 
                 <!-- Correo Electrónico -->
                 <div>
-                    <label for="email" class="block text-gray-700 font-medium"
+                    <label
+                        for="email"
+                        class="block text-gray-700 dark:text-gray-300 font-medium"
                         >Correo Electrónico</label
                     >
                     <input
                         v-model="form.email"
                         type="email"
                         id="email"
-                        class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
+                        class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                         placeholder="Introduce el correo"
                         required
                     />
@@ -49,14 +47,14 @@
                 <div>
                     <label
                         for="password"
-                        class="block text-gray-700 font-medium"
+                        class="block text-gray-700 dark:text-gray-300 font-medium"
                         >Contraseña</label
                     >
                     <input
                         v-model="form.password"
                         type="password"
                         id="password"
-                        class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
+                        class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                         placeholder="Introduce la contraseña"
                         required
                     />
@@ -64,13 +62,15 @@
 
                 <!-- Rol -->
                 <div>
-                    <label for="role" class="block text-gray-700 font-medium"
+                    <label
+                        for="role"
+                        class="block text-gray-700 dark:text-gray-300 font-medium"
                         >Rol</label
                     >
                     <select
                         v-model="form.role"
                         id="role"
-                        class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
+                        class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                         required
                     >
                         <option value="user">Usuario</option>
@@ -79,18 +79,20 @@
                     </select>
                 </div>
 
-                <button
-                    type="submit"
-                    class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300"
-                >
-                    Crear Usuario
-                </button>
-                <button
-                    type="button"
-                    class="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-700"
-                >
-                    <a :href="route('admin.userAdmin')">Volver</a>
-                </button>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button
+                        type="submit"
+                        class="w-full bg-green-500 dark:bg-green-600 text-white py-2 rounded-lg hover:bg-green-600 dark:hover:bg-green-700 transition duration-300"
+                    >
+                        Crear Usuario
+                    </button>
+                    <a
+                        :href="route('admin.userAdmin')"
+                        class="w-full bg-blue-500 dark:bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition duration-300 text-center"
+                    >
+                        Volver
+                    </a>
+                </div>
             </form>
         </div>
     </section>
@@ -100,9 +102,9 @@
 // Importaciones
 import { ref } from "vue";
 import { router } from "@inertiajs/vue3";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
 
-// Componentes
-import AdminNavBar from "@/Pages/Admin/Components/AdminNavBar.vue";
+defineOptions({ layout: AdminLayout });
 
 const form = ref({
     name: "",

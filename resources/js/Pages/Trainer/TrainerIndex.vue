@@ -1,6 +1,8 @@
 <template>
     <!-- Contenido principal -->
-    <main class="container mx-auto py-8 px-4 sm:px-6 dark:bg-gray-800 dark:text-gray-600">
+    <main
+        class="container mx-auto py-8 px-4 sm:px-6 dark:bg-gray-800 dark:text-gray-600"
+    >
         <!-- Bienvenida -->
         <div class="mb-10 bg-white rounded-xl shadow-lg p-6 animate-fade-in">
             <div
@@ -48,7 +50,9 @@
             <div
                 class="p-6 border-b border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center dark:border-gray-600"
             >
-                <h2 class="text-xl font-bold text-gray-800 flex items-center dark:text-white">
+                <h2
+                    class="text-xl font-bold text-gray-800 flex items-center dark:text-white"
+                >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="h-6 w-6 mr-2 text-orange-500"
@@ -308,14 +312,6 @@
                         >
                             Cerrar
                         </button>
-
-                        <button
-                            v-if="showAct"
-                            @click="deleteEvent"
-                            class="px-4 py-2 border border-blue-300 rounded-md text-blue-700 hover:bg-blue-50"
-                        >
-                            Gestionar
-                        </button>
                     </div>
                 </div>
             </div>
@@ -467,51 +463,98 @@ onMounted(() => {
 }
 
 /* Calendario */
-.trainer-calendar {
-    width: 100%;
-    min-height: 600px;
-}
-
-.fc-event {
-    cursor: pointer;
-    border-radius: 4px;
-    padding: 2px 5px;
-}
-
-.fc-daygrid-event {
-    margin-bottom: 2px;
-}
-
-.fc-toolbar-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-}
-
-.fc-button {
-    background-color: #f97316 !important;
-    border-color: #f97316 !important;
+:deep(.fc-button) {
+    background-color: #0072c6 !important;
     color: white !important;
-    padding: 0.4em 0.65em !important;
-    font-size: 0.9em !important;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 14px;
+    transition: background 0.3s;
 }
 
-.fc-button:hover {
-    background-color: #ea580c !important;
-    border-color: #ea580c !important;
+:deep(.fc-button:hover) {
+    background-color: #0072c6 !important;
 }
 
-.fc-button-active {
-    background-color: #c2410c !important;
-    border-color: #c2410c !important;
+/* Botón activo (vista seleccionada) */
+:deep(.fc-button-active) {
+    background-color: #28a745 !important;
+    color: white !important;
 }
 
-.fc-today-button {
-    background-color: #f97316 !important;
-    border-color: #f97316 !important;
+:deep(.fc-button-active) {
+    background-color: #28a745 !important;
+    color: white !important;
 }
 
-.fc-today-button:hover {
-    background-color: #ea580c !important;
-    border-color: #ea580c !important;
+/* :deep(.q-menu) {
+  z-index: 9999;
+} */
+
+:deep(.fc-button) {
+    padding: 0.25em 0.4em;
+    font-size: 0.8rem;
+}
+
+:deep(.fc-toolbar-title) {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+:deep(.fc) {
+    height: 600px;
+}
+
+/* Ajustes para tablets */
+@media (min-width: 768px) and (max-width: 1024px) {
+    :deep(.fc-header-toolbar) {
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    :deep(.fc-toolbar-title) {
+        font-size: 1.1rem;
+        margin: 0.5rem 0;
+        font-weight: 700;
+    }
+
+    :deep(.fc-toolbar-chunk:nth-child(2)) {
+        order: 3;
+        width: 100%;
+        text-align: center;
+        margin-top: 0.5rem;
+    }
+
+    :deep(.fc) {
+        height: 900px;
+    }
+}
+
+/* Ajustes para teléfonos */
+@media (max-width: 767px) {
+    :deep(.fc-header-toolbar) {
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    :deep(.fc-toolbar-title) {
+        font-size: 1.1rem;
+        margin: 0.5rem 0;
+        font-weight: 700;
+    }
+
+    :deep(.fc-toolbar-chunk:nth-child(2)) {
+        order: 3;
+        width: 100%;
+        text-align: center;
+        margin-top: 0.5rem;
+    }
+
+    :deep(.fc) {
+        height: 900px;
+    }
 }
 </style>

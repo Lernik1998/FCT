@@ -1,28 +1,28 @@
 <template>
-    <div class="container mx-auto p-6">
-        <h1 class="text-3xl font-bold mb-6 text-center">
+    <div class="container mx-auto p-4 sm:p-6 dark:bg-gray-900 min-h-screen">
+        <h1 class="text-2xl sm:text-3xl font-bold mb-6 text-center dark:text-white">
             Gestión de Actividades
         </h1>
 
         <!-- Barra de acciones y búsqueda -->
-        <div class="mb-10 flex justify-between items-center">
+        <div class="mb-6 sm:mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <a
                 :href="route('admin.createActivityView')"
-                class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow transition duration-200"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow transition duration-200 dark:bg-blue-700 dark:hover:bg-blue-800 w-full sm:w-auto text-center"
             >
                 Crear Actividad
             </a>
 
             <!-- Búsqueda -->
-            <div class="relative">
+            <div class="relative w-full sm:w-64">
                 <input
                     type="text"
                     placeholder="Buscar actividad..."
                     v-model="search"
-                    class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-64"
+                    class="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
                 />
                 <svg
-                    class="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
+                    class="absolute left-3 top-2.5 h-5 w-5 text-gray-400 dark:text-gray-300"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -39,125 +39,128 @@
         </div>
 
         <!-- Tabla de actividades -->
-        <div class="bg-white shadow-md rounded-lg overflow-y-auto h-96">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
+            <div class="overflow-x-auto max-h-96 sm:max-h-full">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead class="bg-gray-50 dark:bg-gray-700">
+                        <tr>
+                            <th
+                                class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                            >
+                                Nombre
+                            </th>
+                            <th
+                                class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden sm:table-cell"
+                            >
+                                Descripción
+                            </th>
+                            <th
+                                class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                            >
+                                Fecha
+                            </th>
+                            <th
+                                class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden md:table-cell"
+                            >
+                                Precio
+                            </th>
+                            <th
+                                class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                            >
+                                Estado
+                            </th>
+                            <th
+                                class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                            >
+                                Acciones
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                        <tr
+                            v-for="activity in activities.data"
+                            :key="activity.id"
+                            class="hover:bg-gray-50 dark:hover:bg-gray-700"
                         >
-                            Nombre
-                        </th>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                            Descripción
-                        </th>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                            Fecha
-                        </th>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                            Precio
-                        </th>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                            Estado
-                        </th>
-                        <th
-                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                            Acciones
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    <tr
-                        v-for="activity in activities.data"
-                        :key="activity.id"
-                        class="hover:bg-gray-50"
-                    >
-                        <td
-                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                        >
-                            {{ activity.name }}
-                        </td>
-                        <td
-                            class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate"
-                        >
-                            {{ activity.description }}
-                        </td>
-                        <td
-                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
-                        >
-                            {{ formatDate(activity.date) }}
-                        </td>
-                        <td
-                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
-                        >
-                            {{ formatCurrency(activity.price) }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm">
-                            <span :class="statusClass(activity.status)">
-                                {{ statusText(activity.status) }}
-                            </span>
-                        </td>
-                        <td
-                            class="px-6 py-4 whitespace-nowrap text-sm font-medium"
-                        >
-                            <div class="flex space-x-2">
-                                <a
-                                    :href="
-                                        route('admin.activityShow', activity.id)
-                                    "
-                                    class="text-blue-600 hover:text-blue-900 hover:underline"
-                                >
-                                    Ver
-                                </a>
-                                <a
-                                    :href="
-                                        route('admin.activityEdit', activity.id)
-                                    "
-                                    class="text-yellow-600 hover:text-yellow-900 hover:underline"
-                                >
-                                    Editar
-                                </a>
-                                <button
-                                    @click="deleteActivity(activity.id)"
-                                    class="text-red-600 hover:text-red-900 hover:underline"
-                                >
-                                    Eliminar
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            <td
+                                class="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white"
+                            >
+                                {{ activity.name }}
+                            </td>
+                            <td
+                                class="px-4 sm:px-6 py-4 text-sm text-gray-500 dark:text-gray-300 max-w-xs truncate hidden sm:table-cell"
+                            >
+                                {{ activity.description }}
+                            </td>
+                            <td
+                                class="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300"
+                            >
+                                {{ formatDate(activity.date) }}
+                            </td>
+                            <td
+                                class="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300 hidden md:table-cell"
+                            >
+                                {{ formatCurrency(activity.price) }}
+                            </td>
+                            <td class="px-4 sm:px-6 py-4 whitespace-nowrap text-sm">
+                                <span :class="statusClass(activity.status)">
+                                    {{ statusText(activity.status) }}
+                                </span>
+                            </td>
+                            <td
+                                class="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium"
+                            >
+                                <div class="flex space-x-2">
+                                    <a
+                                        :href="route('admin.activityShow', activity.id)"
+                                        class="text-blue-600 hover:text-blue-900 hover:underline dark:text-blue-400 dark:hover:text-blue-300"
+                                    >
+                                        Ver
+                                    </a>
+                                    <a
+                                        :href="route('admin.activityEdit', activity.id)"
+                                        class="text-yellow-600 hover:text-yellow-900 hover:underline dark:text-yellow-400 dark:hover:text-yellow-300"
+                                    >
+                                        Editar
+                                    </a>
+                                    <button
+                                        @click="deleteActivity(activity.id)"
+                                        class="text-red-600 hover:text-red-900 hover:underline dark:text-red-400 dark:hover:text-red-300"
+                                    >
+                                        Eliminar
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr v-if="activities.data.length === 0">
+                            <td colspan="6" class="px-4 sm:px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                                No se encontraron actividades
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- Paginación -->
-        <div class="mt-6 flex items-center justify-between">
-            <div class="text-sm text-gray-500">
+        <div class="mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="text-sm text-gray-500 dark:text-gray-400">
                 Mostrando página {{ activities.current_page }} de
                 {{ activities.last_page }}
             </div>
 
-            <div class="flex space-x-1">
+            <div class="flex flex-wrap gap-1">
                 <Component
                     :is="link.url ? 'Link' : 'span'"
                     v-for="(link, index) in activities.links"
                     :key="index"
                     :href="link.url"
-                    class="px-3 py-1 rounded-md border"
+                    class="px-3 py-1 rounded-md border text-sm"
                     :class="{
-                        'border-gray-300 text-gray-500 hover:bg-gray-50':
+                        'border-gray-300 text-gray-500 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700':
                             link.url && !link.active,
-                        'border-blue-500 bg-blue-50 text-blue-600': link.active,
-                        'border-gray-200 text-gray-400 cursor-not-allowed':
+                        'border-blue-500 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-900/50 dark:text-blue-200': link.active,
+                        'border-gray-200 text-gray-400 dark:border-gray-700 dark:text-gray-500 cursor-not-allowed':
                             !link.url,
                     }"
                     v-html="translatePaginationLabel(link.label)"
@@ -211,12 +214,12 @@ const translatePaginationLabel = (label) => {
 
 const statusClass = (status) => {
     const classes = {
-        active: "bg-green-100 text-green-800",
-        inactive: "bg-red-100 text-red-800",
-        pending: "bg-yellow-100 text-yellow-800",
+        active: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
+        inactive: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
+        pending: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300",
     };
     return `${
-        classes[status] || "bg-gray-100 text-gray-800"
+        classes[status] || "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
     } inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium`;
 };
 

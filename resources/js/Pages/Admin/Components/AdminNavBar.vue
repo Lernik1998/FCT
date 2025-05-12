@@ -1,17 +1,25 @@
 <template>
-    <nav class="bg-white border-b border-gray-200 shadow-sm px-4 py-3 dark:bg-gray-800 dark:text-white">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
+    <nav
+        class="bg-gradient-to-r from-orange-500 to-red-600 p-4 text-white shadow-lg sticky top-0 z-50 dark:bg-gray-800 dark:text-gray-600"
+    >
+        <div
+            class="container mx-auto flex flex-wrap justify-between items-center"
+        >
             <!-- Logo y título -->
-            <div class="text-2xl font-bold text-gray-800 dark:text-white">
-                Panel de Administración
-                <!-- Botón de toggle mejorado -->
+            <div class="flex items-center space-x-4">
+                <h1 class="text-xl font-bold">Panel de Administración</h1>
+
+                <!-- Botón de tema -->
                 <button
                     @click="themeStore.toggleDarkMode"
                     class="p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-700 ml-2"
-                    :aria-label="isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
+                    :aria-label="
+                        isDark
+                            ? 'Cambiar a modo claro'
+                            : 'Cambiar a modo oscuro'
+                    "
                     :title="isDark ? 'Modo claro' : 'Modo oscuro'"
                 >
-                    <!-- Icono de toggle -->
                     <transition name="fade" mode="out-in">
                         <svg
                             v-if="isDark"
@@ -49,72 +57,106 @@
                 </button>
             </div>
 
-            <!-- Menú de navegación en dispositivos grandes -->
-            <div class="hidden md:flex">
-                <ul class="flex items-center space-x-8 py-3 dark:text-white">
-                    <!-- Los elementos del menú -->
+            <!-- Botón hamburguesa -->
+            <button
+                @click="toggleMenu"
+                class="md:hidden mt-2 text-white focus:outline-none"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16"
+                    />
+                </svg>
+            </button>
+
+            <!-- Menú de navegación -->
+            <div
+                :class="[
+                    'w-full md:w-auto',
+                    isMenuOpen ? 'block' : 'hidden',
+                    'md:block',
+                ]"
+            >
+                <ul
+                    class="flex flex-col md:flex-row md:items-center md:space-x-6 mt-4 md:mt-0 space-y-2 md:space-y-0"
+                >
                     <li>
-                        <a :href="route('admin.index')" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 dark:text-gray-300 dark:hover:text-blue-600">
+                        <a
+                            :href="route('admin.index')"
+                            class="hover:underline"
+                            :class="{
+                                'font-bold text-orange-300 underline':
+                                    $page.component === 'Admin/AdminIndex',
+                            }"
+                            @click="isMenuOpen = false"
+                        >
                             Inicio
                         </a>
                     </li>
                     <li class="relative">
-                        <a :href="route('admin.informationAdmin')" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center dark:text-gray-300 dark:hover:text-blue-600">
+                        <a
+                            :href="route('admin.informationAdmin')"
+                            class="hover:underline flex items-center"
+                            :class="{
+                                'font-bold text-orange-300 underline':
+                                    $page.component ===
+                                    'Admin/InformationAdmin',
+                            }"
+                            @click="isMenuOpen = false"
+                        >
                             Solicitudes
-                            <span v-if="numNotifs > 0" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                            <span
+                                v-if="numNotifs > 0"
+                                class="ml-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center"
+                            >
                                 {{ numNotifs }}
                             </span>
                         </a>
                     </li>
                     <li>
-                        <a :href="route('admin.messageAdmin')" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 dark:text-gray-300 dark:hover:text-blue-600">
+                        <a
+                            :href="route('admin.messageAdmin')"
+                            class="hover:underline"
+                            :class="{
+                                'font-bold text-orange-300 underline':
+                                    $page.component === 'Admin/MessageAdmin',
+                            }"
+                            @click="isMenuOpen = false"
+                        >
                             Mensajes
                         </a>
                     </li>
                     <li>
-                        <Link :href="route('profile.show')" class="hover:underline">
+                        <Link
+                            :href="route('profile.show')"
+                            class="hover:underline"
+                            :class="{
+                                'font-bold text-orange-300 underline':
+                                    $page.component === 'Profile/Show',
+                            }"
+                            @click="isMenuOpen = false"
+                        >
                             Mi cuenta
                         </Link>
                     </li>
-                    <li class="ml-auto">
-                        <button @click="logout" class="text-gray-700 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 dark:text-gray-300 dark:hover:text-red-600">
+                    <li>
+                        <button @click="logout" class="hover:underline">
                             Cerrar sesión
                         </button>
                     </li>
                 </ul>
             </div>
-
-            <!-- Botón para menú móvil -->
-            <div class="md:hidden">
-                <button @click="toggleMenu" class="p-2 rounded-full text-white focus:outline-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
         </div>
     </nav>
-
-    <!-- Menú móvil -->
-    <div v-if="isMenuOpen" class="md:hidden bg-gray-800 text-white py-2">
-        <ul class="space-y-4 px-4">
-            <li>
-                <a :href="route('admin.index')" class="hover:underline">Inicio</a>
-            </li>
-            <li>
-                <a :href="route('admin.informationAdmin')" class="hover:underline">Solicitudes</a>
-            </li>
-            <li>
-                <a :href="route('admin.messageAdmin')" class="hover:underline">Mensajes</a>
-            </li>
-            <li>
-                <Link :href="route('profile.show')" class="hover:underline">Mi cuenta</Link>
-            </li>
-            <li>
-                <button @click="logout" class="text-white">Cerrar sesión</button>
-            </li>
-        </ul>
-    </div>
 </template>
 
 <script setup>
@@ -127,6 +169,7 @@ import { storeToRefs } from "pinia";
 // Variables
 const props = defineProps(["notifications"]);
 const numNotifs = ref(parseInt(props.notifications));
+const isMobileMenuOpen = ref(false);
 
 // Función para cerrar sesión
 const logout = () => {
