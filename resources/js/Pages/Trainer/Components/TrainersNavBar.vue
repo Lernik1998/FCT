@@ -1,16 +1,24 @@
 <template>
-    <nav class="bg-gradient-to-r from-blue-500 to-blue-800 p-4 text-white shadow-lg dark:bg-gray-800 dark:text-gray-600">
+    <nav
+        class="bg-gradient-to-r from-blue-500 to-blue-800 p-4 text-white shadow-lg dark:from-gray-800 dark:to-gray-900 dark:shadow-gray-800/50"
+    >
         <div class="container mx-auto flex justify-between items-center">
             <!-- Logo y título -->
             <div class="flex items-center space-x-3">
                 <!-- <img src="/logo-fitworking-white.png" alt="FitWorking Logo" class="h-8"> -->
-                <h1 class="text-xl font-bold">Panel de entrenador</h1>
+                <h1 class="text-xl font-bold dark:text-gray-100">
+                    Panel de entrenador
+                </h1>
 
                 <!-- Botón de toggle mejorado -->
                 <button
                     @click="themeStore.toggleDarkMode"
-                    class="p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-700 ml-2"
-                    :aria-label="isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
+                    class="p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-200 hover:bg-white/20 dark:hover:bg-gray-700 ml-2"
+                    :aria-label="
+                        isDark
+                            ? 'Cambiar a modo claro'
+                            : 'Cambiar a modo oscuro'
+                    "
                     :title="isDark ? 'Modo claro' : 'Modo oscuro'"
                 >
                     <transition name="fade" mode="out-in">
@@ -34,7 +42,7 @@
                             v-else
                             key="moon"
                             xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5 text-gray-600 dark:text-gray-300"
+                            class="h-5 w-5 text-gray-200"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -54,31 +62,92 @@
             <div class="hidden md:flex">
                 <ul class="flex space-x-6">
                     <li>
-                        <a :href="route('trainers.index')" class="hover:underline">Inicio</a>
+                        <Link
+                            :href="route('trainers.index')"
+                            class="hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                            :class="{
+                                'font-bold text-orange-500 underline':
+                                    $page.component === 'Trainer/TrainerIndex',
+                            }"
+                            >Inicio</Link
+                        >
                     </li>
                     <li>
-                        <a :href="route('trainers.reservations')" class="hover:underline">Reservas</a>
+                        <Link
+                            :href="route('trainers.reservations')"
+                            class="hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                            :class="{
+                                'font-bold text-orange-500 underline':
+                                    $page.component ===
+                                    'Trainer/TrainerReservations',
+                            }"
+                            >Reservas</Link
+                        >
                     </li>
                     <li>
-                        <a :href="route('trainers.messages')" class="hover:underline">Mensajes</a>
+                        <Link
+                            :href="route('trainers.messages')"
+                            class="hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                            :class="{
+                                'font-bold text-orange-500 underline':
+                                    $page.component ===
+                                    'Trainer/TrainerMessages',
+                            }"
+                            >Mensajes</Link
+                        >
                     </li>
                     <li>
-                        <a :href="route('trainers.pp')" class="hover:underline">Actividades</a>
+                        <Link
+                            :href="route('trainers.pp')"
+                            class="hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                            :class="{
+                                'font-bold text-orange-500 underline':
+                                    $page.component === 'Trainer/TrainerPPlans',
+                            }"
+                            >Actividades</Link
+                        >
                     </li>
                     <li>
-                        <a :href="route('trainers.posts')" class="hover:underline">Posts</a>
+                        <Link
+                            :href="route('trainers.posts')"
+                            class="hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                            :class="{
+                                'font-bold text-orange-500 underline':
+                                    $page.component === 'Trainer/TrainerPosts',
+                            }"
+                            >Posts</Link
+                        >
                     </li>
                     <li>
-                        <button @click="logout" class="text-white">Cerrar sesión</button>
+                        <button
+                            @click="logout"
+                            class="text-white hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                        >
+                            Cerrar sesión
+                        </button>
                     </li>
                 </ul>
             </div>
 
             <!-- Botón para abrir el menú en dispositivos móviles -->
             <div class="md:hidden">
-                <button @click="toggleMenu" class="p-2 rounded-full text-white focus:outline-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                <button
+                    @click="toggleMenu"
+                    class="p-2 rounded-full text-white hover:bg-white/20 focus:outline-none transition-colors"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"
+                        ></path>
                     </svg>
                 </button>
             </div>
@@ -86,25 +155,78 @@
     </nav>
 
     <!-- Menú móvil -->
-    <div v-if="isMenuOpen" class="md:hidden bg-gray-800 text-white py-2">
+    <div
+        v-if="isMenuOpen"
+        class="md:hidden bg-blue-600 dark:bg-gray-800 text-white py-2 transition-all duration-300"
+    >
         <ul class="space-y-4 px-4">
             <li>
-                <a :href="route('trainers.index')" class="hover:underline">Inicio</a>
+                <Link
+                    :href="route('trainers.index')"
+                    class="block hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                    :class="{
+                        'font-bold text-orange-500 underline':
+                            $page.component === 'Trainer/TrainerIndex',
+                    }"
+                    @click="isMenuOpen = false"
+                    >Inicio</Link
+                >
             </li>
             <li>
-                <a :href="route('trainers.reservations')" class="hover:underline">Reservas</a>
+                <Link
+                    :href="route('trainers.reservations')"
+                    class="block hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                    :class="{
+                        'font-bold text-orange-500 underline':
+                            $page.component === 'Trainer/TrainerReservations',
+                    }"
+                    @click="isMenuOpen = false"
+                    >Reservas</Link
+                >
             </li>
             <li>
-                <a :href="route('trainers.messages')" class="hover:underline">Mensajes</a>
+                <Link
+                    :href="route('trainers.messages')"
+                    class="block hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                    :class="{
+                        'font-bold text-orange-500 underline':
+                            $page.component === 'Trainer/TrainerMessages',
+                    }"
+                    @click="isMenuOpen = false"
+                    >Mensajes</Link
+                >
             </li>
             <li>
-                <a :href="route('trainers.pp')" class="hover:underline">Actividades</a>
+                <Link
+                    :href="route('trainers.pp')"
+                    class="block hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                    :class="{
+                        'font-bold text-orange-500 underline':
+                            $page.component === 'Trainer/TrainerPPlans',
+                    }"
+                    @click="isMenuOpen = false"
+                    >Actividades</Link
+                >
             </li>
             <li>
-                <a :href="route('trainers.posts')" class="hover:underline">Posts</a>
+                <Link
+                    :href="route('trainers.posts')"
+                    class="block hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                    :class="{
+                        'font-bold text-orange-500 underline':
+                            $page.component === 'Trainer/TrainerPosts',
+                    }"
+                    @click="isMenuOpen = false"
+                    >Posts</Link
+                >
             </li>
             <li>
-                <button @click="logout" class="text-white">Cerrar sesión</button>
+                <button
+                    @click="logout"
+                    class="text-white hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                >
+                    Cerrar sesión
+                </button>
             </li>
         </ul>
     </div>

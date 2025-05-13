@@ -9,6 +9,7 @@ use App\Models\Activity; // Modelo Activity
 use App\Models\Category; // Modelo Category
 use App\Models\ContactMessage; // Modelo ContactMessage
 use App\Models\Message; // Modelo Message
+use App\Models\Transaction; // Modelo Transaction
 
 use Illuminate\Support\Str; // Modelo Str para renombrar la imagen
 use Inertia\Inertia; // Facade para Inertia
@@ -723,5 +724,77 @@ class AdminController extends Controller
     // }
 
 
+    // ADMINISTRACIÓN
+
+    // Mostrar todas las transacciones
+    // Mostrar todas las transacciones
+    public function administrationAdmin()
+    {
+        $transactions = Transaction::where('user_id', Auth::id())
+            ->orderBy('date', 'desc')
+            ->get();
+
+        return Inertia::render('Admin/Administration/AdministrationAdm', [
+            'transactions' => $transactions,
+        ]);
+    }
+
+    // Guardar una transacción
+    public function storeTransaction(Request $request)
+    {
+        $validated = $request->validate([
+            'type' => 'required|in:income,expense',
+            'amount' => 'required|numeric|min:0.01',
+            'description' => 'required|string|max:255',
+            'date' => 'required|date',
+            'category' => 'required|string|max:100'
+        ]);
+    
+        try {
+            $transaction = Auth::user()->transactions()->create($validated);
+            
+            return redirect()->route('admin.transactions')
+                ->with('success', 'Transacción guardada correctamente');
+                
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Error al guardar la transacción: '.$e->getMessage())
+                ->withInput();
+        }
+    }
+
+    public function exportToCsv()
+    {
+        $transactions = Transaction::where('user_id', Auth::id())
+            ->orderBy('date', 'desc')
+            ->get();
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="transactions_' . date('Y-m-d') . '.csv"',
+        ];
+
+        $callback = function () use ($transactions) {
+            $file = fopen('php://output', 'w');
+
+            // Encabezados CSV
+            fputcsv($file, ['Tipo', 'Monto', 'Descripción', 'Fecha', 'Categoría']);
+
+            // Datos
+            foreach ($transactions as $transaction) {
+                fputcsv($file, [
+                    $transaction->type == 'income' ? 'Ingreso' : 'Gasto',
+                    $transaction->amount,
+                    $transaction->description,
+                    $transaction->date->format('d/m/Y'),
+                    $transaction->category
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 
 }

@@ -1,17 +1,19 @@
 <template>
-    <!-- Cabecera -->
+    <div class="min-h-screen dark:bg-gray-900">
+        <!-- Cabecera -->
 
-    <UsersNavBar />
-    <!-- <head>
+        <UsersNavBar />
+        <!-- <head>
         <slot />
     </head> -->
 
-    <!-- Cuerpo -->
-    <main>
-        <slot />
-    </main>
+        <!-- Cuerpo -->
+        <main>
+            <slot />
+        </main>
 
-    <!-- Pie -->
+        <!-- Pie -->
+    </div>
 </template>
 
 <script setup>

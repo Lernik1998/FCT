@@ -1,17 +1,17 @@
 <template>
     <div class="container mx-auto px-4 py-8">
         <div class="flex justify-between items-center mb-8">
-            <h1 class="text-3xl font-bold">Gestión de Reservas</h1>
+            <h1 class="text-3xl font-bold dark:text-orange-600">Gestión de Reservas</h1>
             <div class="relative w-64">
                 <input
                     v-model="search"
                     type="text"
                     placeholder="Buscar actividades..."
-                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 dark:focus:ring-blue-500"
                     @input="debouncedSearch"
                 />
                 <svg
-                    class="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
+                    class="absolute left-3 top-2.5 h-5 w-5 text-gray-400 dark:text-gray-300"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -28,32 +28,32 @@
 
         <!-- Sección de Próximas Actividades -->
         <section class="mb-12">
-            <h2 class="text-2xl font-semibold mb-6">Próximas Actividades</h2>
+            <h2 class="text-2xl font-semibold mb-6 dark:text-white">Próximas Actividades</h2>
             <div v-if="upcomingActivities.length > 0" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 <div
                     v-for="activity in upcomingActivities"
                     :key="activity.id"
-                    class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200"
+                    class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 dark:bg-gray-800 dark:border-gray-700"
                 >
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">
+                        <h3 class="text-xl font-semibold mb-2 dark:text-white">
                             {{ activity.name }}
                         </h3>
-                        <p class="text-gray-600 mb-1">
-                            <strong>Fecha:</strong> {{ formatDate(activity.date) }}
+                        <p class="text-gray-600 mb-1 dark:text-gray-300">
+                            <strong class="dark:text-gray-200">Fecha:</strong> {{ formatDate(activity.date) }}
                         </p>
-                        <p class="text-gray-600 mb-1">
-                            <strong>Horario:</strong> {{ activity.start_time }} - {{ activity.end_time }}
+                        <p class="text-gray-600 mb-1 dark:text-gray-300">
+                            <strong class="dark:text-gray-200">Horario:</strong> {{ activity.start_time }} - {{ activity.end_time }}
                         </p>
 
                         <div class="mt-4">
                             <div class="flex justify-between items-center mb-1">
-                                <span class="font-medium">Plazas:</span>
-                                <span>
+                                <span class="font-medium dark:text-gray-200">Plazas:</span>
+                                <span class="dark:text-gray-300">
                                     {{ getReservedSlots(activity.id) }}/{{ activity.slots }}
                                 </span>
                             </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
                                 <div
                                     class="h-2.5 rounded-full"
                                     :style="`width: ${occupancyPercentage(activity.id)}%`"
@@ -67,7 +67,7 @@
                         </div>
 
                         <div class="mt-4">
-                            <h3 class="font-medium mb-2">Clientes inscritos:</h3>
+                            <h3 class="font-medium mb-2 dark:text-gray-200">Clientes inscritos:</h3>
                             <ul
                                 v-if="getActivityReservations(activity.id).length > 0"
                                 class="space-y-1"
@@ -75,81 +75,81 @@
                                 <li
                                     v-for="reservation in getActivityReservations(activity.id)"
                                     :key="reservation.id"
-                                    class="text-sm text-gray-600"
+                                    class="text-sm text-gray-600 dark:text-gray-300"
                                 >
                                     {{ reservation.user?.name || "Cliente" }}
                                 </li>
                             </ul>
-                            <p v-else class="text-sm text-gray-500">
+                            <p v-else class="text-sm text-gray-500 dark:text-gray-400">
                                 No hay reservas aún
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div v-else class="bg-white p-6 rounded-lg shadow border border-gray-200">
-                <p class="text-gray-600">No hay actividades próximas programadas.</p>
+            <div v-else class="bg-white p-6 rounded-lg shadow border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                <p class="text-gray-600 dark:text-gray-300">No hay actividades próximas programadas.</p>
             </div>
         </section>
 
         <!-- Sección de Todas las Actividades -->
         <section>
-            <h2 class="text-2xl font-semibold mb-6">Todas las Actividades</h2>
+            <h2 class="text-2xl font-semibold mb-6 dark:text-white">Todas las Actividades</h2>
             
-            <div class="bg-white rounded-lg shadow overflow-hidden border border-gray-200">
+            <div class="bg-white rounded-lg shadow overflow-hidden border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead class="bg-gray-50 dark:bg-gray-700">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                                     Nombre
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                                     Fecha
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                                     Horario
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                                     Plazas
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                                     Estado
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                                     Reservas
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
+                        <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                             <tr v-for="activity in activities.data" :key="activity.id">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900">
+                                            <div class="text-sm font-medium text-gray-900 dark:text-white">
                                                 {{ activity.name }}
                                             </div>
-                                            <div class="text-sm text-gray-500">
+                                            <div class="text-sm text-gray-500 dark:text-gray-400">
                                                 {{ activity.description.substring(0, 30) }}...
                                             </div>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">
+                                    <div class="text-sm text-gray-900 dark:text-white">
                                         {{ formatDate(activity.date) }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">
+                                    <div class="text-sm text-gray-900 dark:text-white">
                                         {{ activity.start_time }} - {{ activity.end_time }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">
+                                    <div class="text-sm text-gray-900 dark:text-white">
                                         {{ getReservedSlots(activity.id) }}/{{ activity.slots }}
                                     </div>
-                                    <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                    <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1 dark:bg-gray-700">
                                         <div
                                             class="h-1.5 rounded-full"
                                             :style="`width: ${occupancyPercentage(activity.id)}%`"
@@ -165,19 +165,19 @@
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
                                         :class="{
-                                            'bg-green-100 text-green-800': isUpcoming(activity.date),
-                                            'bg-gray-100 text-gray-800': !isUpcoming(activity.date),
+                                            'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200': isUpcoming(activity.date),
+                                            'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300': !isUpcoming(activity.date),
                                         }"
                                     >
                                         {{ isUpcoming(activity.date) ? 'Próxima' : 'Pasada' }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                     {{ getActivityReservations(activity.id).length }}
                                 </td>
                             </tr>
                             <tr v-if="activities.data.length === 0">
-                                <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">
+                                <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
                                     No se encontraron actividades
                                 </td>
                             </tr>
@@ -185,16 +185,16 @@
                     </table>
                 </div>
                 <!-- Paginación -->
-                <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+                <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 dark:bg-gray-800 dark:border-gray-700">
                     <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                         <div>
-                            <p class="text-sm text-gray-700">
+                            <p class="text-sm text-gray-700 dark:text-gray-300">
                                 Mostrando
-                                <span class="font-medium">{{ activities.from }}</span>
+                                <span class="font-medium dark:text-white">{{ activities.from }}</span>
                                 a
-                                <span class="font-medium">{{ activities.to }}</span>
+                                <span class="font-medium dark:text-white">{{ activities.to }}</span>
                                 de
-                                <span class="font-medium">{{ activities.total }}</span>
+                                <span class="font-medium dark:text-white">{{ activities.total }}</span>
                                 resultados
                             </p>
                         </div>
@@ -204,11 +204,11 @@
                                     v-for="(link, index) in activities.links"
                                     :key="index"
                                     :href="link.url || '#'"
-                                    class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium"
+                                    class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium dark:border-gray-600"
                                     :class="{
-                                        'bg-blue-50 border-blue-500 text-blue-600': link.active,
-                                        'bg-white text-gray-500 hover:bg-gray-50': !link.active && link.url,
-                                        'text-gray-300': !link.url,
+                                        'bg-blue-50 border-blue-500 text-blue-600 dark:bg-blue-900 dark:text-blue-200 dark:border-blue-700': link.active,
+                                        'bg-white text-gray-500 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600': !link.active && link.url,
+                                        'text-gray-300 dark:text-gray-500': !link.url,
                                     }"
                                     v-html="link.label"
                                 />

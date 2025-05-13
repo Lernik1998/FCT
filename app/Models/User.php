@@ -181,4 +181,11 @@ class User extends Authenticatable
     // {
     //     return $this->hasMany(UserActivitiesReservations::class);
     // }
+
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+    
 }

@@ -280,7 +280,14 @@ class TrainerController extends Controller
     public function trainerMessagesView()
     {
         // return inertia('Trainer/TrainerMessages');
-        $users = User::where('id', '!=', Auth::user()->id)->get();
-        return Inertia::render('Trainer/MessageInbox', ['users' => $users]);
+        $users = User::where('id', '!=', Auth::user()->id)
+            ->where(function ($query) {
+                $query->where('role', 'trainer')
+                    ->orWhere('role', 'admin');
+            })
+            ->get();
+
+
+        return Inertia::render('Trainer/TrainerMessages', ['users' => $users]);
     }
 }

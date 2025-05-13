@@ -5,7 +5,7 @@
             <!-- Encabezado -->
             <div class="text-center mb-10">
                 <h1
-                    class="text-3xl font-extrabold text-gray-900 sm:text-4xl dark:text-white"
+                    class="text-3xl font-extrabold text-gray-900 sm:text-4xl dark:text-orange-600"
                 >
                     Gestiona todos los aspectos de tu plataforma
                 </h1>
@@ -197,31 +197,25 @@
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="2"
-                                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                                    />
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                        d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75"
                                     />
                                 </svg>
                             </div>
                             <div class="ml-5 w-0 flex-1">
                                 <h3 class="text-lg font-medium text-gray-900">
-                                    Configuración
+                                    Administración
                                 </h3>
                                 <p class="mt-1 text-sm text-gray-500">
-                                    Ajustes generales de la plataforma
+                                    Gestión de gastos e ingresos
                                 </p>
                             </div>
                         </div>
                         <div class="mt-4">
                             <a
-                                href="#"
+                                :href="route('admin.transactions')"
                                 class="inline-flex items-center text-blue-600 hover:text-blue-800"
                             >
-                                Configurar
+                                Acceder
                                 <svg
                                     class="ml-1 h-4 w-4"
                                     fill="currentColor"
@@ -229,7 +223,7 @@
                                 >
                                     <path
                                         fill-rule="evenodd"
-                                        d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                                        d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
                                         clip-rule="evenodd"
                                     />
                                 </svg>
@@ -245,7 +239,7 @@
                     <div class="px-6 py-5">
                         <div class="flex items-center">
                             <div
-                                class="flex-shrink-0 bg-blue-500 rounded-md p-3"
+                                class="flex-shrink-0 bg-cyan-500 rounded-md p-3"
                             >
                                 <svg
                                     class="h-6 w-6 text-white"
@@ -257,7 +251,7 @@
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="2"
-                                        d="M17 9V7a2 2 0 00-2-2H9a2 2 0 00-2 2v2M7 15v2a2 2 0 002 2h6a2 2 0 002-2v-2M3 10h18M3 14h18"
+                                        d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"
                                     />
                                 </svg>
                             </div>
@@ -273,7 +267,7 @@
                         <div class="mt-4">
                             <a
                                 :href="route('admin.subscriptionAdmin')"
-                                class="inline-flex items-center text-blue-600 hover:text-blue-800"
+                                class="inline-flex items-center text-brown-600 hover:text-blue-800"
                             >
                                 Acceder
                                 <svg
@@ -299,7 +293,7 @@
                     <div class="px-6 py-5">
                         <div class="flex items-center">
                             <div
-                                class="flex-shrink-0 bg-blue-500 rounded-md p-3"
+                                class="flex-shrink-0 bg-red-500 rounded-md p-3"
                             >
                                 <svg
                                     class="h-6 w-6 text-white"
@@ -311,7 +305,7 @@
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="2"
-                                        d="M17 9V7a2 2 0 00-2-2H9a2 2 0 00-2 2v2M7 15v2a2 2 0 002 2h6a2 2 0 002-2v-2M3 10h18M3 14h18"
+                                        d="M14.25 7.756a4.5 4.5 0 1 0 0 8.488M7.5 10.5h5.25m-5.25 3h5.25M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                                     />
                                 </svg>
                             </div>
@@ -350,7 +344,10 @@
             <!-- Sección de Calendario -->
             <section class="mt-12">
                 <div class="bg-white shadow rounded-lg p-6">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                    <h2
+                        class="text-xl font-semibold text-gray-800 mb-4 dark:text-orange-700"
+                        
+                    >
                         Calendario de Eventos
                     </h2>
                     <div id="calendar" class="h-96"></div>

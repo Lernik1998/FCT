@@ -238,6 +238,12 @@ Route::controller(AdminController::class)->group(function () {
 
     Route::post('admin/reactivateSubscription/{name}', [AdminController::class, 'reactivateSubscription'])->name('admin.reactivateSubscription');
 
+    /************************************** GESTIÓN DE TRANSACTIONS ************************************** */
+    Route::get('transactions', [AdminController::class, 'administrationAdmin'])->name('admin.transactions');
+    Route::post('transactions', [AdminController::class, 'storeTransaction'])->name('admin.transactions.store');
+    Route::get('transactions/export', [AdminController::class, 'exportToCsv'])->name('admin.transactions.export');
+
+
     Route::resource('admin', AdminController::class); // Siempre al final
 });
 
