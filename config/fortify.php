@@ -75,7 +75,12 @@ return [
 
     // Cambio
 
-    'home' => '/',
+    'home' => '/dashboard',
+
+    // 'redirects' => [
+    //     'login' => '/dashboard',
+    //     'register' => '/dashboard',
+    // ],
 
     /*
     |--------------------------------------------------------------------------

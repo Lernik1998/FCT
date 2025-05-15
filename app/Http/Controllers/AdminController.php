@@ -14,6 +14,8 @@ use App\Models\Transaction; // Modelo Transaction
 use Illuminate\Support\Str; // Modelo Str para renombrar la imagen
 use Inertia\Inertia; // Facade para Inertia
 use Illuminate\Support\Facades\Auth; // Facade para autenticación
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RequestReceived;
 
 // Stripe
 // use Stripe\Plan;
@@ -413,6 +415,12 @@ class AdminController extends Controller
             // Inserto datos en la BD
             ContactMessage::create($request->all());
             $message = 'Mensaje enviado, le responderemos lo antes posible';
+
+
+            // Envio correo
+            Mail::to($request->email)->send(new RequestReceived($request->name));
+
+
         } catch (\Throwable $th) {
             $message = 'Error en el envío del mensaje, intentelo de nuevo más tarde!';
         }
@@ -749,16 +757,16 @@ class AdminController extends Controller
             'date' => 'required|date',
             'category' => 'required|string|max:100'
         ]);
-    
+
         try {
             $transaction = Auth::user()->transactions()->create($validated);
-            
+
             return redirect()->route('admin.transactions')
                 ->with('success', 'Transacción guardada correctamente');
-                
+
         } catch (\Exception $e) {
             return redirect()->back()
-                ->with('error', 'Error al guardar la transacción: '.$e->getMessage())
+                ->with('error', 'Error al guardar la transacción: ' . $e->getMessage())
                 ->withInput();
         }
     }

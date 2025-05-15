@@ -27,18 +27,20 @@ class FortifyServiceProvider extends ServiceProvider
         // Redirección después del login
         $this->app->singleton(LoginResponse::class, function () {
             return new class implements LoginResponse {
-
+                // Gestión de redirección después del login
                 public function toResponse($request)
                 {
+                    // Obtenemos el usuario autenticado
                     $user = Auth::user();
 
+                    // Redirección después del login
                     switch ($user->role) {
                         case 'admin':
                             return redirect()->route('admin.index');
                         case 'user':
                             return redirect()->route('users.index');
                         case 'trainer':
-                            return redirect()->route('trainers.index');
+                            return redirect()->route('trainers.trainerView');
                     }
 
                     return redirect()->route('index'); // Ruta por defecto
@@ -49,15 +51,16 @@ class FortifyServiceProvider extends ServiceProvider
 
         $this->app->singleton(RegisterResponse::class, function () {
             return new class implements RegisterResponse {
+                // Gestión de redirección después del registro
                 public function toResponse($request)
                 {
-                    $user = Auth::user(); // Verificamos si realmente hay un usuario autenticado
+                    // Obtenemos el usuario autenticado
+                    $user = Auth::user();
 
+                    // Si no hay usuario, forzamos vista login
                     if (!$user) {
-                        return redirect()->route('login'); // Si no hay usuario, forzamos login
+                        return redirect()->route('login');
                     }
-
-                    // dd($user); --> DEBUG
 
                     // Si el usuario no tiene un rol, le asignamos uno por defecto
                     if (!$user->role) {
@@ -65,13 +68,14 @@ class FortifyServiceProvider extends ServiceProvider
                         $user->save(); // Guardamos el cambio en la base de datos
                     }
 
+                    // Redirección después del registro
                     switch ($user->role) {
                         case 'admin':
                             return redirect()->route('admin.index');
                         case 'user':
                             return redirect()->route('users.index');
                         case 'trainer':
-                            return redirect()->route('trainers.index');
+                            return redirect()->route('trainers.trainerView');
                     }
 
                     return redirect()->route('index'); // Ruta por defecto

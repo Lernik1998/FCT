@@ -16,7 +16,7 @@ use App\Http\Controllers\MembershipController;
 // use Spatie\GoogleCalendar\Event;
 use App\Http\Middleware\TranslationsMiddleware;
 use App\Http\Controllers\StripeController;
-
+use Illuminate\Support\Facades\Auth;
 use App\Mail\ReservationPayment;
 
 /* Route::get('/', function () {
@@ -26,7 +26,6 @@ return Inertia::render('Welcome', [
     'laravelVersion' => Application::VERSION,
     'phpVersion' => PHP_VERSION,
 ]);*/
-
 
 
 // PAYMENTS
@@ -42,8 +41,18 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
+
+        if (Auth::user()->role === 'user') {
+            return redirect()->route('users.index');
+        } else if (Auth::user()->role === 'trainer') {
+            return redirect()->route('trainers.trainerView');
+        } else if (Auth::user()->role === 'admin') {
+            return redirect()->route('admin.index');
+        }
+
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
 });
 
 Route::middleware(TranslationsMiddleware::class)->group(function () {
@@ -51,6 +60,9 @@ Route::middleware(TranslationsMiddleware::class)->group(function () {
     Route::inertia('/', 'Index')->name('index'); // Entrada
 // Route::inertia('publicTrainers', 'Public/Trainer')->name('trainers.public');
     Route::inertia('/contact', 'Public/Contact')->name('contact');
+
+    Route::get('trainers', [TrainerController::class, 'index'])->name('trainers.index');
+
     Route::resource('activities', ActivityController::class);
     Route::resource('posts', PostController::class);
     // Mensaje contacto sin registro --> DESDE QUE CONTROLADOR SE DEBERÍA DE HACER? CONTROLADOR PUBLIC???
@@ -66,46 +78,6 @@ Route::get('/language/{language}', function ($language) {
     Session::put('locale', $language);
     return redirect()->back();
 })->name('language');
-
-// TRAINERS routes
-Route::controller(TrainerController::class)->group(function () {
-
-    /************************************** ACTIVIDADES ************************************** */
-    // Crear actividad vista
-    Route::get('trainers/createActivity', [TrainerController::class, 'createActivityView'])->name('trainers.createActivity');
-
-    Route::post('trainers/storeActivity', [TrainerController::class, 'storeActivity'])->name('trainers.storeActivity');
-
-    /************************************** PAYMENTS ************************************** */
-
-    Route::get('trainers/payments', [TrainerController::class, 'reservations'])->name('trainers.reservations');
-
-    /************************************** PLANES PERSONALIZADOS ************************************** */
-
-    Route::get('trainers/personalizedTraining', [TrainerController::class, 'personalizedTraining'])->name('trainers.pp');
-
-    // Creación de un plan personalizado por el trainer
-    Route::get('trainers/createPlan', [TrainerController::class, 'createPersonalizedTraining'])->name('trainers.createPlan');
-
-    // Crear un plan personalizado PUBLICO
-    Route::post('trainers/storePlan', [TrainerController::class, 'storePlan'])->name('trainers.storePlan');
-
-    /************************************** POSTS ************************************** */
-
-    Route::get('trainers/posts', [TrainerController::class, 'trainerPostsView'])->name('trainers.posts');
-
-    Route::post('trainers/storePost', [TrainerController::class, 'storePost'])->name('trainers.storePost');
-
-    /************************************** MENSAJES ************************************** */
-    Route::get('trainers/messages', [TrainerController::class, 'trainerMessagesView'])->name('trainers.messages');
-
-    Route::post('admin/sendReplyUnregisteredUser', [AdminController::class, 'sendReplyUnregisteredUser'])->name('admin.sendReplyUnregisteredUser');
-
-    Route::post('admin/markAsAssigned', [AdminController::class, 'markAsAssigned'])->name('admin.markAsAssigned');
-
-    Route::resource('trainers', TrainerController::class);
-});
-
 
 // USER routes
 Route::controller(UserController::class)->group(function () {
@@ -157,6 +129,52 @@ Route::controller(UserController::class)->group(function () {
     // Telegram TODO:
     Route::get('user/telegram', [UserActivitiesReservationsController::class, 'telegram'])->name('user.telegram');
 });
+
+
+
+// TRAINERS routes
+Route::controller(TrainerController::class)->group(function () {
+
+    /************************************** ACTIVIDADES ************************************** */
+    // Crear actividad vista
+    Route::get('trainers/createActivity', [TrainerController::class, 'createActivityView'])->name('trainers.createActivity');
+
+    Route::post('trainers/storeActivity', [TrainerController::class, 'storeActivity'])->name('trainers.storeActivity');
+
+    /************************************** PAYMENTS ************************************** */
+
+    Route::get('trainers/payments', [TrainerController::class, 'reservations'])->name('trainers.reservations');
+
+    /************************************** PLANES PERSONALIZADOS ************************************** */
+
+    Route::get('trainers/personalizedTraining', [TrainerController::class, 'personalizedTraining'])->name('trainers.pp');
+
+    // Creación de un plan personalizado por el trainer
+    Route::get('trainers/createPlan', [TrainerController::class, 'createPersonalizedTraining'])->name('trainers.createPlan');
+
+    // Crear un plan personalizado PUBLICO
+    Route::post('trainers/storePlan', [TrainerController::class, 'storePlan'])->name('trainers.storePlan');
+
+    /************************************** POSTS ************************************** */
+
+    Route::get('trainers/posts', [TrainerController::class, 'trainerPostsView'])->name('trainers.posts');
+
+    Route::post('trainers/storePost', [TrainerController::class, 'storePost'])->name('trainers.storePost');
+
+    /************************************** MENSAJES ************************************** */
+    Route::get('trainers/messages', [TrainerController::class, 'trainerMessagesView'])->name('trainers.messages');
+
+    Route::post('admin/sendReplyUnregisteredUser', [AdminController::class, 'sendReplyUnregisteredUser'])->name('admin.sendReplyUnregisteredUser');
+
+    Route::post('admin/markAsAssigned', [AdminController::class, 'markAsAssigned'])->name('admin.markAsAssigned');
+
+
+    Route::get('trainers/trainerView', [TrainerController::class, 'trainerView'])->name('trainers.trainerView');
+
+    Route::resource('trainers', TrainerController::class);
+});
+
+
 
 
 Route::controller(AdminController::class)->group(function () {
@@ -246,6 +264,10 @@ Route::controller(AdminController::class)->group(function () {
 
     Route::resource('admin', AdminController::class); // Siempre al final
 });
+
+
+
+
 
 
 // Google
@@ -372,6 +394,6 @@ Route::get('/test-email', function () {
 
     $name = 'Lernik Test';
 
-    Mail::to('lernikgpt@gmail.com')->send(new ReservationPayment($name));
+    Mail::to('lernik10@gmail.com')->send(new ReservationPayment($name));
 
 });

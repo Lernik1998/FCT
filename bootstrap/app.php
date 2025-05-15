@@ -13,13 +13,17 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // Se aplican a todas las rutas
         $middleware->web(append: [
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
-            // \App\Http\Middleware\RoleMiddleware::class, // Middleware de roles
+            // \App\Http\Middleware\RoleMiddleware::class, // Middleware de roles, no empleado
         ]);
 
     })
+    // ->withMiddleware([
+    //         'redirectIfAuthenticated' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+    //     ])
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+
     })->create();

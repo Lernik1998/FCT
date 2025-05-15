@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Inertia\Inertia;
 use App\Models\User; // Modelo de User
 use App\Models\Activity; // Modelo de Activity
 use App\Models\UserActivitiesReservations; // Modelo de UserActivitiesReservations
-use App\Models\Membership; // Modelo de Membership
+use App\Models\Category; // Modelo de Category
+
 
 class UserController extends Controller
 {
@@ -16,56 +17,77 @@ class UserController extends Controller
      */
     public function index()
     {
-        // Obtener el usuario autenticado
         $userId = auth()->id();
         $user = User::findOrFail($userId);
 
-        // Fecha y hora actual
         $now = now();
         $currentDate = $now->format('Y-m-d');
         $currentTime = $now->format('H:i:s');
 
-        // Proximas 3 actividades con imagen
-        $featuredActivities = Activity::query()
-        ->where('status', 'active')
-        ->where(function($query) use ($currentDate, $currentTime) {
-            $query->where('date', '>', $currentDate)
-                  ->orWhere(function($q) use ($currentDate, $currentTime) {
-                      $q->where('date', $currentDate)
-                        ->where('start_time', '>', $currentTime);
-                  });
-        })
-            ->select(['id', 'name', 'description', 'date', 'category_id', 'image', 'start_time', 'end_time', 'price','slots'])
+        // Actividades destacadas (excluyendo General)
+        $featuredActivities = Activity::with('category')
+            ->where('status', 'active')
+            ->whereHas('category', function ($q) {
+                $q->where('name', '!=', 'General');
+            })
+            ->where(function ($query) use ($currentDate, $currentTime) {
+                $query->where('date', '>', $currentDate)
+                    ->orWhere(function ($q) use ($currentDate, $currentTime) {
+                        $q->where('date', $currentDate)
+                            ->where('start_time', '>', $currentTime);
+                    });
+            })
+            ->select(['id', 'name', 'description', 'date', 'category_id', 'image', 'start_time', 'end_time', 'price', 'slots'])
             ->limit(3)
             ->get();
 
-        // Obtener actividades con paginación y búsqueda
-        $activities = Activity::query()
-            ->where('status', 'active') // Solo las activas
-            ->where(function($query) use ($currentDate, $currentTime) {
+        // Query principal para actividades
+        $activitiesQuery = Activity::with('category')
+            ->where('status', 'active')
+            ->where(function ($query) use ($currentDate, $currentTime) {
                 $query->where('date', '>', $currentDate)
-                      ->orWhere(function($q) use ($currentDate, $currentTime) {
-                          $q->where('date', $currentDate)
+                    ->orWhere(function ($q) use ($currentDate, $currentTime) {
+                        $q->where('date', $currentDate)
                             ->where('start_time', '>', $currentTime);
-                      });
+                    });
             })
-            ->when(request('search'), function ($query, $search) {
-                $query->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('description', 'like', '%' . $search . '%');
-            })
-            ->select(['id', 'name', 'description', 'date', 'category_id', 'start_time', 'end_time', 'price','slots'])
-            ->orderBy('date', 'asc') // Ordenar por fecha
-            ->orderBy('start_time', 'asc') // Ordenar por hora
-            ->paginate(10)
-            ->appends(['search' => request('search')]);
+            ->whereHas('category', function ($q) {
+                $q->where('name', '!=', 'General'); // Excluir General por defecto
+            });
 
-        return inertia('User/UserIndex', [
+        // Aplicar filtros
+        if (request('search')) {
+            $activitiesQuery->where(function ($query) {
+                $query->where('name', 'like', '%' . request('search') . '%')
+                    ->orWhere('description', 'like', '%' . request('search') . '%');
+            });
+        }
+
+        if (request('category') && request('category') !== 'all') {
+            $activitiesQuery->whereHas('category', function ($q) {
+                $q->where('name', request('category'));
+            });
+        }
+
+        $activities = $activitiesQuery
+            ->select(['id', 'name', 'description', 'date', 'category_id', 'start_time', 'end_time', 'price', 'slots'])
+            ->orderBy('date', 'asc')
+            ->orderBy('start_time', 'asc')
+            ->paginate(10)
+            ->appends(request()->query());
+
+        // Obtener categorías excluyendo General
+        $categories = Category::where('name', '!=', 'General')->get();
+
+        return Inertia::render('User/UserIndex', [
             'user' => $user,
             'activities' => $activities,
-            'filters' => ['search' => request('search')],
-            'popularAct' => $featuredActivities
+            'popularAct' => $featuredActivities,
+            'categories' => $categories,
+            'filters' => request()->only(['search', 'category'])
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.

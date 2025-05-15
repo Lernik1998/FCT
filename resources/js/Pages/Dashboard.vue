@@ -1,45 +1,52 @@
 <template>
     <!-- <AppLayout title="Dashboard"> -->
 
-    <!-- <template #header>
-        <h2
-            class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight"
-        >
-            Dashboard
-        </h2>
-    </template> -->
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div
                 class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg"
             >
-                <!-- <Welcome /> -->
+                <div
+                    class="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900"
+                >
+                    <div
+                        class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-8 max-w-md w-full text-center"
+                    >
+                        <h2
+                            class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-4"
+                        >
+                            Sesión caducada
+                        </h2>
+                        <p class="text-gray-600 dark:text-gray-300 mb-6">
+                            Tu sesión ha expirado por inactividad o cierre. Por
+                            favor, vuelve a iniciar sesión para continuar.
+                        </p>
+                        <a
+                            @click="logout()"
+                            class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition"
+                        >
+                            Cerrar sesión
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-
-    <!-- </AppLayout> -->
-
-    <div>
-        <h1>Bienvenido al Dashboard</h1>
-
-        <!-- <div v-if="auth.user.role === 'admin'">
-            <p>Contenido exclusivo para Administradores</p>
-        </div> -->
     </div>
 </template>
 
 <script setup>
-// import AppLayout from "vendor/laravel/jetstream/stubs/inertia/resources/js/Layouts/AppLayout.vue";
-import AppLayout from "@/Layouts/AppLayout.vue";
-// import Welcome from "@/Components/Welcome.vue";
+import { router } from "@inertiajs/vue3";
+import PublicLayout from "@/Layouts/PublicLayout.vue";
 
 defineOptions({
-    layout: AppLayout,
+    layout: PublicLayout,
 });
 
-// import { usePage } from "@inertiajs/vue3";
+defineProps({
+    auth: Object,
+});
 
-// const auth = usePage().props.auth;
+function logout() {
+    router.post(route("logout"));
+}
 </script>

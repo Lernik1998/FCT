@@ -32,9 +32,10 @@ return [
     |
     */
 
-    'lifetime' => (int) env('SESSION_LIFETIME', 120),
+    'lifetime' => (int) env('SESSION_LIFETIME', 60),
 
-    'expire_on_close' => env('SESSION_EXPIRE_ON_CLOSE', false),
+    // Cambio a True para que cierre la sesión cuando cierro el navegador
+    'expire_on_close' => env('SESSION_EXPIRE_ON_CLOSE', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -129,7 +130,7 @@ return [
 
     'cookie' => env(
         'SESSION_COOKIE',
-        Str::slug(env('APP_NAME', 'laravel'), '_').'_session'
+        Str::slug(env('APP_NAME', 'laravel'), '_') . '_session'
     ),
 
     /*

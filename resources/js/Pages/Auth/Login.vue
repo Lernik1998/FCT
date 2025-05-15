@@ -12,7 +12,9 @@
                 <h2 class="text-3xl font-extrabold text-orange-600">
                     FitWorking
                 </h2>
-                <p class="mt-2 text-gray-700 dark:text-gray-300">Accede a tu cuenta para comenzar</p>
+                <p class="mt-2 text-gray-700 dark:text-gray-300">
+                    Accede a tu cuenta para comenzar
+                </p>
             </div>
 
             <!-- Formulario -->
@@ -66,7 +68,9 @@
                                 name="remember"
                                 class="text-orange-500 focus:ring-orange-500 border-gray-300 dark:border-gray-600"
                             />
-                            <span class="text-gray-700 dark:text-gray-300">Recordarme</span>
+                            <span class="text-gray-700 dark:text-gray-300"
+                                >Recordarme</span
+                            >
                         </label>
 
                         <Link

@@ -63,7 +63,7 @@
                 <ul class="flex space-x-6">
                     <li>
                         <Link
-                            :href="route('trainers.index')"
+                            :href="route('trainers.trainerView')"
                             class="hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
                             :class="{
                                 'font-bold text-orange-500 underline':

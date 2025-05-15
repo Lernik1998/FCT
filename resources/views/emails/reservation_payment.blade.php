@@ -14,11 +14,6 @@
 </x-mail::message> -->
 
 
-
-
-
-
-
 @component('mail::message')
 # {{ __('Reserva confirmada para la actividad: :activity', ['activity' => $activity->name]) }}
 

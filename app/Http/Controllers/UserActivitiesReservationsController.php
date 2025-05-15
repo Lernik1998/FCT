@@ -49,15 +49,16 @@ class UserActivitiesReservationsController extends Controller
     */
     public function create($id)
     {
+
         // Obtengo la actividad con el id
         $act = Activity::findOrFail($id);
         $user = auth()->user();
-
 
         // Verificar si ya existe una reserva para esta actividad y hora exacta
         $reservaExistente = UserActivitiesReservations::where('user_id', auth()->user()->id)
             ->where('activity_datetime', $act->date . ' ' . $act->start_time)
             ->exists();
+
 
         // Si ya existe una reserva, devuelvo un error
         if ($reservaExistente) {

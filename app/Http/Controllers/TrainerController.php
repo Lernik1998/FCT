@@ -17,7 +17,7 @@ use App\Models\Post; // Modelo de Post
 class TrainerController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Entrenadores publicos
      */
     public function index()
     {
@@ -27,50 +27,33 @@ class TrainerController extends Controller
         // Obtengo todos los entrenadores
         $trainers = User::where('role', 'trainer')->get();
 
+        // Dependiendo del rol del usuario, se redirige a una pagina diferente
+        // switch ($user->role) {
+        //     case 'trainer':
+        //         return redirect()->route('trainers.index');
+        //     case 'admin':
+        //         return redirect()->route('admin.index');
+        //     case 'user':
+        //         return redirect()->route('users.index');
 
-        // Si el usuario no tiene rol, lo redirecciono a la pagina public
-        // if ($user->role === null) {
-        //     return inertia('Public/Trainer');
+        //     default:
+        return inertia('Public/Trainer', ['trainers' => $trainers]);
         // }
+    }
 
-        if (!$user) {
-            return inertia('Public/Trainer', ['trainers' => $trainers]);
+
+    public function trainerView()
+    {
+        // Verifico el rol del usuario autenticado
+        $user = auth()->user();
+
+        if ($user->role === 'trainer') {
+            return inertia('Trainer/TrainerIndex');
         } else {
-
-        }
-
-        // Dependiendo del rol del usuario, retorno una pagina diferente
-        switch ($user->role) {
-            case 'trainer':
-                return inertia('Trainer/TrainerIndex');
-            case 'admin':
-                // return inertia('Admin/AdminIndex');
-                dd('Index del admin');
-            case 'user':
-                return inertia('User/UserIndex');
-
-            default:
-
-                return inertia('Public/Trainer', ['trainers' => $trainers]);
-
+            return redirect()->route('login');
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -86,30 +69,7 @@ class TrainerController extends Controller
         //Retornar el entrenador
         return inertia('Trainer/TrainerShow', compact('trainer', 'plans'));
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    
 
     public function createActivityView()
     {
