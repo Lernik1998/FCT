@@ -13,6 +13,7 @@ class StripeController extends Controller
 {
     public function index()
     {
+        /* AMPLIACIÓN: Cargar estadísticas de ventas */
     }
 
     public function charge(Request $request)

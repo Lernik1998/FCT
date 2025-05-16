@@ -1,6 +1,8 @@
 <template>
     <div class="container mx-auto p-4">
-        <h1 class="text-3xl font-bold mb-4">Pago realizado con éxito</h1>
+        <h1 class="text-3xl font-bold mb-4 dark:text-orange-600">
+            Pago realizado con éxito
+        </h1>
         <p>
             Tu pago ha sido procesado correctamente. Puedes imprimir o guardar
             tu reserva en el siguiente enlace:

@@ -90,7 +90,7 @@
                 </div>
             </section>
 
-            <!-- Información adicional -->
+
              <!-- Información adicional -->
              <section class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
                 <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">

@@ -23,6 +23,7 @@ use PayPalCheckoutSdk\Core\PayPalHttpClient;
 
 use Telegram; // Para Telegram
 
+use Inertia\Inertia;
 
 class UserActivitiesReservationsController extends Controller
 {
@@ -99,7 +100,7 @@ class UserActivitiesReservationsController extends Controller
     }
 
 
-    protected function processPayment($activity)
+    public function processPayment($activity)
     {
         $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
 
@@ -129,6 +130,7 @@ class UserActivitiesReservationsController extends Controller
                 'customer_email' => auth()->user()->email,
             ]);
 
+
             // Guardar temporalmente la intención de reserva FIXME: Pendiente hacer una transacción y gestión de la sesión (Según el tipo de usuarios redireccionar a X pag)
             TemporalReservation::create([
                 'user_id' => auth()->id(),
@@ -137,8 +139,18 @@ class UserActivitiesReservationsController extends Controller
                 'expires_at' => now()->addMinutes(30)
             ]);
 
+            // Para Inertia.js
+            return Inertia::location($checkout->url);
+
             // Redirección a Stripe
-            return redirect($checkout->url);
+            // return redirect()->away($checkout->url);
+            //  --> CODIGO QUE FALLA
+            // En vez de:
+// return redirect($checkout->url);
+
+            // Devuelve JSON con la URL:
+            // return response()->json(['url' => $checkout->url]);
+
 
         } catch (\Exception $e) {
             return back()->with('error', 'Error al procesar el pago: ' . $e->getMessage());
