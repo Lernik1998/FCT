@@ -27,23 +27,6 @@ return Inertia::render('Welcome', [
     'phpVersion' => PHP_VERSION,
 ]);*/
 
-use Google_Client;
-use Google_Service_Calendar;
-
-Route::get('/test-calendar', function () {
-    $client = new Google_Client();
-    $client->setApplicationName(config('services.google_calendar.application_name'));
-    $client->setAuthConfig(storage_path('app/google-calendar/service-account-credentials.json'));
-    $client->setScopes(Google_Service_Calendar::CALENDAR);
-
-    $service = new Google_Service_Calendar($client);
-    $calendarId = config('services.google_calendar.calendar_id');
-    $events = $service->events->listEvents($calendarId);
-
-    return response()->json($events->getItems());
-});
-
-
 
 // PAYMENTS
 Route::get('/checkout/{name}', [StripeController::class, 'checkout'])->name('stripe.checkout');
