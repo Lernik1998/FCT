@@ -20,10 +20,6 @@ return Application::configure(basePath: dirname(__DIR__))
             // \App\Http\Middleware\RoleMiddleware::class, // Middleware de roles, no empleado
         ]);
 
-    })
-    // ->withMiddleware([
-    //         'redirectIfAuthenticated' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-    //     ])
-    ->withExceptions(function (Exceptions $exceptions) {
+    })->withExceptions(function (Exceptions $exceptions) {
 
     })->create();
