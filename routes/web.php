@@ -266,10 +266,6 @@ Route::controller(AdminController::class)->group(function () {
 });
 
 
-
-
-
-
 // Google
 Route::controller(SocialiteController::class)->group(function () {
     Route::get('/auth/google', 'googleLogin')->name('auth.google');

@@ -39,7 +39,7 @@ class GoogleCalendarController extends Controller
         // $this->client->setAuthConfig(config('google_calendar.credentials_path'));
         $this->client->setAuthConfig(config('google-calendar.auth_profiles.service_account.credentials_json'));
 
-        $this->client->setClientId(config('google_calendar.client_id'));
+        // $this->client->setClientId(config('google_calendar.client_id')); // No es necesario para el service account FIXME:
         $this->client->setClientSecret(config('google_calendar.client_secret'));
         $this->client->setRedirectUri(config('google_calendar.redirect_uri'));
 
