@@ -1,6 +1,6 @@
 <template>
     <div
-        class=" mx-auto px-4 py-6 sm:px-6 lg:px-8 dark:bg-gray-900 min-h-screen transition-colors duration-300"
+        class="mx-auto px-4 py-6 sm:px-6 lg:px-8 dark:bg-gray-900 min-h-screen transition-colors duration-300"
     >
         <!-- Header y botón de creación -->
         <div
@@ -24,18 +24,6 @@
         <div
             class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6"
         >
-            <!-- Filtros de categoría -->
-            <div class="flex flex-wrap gap-2">
-                <button
-                    v-for="categoria in categorias"
-                    :key="categoria"
-                    @click="filtrarPorCategoria(categoria)"
-                    class="bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm"
-                >
-                    {{ categoria }}
-                </button>
-            </div>
-
             <!-- Buscador -->
             <div class="w-full md:w-64 relative">
                 <input
@@ -122,10 +110,10 @@
                             <td class="px-4 py-4 whitespace-nowrap">
                                 <div class="flex space-x-2">
                                     <button
-                                        @click="editarPost(post)"
+                                        @click="visualizarPostDialog(post)"
                                         class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-200"
                                     >
-                                        Editar
+                                        Visualizar
                                     </button>
                                     <button
                                         @click="confirmarEliminar(post)"
@@ -190,62 +178,146 @@
                     {{ formPost.id ? "✏️ Editar post" : "✏️ Crear nuevo post" }}
                 </h2>
 
-                <div class="grid grid-cols-1 gap-4">
-                    <div>
-                        <label
-                            class="block text-gray-700 dark:text-gray-300 mb-2"
-                            >Título</label
-                        >
-                        <input
-                            v-model="formPost.titulo"
-                            type="text"
-                            class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100"
-                            placeholder="Ej: Consejos para correr mejor"
-                            required
-                        />
+                <form
+                    @submit.prevent="guardarPost"
+                    class="space-y-8"
+                    enctype="multipart/form-data"
+                >
+                    <div class="grid grid-cols-1 gap-4">
+                        <div>
+                            <label
+                                class="block text-gray-700 dark:text-gray-300 mb-2"
+                                >Título</label
+                            >
+                            <input
+                                v-model="formPost.titulo"
+                                type="text"
+                                class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100"
+                                placeholder="Ej: Consejos para correr mejor"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label
+                                class="block text-gray-700 dark:text-gray-300 mb-2"
+                                >Contenido</label
+                            >
+                            <textarea
+                                v-model="formPost.contenido"
+                                class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 h-32 dark:bg-gray-700 dark:text-gray-100"
+                                placeholder="Escribe aquí tu mensaje..."
+                                required
+                            ></textarea>
+                        </div>
+
+                        <div>
+                            <label
+                                class="block text-gray-700 dark:text-gray-300 mb-2"
+                                >Imagen</label
+                            >
+                            <input
+                                type="file"
+                                :required="!formPost.id"
+                                accept="image/*"
+                                ref="fileInput"
+                                @change="handleFileUpload"
+                                class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700"
+                            />
+                            <p
+                                v-if="formPost.id"
+                                class="mt-1 text-sm text-gray-500 dark:text-gray-400"
+                            >
+                                Deja vacío para mantener la imagen actual
+                            </p>
+                        </div>
                     </div>
 
-                    <div>
-                        <label
-                            class="block text-gray-700 dark:text-gray-300 mb-2"
-                            >Contenido</label
+                    <div class="flex justify-end mt-6 gap-3">
+                        <button
+                            @click="cerrarFormulario"
+                            class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 font-medium py-2 px-4 rounded-lg transition-colors duration-200"
                         >
-                        <textarea
-                            v-model="formPost.contenido"
-                            class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 h-32 dark:bg-gray-700 dark:text-gray-100"
-                            placeholder="Escribe aquí tu mensaje..."
-                            required
-                        ></textarea>
+                            Cancelar
+                        </button>
+                        <button
+                            type="submit"
+                            class="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
+                        >
+                            {{ formPost.id ? "Actualizar" : "Crear" }}
+                        </button>
                     </div>
+                </form>
+            </div>
+        </div>
 
-                    <div>
-                        <label
-                            class="block text-gray-700 dark:text-gray-300 mb-2"
-                            >Imagen</label
+        <!-- Diálogo para visualizar post -->
+        <div
+            v-if="postSeleccionado"
+            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-300"
+        >
+            <div
+                class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl w-full max-w-2xl mx-4 transition-all duration-300 border border-gray-200 dark:border-gray-700"
+            >
+                <div class="flex justify-between items-start mb-4">
+                    <h2
+                        class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100"
+                    >
+                        {{ postSeleccionado.title }}
+                    </h2>
+                    <button
+                        @click="postSeleccionado = null"
+                        class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                    >
+                        <svg
+                            class="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
                         >
-                        <input
-                            type="file"
-                            multiple
-                            accept="image/*"
-                            ref="fileInput"
-                            @change="handleFileChange"
-                            class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700"
-                        />
-                    </div>
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"
+                            />
+                        </svg>
+                    </button>
                 </div>
 
-                <div class="flex justify-end mt-6 gap-3">
+                <div class="mb-4 text-sm text-gray-500 dark:text-gray-400">
+                    Publicado el {{ formatDate(postSeleccionado.created_at) }}
+                </div>
+
+                <div
+                    v-if="postSeleccionado.image"
+                    class="mb-6 h-40 bg-gray-300 overflow-hidden"
+                >
+                    <img
+                        :src="'/images/posts/' + postSeleccionado.image"
+                        :alt="postSeleccionado.title"
+                        class="w-full h-auto rounded-lg"
+                    />
+                </div>
+
+                <div
+                    class="prose dark:prose-invert max-w-none mb-6 whitespace-pre-line"
+                >
+                    {{ postSeleccionado.content }}
+                </div>
+
+                <div class="flex justify-end gap-3">
                     <button
-                        @click="cerrarFormulario"
-                        class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 font-medium py-2 px-4 rounded-lg transition-colors duration-200"
+                        @click="confirmarEliminar(postSeleccionado)"
+                        class="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
                     >
-                        Cancelar
+                        Eliminar Post
                     </button>
                     <button
-                        @click="guardarPost"
+                        @click="editarPost(postSeleccionado)"
                         class="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
                     >
-                        {{ formPost.id ? "Actualizar" : "Crear" }}
+                        Editar Post
                     </button>
                 </div>
             </div>
@@ -306,42 +378,28 @@ const props = defineProps({
 
 const search = ref(props.filters.search || "");
 
-watch(
-    search,
-    debounce((value) => {
-        router.get(
-            route("trainers.posts"),
-            { search: value },
-            {
-                preserveState: true,
-                replace: true,
-                preserveScroll: true,
-            }
-        );
-    }, 300)
-);
-
-// Formulario
+// Variables de estado
 const mostrarFormulario = ref(false);
-const formPost = ref({
-    titulo: "",
-    contenido: "",
-    image: "",
-});
-
-// Confirmación de eliminación
+const postSeleccionado = ref(null);
 const mostrarConfirmacion = ref(false);
 const postAEliminar = ref(null);
-
-const handleFileChange = (event) => {
-    const files = event.target.files;
-    formPost.value.image = Array.from(files).map((file) => file.name);
-};
-
-// Gráfico
 const graficoActividad = ref(null);
 let chartInstance = null;
 
+// Datos del formulario
+const formPost = ref({
+    id: null,
+    titulo: "",
+    contenido: "",
+    image: null,
+});
+
+// Manejo de archivos
+const handleFileUpload = (event) => {
+    formPost.value.image = event.target.files[0];
+};
+
+// Configuración del gráfico
 const actualizarGrafico = () => {
     if (chartInstance) {
         chartInstance.destroy();
@@ -363,10 +421,10 @@ const actualizarGrafico = () => {
         },
         options: {
             responsive: true,
-            cutoutPercentage: 50, // Para que sea más parecido a un gráfico de dona
+            cutoutPercentage: 50,
             plugins: {
                 legend: {
-                    display: false, // Ocultamos la leyenda si no es necesaria
+                    display: false,
                 },
                 tooltip: {
                     callbacks: {
@@ -380,26 +438,19 @@ const actualizarGrafico = () => {
     });
 };
 
+// Formateo de fecha
 const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleDateString("es-ES", options);
 };
 
+// Funciones para el formulario
 const abrirFormularioNuevo = () => {
-    mostrarFormulario.value = true;
     formPost.value = {
+        id: null,
         titulo: "",
         contenido: "",
-        imagen: "",
-    };
-};
-
-const editarPost = (post) => {
-    postEditando.value = post;
-    formPost.value = {
-        titulo: post.titulo,
-        contenido: post.contenido,
-        imagen: post.imagen,
+        image: null,
     };
     mostrarFormulario.value = true;
 };
@@ -408,64 +459,104 @@ const cerrarFormulario = () => {
     mostrarFormulario.value = false;
 };
 
+// Funciones para los posts
+const visualizarPostDialog = (post) => {
+    postSeleccionado.value = post;
+};
+
+const confirmarEliminar = (post) => {
+    postAEliminar.value = post;
+    mostrarConfirmacion.value = true;
+    postSeleccionado.value = null;
+};
+
+const eliminarPost = () => {
+    if (postAEliminar.value) {
+        router.delete(
+            route("trainers.deletePost", { id: postAEliminar.value.id }),
+            {
+                onSuccess: () => {
+                    mostrarConfirmacion.value = false;
+                    postAEliminar.value = null;
+                    actualizarGrafico();
+                },
+                onError: () => {
+                    alert("Error al eliminar el post");
+                },
+            }
+        );
+    }
+};
+
+const editarPost = (post) => {
+    postSeleccionado.value = null;
+    formPost.value = {
+        id: post.id,
+        titulo: post.title,
+        contenido: post.content,
+        image: null, // No cargamos la imagen existente para evitar problemas
+    };
+    mostrarFormulario.value = true;
+};
+
 const guardarPost = () => {
     if (!formPost.value.titulo || !formPost.value.contenido) {
         alert("Por favor, completa todos los campos obligatorios");
         return;
     }
 
-    // Crear nuevo post
-    router.post(route("trainers.storePost"), {
-        titulo: formPost.value.titulo,
-        contenido: formPost.value.contenido,
-        imagen: formPost.value.imagen,
+    const formData = new FormData();
+    formData.append("title", formPost.value.titulo);
+    formData.append("content", formPost.value.contenido);
+
+    if (formPost.value.image) {
+        formData.append("image", formPost.value.image);
+    }
+
+    const url = formPost.value.id
+        ? route("trainers.updatePost", { id: formPost.value.id })
+        : route("trainers.storePost");
+
+    const method = formPost.value.id ? "put" : "post";
+
+    router[method](url, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+        onSuccess: () => {
+            cerrarFormulario();
+            actualizarGrafico();
+        },
+        onError: (errors) => {
+            alert(
+                "Error al guardar el post: " + Object.values(errors).join("\n")
+            );
+        },
     });
-
-    cerrarFormulario();
-    actualizarGrafico();
 };
 
-const confirmarEliminar = (post) => {
-    // postAEliminar.value = post;
-    // mostrarConfirmacion.value = true;
-};
-
-const eliminarPost = () => {
-    // if (postAEliminar.value) {
-    //     posts.value = posts.value.filter(
-    //         (p) => p.id !== postAEliminar.value.id
-    //     );
-    //     mostrarConfirmacion.value = false;
-    //     actualizarGrafico();
-    //     // Ajustar la página si quedó vacía
-    //     if (postsPaginados.value.length === 0 && paginaActual.value > 1) {
-    //         paginaActual.value--;
-    //     }
-    // }
-};
-
-// TODO:
-// const colorCategoria = (categoria) => {
-//     const colores = {
-//         Entrenamiento: "bg-blue-100 text-blue-800",
-//         Nutrición: "bg-green-100 text-green-800",
-//         Salud: "bg-red-100 text-red-800",
-//         Psicología: "bg-purple-100 text-purple-800",
-//         Equipamiento: "bg-yellow-100 text-yellow-800",
-//         Eventos: "bg-indigo-100 text-indigo-800",
-//     };
-//     return colores[categoria] || "bg-gray-100 text-gray-800";
-// };
-
-// const actualizarGrafico = () => {
-//     nextTick(() => {});
-// };
-
+// Lifecycle hooks
 onMounted(() => {
     nextTick(() => {
         actualizarGrafico();
     });
 });
+
+// Watchers
+watch(
+    search,
+    debounce((value) => {
+        router.get(
+            route("trainers.posts"),
+            { search: value },
+            {
+                preserveState: true,
+                replace: true,
+                preserveScroll: true,
+            }
+        );
+    }, 300)
+);
 
 watch(
     () => props.posts,
@@ -484,5 +575,4 @@ watch(
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-
 </style>

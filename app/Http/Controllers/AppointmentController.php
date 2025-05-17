@@ -153,7 +153,7 @@ class AppointmentController extends Controller
             // 1. Obtener el tipo de calendario desde el usuario autenticado
             $calendarType = auth()->user()->category;
 
-           
+
 
             if (!$calendarType) {
                 throw new \Exception("El usuario no tiene categoría asignada.");

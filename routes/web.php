@@ -161,13 +161,14 @@ Route::controller(TrainerController::class)->group(function () {
 
     Route::post('trainers/storePost', [TrainerController::class, 'storePost'])->name('trainers.storePost');
 
+    Route::delete('trainers/deletePost/{id}', [TrainerController::class, 'deletePost'])->name('trainers.deletePost');
+
     /************************************** MENSAJES ************************************** */
     Route::get('trainers/messages', [TrainerController::class, 'trainerMessagesView'])->name('trainers.messages');
 
     Route::post('admin/sendReplyUnregisteredUser', [AdminController::class, 'sendReplyUnregisteredUser'])->name('admin.sendReplyUnregisteredUser');
 
     Route::post('admin/markAsAssigned', [AdminController::class, 'markAsAssigned'])->name('admin.markAsAssigned');
-
 
     Route::get('trainers/trainerView', [TrainerController::class, 'trainerView'])->name('trainers.trainerView');
 
@@ -349,8 +350,6 @@ Route::get('/appointments/editRehabilitacion/{id}', [AppointmentController::clas
 
 // Eliminar
 Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
-
-
 
 
 

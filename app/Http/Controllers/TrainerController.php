@@ -13,6 +13,7 @@ use App\Models\UserActivitiesReservations; // Modelo de UserActivitiesReservatio
 use Illuminate\Support\Facades\Auth; // Facade para autenticación
 use Inertia\Inertia; // Facade para Inertia
 use App\Models\Post; // Modelo de Post
+use Illuminate\Support\Str; // Modelo Str para renombrar la imagen
 
 class TrainerController extends Controller
 {
@@ -47,8 +48,15 @@ class TrainerController extends Controller
         // Verifico el rol del usuario autenticado
         $user = auth()->user();
 
+        // Obtengo informacion del entrenador
+        $trainer = User::findOrFail($user->id);
+
+        // Obtengo las actividades del entrenador
+        $activities = Activity::where('user_id', $trainer->id)->get();
+
+
         if ($user->role === 'trainer') {
-            return inertia('Trainer/TrainerIndex');
+            return inertia('Trainer/TrainerIndex', compact('trainer', 'activities'));
         } else {
             return redirect()->route('login');
         }
@@ -69,7 +77,7 @@ class TrainerController extends Controller
         //Retornar el entrenador
         return inertia('Trainer/TrainerShow', compact('trainer', 'plans'));
     }
-    
+
 
     public function createActivityView()
     {
@@ -233,7 +241,46 @@ class TrainerController extends Controller
 
     public function storePost(Request $request)
     {
-        dd($request->all());
+
+        // dd($request->all());
+
+        $post = Post::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'image' => $request->image,
+            'user_id' => auth()->id(),
+        ]);
+
+
+        if ($request->hasFile('image')) {
+            $img = $request->file('image');
+            $imgName = Str::slug($request->title) . '.' . $img->guessExtension();
+
+            $path = public_path('images/posts/');
+            $img->move($path, $imgName);
+
+            $post->image = $imgName;
+            $post->save();
+        }
+
+        return redirect()->route('trainers.posts');
+    }
+
+    public function deletePost($id)
+    {
+        // Buscar el post
+        $post = Post::findOrFail($id);
+        $post->delete();
+
+        // Borrar la imagen
+        if ($post->image) {
+            $path = public_path('images/posts/' . $post->image);
+            if (file_exists($path)) {
+                unlink($path);
+            }
+        }
+
+        return redirect()->route('trainers.posts');
     }
 
     // MENSAJES

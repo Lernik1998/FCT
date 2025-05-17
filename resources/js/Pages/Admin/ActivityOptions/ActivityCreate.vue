@@ -88,6 +88,7 @@
                         type="file"
                         @change="handleFileUpload"
                         accept="image/*"
+                        ref="fileInput"
                         class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300"
                         required
                     />
