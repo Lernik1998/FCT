@@ -1,11 +1,11 @@
 <template>
     <div class="container mx-auto p-4">
-        <h1 class="text-3xl font-bold mb-4">Edición del usuario</h1>
+        <h1 class="text-3xl font-bold mb-4 text-orange-600">Edición del usuario</h1>
         <form @submit.prevent="submit" class="space-y-4">
             <div class="mb-3">
                 <label
                     for="name"
-                    class="block text-sm font-medium text-gray-700"
+                    class="block text-sm font-medium text-orange-700"
                     >Nombre</label
                 >
                 <input
@@ -18,7 +18,7 @@
             <div class="mb-3">
                 <label
                     for="email"
-                    class="block text-sm font-medium text-gray-700"
+                    class="block text-sm font-medium text-orange-700"
                     >Correo electrónico</label
                 >
                 <input
@@ -31,7 +31,7 @@
             <div class="mb-3">
                 <label
                     for="role"
-                    class="block text-sm font-medium text-gray-700"
+                    class="block text-sm font-medium text-orange-700"
                     >Rol</label
                 >
                 <select
@@ -49,7 +49,7 @@
                 <button
                     @click="editarUsuario"
                     type="submit"
-                    class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                 >
                     Guardar cambios
                 </button>

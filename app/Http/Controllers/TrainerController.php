@@ -26,7 +26,7 @@ class TrainerController extends Controller
         $user = auth()->user();
 
         // Obtengo todos los entrenadores
-        $trainers = User::where('role', 'trainer')->get();
+        $trainers = User::where('role', 'trainer')->get()->select(['id', 'name', 'category', 'experience_time', 'description', 'profile_photo_path']);
 
         // Dependiendo del rol del usuario, se redirige a una pagina diferente
         // switch ($user->role) {
@@ -213,6 +213,32 @@ class TrainerController extends Controller
 
     // POSTS
 
+    // public function trainerPostsView()
+    // {
+    //     $posts = Post::query()
+    //         ->where('user_id', auth()->id()) // Por el trainer autenticado
+    //         ->when(request('search'), function ($query, $search) {
+    //             $query->where(function ($q) use ($search) {
+    //                 $q->where('title', 'like', '%' . $search . '%')
+    //                     ->orWhere('content', 'like', '%' . $search . '%');
+    //             });
+    //         })
+    //         ->orderBy('created_at', 'desc')
+    //         ->paginate(10)
+    //         ->appends(['search' => request('search')]);
+
+
+    //     // dd($posts->toArray());
+
+    //     $totalPosts = Post::where('user_id', auth()->id())->count();
+
+    //     return inertia('Trainer/TrainerPosts', [
+    //         'posts' => $posts,
+    //         'filters' => ['search' => request('search')],
+    //         'totalPosts' => $totalPosts
+    //     ]);
+    // }
+
     public function trainerPostsView()
     {
         $posts = Post::query()
@@ -227,15 +253,29 @@ class TrainerController extends Controller
             ->paginate(10)
             ->appends(['search' => request('search')]);
 
-
-        // dd($posts->toArray());
-
         $totalPosts = Post::where('user_id', auth()->id())->count();
+
+        // Obtener posts por mes del año actual
+        $monthlyPosts = Post::where('user_id', auth()->id())
+            ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get()
+            ->pluck('count', 'month')
+            ->toArray();
+
+        // Rellenar todos los meses (incluso aquellos sin posts)
+        $monthlyData = array_fill(1, 12, 0);
+        foreach ($monthlyPosts as $month => $count) {
+            $monthlyData[$month] = $count;
+        }
 
         return inertia('Trainer/TrainerPosts', [
             'posts' => $posts,
             'filters' => ['search' => request('search')],
-            'totalPosts' => $totalPosts
+            'totalPosts' => $totalPosts,
+            'monthlyPosts' => array_values($monthlyData) // Convertir a array indexado (1-12 => 0-11)
         ]);
     }
 
@@ -279,6 +319,41 @@ class TrainerController extends Controller
                 unlink($path);
             }
         }
+
+        return redirect()->route('trainers.posts');
+    }
+
+    public function updatePost(Request $request, $id)
+    {
+
+        // dd($request->all(), $id);
+        $post = Post::findOrFail($id);
+
+        // Actualizar título y contenido
+        $post->title = $request->title;
+        $post->content = $request->content;
+
+
+        if ($request->hasFile('image')) {
+            // Eliminar imagen anterior si existe
+            if ($post->image) {
+                $oldPath = public_path('images/posts/' . $post->image);
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
+            }
+
+            // Guardar nueva imagen
+            $img = $request->file('image');
+            $imgName = Str::slug($request->title) . '.' . $img->guessExtension();
+
+            $path = public_path('images/posts/');
+            $img->move($path, $imgName);
+
+            $post->image = $imgName;
+        }
+
+        $post->save();
 
         return redirect()->route('trainers.posts');
     }

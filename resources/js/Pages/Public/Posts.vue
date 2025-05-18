@@ -19,7 +19,7 @@
                     <div class="relative h-64 overflow-hidden">
                         <img
                             v-if="post.image"
-                            src="../../../../public/ownImages/comunidad.jpg"
+                            :src="'/images/posts/' + post.image"
                             :alt="post.title"
                             class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                             loading="lazy"
@@ -85,6 +85,7 @@ const batchSize = 8;
 const loadedItems = ref(batchSize);
 const loading = ref(false);
 const observerElement = ref(null);
+// const imgDefault = ref("../../../../public/ownImages/comunidad.jpg");
 
 // Posts visibles
 const visiblePosts = computed(() => {

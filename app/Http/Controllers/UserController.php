@@ -79,12 +79,16 @@ class UserController extends Controller
         // Obtener categorías excluyendo General
         $categories = Category::where('name', '!=', 'General')->get();
 
+        // Obtengo estado de la membresía
+        $hasMembership = $user->hasActiveMembership();
+
         return Inertia::render('User/UserIndex', [
             'user' => $user,
             'activities' => $activities,
             'popularAct' => $featuredActivities,
             'categories' => $categories,
-            'filters' => request()->only(['search', 'category'])
+            'filters' => request()->only(['search', 'category']),
+            'hasMembership' => $hasMembership,
         ]);
     }
 

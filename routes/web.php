@@ -89,6 +89,9 @@ Route::controller(UserController::class)->group(function () {
     // Reservas y pagos de las Actividades
     Route::get('user/activityShow/{id}', [ActivityController::class, 'showUserActivity'])->name('activities.showUserActivity');
 
+
+    /************************************** RESERVATIONS ************************************** */
+
     // Route::get('user/reserve/{id}', [ActivityController::class, 'reserveActivity'])->name('activities.reserve');
     // Route::post('/activities/{id}/pay', [ActivityController::class, 'payForActivity'])->name('activities.pay');
 
@@ -163,6 +166,8 @@ Route::controller(TrainerController::class)->group(function () {
 
     Route::delete('trainers/deletePost/{id}', [TrainerController::class, 'deletePost'])->name('trainers.deletePost');
 
+    Route::put('trainers/posts/{id}', [TrainerController::class, 'updatePost'])->name('trainers.updatePost');
+
     /************************************** MENSAJES ************************************** */
     Route::get('trainers/messages', [TrainerController::class, 'trainerMessagesView'])->name('trainers.messages');
 
@@ -226,6 +231,10 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('admin/editTrainer/{id}', [AdminController::class, 'editTrainerView'])->name('admin.editTrainer');
 
     Route::put('admin/updateTrainer/{id}', [AdminController::class, 'updateTrainer'])->name('admin.updateTrainer');
+
+    Route::get('admin/createTrainerView', [AdminController::class, 'createTrainerView'])->name('admin.createTrainerView');
+
+    Route::post('admin/createTrainer', [AdminController::class, 'createTrainer'])->name('admin.createTrainer');
 
     /************************************** GESTIÓN DE INFORMACIÓN(Mensajes) ************************************** */
 

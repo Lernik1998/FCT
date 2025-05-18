@@ -11,12 +11,12 @@
             class="mb-6 sm:mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
         >
             <div>
-                <!--  :href="route('admin.createTrainerView')" -->
-                <a
+                <Link
+                    :href="route('admin.createTrainerView')"
                     class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow transition duration-200 dark:bg-blue-700 dark:hover:bg-blue-800"
                 >
                     Crear Entrenador
-                </a>
+                </Link>
             </div>
 
             <!-- Búsqueda -->

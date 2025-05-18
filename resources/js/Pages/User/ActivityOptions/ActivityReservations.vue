@@ -4,8 +4,9 @@
     <!-- <pre>{{ hasMembership }}</pre> -->
 
     <!-- Contenido Principal -->
-    <main class="w-full min-h-screen mx-auto py-8 px-4 sm:px-6 dark:bg-gray-900 transition-colors duration-300">
-
+    <main
+        class="w-full min-h-screen mx-auto py-8 px-4 sm:px-6 dark:bg-gray-900 transition-colors duration-300"
+    >
         <!-- Encabezado -->
         <div
             class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8"
@@ -30,20 +31,20 @@
                         <!-- Selector de filtro -->
                         <div class="relative inline-block w-full md:w-64">
                             <select
+                                v-model="filter"
                                 class="appearance-none bg-white border border-gray-300 rounded-full px-5 py-3 pr-10 text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 w-full transition-all duration-200 hover:border-orange-400"
                             >
                                 <option class="text-gray-400" disabled selected>
                                     Filtrar por estado
                                 </option>
-                                <option class="text-gray-700">Todas</option>
-                                <option class="text-gray-700">
-                                    Confirmadas
+                                <option value="all" class="text-gray-700">
+                                    Todas
                                 </option>
-                                <option class="text-gray-700">
-                                    Pendientes
+                                <option value="upcoming" class="text-gray-700">
+                                    Próximas
                                 </option>
-                                <option class="text-gray-700">
-                                    Canceladas
+                                <option value="past" class="text-gray-700">
+                                    Disfrutadas
                                 </option>
                             </select>
                             <div
@@ -65,6 +66,7 @@
 
                         <!-- Botón adicional si necesitas -->
                         <button
+                            @click="filter = 'all'"
                             class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-3 rounded-full transition-colors duration-200 whitespace-nowrap"
                         >
                             Restaurar
@@ -128,7 +130,7 @@
                         class="bg-white divide-y divide-gray-200 dark:divide-gray-700"
                     >
                         <tr
-                            v-for="reservation in reservations"
+                            v-for="reservation in filteredReservations"
                             :key="reservation.id"
                             class="hover:bg-gray-50 transition-colors"
                         >
@@ -172,8 +174,17 @@
                             <!-- Hora -->
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-900">
-                                    {{ reservation.activity.start_time }} -
-                                    {{ reservation.activity.end_time }}
+                                    {{
+                                        formatTime(
+                                            reservation.activity.start_time
+                                        )
+                                    }}
+                                    -
+                                    {{
+                                        formatTime(
+                                            reservation.activity.end_time
+                                        )
+                                    }}
                                 </div>
                             </td>
 
@@ -181,7 +192,8 @@
                             <td
                                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium"
                             >
-                                {{ reservation.price }} €
+                                <span v-if="hasMembership">Miembro</span>
+                                <span v-else>{{ reservation.price }} €</span>
                             </td>
 
                             <!-- Acciones -->
@@ -190,7 +202,13 @@
                             >
                                 <button
                                     @click="deleteReservation(reservation.id)"
-                                    class="text-red-500 hover:text-red-700"
+                                    :disabled="reservation.is_past"
+                                    :class="{
+                                        'text-red-500 hover:text-red-700':
+                                            !reservation.is_past,
+                                        'text-gray-400 cursor-not-allowed':
+                                            reservation.is_past,
+                                    }"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -206,7 +224,11 @@
                                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                                         />
                                     </svg>
-                                    Cancelar
+                                    {{
+                                        reservation.is_past
+                                            ? "No cancelable"
+                                            : "Cancelar"
+                                    }}
                                 </button>
                             </td>
                         </tr>
@@ -217,14 +239,16 @@
             <!-- Versión Mobile -->
             <div class="md:hidden space-y-4 p-4">
                 <div
-                    v-for="reservation in reservations"
+                    v-for="reservation in filteredReservations"
                     :key="reservation.id"
                     class="bg-gray-50 rounded-lg p-4 shadow-sm"
                 >
                     <div class="flex justify-between items-start">
                         <div>
                             {{ reservation.name }}
-                            <h3 class="font-bold text-gray-800">{{ reservation.activity.name }}</h3>
+                            <h3 class="font-bold text-gray-800">
+                                {{ reservation.activity.name }}
+                            </h3>
                             <!-- <p class="text-sm text-gray-600">{{ reservation.activity.location }}</p> -->
                         </div>
                         <span
@@ -240,11 +264,19 @@
                     <div class="mt-3 grid grid-cols-2 gap-3">
                         <div>
                             <p class="text-xs text-gray-500">Fecha</p>
-                            <!-- <p class="text-sm font-medium">{{ formatDate(reservation.activity.date) }}</p> -->
+                            <p class="text-sm font-medium">
+                                {{ formatDate(reservation.activity.date) }}
+                            </p>
                         </div>
                         <div>
                             <p class="text-xs text-gray-500">Hora</p>
-                            <!-- <p class="text-sm font-medium">{{ reservation.activity.time }}</p> -->
+                            <p class="text-sm font-medium">
+                                {{
+                                    formatTime(reservation.activity.start_time)
+                                }}
+                                -
+                                {{ formatTime(reservation.activity.end_time) }}
+                            </p>
                         </div>
                         <div>
                             <p class="text-xs text-gray-500">Importe</p>
@@ -257,7 +289,14 @@
                     <div class="mt-4 flex space-x-3">
                         <button
                             @click="deleteReservation(reservation.id)"
-                            class="flex-1 border border-red-500 text-red-500 hover:bg-red-50 text-sm py-2 px-3 rounded-lg flex items-center justify-center"
+                            :disabled="reservation.is_past"
+                            :class="{
+                                'border border-red-500 text-red-500 hover:bg-red-50':
+                                    !reservation.is_past,
+                                'border border-gray-300 text-gray-400 cursor-not-allowed':
+                                    reservation.is_past,
+                            }"
+                            class="flex-1 text-sm py-2 px-3 rounded-lg flex items-center justify-center"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -273,14 +312,21 @@
                                     d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                                 />
                             </svg>
-                            Cancelar
+                            {{
+                                reservation.is_past
+                                    ? "No cancelable"
+                                    : "Cancelar"
+                            }}
                         </button>
                     </div>
                 </div>
             </div>
 
             <!-- Sin reservas -->
-            <div v-if="reservations.length === 0" class="text-center py-12">
+            <div
+                v-if="filteredReservations.length === 0"
+                class="text-center py-12"
+            >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-12 w-12 mx-auto text-gray-400"
@@ -301,28 +347,6 @@
                 <p class="mt-1 text-gray-500">
                     Cuando hagas una reserva, aparecerá aquí.
                 </p>
-                <!-- <div class="mt-6">
-                        <a
-                            href="#"
-                            class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="-ml-1 mr-2 h-5 w-5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                />
-                            </svg>
-                            Buscar actividades
-                        </a>
-                    </div> -->
             </div>
         </div>
     </main>
@@ -331,6 +355,7 @@
 <script setup>
 // Importaciones
 import { router } from "@inertiajs/vue3";
+import { computed, ref } from "vue";
 import UserLayout from "@/Layouts/UserLayout.vue";
 
 defineOptions({ layout: UserLayout });
@@ -338,12 +363,42 @@ defineOptions({ layout: UserLayout });
 // Props
 const props = defineProps(["reservations", "hasMembership"]);
 
+// Estado del filtro
+const filter = ref("all");
+
+// Reservas filtradas
+const filteredReservations = computed(() => {
+    if (filter.value === "all") {
+        return props.reservations;
+    } else if (filter.value === "upcoming") {
+        return props.reservations.filter((r) => !r.is_past);
+    } else if (filter.value === "past") {
+        return props.reservations.filter((r) => r.is_past);
+    }
+    return props.reservations;
+});
+
 // Formatear fecha
 const formatDate = (dateString) => {
     const options = { weekday: "short", day: "numeric", month: "short" };
     return new Date(dateString).toLocaleDateString("es-ES", options);
 };
 
+// Formatear hora (mostrar solo horas y minutos)
+// Formatear hora (mostrar horas y minutos con h y m)
+// Formatear hora (mostrar solo horas y minutos)
+const formatTime = (timeString) => {
+    if (!timeString) return ""; // Manejo de casos nulos
+
+    // Dividir la cadena de tiempo y tomar solo horas y minutos
+    const [hours, minutes] = timeString.split(":");
+
+    // Formatear como "HH:MM" (por ejemplo "09:30")
+    // return `${hours}:${minutes}`;
+
+    // O alternativamente como "9h 30m":
+    return `${hours}h ${minutes}m`;
+};
 // Clases para el estado
 const statusClasses = (status) => {
     return (
@@ -356,15 +411,18 @@ const statusClasses = (status) => {
 
 // Eliminar reserva
 const deleteReservation = (id) => {
+    const reservation = props.reservations.find((r) => r.id === id);
+    if (reservation && reservation.is_past) {
+        alert(
+            "No puedes cancelar una reserva de una actividad que ya ha pasado"
+        );
+        return;
+    }
+
     if (confirm("¿Estás seguro de que quieres cancelar esta reserva?")) {
         router.delete(route("userActivitiesReservations.destroy", id));
     }
 };
-
-// Mostrar pago
-// const showPayForReservation = (id) => {
-//     router.get(route("userActivitiesReservations.showPayForActivity", id));
-// };
 </script>
 
 <style scoped>
@@ -373,7 +431,6 @@ const deleteReservation = (id) => {
 }
 
 body {
-  @apply bg-white dark:bg-gray-900;
+    @apply bg-white dark:bg-gray-900;
 }
-
 </style>

@@ -30,15 +30,38 @@ class UserActivitiesReservationsController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // public function index()
+    // {
+
+    //     // Verifico si el usuario tiene membresía activa y lo almaceno en una varible
+    //     $hasMembership = auth()->user()->hasActiveMembership();
+
+    //     $reservations = UserActivitiesReservations::with('activity')
+    //         ->where('user_id', auth()->user()->id)
+    //         ->orderBy('activity_datetime', 'desc')
+    //         ->limit(10)
+    //         ->get();
+
+    //     // dd($hasMembership);
+
+    //     return inertia('User/ActivityOptions/ActivityReservations', compact('reservations', 'hasMembership'));
+    // }
+
     public function index()
     {
-
         // Verifico si el usuario tiene membresía activa y lo almaceno en una varible
         $hasMembership = auth()->user()->hasActiveMembership();
 
         $reservations = UserActivitiesReservations::with('activity')
             ->where('user_id', auth()->user()->id)
+            ->orderBy('activity_datetime', 'desc')
+            ->limit(10)
             ->get();
+
+        // Agregamos una propiedad computed a cada reserva para saber si es pasada
+        $reservations->each(function ($reservation) {
+            $reservation->is_past = now()->gt($reservation->activity_datetime);
+        });
 
         // dd($hasMembership);
 

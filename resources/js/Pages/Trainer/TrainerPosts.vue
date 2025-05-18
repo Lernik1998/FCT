@@ -67,12 +67,12 @@
                                 Contenido
                             </th>
                             <th
-                                class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                                class="px-4 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
                             >
                                 Fecha
                             </th>
                             <th
-                                class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                                class="px-4 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
                             >
                                 Acciones
                             </th>
@@ -102,13 +102,13 @@
                             </td>
                             <td class="px-4 py-4 whitespace-nowrap">
                                 <div
-                                    class="text-gray-600 dark:text-gray-300 text-sm"
+                                    class="text-gray-600 dark:text-gray-300 text-sm text-center"
                                 >
                                     {{ formatDate(post.created_at) }}
                                 </div>
                             </td>
                             <td class="px-4 py-4 whitespace-nowrap">
-                                <div class="flex space-x-2">
+                                <div class="flex space-x-2 justify-center">
                                     <button
                                         @click="visualizarPostDialog(post)"
                                         class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-200"
@@ -158,10 +158,30 @@
         </div>
 
         <!-- Gráfico -->
-        <div class="mt-8 flex justify-center">
+        <!-- <div class="mt-8 flex justify-center">
             <div class="w-full max-w-xs">
                 <canvas ref="graficoActividad" class="w-full h-auto"></canvas>
             </div>
+        </div> -->
+        <!-- Gráfico -->
+        <!-- Gráfico Mensual -->
+        <div
+            class="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow p-4 border border-gray-200 dark:border-gray-700"
+        >
+            <h2
+                class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4"
+            >
+                Actividad de Posts por Mes ({{ new Date().getFullYear() }})
+            </h2>
+            <div class="w-full h-64 md:h-80">
+                <canvas ref="graficoActividad" class="w-full h-full"></canvas>
+            </div>
+            <p
+                class="text-sm text-gray-500 dark:text-gray-400 mt-2 text-center"
+            >
+                Total anual:
+                {{ props.monthlyPosts.reduce((a, b) => a + b, 0) }} posts
+            </p>
         </div>
 
         <!-- Modal de formulario -->
@@ -374,6 +394,10 @@ const props = defineProps({
     posts: Array,
     filters: Object,
     totalPosts: Number,
+    monthlyPosts: {
+        type: Array,
+        default: () => Array(12).fill(0), // Por defecto array de 12 meses con 0 posts
+    },
 });
 
 const search = ref(props.filters.search || "");
@@ -399,37 +423,79 @@ const handleFileUpload = (event) => {
     formPost.value.image = event.target.files[0];
 };
 
-// Configuración del gráfico
 const actualizarGrafico = () => {
     if (chartInstance) {
         chartInstance.destroy();
     }
 
-    chartInstance = new Chart(graficoActividad.value, {
-        type: "doughnut",
+    const ctx = graficoActividad.value.getContext("2d");
+    const monthNames = [
+        "Ene",
+        "Feb",
+        "Mar",
+        "Abr",
+        "May",
+        "Jun",
+        "Jul",
+        "Ago",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dic",
+    ];
+
+    chartInstance = new Chart(ctx, {
+        type: "bar",
         data: {
-            labels: ["Total de Posts"],
+            labels: monthNames,
             datasets: [
                 {
-                    label: "Número de Posts",
-                    data: [props.totalPosts],
-                    backgroundColor: "rgba(75, 192, 192, 0.2)",
-                    borderColor: "rgba(75, 192, 192, 1)",
+                    label: "Posts por mes",
+                    data: props.monthlyPosts,
+                    backgroundColor: "rgba(234, 88, 12, 0.7)",
+                    borderColor: "rgba(234, 88, 12, 1)",
                     borderWidth: 1,
+                    borderRadius: 4,
+                    hoverBackgroundColor: "rgba(234, 88, 12, 0.9)",
                 },
             ],
         },
         options: {
             responsive: true,
-            cutoutPercentage: 50,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0,
+                        color: "#6B7280",
+                    },
+                    grid: {
+                        color: "rgba(209, 213, 219, 0.3)",
+                    },
+                },
+                x: {
+                    ticks: {
+                        color: "#6B7280",
+                    },
+                    grid: {
+                        display: false,
+                    },
+                },
+            },
             plugins: {
                 legend: {
                     display: false,
                 },
                 tooltip: {
                     callbacks: {
-                        label: (context) => {
-                            return `${context.label}: ${context.raw} posts`;
+                        label: function (context) {
+                            return `${context.raw} post${
+                                context.raw !== 1 ? "s" : ""
+                            }`;
+                        },
+                        title: function (context) {
+                            return monthNames[context[0].dataIndex];
                         },
                     },
                 },
@@ -437,7 +503,6 @@ const actualizarGrafico = () => {
         },
     });
 };
-
 // Formateo de fecha
 const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
@@ -513,13 +578,15 @@ const guardarPost = () => {
         formData.append("image", formPost.value.image);
     }
 
+    if (formPost.value.id) {
+        formData.append("_method", "PUT");
+    }
+
     const url = formPost.value.id
         ? route("trainers.updatePost", { id: formPost.value.id })
         : route("trainers.storePost");
 
-    const method = formPost.value.id ? "put" : "post";
-
-    router[method](url, formData, {
+    router.post(url, formData, {
         headers: {
             "Content-Type": "multipart/form-data",
         },
@@ -534,13 +601,6 @@ const guardarPost = () => {
         },
     });
 };
-
-// Lifecycle hooks
-onMounted(() => {
-    nextTick(() => {
-        actualizarGrafico();
-    });
-});
 
 // Watchers
 watch(
@@ -558,13 +618,17 @@ watch(
     }, 300)
 );
 
+// Asegúrate de llamar a actualizarGrafico() en onMounted y cuando se actualicen los props
+onMounted(() => {
+    actualizarGrafico();
+});
+
 watch(
-    () => props.posts,
+    () => props.monthlyPosts,
     () => {
-        nextTick(() => {
-            actualizarGrafico();
-        });
-    }
+        actualizarGrafico();
+    },
+    { deep: true }
 );
 </script>
 

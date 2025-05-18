@@ -1,4 +1,4 @@
-# Privacy Policy
+# Política de Privacidad
 
 Última actualización: [30 de mayo de 2025]
 
@@ -11,7 +11,7 @@
 
    Datos de Actividad: Horarios de entrenamiento, registros de sesiones, mensajes entre clientes y entrenadores, valoraciones.
 
-   Información de Pago: Procesada a través de proveedores seguros (ej. Stripe, PayPal).
+   Información de Pago: Procesada a través de proveedores seguros (Stripe, PayPal).
 
    b) Datos Recopilados Automáticamente:
    Datos de Uso: Dirección IP, tipo de dispositivo, interacciones en la app, ubicación (para funciones de geolocalización de sesiones).

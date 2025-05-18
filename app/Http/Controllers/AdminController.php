@@ -262,6 +262,54 @@ class AdminController extends Controller
         return inertia('Admin/TrainerOptions/TrainerShow', compact('trainer'));
     }
 
+
+    public function createTrainerView()
+    {
+        // Obtengo las categorías
+        $categories = Category::all();
+
+        return inertia('Admin/TrainerOptions/TrainerCreate', compact('categories'));
+    }
+
+    public function createTrainer(Request $request)
+    {
+        // dd($request->all());
+
+        // Crear el trainer
+        $trainer = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'category' => $request->category,
+            'description' => $request->description,
+            'role' => 'trainer',
+            'experience_time' => $request->experience_time,
+            'profile_photo_path' => $request->profile_image,
+        ]);
+
+
+        // Manejar la subida de imagen
+        if ($request->hasFile('profile_image')) {
+
+            // Obtengo la imagen y la almaceno
+            $image = $request->file('profile_image');
+
+            // Renombro la imagen
+            $imageName = Str::slug($request->name) . '.' . $image->guessExtension(); // Para que lo guarde con el nombre original y extension
+
+            // Guardo la imagen en la carpeta public/activities
+            $path = public_path('images/trainers/');
+            $image->move($path, $imageName);
+
+            // Actualizar la ruta de la imagen en la base de datos
+            $trainer->profile_photo_path = $imageName;
+            $trainer->save();
+        }
+
+        // Retornar un mensaje de exito
+        return redirect()->route('admin.trainerAdmin');
+    }
+
     // ACTIVITY
 
     public function activityAdmin()

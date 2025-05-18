@@ -32,7 +32,7 @@
                 <!-- Imagen destacada -->
                 <div class="relative h-64 sm:h-80 w-full overflow-hidden">
                     <img
-                        :src="image"
+                        :src="activity.image"
                         :alt="activity.name"
                         class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                     />
@@ -196,8 +196,8 @@
                             </h3>
                             <div class="flex items-center">
                                 <div class="flex space-x-1 dark:text-white">
-                                    {{ activity.start_time }} -
-                                    {{ activity.end_time }}
+                                    {{ formatTime(activity.start_time) }} -
+                                    {{ formatTime(activity.end_time) }}
                                 </div>
                             </div>
                         </div>
@@ -390,9 +390,6 @@ const props = defineProps({
     activity: Object,
 });
 
-// Imagen
-const image =
-    "/images/activities/" + props.activity.image || "/default-activity.jpg";
 
 // Función para formatear fecha y hora
 const formatDateTime = (dateString) => {
@@ -405,6 +402,12 @@ const formatDateTime = (dateString) => {
         minute: "2-digit",
     };
     return new Date(dateString).toLocaleDateString("es-ES", options);
+};
+
+// Formateo hora
+const formatTime = (timeString) => {
+    const [hours, minutes] = timeString.split(":").map(Number);
+    return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
 };
 
 // Asignar colores según estado

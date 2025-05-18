@@ -1,4 +1,4 @@
-# Terms of Service
+# Términos y Condiciones
 
 Última actualización: [30 de mayo de 2025]
 

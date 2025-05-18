@@ -4,16 +4,17 @@
     >
         <!-- Imagen del entrenador -->
         <div class="relative h-48 overflow-hidden">
-            <!-- <img
-                :src="trainer.image || defaultTrainerImage"
+            <img
+                :src="'/images/trainers/' + trainer.profile_photo_path"
                 :alt="`Foto de ${trainer.name}`"
                 class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-            /> -->
-            <!-- <span
-                class="absolute top-4 right-4 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md"
-            >
-                Entrenador
-            </span> -->
+            />
+
+            <!--    <img
+                        :src="'/images/posts/' + postSeleccionado.image"
+                        :alt="postSeleccionado.title"
+                        class="w-full h-auto rounded-lg"
+                    /> -->
         </div>
 
         <div class="p-6">
@@ -31,7 +32,7 @@
                 <span
                     class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-xs px-2 py-1 rounded"
                 >
-                    5+ años
+                    {{ trainer.experience_time }} años de experiencia
                 </span>
             </div>
 
