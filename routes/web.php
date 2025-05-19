@@ -79,201 +79,211 @@ Route::get('/language/{language}', function ($language) {
     return redirect()->back();
 })->name('language');
 
-// USER routes
-Route::controller(UserController::class)->group(function () {
-    Route::resource('users', UserController::class);
-    // Lo sustituyo por un inertia porque solo sirvo una vista, porque por ahora no uso para nada más el controlador
 
-    Route::get('user/stats', [UserController::class, 'stats'])->name('users.stats');
+Route::middleware(['auth', 'verified'])->group(function () {
 
-    // Reservas y pagos de las Actividades
-    Route::get('user/activityShow/{id}', [ActivityController::class, 'showUserActivity'])->name('activities.showUserActivity');
+    // USER routes
+    Route::controller(UserController::class)->group(function () {
+        Route::resource('users', UserController::class);
+        // Lo sustituyo por un inertia porque solo sirvo una vista, porque por ahora no uso para nada más el controlador
 
+        Route::get('user/stats', [UserController::class, 'stats'])->name('users.stats');
 
-    /************************************** RESERVATIONS ************************************** */
-
-    // Route::get('user/reserve/{id}', [ActivityController::class, 'reserveActivity'])->name('activities.reserve');
-    // Route::post('/activities/{id}/pay', [ActivityController::class, 'payForActivity'])->name('activities.pay');
-
-    // Reservas 
-    Route::resource('userActivitiesReservations', UserActivitiesReservationsController::class);
+        // Reservas y pagos de las Actividades
+        Route::get('user/activityShow/{id}', [ActivityController::class, 'showUserActivity'])->name('activities.showUserActivity');
 
 
-    /************************************** PAYMENT ************************************** */
+        /************************************** RESERVATIONS ************************************** */
 
-    // Previo al pago
-    // Route::get('userActivitiesReservations/{id}/pay', [UserActivitiesReservationsController::class, 'showPayForActivity'])->name('userActivitiesReservations.showPayForActivity');
+        // Route::get('user/reserve/{id}', [ActivityController::class, 'reserveActivity'])->name('activities.reserve');
+        // Route::post('/activities/{id}/pay', [ActivityController::class, 'payForActivity'])->name('activities.pay');
 
-    // Route::get('UAR/{id}/showPay', [UserActivitiesReservationsController::class, 'showPayForActivity'])->name('userActivitiesReservations.showPayForActivity');
-
-    // Gestión de pago
-    Route::post('UAR/{id}/pay', [UserActivitiesReservationsController::class, 'payForActivity'])->name('userActivitiesReservations.payForActivity');
-
-    // Reservas y pagos de las Actividades con el controlador de UserActivitiesReservations
-    Route::get('user/reserve/{id}', [UserActivitiesReservationsController::class, 'create'])->name('userActivitiesReservations.create');
-
-    // Gestión de pago
-    Route::post('UAR/{id}/payPaypal', [UserActivitiesReservationsController::class, 'payForActivityWithPaypal'])->name('userActivitiesReservations.payForActivityWithPaypal');
-
-    // FIXME:
-
-    Route::get('/payment/success/{activity}', [UserActivitiesReservationsController::class, 'paymentSuccess'])
-        ->name('payment.success');
-
-    /************************************** MEMBERSHIP ************************************** */
-
-    Route::resource('user/membership', MembershipController::class);
-
-    Route::post('stripe/cancel', [StripeController::class, 'cancelMembership'])->name('stripe.cancel');
+        // Reservas 
+        Route::resource('userActivitiesReservations', UserActivitiesReservationsController::class);
 
 
-    /************************************** TELEGRAM ************************************** */
+        /************************************** PAYMENT ************************************** */
 
-    // Telegram TODO:
-    Route::get('user/telegram', [UserActivitiesReservationsController::class, 'telegram'])->name('user.telegram');
+        // Previo al pago
+        // Route::get('userActivitiesReservations/{id}/pay', [UserActivitiesReservationsController::class, 'showPayForActivity'])->name('userActivitiesReservations.showPayForActivity');
+
+        // Route::get('UAR/{id}/showPay', [UserActivitiesReservationsController::class, 'showPayForActivity'])->name('userActivitiesReservations.showPayForActivity');
+
+        // Gestión de pago
+        Route::post('UAR/{id}/pay', [UserActivitiesReservationsController::class, 'payForActivity'])->name('userActivitiesReservations.payForActivity');
+
+        // Reservas y pagos de las Actividades con el controlador de UserActivitiesReservations
+        Route::get('user/reserve/{id}', [UserActivitiesReservationsController::class, 'create'])->name('userActivitiesReservations.create');
+
+        // Gestión de pago
+        Route::post('UAR/{id}/payPaypal', [UserActivitiesReservationsController::class, 'payForActivityWithPaypal'])->name('userActivitiesReservations.payForActivityWithPaypal');
+
+        // FIXME:
+
+        Route::get('/payment/success/{activity}', [UserActivitiesReservationsController::class, 'paymentSuccess'])
+            ->name('payment.success');
+
+        /************************************** MEMBERSHIP ************************************** */
+
+        Route::resource('user/membership', MembershipController::class);
+
+        Route::post('stripe/cancel', [StripeController::class, 'cancelMembership'])->name('stripe.cancel');
+
+
+        /************************************** TELEGRAM ************************************** */
+
+        // Telegram TODO:
+        Route::get('user/telegram', [UserActivitiesReservationsController::class, 'telegram'])->name('user.telegram');
+    });
+
 });
 
 
+Route::middleware(['auth', 'verified'])->group(function () {
 
-// TRAINERS routes
-Route::controller(TrainerController::class)->group(function () {
+    // TRAINERS routes
+    Route::controller(TrainerController::class)->group(function () {
 
-    /************************************** ACTIVIDADES ************************************** */
-    // Crear actividad vista
-    Route::get('trainers/createActivity', [TrainerController::class, 'createActivityView'])->name('trainers.createActivity');
+        /************************************** ACTIVIDADES ************************************** */
+        // Crear actividad vista
+        Route::get('trainers/createActivity', [TrainerController::class, 'createActivityView'])->name('trainers.createActivity');
 
-    Route::post('trainers/storeActivity', [TrainerController::class, 'storeActivity'])->name('trainers.storeActivity');
+        Route::post('trainers/storeActivity', [TrainerController::class, 'storeActivity'])->name('trainers.storeActivity');
 
-    /************************************** PAYMENTS ************************************** */
+        /************************************** PAYMENTS ************************************** */
 
-    Route::get('trainers/payments', [TrainerController::class, 'reservations'])->name('trainers.reservations');
+        Route::get('trainers/payments', [TrainerController::class, 'reservations'])->name('trainers.reservations');
 
-    /************************************** PLANES PERSONALIZADOS ************************************** */
+        /************************************** PLANES PERSONALIZADOS ************************************** */
 
-    Route::get('trainers/personalizedTraining', [TrainerController::class, 'personalizedTraining'])->name('trainers.pp');
+        Route::get('trainers/personalizedTraining', [TrainerController::class, 'personalizedTraining'])->name('trainers.pp');
 
-    // Creación de un plan personalizado por el trainer
-    Route::get('trainers/createPlan', [TrainerController::class, 'createPersonalizedTraining'])->name('trainers.createPlan');
+        // Creación de un plan personalizado por el trainer
+        Route::get('trainers/createPlan', [TrainerController::class, 'createPersonalizedTraining'])->name('trainers.createPlan');
 
-    // Crear un plan personalizado PUBLICO
-    Route::post('trainers/storePlan', [TrainerController::class, 'storePlan'])->name('trainers.storePlan');
+        // Crear un plan personalizado PUBLICO
+        Route::post('trainers/storePlan', [TrainerController::class, 'storePlan'])->name('trainers.storePlan');
 
-    /************************************** POSTS ************************************** */
+        /************************************** POSTS ************************************** */
 
-    Route::get('trainers/posts', [TrainerController::class, 'trainerPostsView'])->name('trainers.posts');
+        Route::get('trainers/posts', [TrainerController::class, 'trainerPostsView'])->name('trainers.posts');
 
-    Route::post('trainers/storePost', [TrainerController::class, 'storePost'])->name('trainers.storePost');
+        Route::post('trainers/storePost', [TrainerController::class, 'storePost'])->name('trainers.storePost');
 
-    Route::delete('trainers/deletePost/{id}', [TrainerController::class, 'deletePost'])->name('trainers.deletePost');
+        Route::delete('trainers/deletePost/{id}', [TrainerController::class, 'deletePost'])->name('trainers.deletePost');
 
-    Route::put('trainers/posts/{id}', [TrainerController::class, 'updatePost'])->name('trainers.updatePost');
+        Route::put('trainers/posts/{id}', [TrainerController::class, 'updatePost'])->name('trainers.updatePost');
 
-    /************************************** MENSAJES ************************************** */
-    Route::get('trainers/messages', [TrainerController::class, 'trainerMessagesView'])->name('trainers.messages');
+        /************************************** MENSAJES ************************************** */
+        Route::get('trainers/messages', [TrainerController::class, 'trainerMessagesView'])->name('trainers.messages');
 
-    Route::post('admin/sendReplyUnregisteredUser', [AdminController::class, 'sendReplyUnregisteredUser'])->name('admin.sendReplyUnregisteredUser');
+        Route::post('admin/sendReplyUnregisteredUser', [AdminController::class, 'sendReplyUnregisteredUser'])->name('admin.sendReplyUnregisteredUser');
 
-    Route::post('admin/markAsAssigned', [AdminController::class, 'markAsAssigned'])->name('admin.markAsAssigned');
+        Route::post('admin/markAsAssigned', [AdminController::class, 'markAsAssigned'])->name('admin.markAsAssigned');
 
-    Route::get('trainers/trainerView', [TrainerController::class, 'trainerView'])->name('trainers.trainerView');
+        Route::get('trainers/trainerView', [TrainerController::class, 'trainerView'])->name('trainers.trainerView');
 
-    Route::resource('trainers', TrainerController::class);
+        Route::resource('trainers', TrainerController::class);
+    });
+
 });
 
+Route::middleware(['auth', 'verified'])->group(function () {
+
+    Route::controller(AdminController::class)->group(function () {
+
+        /************************************** ACTIVIDADES ************************************** */
+        Route::get('admin/activityAdmin', [AdminController::class, 'activityAdmin'])->name('admin.activityAdmin');
+
+        Route::get('admin/createActivityView', [AdminController::class, 'createActivityView'])->name('admin.createActivityView');
+
+        Route::post('admin/createActivity', [AdminController::class, 'storeActivity'])->name('admin.storeActivity');
+
+        Route::get('admin/activityShow/{id}', [AdminController::class, 'showActivity'])->name('admin.activityShow');
+
+        Route::get('admin/editActivity/{id}', [AdminController::class, 'editActivityView'])->name('admin.activityEdit');
+
+        // Route::put('admin/updateActivity/{id}', [AdminController::class, 'updateActivity'])->name('admin.updateActivity');
+
+        Route::delete('admin/deleteActivity/{id}', [AdminController::class, 'destroyActivity'])->name('admin.activityDestroy');
+
+        /************************************** GESTIÓN DE USUARIOS ************************************** */
+
+        // Eliminar user
+        Route::delete('admin/destroyUser/{id}', [AdminController::class, 'destroyUser'])->name('admin.destroyUser');
+
+        // Mostrar user
+        Route::get('admin/userShow/{id}', [AdminController::class, 'showUser'])->name('admin.userShow');
+
+        // Mostrar todos los user al Admin
+        Route::get('admin/userAdmin', [AdminController::class, 'userAdmin'])->name('admin.userAdmin');
+
+        // Acceso a la vista de crear un usuario
+        Route::get('admin/createUserView', [AdminController::class, 'createUserView'])->name('admin.createUserView');
+
+        // Crear user
+        Route::post('admin/createUser', [AdminController::class, 'createUser'])->name('admin.createUser');
+
+        // Editar user vista con el formulario
+        Route::get('admin/editUser/{id}', [AdminController::class, 'editUserView'])->name('admin.editUser');
+
+        // Actualizar user
+        Route::put('admin//trainers/createActivity/{id}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
+
+        /************************************** GESTIÓN DE ENTRENADORES ************************************** */
+        Route::get('admin/trainerAdmin', [AdminController::class, 'trainerAdmin'])->name('admin.trainerAdmin');
+
+        Route::get('admin/trainerShow/{id}', [AdminController::class, 'trainerShow'])->name('admin.trainerShow');
+
+        Route::get('admin/editTrainer/{id}', [AdminController::class, 'editTrainerView'])->name('admin.editTrainer');
+
+        Route::put('admin/updateTrainer/{id}', [AdminController::class, 'updateTrainer'])->name('admin.updateTrainer');
+
+        Route::get('admin/createTrainerView', [AdminController::class, 'createTrainerView'])->name('admin.createTrainerView');
+
+        Route::post('admin/createTrainer', [AdminController::class, 'createTrainer'])->name('admin.createTrainer');
+
+        /************************************** GESTIÓN DE INFORMACIÓN(Mensajes) ************************************** */
+
+        // Mensajes con los trainers
+        Route::get('admin/messageAdmin', [AdminController::class, 'adminMessagesView'])->name('admin.messageAdmin');
+
+        Route::get('admin/informationAdmin', [AdminController::class, 'informationAdmin'])->name('admin.informationAdmin');
 
 
+        // Contact
+        // Route::get('admin/contactAdmin', [AdminController::class, 'contactAdmin'])->name('admin.contactAdmin');
 
-Route::controller(AdminController::class)->group(function () {
+        // Route::post('admin/contactAdmin', [AdminController::class, 'contactAdmin'])->name('admin.contactAdmin');
 
-    /************************************** ACTIVIDADES ************************************** */
-    Route::get('admin/activityAdmin', [AdminController::class, 'activityAdmin'])->name('admin.activityAdmin');
+        /************************************** GESTIÓN DE SUSCRIPTIONS ************************************** */
+        Route::get('admin/subscriptionAdmin', [AdminController::class, 'subscriptionAdmin'])->name('admin.subscriptionAdmin');
 
-    Route::get('admin/createActivityView', [AdminController::class, 'createActivityView'])->name('admin.createActivityView');
+        Route::get('admin/createMembershipView', [AdminController::class, 'createMembershipView'])->name('admin.createMembershipView');
 
-    Route::post('admin/createActivity', [AdminController::class, 'storeActivity'])->name('admin.storeActivity');
+        Route::post('admin/createMembership', [AdminController::class, 'storeMembership'])->name('admin.storeMembership');
 
-    Route::get('admin/activityShow/{id}', [AdminController::class, 'showActivity'])->name('admin.activityShow');
+        Route::delete('admin/deleteMembership/{id}', [AdminController::class, 'destroyMembership'])->name('admin.destroyMembership');
 
-    Route::get('admin/editActivity/{id}', [AdminController::class, 'editActivityView'])->name('admin.activityEdit');
+        Route::get('admin/membershipReservations', [AdminController::class, 'getMemberships'])->name('admin.membershipReservations');
 
-    // Route::put('admin/updateActivity/{id}', [AdminController::class, 'updateActivity'])->name('admin.updateActivity');
+        Route::get('admin/paymentOptions/{name}', [AdminController::class, 'paymentOptions'])->name('admin.paymentOptions');
 
-    Route::delete('admin/deleteActivity/{id}', [AdminController::class, 'destroyActivity'])->name('admin.activityDestroy');
+        Route::post('admin/cancelSubscription/{name}', [AdminController::class, 'cancelSubscription'])->name('admin.cancelSubscription');
 
-    /************************************** GESTIÓN DE USUARIOS ************************************** */
+        Route::post('admin/reactivateSubscription/{name}', [AdminController::class, 'reactivateSubscription'])->name('admin.reactivateSubscription');
 
-    // Eliminar user
-    Route::delete('admin/destroyUser/{id}', [AdminController::class, 'destroyUser'])->name('admin.destroyUser');
-
-    // Mostrar user
-    Route::get('admin/userShow/{id}', [AdminController::class, 'showUser'])->name('admin.userShow');
-
-    // Mostrar todos los user al Admin
-    Route::get('admin/userAdmin', [AdminController::class, 'userAdmin'])->name('admin.userAdmin');
-
-    // Acceso a la vista de crear un usuario
-    Route::get('admin/createUserView', [AdminController::class, 'createUserView'])->name('admin.createUserView');
-
-    // Crear user
-    Route::post('admin/createUser', [AdminController::class, 'createUser'])->name('admin.createUser');
-
-    // Editar user vista con el formulario
-    Route::get('admin/editUser/{id}', [AdminController::class, 'editUserView'])->name('admin.editUser');
-
-    // Actualizar user
-    Route::put('admin//trainers/createActivity/{id}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
-
-    /************************************** GESTIÓN DE ENTRENADORES ************************************** */
-    Route::get('admin/trainerAdmin', [AdminController::class, 'trainerAdmin'])->name('admin.trainerAdmin');
-
-    Route::get('admin/trainerShow/{id}', [AdminController::class, 'trainerShow'])->name('admin.trainerShow');
-
-    Route::get('admin/editTrainer/{id}', [AdminController::class, 'editTrainerView'])->name('admin.editTrainer');
-
-    Route::put('admin/updateTrainer/{id}', [AdminController::class, 'updateTrainer'])->name('admin.updateTrainer');
-
-    Route::get('admin/createTrainerView', [AdminController::class, 'createTrainerView'])->name('admin.createTrainerView');
-
-    Route::post('admin/createTrainer', [AdminController::class, 'createTrainer'])->name('admin.createTrainer');
-
-    /************************************** GESTIÓN DE INFORMACIÓN(Mensajes) ************************************** */
-
-    // Mensajes con los trainers
-    Route::get('admin/messageAdmin', [AdminController::class, 'adminMessagesView'])->name('admin.messageAdmin');
-
-    Route::get('admin/informationAdmin', [AdminController::class, 'informationAdmin'])->name('admin.informationAdmin');
+        /************************************** GESTIÓN DE TRANSACTIONS ************************************** */
+        Route::get('transactions', [AdminController::class, 'administrationAdmin'])->name('admin.transactions');
+        Route::post('transactions', [AdminController::class, 'storeTransaction'])->name('admin.transactions.store');
+        Route::get('transactions/export', [AdminController::class, 'exportToCsv'])->name('admin.transactions.export');
 
 
-    // Contact
-    // Route::get('admin/contactAdmin', [AdminController::class, 'contactAdmin'])->name('admin.contactAdmin');
+        Route::resource('admin', AdminController::class); // Siempre al final
+    });
 
-    // Route::post('admin/contactAdmin', [AdminController::class, 'contactAdmin'])->name('admin.contactAdmin');
-
-    /************************************** GESTIÓN DE SUSCRIPTIONS ************************************** */
-    Route::get('admin/subscriptionAdmin', [AdminController::class, 'subscriptionAdmin'])->name('admin.subscriptionAdmin');
-
-    Route::get('admin/createMembershipView', [AdminController::class, 'createMembershipView'])->name('admin.createMembershipView');
-
-    Route::post('admin/createMembership', [AdminController::class, 'storeMembership'])->name('admin.storeMembership');
-
-    Route::delete('admin/deleteMembership/{id}', [AdminController::class, 'destroyMembership'])->name('admin.destroyMembership');
-
-    Route::get('admin/membershipReservations', [AdminController::class, 'getMemberships'])->name('admin.membershipReservations');
-
-    Route::get('admin/paymentOptions/{name}', [AdminController::class, 'paymentOptions'])->name('admin.paymentOptions');
-
-    Route::post('admin/cancelSubscription/{name}', [AdminController::class, 'cancelSubscription'])->name('admin.cancelSubscription');
-
-    Route::post('admin/reactivateSubscription/{name}', [AdminController::class, 'reactivateSubscription'])->name('admin.reactivateSubscription');
-
-    /************************************** GESTIÓN DE TRANSACTIONS ************************************** */
-    Route::get('transactions', [AdminController::class, 'administrationAdmin'])->name('admin.transactions');
-    Route::post('transactions', [AdminController::class, 'storeTransaction'])->name('admin.transactions.store');
-    Route::get('transactions/export', [AdminController::class, 'exportToCsv'])->name('admin.transactions.export');
-
-
-    Route::resource('admin', AdminController::class); // Siempre al final
 });
+
 
 
 // Google
