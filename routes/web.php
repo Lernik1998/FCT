@@ -61,7 +61,7 @@ Route::middleware(TranslationsMiddleware::class)->group(function () {
 // Route::inertia('publicTrainers', 'Public/Trainer')->name('trainers.public');
     Route::inertia('/contact', 'Public/Contact')->name('contact');
 
-    Route::get('trainers', [TrainerController::class, 'index'])->name('trainers.index');
+    // Route::get('trainers', [TrainerController::class, 'index'])->name('trainers.index');
 
     Route::resource('activities', ActivityController::class);
     Route::resource('posts', PostController::class);
@@ -183,10 +183,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('trainers/trainerView', [TrainerController::class, 'trainerView'])->name('trainers.trainerView');
 
-        Route::resource('trainers', TrainerController::class);
+     
     });
 
 });
+
+Route::resource('trainers', TrainerController::class);
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
