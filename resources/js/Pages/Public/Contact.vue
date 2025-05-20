@@ -2,10 +2,20 @@
     <!-- Success message -->
     <section class="p-4 md:p-8 md:ml-0 lg:ml-32">
         <div
-            v-if="message"
+            v-if="message === true"
             class="p-4 mb-4 rounded-lg bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-600 text-green-700 dark:text-green-100"
         >
-            {{ message }}
+            Mensaje enviado, le responderemos lo antes posible
+        </div>
+    </section>
+
+    <!-- Error message -->
+    <section class="p-4 md:p-8 md:ml-0 lg:ml-32">
+        <div
+            v-if="message === false"
+            class="p-4 mb-4 rounded-lg bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-100"
+        >
+            Error en el envío del mensaje, intentelo de nuevo más tarde!
         </div>
     </section>
 
@@ -142,6 +152,9 @@ import NavBar from "../Public/Components/NavBar.vue";
 import ConfirmationModal from "@/Components/ConfirmationModal.vue";
 import OutTeam from "./Components/OurTeam.vue";
 
+// Recibo el mensaje de exito o error
+const props = defineProps(["message"]);
+
 // Variables
 const form = ref({
     name: "",
@@ -169,9 +182,6 @@ const submitForm = () => {
         message: "",
     };
 };
-
-// Recibo el mensaje de exito o error
-const props = defineProps(["message"]);
 </script>
 
 <style scoped>

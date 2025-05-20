@@ -6,13 +6,15 @@
                 @click="() => router.visit(route('activities.index'))"
                 class="px-4 py-2 rounded-md text-base md:text-lg font-medium shadow hover:bg-gray-700 transition dark:bg-orange-500 dark:text-white"
             >
-                ← Volver
+                Volver
             </button>
         </div>
 
         <!-- Título -->
         <div class="text-center">
-            <h1 class="text-3xl md:text-5xl font-bold text-gray-800 mb-4 dark:text-white">
+            <h1
+                class="text-3xl md:text-5xl font-bold text-gray-800 mb-4 dark:text-white"
+            >
                 {{ activity.name }}
             </h1>
         </div>
@@ -29,14 +31,16 @@
             </div> -->
 
             <!-- Imagen -->
-<div class="w-full h-64 sm:h-80 md:h-[350px] lg:h-[300px] overflow-hidden">
-    <img
-        :src="activity.image"
-        alt="Imagen de la actividad"
-        class="w-full h-full object-cover"
-    />
-</div>
-
+            <div
+                class="w-full h- sm:h-80 md:h-[350px] lg:h-[700px] overflow-hidden"
+            >
+                <img
+                    :src="activity.image"
+                    alt="Imagen de la actividad"
+                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                />
+            </div>
 
             <!-- Contenido -->
             <div class="p-4 md:p-6 space-y-6">

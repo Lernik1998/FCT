@@ -458,11 +458,11 @@ class AdminController extends Controller
     public function unregisteredUserMessage(Request $request)
     {
         // Variable de mensaje 
-        $message = '';
+        $message = true;
         try {
             // Inserto datos en la BD
             ContactMessage::create($request->all());
-            $message = 'Mensaje enviado, le responderemos lo antes posible';
+            $message = true;
 
 
             // Envio correo
@@ -470,7 +470,7 @@ class AdminController extends Controller
 
 
         } catch (\Throwable $th) {
-            $message = 'Error en el envío del mensaje, intentelo de nuevo más tarde!';
+            $message = false;
         }
 
         // Devuelvo a la vista publica un mensaje de exito

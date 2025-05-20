@@ -17,4 +17,9 @@ class PostController extends Controller
 
         return inertia('Public/Posts', compact('posts'));
     }
+
+    public function show(Post $post)
+    {
+        return inertia('Public/Post/PostDetails', compact('post'));
+    }
 }

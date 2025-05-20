@@ -15,6 +15,7 @@
                     v-for="(post, index) in visiblePosts"
                     :key="`post-${index}-${post.id}`"
                     class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                    @click="router.visit(route('posts.show', post.id))"
                 >
                     <div class="relative h-64 overflow-hidden">
                         <img
@@ -71,6 +72,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import NavBar from "./Components/NavBar.vue";
+import { router } from "@inertiajs/vue3";
 
 const props = defineProps({
     posts: {
