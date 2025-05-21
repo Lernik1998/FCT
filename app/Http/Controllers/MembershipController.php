@@ -12,6 +12,7 @@ class MembershipController extends Controller
      */
     public function index()
     {
+        // Stripe
         $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
 
         // Obtener productos activos

@@ -8,14 +8,11 @@ use App\Models\User; // Modelo User
 use App\Models\Activity; // Modelo Activity
 use App\Models\Category; // Modelo Category
 use App\Models\ContactMessage; // Modelo ContactMessage
-use App\Models\Message; // Modelo Message
 use App\Models\Transaction; // Modelo Transaction
 
 use Illuminate\Support\Str; // Modelo Str para renombrar la imagen
 use Inertia\Inertia; // Facade para Inertia
 use Illuminate\Support\Facades\Auth; // Facade para autenticación
-use Illuminate\Support\Facades\Mail;
-use App\Mail\RequestReceived;
 use App\Jobs\SendContactEmail;
 
 // Stripe
@@ -23,6 +20,7 @@ use App\Jobs\SendContactEmail;
 use App\Models\Plan;
 use Stripe\Price;
 use Stripe\Stripe;
+use Stripe\Product;
 
 class AdminController extends Controller
 {
@@ -642,7 +640,7 @@ class AdminController extends Controller
 
     public function storeMembership(Request $request)
     {
-        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+        Stripe::setApiKey(config('services.stripe.secret'));
 
         $amount = $request->price * 100;
 
@@ -658,12 +656,12 @@ class AdminController extends Controller
 
         try {
             // Crear producto
-            $product = \Stripe\Product::create([
+            $product = Product::create([
                 'name' => $request->name,
             ]);
 
             // Crear precio
-            $price = \Stripe\Price::create([
+            $price = Price::create([
                 'unit_amount' => $amount,
                 'currency' => 'eur',
                 'recurring' => ['interval' => $interval],
@@ -691,15 +689,15 @@ class AdminController extends Controller
         $plan = Plan::findOrFail($id);
 
         try {
-            \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+            Stripe::setApiKey(env('STRIPE_SECRET'));
 
             // Desactivar el precio en Stripe
-            \Stripe\Price::update($plan->stripe_price_id, [
+            Price::update($plan->stripe_price_id, [
                 'active' => false,
             ]);
 
             // Archivar el producto en Stripe
-            \Stripe\Product::update($plan->stripe_plan_id, [
+            Product::update($plan->stripe_plan_id, [
                 'active' => false,
             ]);
 
@@ -783,7 +781,6 @@ class AdminController extends Controller
 
     // ADMINISTRACIÓN
 
-    // Mostrar todas las transacciones
     // Mostrar todas las transacciones
     public function administrationAdmin()
     {
