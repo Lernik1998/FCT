@@ -129,7 +129,7 @@
     </section>
 
     <!-- Confirmation Modal -->
-    <ConfirmationModal
+    <!-- <ConfirmationModal
         :show="confirModal"
         @close="confirModal = false"
         :max-width="'2xl'"
@@ -137,7 +137,7 @@
         :title="'Mensaje enviado con éxito'"
         :content="'El mensaje ha sido enviado correctamente'"
         :footer="'Haga click fuera de la casilla para cerrar'"
-    />
+    /> -->
     <!-- Footer -->
     <OutTeam />
 </template>
