@@ -128,6 +128,8 @@
                             Progreso
                         </Link>
                     </li>
+                    <!-- 
+                    Futura implementación
                     <li>
                         <Link
                             href="#"
@@ -140,7 +142,7 @@
                         >
                             Mensajes X
                         </Link>
-                    </li>
+                    </li> -->
                     <li>
                         <Link
                             :href="route('membership.index')"

@@ -230,7 +230,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('admin/editUser/{id}', [AdminController::class, 'editUserView'])->name('admin.editUser');
 
         // Actualizar user
-        Route::put('admin//trainers/createActivity/{id}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
+        Route::put('admin/trainers/createActivity/{id}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
 
         /************************************** GESTIÓN DE ENTRENADORES ************************************** */
         Route::get('admin/trainerAdmin', [AdminController::class, 'trainerAdmin'])->name('admin.trainerAdmin');

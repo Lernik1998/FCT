@@ -236,7 +236,7 @@
                                     <div
                                         class="text-gray-600 dark:text-gray-300"
                                     >
-                                        {{ activity.slots }} espacios
+                                        {{ activity.slots }} plazas
                                     </div>
                                 </td>
                                 <td
