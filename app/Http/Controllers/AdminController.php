@@ -466,8 +466,8 @@ class AdminController extends Controller
 
 
             // Envio correo
-            Mail::to($request->email)->send(new RequestReceived($request->name));
-
+            // Mail::to($request->email)->send(new RequestReceived($request->name));
+            SendContactEmail::dispatch($request->email, $request->name);
 
         } catch (\Throwable $th) {
             $message = false;
