@@ -16,6 +16,7 @@ use Inertia\Inertia; // Facade para Inertia
 use Illuminate\Support\Facades\Auth; // Facade para autenticación
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RequestReceived;
+use App\Jobs\SendContactEmail;
 
 // Stripe
 // use Stripe\Plan;
