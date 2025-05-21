@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             UserSeeder::class,
             ActivitySeeder::class,
-            // PostSeeder::class,
-            // PlanSeeder::class,
+                // PostSeeder::class,
+            PlanSeeder::class,
         ]);
     }
 }
