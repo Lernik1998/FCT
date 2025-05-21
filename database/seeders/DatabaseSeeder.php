@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ActivitySeeder::class,
             PostSeeder::class,
-            PlanSeeder::class,
+            // PlanSeeder::class,
         ]);
     }
 }

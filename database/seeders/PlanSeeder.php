@@ -13,6 +13,7 @@ class PlanSeeder extends Seeder
      */
     public function run(): void
     {
+        // Suscripciones de prueba en entorno local
         Plan::create([
             'name' => 'Básico',
             'stripe_plan_id' => 'prod_SEVTr9OGD0X6rA',
