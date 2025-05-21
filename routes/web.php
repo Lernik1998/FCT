@@ -19,15 +19,6 @@ use App\Http\Controllers\StripeController;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\ReservationPayment;
 
-/* Route::get('/', function () {
-return Inertia::render('Welcome', [
-    'canLogin' => Route::has('login'),
-    'canRegister' => Route::has('register'),
-    'laravelVersion' => Application::VERSION,
-    'phpVersion' => PHP_VERSION,
-]);*/
-
-
 
 Route::middleware([
     'auth:sanctum',
@@ -82,7 +73,7 @@ Route::get('/language/{language}', function ($language) {
 })->name('language');
 
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
 
     // USER routes
     Route::controller(UserController::class)->group(function () {
@@ -141,7 +132,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:trainer'])->group(function () {
 
     // TRAINERS routes
     Route::controller(TrainerController::class)->group(function () {
@@ -185,14 +176,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('trainers/trainerView', [TrainerController::class, 'trainerView'])->name('trainers.trainerView');
 
-     
+
     });
 
 });
 
 Route::resource('trainers', TrainerController::class);
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
     Route::controller(AdminController::class)->group(function () {
 

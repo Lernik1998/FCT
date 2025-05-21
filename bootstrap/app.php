@@ -17,11 +17,13 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
-            // \App\Http\Middleware\RoleMiddleware::class, // Middleware de roles, no empleado
-            \App\Http\Middleware\RoleUser::class,
-            \App\Http\Middleware\RoleAdmin::class,
-            \App\Http\Middleware\RoleTrainer::class,
         ]);
+
+        // Alias para el middleware de rol
+        $middleware->alias([
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
+        ]);
+
 
     })->withExceptions(function (Exceptions $exceptions) {
 
