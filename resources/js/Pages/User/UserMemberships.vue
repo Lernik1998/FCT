@@ -2,6 +2,7 @@
     <main class="p-6 min-h-screen dark:bg-gray-900">
         <section class="max-w-6xl mx-auto">
             <!-- Encabezado -->
+
             <!-- <pre>{{ current_membership }}</pre> -->
 
             <!-- Tarjetas de membresías -->
@@ -10,21 +11,16 @@
                     Planes disponibles
                 </h2>
 
-                <!-- Mensaje cuando no hay membresías -->
-                <div v-if="!memberships || memberships.length === 0" class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-6">
-                    <p class="text-gray-600 dark:text-gray-400">
-                        Actualmente no hay planes disponibles. Por favor, inténtalo más tarde.
-                    </p>
-                </div>
-
-                <div v-else class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                <div
+                    class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                >
                     <div
                         v-for="membership in memberships"
                         :key="membership.id"
                         class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
                         :class="{
                             'ring-2 ring-blue-500':
-                                current_membership && current_membership.name === membership.name,
+                                current_membership.name === membership.name,
                         }"
                     >
                         <div class="p-6">
@@ -40,7 +36,10 @@
                                         Popular
                                     </span>
                                     <span
-                                        v-if="current_membership && current_membership.name === membership.name"
+                                        v-if="
+                                            current_membership.name ===
+                                            membership.name
+                                        "
                                         class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium"
                                     >
                                         Actual
@@ -48,7 +47,7 @@
                                 </div>
                             </div>
                             <p class="text-gray-600 mt-2 dark:text-gray-400">
-                                {{ membership.description || 'Sin descripción' }}
+                                {{ membership.description }}
                             </p>
 
                             <div class="mt-6">
@@ -66,12 +65,16 @@
                             </div>
 
                             <a
-                                v-if="!current_membership || current_membership.name !== membership.name"
-                                :href="route('stripe.checkout', membership.name)"
+                                v-if="
+                                    current_membership.name !== membership.name
+                                "
+                                :href="
+                                    route('stripe.checkout', membership.name)
+                                "
                                 class="mt-6 block text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200"
                             >
                                 {{
-                                    current_membership && current_membership.name
+                                    current_membership.name
                                         ? "Cambiar plan"
                                         : "Suscribirse"
                                 }}
@@ -87,8 +90,9 @@
                 </div>
             </section>
 
-            <!-- Información adicional -->
-            <section class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+
+             <!-- Información adicional -->
+             <section class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
                 <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">
                     Detalles de tu membresía actual
                 </h2>
@@ -96,13 +100,13 @@
                     <div>
                         <p class="text-gray-500 dark:text-gray-400">Plan actual</p>
                         <p class="font-medium text-gray-800 dark:text-white">
-                            {{ current_membership?.name || "Ninguno" }}
+                            {{ current_membership.name || "Ninguno" }}
                         </p>
                     </div>
                     <div>
                         <p class="text-gray-500 dark:text-gray-400">Próxima renovación</p>
                         <p class="font-medium text-gray-800 dark:text-white">
-                            {{ current_membership?.next_payment || "No aplica" }}
+                            {{ current_membership.next_payment || "No aplica" }}
                         </p>
                     </div>
                     <div>
@@ -110,15 +114,15 @@
                         <p
                             class="font-medium"
                             :class="{
-                                'text-green-600 dark:text-green-400': current_membership?.status === 'Activo',
-                                'text-red-600 dark:text-red-400': current_membership?.status === 'Inactivo',
-                                'text-gray-600 dark:text-gray-300': !current_membership?.status,
+                                'text-green-600 dark:text-green-400': current_membership.status === 'Activo',
+                                'text-red-600 dark:text-red-400': current_membership.status === 'Inactivo',
+                                'text-gray-600 dark:text-gray-300': !current_membership.status,
                             }"
                         >
-                            {{ current_membership?.status || "No suscrito" }}
+                            {{ current_membership.status || "No suscrito" }}
                         </p>
                     </div>
-                    <div v-if="current_membership?.name">
+                    <div v-if="current_membership.name">
                         <p class="text-gray-500 dark:text-gray-400">Acciones</p>
                         <a
                             href="#"
@@ -134,7 +138,7 @@
     </main>
 
     <!-- Notificaciones -->
-    <div
+    <!-- <div
         v-if="showSuccess"
         class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg"
     >
@@ -145,24 +149,21 @@
         class="fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded shadow-lg"
     >
         {{ showError }}
-    </div>
+    </div> -->
 </template>
 
 <script setup>
 import UserLayout from "@/Layouts/UserLayout.vue";
 import { router } from "@inertiajs/vue3";
-import { usePage } from "@inertiajs/vue3";
-import { computed } from "vue";
+// import { usePage } from "@inertiajs/vue3";
+// import { computed } from "vue";
 
 defineOptions({
     layout: UserLayout,
 });
 
 defineProps({
-    memberships: {
-        type: Array,
-        default: () => []
-    },
+    memberships: Array,
     current_membership: {
         type: Object,
         default: () => ({
@@ -171,10 +172,6 @@ defineProps({
             status: null,
         }),
     },
-    error: {
-        type: String,
-        default: null
-    }
 });
 
 // Función para formatear el precio
@@ -188,7 +185,7 @@ const formatPrice = (amount, currency) => {
     return formatter.format(amount / 100);
 };
 
-const page = usePage();
+// const page = usePage();
 
 // Función para cancelar suscripción
 const cancelSubscription = () => {
@@ -198,23 +195,25 @@ const cancelSubscription = () => {
         )
     ) {
         router.post(
-            route("stripe.cancel"),
-            {},
-            {
-                onSuccess: () => {
-                    // Mostrar notificación de éxito
-                    page.props.flash.success = "Suscripción cancelada exitosamente";
-                },
-                onError: (errors) => {
-                    // Mostrar notificación de error
-                    page.props.flash.error = errors.message || "Error al cancelar la suscripción";
-                },
-            }
+            route("stripe.cancel")
+            // {},
+            // {
+            //     onSuccess: () => {
+            //         // Mostrar notificación de éxito
+            //         page.props.flash.success =
+            //             "Suscripción cancelada exitosamente";
+            //     },
+            //     onError: (errors) => {
+            //         // Mostrar notificación de error
+            //         page.props.flash.error =
+            //             errors.message || "Error al cancelar la suscripción";
+            //     },
+            // }
         );
     }
 };
 
-// Mostrar notificaciones
-const showSuccess = computed(() => page.props.flash.success);
-const showError = computed(() => page.props.flash.error || page.props.error);
+// // Mostrar notificaciones (puedes usar un sistema de notificaciones como Toast)
+// const showSuccess = computed(() => page.props.flash.success);
+// const showError = computed(() => page.props.flash.error);
 </script>

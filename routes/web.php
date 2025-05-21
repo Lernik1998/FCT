@@ -28,12 +28,6 @@ return Inertia::render('Welcome', [
 ]);*/
 
 
-// PAYMENTS
-Route::get('/checkout/{name}', [StripeController::class, 'checkout'])->name('stripe.checkout');
-
-Route::get('/success', [StripeController::class, 'success'])->name('stripe.success');
-Route::get('/cancel', [StripeController::class, 'cancel'])->name('stripe.cancel');
-
 
 Route::middleware([
     'auth:sanctum',
@@ -54,6 +48,14 @@ Route::middleware([
     })->name('dashboard');
 
 });
+
+
+// PAYMENTS
+Route::get('/checkout/{name}', [StripeController::class, 'checkout'])->name('stripe.checkout');
+
+Route::get('/success', [StripeController::class, 'success'])->name('stripe.success');
+Route::get('/cancel', [StripeController::class, 'cancel'])->name('stripe.cancel');
+
 
 Route::middleware(TranslationsMiddleware::class)->group(function () {
     // PUBLIC routes

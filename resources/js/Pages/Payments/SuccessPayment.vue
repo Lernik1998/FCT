@@ -1,26 +1,42 @@
 <template>
-    <div class="container mx-auto p-4">
-        <h1 class="text-3xl font-bold mb-4 dark:text-orange-600">
-            Pago realizado con éxito
-        </h1>
-        <p>
-            Tu pago ha sido procesado correctamente. Puedes imprimir o guardar
-            tu reserva en el siguiente enlace:
-        </p>
-        <!-- <a
-            :href="`/reservas/${reservation.id}/imprimir`"
-            target="_blank"
-            class="text-blue-500 hover:text-blue-700"
+    <div
+        class="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900 transition-colors duration-300"
+    >
+        <div
+            class="max-w-xl w-full mx-auto p-6 sm:p-8 bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg"
         >
-            Imprimir/Guardar
-        </a> -->
+            <h1
+                class="text-3xl sm:text-4xl font-bold text-center text-gray-800 dark:text-orange-500 mb-4"
+            >
+                Pago realizado con éxito
+            </h1>
+            <p class="text-center text-gray-600 dark:text-gray-300 mb-6">
+                Tu pago ha sido procesado correctamente. Puedes imprimir o
+                guardar tu reserva en el siguiente enlace:
+            </p>
 
-        <!-- Botoón volver a la página de inicio -->
-        <a
-            :href="route('users.index')"
-            class="inline-block bg-orange-500 text-white py-2 px-4 rounded mt-4"
-            >Volver a la página de inicio</a
-        >
+            <!-- Imprimir/Guardar enlace (comentado si aún no lo usas) -->
+            <!--
+            <div class="text-center mb-6">
+                <a
+                    :href="`/reservas/${reservation.id}/imprimir`"
+                    target="_blank"
+                    class="text-blue-600 dark:text-blue-400 hover:underline hover:text-blue-800 dark:hover:text-blue-300 transition"
+                >
+                    Imprimir/Guardar
+                </a>
+            </div>
+            -->
+
+            <div class="text-center">
+                <a
+                    :href="route('users.index')"
+                    class="inline-block px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-xl shadow-md transition duration-300 ease-in-out"
+                >
+                    Volver a la página de inicio
+                </a>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -35,8 +51,7 @@ import { ref, onMounted } from "vue";
 
 const reservation = ref(null);
 
-// const props = defineProps(['']);
-
+// Para activar si usas ID dinámico
 // onMounted(async () => {
 //     const response = await axios.get(`/api/reservations/${route.params.id}`);
 //     reservation.value = response.data.data;
