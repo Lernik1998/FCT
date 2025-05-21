@@ -41,7 +41,7 @@ class RequestReceived extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.Request',
+            view: 'emails.request',
             with: [
                 'name' => $this->name
             ]
