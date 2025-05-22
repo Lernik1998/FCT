@@ -387,9 +387,11 @@ class UserActivitiesReservationsController extends Controller
         //     ]);
         // }
 
-        $updates = Telegram::getUpdates();
+        return redirect()->away('https://t.me/+oRCyDr_AbqQwMDM0');
 
-        dd($updates);
+        // $updates = Telegram::getUpdates();
+
+        // dd($updates);
     }
 
     /**

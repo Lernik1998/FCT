@@ -7,6 +7,19 @@
             </h1>
         </div>
 
+        <!-- Redirección al grupo de Telegram - Estilo mejorado -->
+        <div class="max-w-6xl mx-auto mb-8">
+            <a 
+                :href="route('user.telegram')" 
+                class="flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                </svg>
+                <span class="text-sm sm:text-base">Únete a nuestro grupo de Telegram</span>
+            </a>
+        </div>
+
         <div class="max-w-6xl mx-auto space-y-8">
             <!-- Sección de título -->
             <div class="text-center mb-8 animate-fade-in">
