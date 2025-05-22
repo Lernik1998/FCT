@@ -10,3 +10,5 @@
     <p>Hola {{ $name }}, hemos recibido su solicitud correctamente.</p>
     <p>Si tienes alguna duda, responde a este correo o contacta con nuestro equipo de soporte.</p>
 </body>
+
+</html>
