@@ -72,7 +72,7 @@
                             >Inicio</Link
                         >
                     </li>
-                    <li>
+                    <li v-if="$page.props.auth.user.is_active === 1">
                         <Link
                             :href="route('trainers.reservations')"
                             class="hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
@@ -84,7 +84,7 @@
                             >Reservas</Link
                         >
                     </li>
-                    <li>
+                    <li v-if="$page.props.auth.user.is_active === 1">
                         <Link
                             :href="route('trainers.messages')"
                             class="hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
@@ -96,7 +96,7 @@
                             >Mensajes</Link
                         >
                     </li>
-                    <li>
+                    <li v-if="$page.props.auth.user.is_active === 1">
                         <Link
                             :href="route('trainers.pp')"
                             class="hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
@@ -107,7 +107,7 @@
                             >Actividades</Link
                         >
                     </li>
-                    <li>
+                    <li v-if="$page.props.auth.user.is_active === 1">
                         <Link
                             :href="route('trainers.posts')"
                             class="hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"

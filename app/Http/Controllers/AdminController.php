@@ -153,16 +153,22 @@ class AdminController extends Controller
         return inertia('Admin/UserOptions/UserShow', compact('user'));
     }
 
+
     public function destroyUser(string $id)
     {
         //Obtengo el user con el id
         $user = User::findOrFail($id);
 
-        //Elimino el user
-        $user->delete();
-
-        //Retornar un mensaje de exito
-        return redirect()->route('admin.userAdmin')->with('success', 'Usuario eliminado correctamente');
+        // Si el usuario es user redirección a admin.userAdmin
+        if ($user->role == 'user') {
+            //Elimino el user
+            $user->delete();
+            return redirect()->route('admin.userAdmin')->with('success', 'Usuario eliminado correctamente');
+        } else {
+            //Elimino el trainer
+            $user->delete();
+            return redirect()->route('admin.trainerAdmin')->with('success', 'Entrenador eliminado correctamente');
+        }
     }
 
     // TRAINER
@@ -211,7 +217,7 @@ class AdminController extends Controller
         $trainer = User::findOrFail($id);
 
         // Obtengo las categorías
-        $categories = Category::all();
+        $categories = Category::where('name', '!=', 'General')->get();
 
         // return inertia('Admin/UserOptions/UserEdit', compact('user'));
         return inertia('Admin/TrainerOptions/TrainerEditForm', compact('trainer', 'categories'));
@@ -220,7 +226,7 @@ class AdminController extends Controller
 
     public function updateTrainer(Request $request, string $id)
     {
-        // dd(Request::all());
+        // dd($request->all());
 
         //Obtengo el trainer con el id
         $trainer = User::findOrFail($id);
@@ -254,6 +260,20 @@ class AdminController extends Controller
             $data['google_calendar_id'] = $categoryCalendar[$data['category']];
         }
 
+        $trainer->description = $request->description;
+        $trainer->experience_time = $request->experience_time;
+
+
+        if ($request->hasFile('image')) {
+            $img = $request->file('image');
+            $imgName = Str::slug($request->name) . '.' . $img->guessExtension();
+
+            $path = public_path('images/trainers/');
+            $img->move($path, $imgName);
+
+            $trainer->image = $imgName;
+        }
+
         //Actualizo el trainer
         $trainer->update($data);
 
@@ -265,7 +285,7 @@ class AdminController extends Controller
     public function createTrainerView()
     {
         // Obtengo las categorías
-        $categories = Category::all();
+        $categories = Category::where('name', '!=', 'General')->get();
 
         return inertia('Admin/TrainerOptions/TrainerCreate', compact('categories'));
     }
@@ -283,15 +303,15 @@ class AdminController extends Controller
             'description' => $request->description,
             'role' => 'trainer',
             'experience_time' => $request->experience_time,
-            'profile_photo_path' => $request->profile_image,
+            'image' => $request->image,
         ]);
 
 
         // Manejar la subida de imagen
-        if ($request->hasFile('profile_image')) {
+        if ($request->hasFile('image')) {
 
             // Obtengo la imagen y la almaceno
-            $image = $request->file('profile_image');
+            $image = $request->file('image');
 
             // Renombro la imagen
             $imageName = Str::slug($request->name) . '.' . $image->guessExtension(); // Para que lo guarde con el nombre original y extension
@@ -301,7 +321,7 @@ class AdminController extends Controller
             $image->move($path, $imageName);
 
             // Actualizar la ruta de la imagen en la base de datos
-            $trainer->profile_photo_path = $imageName;
+            $trainer->image = $imageName;
             $trainer->save();
         }
 

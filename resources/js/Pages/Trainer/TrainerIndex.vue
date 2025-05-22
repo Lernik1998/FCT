@@ -44,11 +44,9 @@
                             </p>
                         </div>
                     </div>
-                    <button
-                        class="text-sm bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 transition-colors"
-                    >
-                        Gestionar cuenta
-                    </button>
+                   <p class="text-sm font-medium text-gray-600 dark:text-gray-400" v-if="trainer.category">
+                       Categoría: <span class="font-semibold text-gray-700 dark:text-orange-600">{{ trainer.category }}</span>
+                   </p>
                 </div>
             </div>
 
@@ -82,7 +80,7 @@
                             <h3
                                 class="font-medium text-red-800 dark:text-red-200"
                             >
-                                Entrenador Suspendido
+                                Entrenador suspendido
                             </h3>
                             <p class="text-sm text-red-600 dark:text-red-400">
                                 Tu acceso al sistema está restringido
@@ -135,11 +133,15 @@
                         contacta con el administrador para resolver este tema.
                     </p>
                 </div>
+                <div>
+                <button @click="requestCategory()" class="bg-orange-500 hover:bg-orange-600 text-white rounded">Solicitar categoría</button>
+                </div>
             </div>
         </section>
 
         <!-- Calendario de actividades -->
         <section
+            v-if="$page.props.auth.user.is_active === 1"
             class="mb-10 bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden"
         >
             <div class="p-6 border-b border-gray-200 dark:border-gray-700">
@@ -384,6 +386,10 @@ function closeEventModal() {
 
 function requestActivation() {
     alert("Solicitando activación");
+}
+
+function requestCategory() {
+    alert("Solicitando categoría");
 }
 
 onMounted(() => {

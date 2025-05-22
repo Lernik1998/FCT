@@ -73,7 +73,6 @@ class UserActivitiesReservationsController extends Controller
     */
     public function create($id)
     {
-
         // Obtengo la actividad con el id
         $act = Activity::findOrFail($id);
         $user = auth()->user();

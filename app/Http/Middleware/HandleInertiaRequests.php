@@ -39,7 +39,7 @@ class HandleInertiaRequests extends Middleware
 
             // Auth
             'auth.user' => fn() => $request->user()
-                ? $request->user()->only('id', 'name', 'role')
+                ? $request->user()->only('id', 'name', 'role','is_active')
                 : null,
 
             // También añadimos mensajes flash FIXME:

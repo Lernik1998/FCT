@@ -41,6 +41,7 @@
             </p>
 
             <button
+             @click="router.visit(route('login'))"
                 class="flex items-center mx-auto text-orange-500 font-medium hover:text-orange-600 transition-colors"
             >
                 Registrate y empieza a cambiar
@@ -60,9 +61,6 @@
 </template>
 
 <script setup>
-// Componente informativo con CTA opcional para ampliar contenido
-</script>
+import { router } from "@inertiajs/vue3";
 
-<style scoped>
-/* Puedes personalizar estilos si lo integras en un layout global */
-</style>
+</script>

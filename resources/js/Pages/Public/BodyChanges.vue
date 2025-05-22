@@ -23,6 +23,7 @@
         </p>
   
         <button
+         @click="router.visit(route('login'))"
           class="flex items-center mx-auto text-orange-500 font-medium hover:text-orange-600 transition-colors"
         >
           Registrate y empieza a cambiar
@@ -42,10 +43,6 @@
   </template>
   
   <script setup>
-  // Componente estático, preparado para añadir dinámicas si se requiere
+  import { router } from "@inertiajs/vue3";
+
   </script>
-  
-  <style scoped>
-  /* Personaliza estilos si necesitas ajustes visuales */
-  </style>
-  

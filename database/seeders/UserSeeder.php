@@ -15,12 +15,12 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // Seeder de Usuarios iniciales, uno de cada tipo
-        User::create([
-            'name' => 'Lernik',
-            'email' => 'lernik10@gmail.com',
-            'password' => bcrypt('1234'),
-            'role' => 'trainer',
-        ]);
+        // User::create([
+        //     'name' => 'Lernik',
+        //     'email' => 'lernik10@gmail.com',
+        //     'password' => bcrypt('1234'),
+        //     'role' => 'trainer',
+        // ]);
 
         User::create([
             'name' => 'admin',
@@ -43,56 +43,56 @@ class UserSeeder extends Seeder
             'role' => 'trainer',
         ]);
 
-        User::create([
-            'name' => 'trainer',
-            'email' => 't2@gmail.com',
-            'password' => bcrypt('1234'),
-            'role' => 'trainer',
-        ]);
+        // User::create([
+        //     'name' => 'trainer',
+        //     'email' => 't2@gmail.com',
+        //     'password' => bcrypt('1234'),
+        //     'role' => 'trainer',
+        // ]);
 
-        User::create([
-            'name' => 'trainer',
-            'email' => 't3@gmail.com',
-            'password' => bcrypt('1234'),
-            'role' => 'trainer',
-        ]);
+        // User::create([
+        //     'name' => 'trainer',
+        //     'email' => 't3@gmail.com',
+        //     'password' => bcrypt('1234'),
+        //     'role' => 'trainer',
+        // ]);
 
-        User::create([
-            'name' => 'trainer',
-            'email' => 't4@gmail.com',
-            'password' => bcrypt('1234'),
-            'role' => 'trainer',
-        ]);
+        // User::create([
+        //     'name' => 'trainer',
+        //     'email' => 't4@gmail.com',
+        //     'password' => bcrypt('1234'),
+        //     'role' => 'trainer',
+        // ]);
 
         // 100 usuarios
-        User::factory(100)->create([
+        User::factory(1)->create([
             'role' => 'user',
         ]);
 
         // Entrenadores
-        User::factory(1)->create([
-            'role' => 'trainer',
-            'category' => 'Resistencia y cardio',
-        ]);
-        User::factory(1)->create([
-            'role' => 'trainer',
-            'category' => 'Baile',
-        ]);
-        User::factory(1)->create([
-            'role' => 'trainer',
-            'category' => 'Flexibilidad y cuerpo-mente',
-        ]);
-        User::factory(1)->create([
-            'role' => 'trainer',
-            'category' => 'Fuerza y acondicionamiento',
-        ]);
-        User::factory(1)->create([
-            'role' => 'trainer',
-            'category' => 'Rehabilitación o movimiento suave',
-        ]);
-        User::factory(1)->create([
-            'role' => 'trainer',
-            'category' => 'General',
-        ]);
+        // User::factory(1)->create([
+        //     'role' => 'trainer',
+        //     'category' => 'Resistencia y cardio',
+        // ]);
+        // User::factory(1)->create([
+        //     'role' => 'trainer',
+        //     'category' => 'Baile',
+        // ]);
+        // User::factory(1)->create([
+        //     'role' => 'trainer',
+        //     'category' => 'Flexibilidad y cuerpo-mente',
+        // ]);
+        // User::factory(1)->create([
+        //     'role' => 'trainer',
+        //     'category' => 'Fuerza y acondicionamiento',
+        // ]);
+        // User::factory(1)->create([
+        //     'role' => 'trainer',
+        //     'category' => 'Rehabilitación o movimiento suave',
+        // ]);
+        // User::factory(1)->create([
+        //     'role' => 'trainer',
+        //     'category' => 'General',
+        // ]);
     }
 }

@@ -30,7 +30,8 @@
             </p>
 
             <button
-                class="flex items-center mx-auto text-orange-500 font-medium hover:text-orange-600 transition-colors"
+            @click="router.visit(route('login'))"
+            class="flex items-center mx-auto text-orange-500 font-medium hover:text-orange-600 transition-colors"
             >
                 Registrate y empieza a cambiar
                 <svg
@@ -47,3 +48,7 @@
         </div>
     </section>
 </template>
+
+<script setup>
+import { router } from "@inertiajs/vue3";
+</script>

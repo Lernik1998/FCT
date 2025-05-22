@@ -1,16 +1,17 @@
 <template>
+
     <div
         class="bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
     >
         <!-- Imagen del entrenador -->
         <div class="relative h-48 overflow-hidden">
             <img
-                :src="'/images/trainers/' + trainer.profile_photo_path"
+                :src="'/images/trainers/' + trainer.image"
                 :alt="`Foto de ${trainer.name}`"
                 class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
             />
 
-            <!--    <img
+               <!-- <img
                         :src="'/images/posts/' + postSeleccionado.image"
                         :alt="postSeleccionado.title"
                         class="w-full h-auto rounded-lg"
@@ -29,10 +30,14 @@
                         Entrenador certificado
                     </p>
                 </div>
-                <span
+                <span v-if="trainer.experience_time"
                     class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-xs px-2 py-1 rounded"
                 >
-                    {{ trainer.experience_time }} años de experiencia
+                    {{
+                        trainer.experience_time === 1
+                            ? `${trainer.experience_time} año`
+                            : `${trainer.experience_time} años`
+                    }} de experiencia
                 </span>
             </div>
 

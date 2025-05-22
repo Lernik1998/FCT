@@ -142,7 +142,7 @@
                     />
                 </div>
 
-                <!-- Tiempo expèriencia -->
+                <!-- Tiempo experiencia -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label
@@ -186,7 +186,7 @@ const props = defineProps({
 });
 
 const handleFileUpload = (event) => {
-    trainer.value.profile_image = event.target.files[0];
+    trainer.value.image = event.target.files[0];
 };
 
 // Estado del entrenador
@@ -197,7 +197,7 @@ const trainer = ref({
     password_confirmation: "",
     category: "",
     description: "",
-    profile_image: "",
+    image: "",
     experience_time: "",
 });
 

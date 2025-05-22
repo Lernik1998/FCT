@@ -26,20 +26,12 @@ class TrainerController extends Controller
         $user = auth()->user();
 
         // Obtengo todos los entrenadores
-        $trainers = User::where('role', 'trainer')->get()->select(['id', 'name', 'category', 'experience_time', 'description', 'profile_photo_path']);
+        $trainers = User::where('role', 'trainer')
+            ->where('is_active', 1)
+            ->get()->select(['id', 'name', 'category', 'experience_time', 'description', 'image']);
 
-        // Dependiendo del rol del usuario, se redirige a una pagina diferente
-        // switch ($user->role) {
-        //     case 'trainer':
-        //         return redirect()->route('trainers.index');
-        //     case 'admin':
-        //         return redirect()->route('admin.index');
-        //     case 'user':
-        //         return redirect()->route('users.index');
 
-        //     default:
         return inertia('Public/Trainer', ['trainers' => $trainers]);
-        // }
     }
 
 
@@ -152,6 +144,7 @@ class TrainerController extends Controller
             ->when($request->search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('name', 'like', '%' . $search . '%')
+                    ->where('status', '!=', 'inactive')
                         ->orWhere('description', 'like', '%' . $search . '%');
                 });
             })

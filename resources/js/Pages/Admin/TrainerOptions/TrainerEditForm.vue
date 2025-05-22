@@ -1,4 +1,5 @@
 <template>
+
     <!-- Botón volver -->
     <section class="max-w-4xl mx-auto mt-4 sm:mt-6 px-4 sm:px-0">
         <button
@@ -50,20 +51,20 @@
                 <p
                     class="text-lg sm:text-xl font-semibold text-gray-700 dark:text-gray-200 text-center"
                 >
-                    {{ name }}
+                    {{ form.name }}
                 </p>
                 <span
                     class="mt-2 inline-block px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm font-medium"
                     :class="{
                         'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300':
-                            role === 'admin',
+                            form.role === 'admin',
                         'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300':
-                            role === 'trainer',
+                            form.role === 'trainer',
                         'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300':
-                            role === 'user',
+                            form.role === 'user',
                     }"
                 >
-                    {{ role.charAt(0).toUpperCase() + role.slice(1) }}
+                    {{ form.role.charAt(0).toUpperCase() + form.role.slice(1) }}
                 </span>
             </div>
 
@@ -78,6 +79,7 @@
                 <form
                     @submit.prevent="editarEntrenador"
                     class="space-y-3 sm:space-y-4"
+                    enctype="multipart/form-data"
                 >
                     <!-- Nombre -->
                     <div>
@@ -89,7 +91,7 @@
                         <input
                             type="text"
                             id="name"
-                            v-model="name"
+                            v-model="form.name"
                             class="mt-1 block w-full px-3 py-2 sm:px-4 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-md sm:rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 transition"
                         />
                     </div>
@@ -104,7 +106,7 @@
                         <input
                             type="email"
                             id="email"
-                            v-model="email"
+                            v-model="form.email"
                             class="mt-1 block w-full px-3 py-2 sm:px-4 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-md sm:rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 transition"
                         />
                     </div>
@@ -118,7 +120,7 @@
                         >
                         <select
                             id="role"
-                            v-model="role"
+                            v-model="form.role"
                             class="mt-1 block w-full px-3 py-2 sm:px-4 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-md sm:rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 transition"
                         >
                             <option value="user">Usuario</option>
@@ -136,7 +138,7 @@
                         >
                         <select
                             id="categories"
-                            v-model="category"
+                            v-model="form.category"
                             class="mt-1 block w-full px-3 py-2 sm:px-4 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-md sm:rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 transition"
                         >
                             <option value="">Selecciona una categoría</option>
@@ -161,14 +163,14 @@
                             <span
                                 class="mr-2 text-sm font-medium text-gray-600 dark:text-gray-300"
                             >
-                                {{ is_active ? "Activo" : "Inactivo" }}
+                                {{ form.is_active ? "Activo" : "Inactivo" }}
                             </span>
                             <label
                                 class="relative inline-flex items-center cursor-pointer"
                             >
                                 <input
                                     type="checkbox"
-                                    v-model="is_active"
+                                    v-model="form.is_active"
                                     :true-value="1"
                                     :false-value="0"
                                     class="sr-only peer"
@@ -178,6 +180,53 @@
                                 ></div>
                             </label>
                         </div>
+                    </div>
+
+                    <!-- Imagen -->
+                    <div>
+                        <label
+                            for="image"
+                            class="block text-sm font-medium text-gray-600 dark:text-gray-400"
+                            >Imagen</label
+                        >
+                        <input
+                            type="file"
+                            accept="image/*"
+                            id="image"
+                            @change="onImageChange"
+                            class="mt-1 block w-full px-3 py-2 sm:px-4 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-md sm:rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 transition"
+                        />
+                    </div>
+
+                    <!-- Descripción -->
+                    <div>
+                        <label
+                            for="description"
+                            class="block text-sm font-medium text-gray-600 dark:text-gray-400"
+                            >Descripción</label
+                        >
+                        <textarea
+                            id="description"
+                            v-model="form.description"
+                            rows="4"
+                            class="mt-1 block w-full px-3 py-2 sm:px-4 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-md sm:rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 transition"
+                        ></textarea>
+                    </div>
+
+                    <!-- Tiempo de experiencia -->
+                    <div>
+                        <label
+                            for="experience_time"
+                            class="block text-sm font-medium text-gray-600 dark:text-gray-400"
+                            >Tiempo de experiencia</label
+                        >
+                        <input
+                            min="0"
+                            type="number"
+                            id="experience_time"
+                            v-model="form.experience_time"
+                            class="mt-1 block w-full px-3 py-2 sm:px-4 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-md sm:rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 transition"
+                        />
                     </div>
 
                     <!-- Acciones -->
@@ -218,40 +267,57 @@ const props = defineProps({
     categories: Array,
 });
 
-const name = ref(props.trainer.name);
-const email = ref(props.trainer.email);
-const role = ref(props.trainer.role);
-const category = ref(props.trainer.category || "");
-const is_active = ref(props.trainer.is_active);
-const categories = ref(props.categories);
 
-onMounted(() => {
-    if (!category.value && categories.value.length > 0) {
-        category.value = categories.value[0].name;
-    }
+const form = ref({
+    name: props.trainer.name,
+    email: props.trainer.email,
+    role: props.trainer.role,
+    category: props.trainer.category || "",
+    is_active: props.trainer.is_active,
+    image: props.trainer.image,
+    description: props.trainer.description,
+    experience_time: props.trainer.experience_time,
 });
 
 const editarEntrenador = () => {
-    if (
-        name.value === props.trainer.name &&
-        email.value === props.trainer.email &&
-        role.value === props.trainer.role &&
-        category.value === props.trainer.category &&
-        is_active.value === props.trainer.is_active
-    ) {
-        return alert("No se ha hecho ninguna modificación");
-    }
-
     if (confirm("¿Seguro que deseas editar este usuario?")) {
-        const isActiveValue = is_active.value ? 1 : 0;
+        const formData = new FormData();
+        
+        formData.append('name', form.value.name);
+        formData.append('email', form.value.email);
+        formData.append('role', form.value.role);
+        formData.append('category', form.value.category);
+        formData.append('is_active', form.value.is_active ? 1 : 0);
+        formData.append('description', form.value.description);
+        formData.append('experience_time', form.value.experience_time);
+        
+        if (form.value.image instanceof File) {
+            formData.append('image', form.value.image);
+        } else if (form.value.image === null) {
+            formData.append('remove_image', 'true');
+        }
 
-        router.put(route("admin.updateTrainer", props.trainer.id), {
-            name: name.value,
-            email: email.value,
-            role: role.value,
-            category: category.value,
-            is_active: isActiveValue,
+        // Usar router.post con _method PUT para soportar archivos
+        router.post(route('admin.updateTrainer', props.trainer.id), {
+            _method: 'PUT',
+            ...Object.fromEntries(formData)
+        }, {
+            onSuccess: () => {
+                // Manejar éxito
+            },
+            onError: (errors) => {
+                alert('Error al actualizar: ' + Object.values(errors).join('\n'));
+            }
         });
     }
 };
+const onImageChange = (event) => {
+    form.value.image = event.target.files[0];
+};
+
+onMounted(() => {
+    if (!form.value.category && categories.value.length > 0) {
+        form.value.category = categories.value[0].name;
+    }
+});
 </script>

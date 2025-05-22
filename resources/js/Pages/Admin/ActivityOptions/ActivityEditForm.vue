@@ -1,117 +1,174 @@
 <template>
-    <section class="min-h-screen bg-gray-100 py-12 px-6 flex justify-center">
+    <section
+        class="min-h-screen bg-gray-100 dark:bg-gray-900 py-6 sm:py-12 px-4 sm:px-6 flex justify-center transition-colors duration-300"
+    >
         <div
-            class="max-w-3xl w-full bg-white shadow-lg rounded-lg p-6 animate-fade-in"
+            class="max-w-3xl w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4 sm:p-8 animate-fade-in transition-colors duration-300"
         >
             <!-- Título -->
-            <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">
+            <h1
+                class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white text-center mb-4 sm:mb-6"
+            >
                 Editar Actividad
             </h1>
 
             <!-- Formulario -->
             <form
                 @submit.prevent="updateActivity"
-                class="space-y-4"
+                class="space-y-4 sm:space-y-6"
                 enctype="multipart/form-data"
             >
                 <!-- Nombre -->
                 <div>
-                    <label class="block text-gray-700 font-semibold"
-                        >Nombre de la actividad</label
+                    <label
+                        class="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300"
                     >
+                        Nombre de la actividad
+                    </label>
                     <input
                         type="text"
                         v-model="activity.name"
-                        class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
+                        class="w-full mt-1 p-2 sm:p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition"
                         required
                     />
                 </div>
 
                 <!-- Descripción -->
                 <div>
-                    <label class="block text-gray-700 font-semibold"
-                        >Descripción</label
+                    <label
+                        class="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300"
                     >
+                        Descripción
+                    </label>
                     <textarea
                         v-model="activity.description"
-                        class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
-                        rows="3"
+                        class="w-full mt-1 p-2 sm:p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition"
+                        rows="4"
                         required
                     ></textarea>
                 </div>
 
                 <!-- Imagen Actual -->
                 <div v-if="activity.image">
-                    <label class="block text-gray-700 font-semibold"
-                        >Imagen Actual</label
+                    <label
+                        class="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2"
                     >
-                    <img
-                        :src="image"
-                        alt="Imagen actual"
-                        class="w-full h-auto"
-                    />
+                        Imagen Actual
+                    </label>
+                    <div
+                        class="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700"
+                    >
+                        <img
+                            :src="image"
+                            alt="Imagen actual"
+                            class="w-full h-auto max-h-64 object-contain"
+                        />
+                    </div>
                 </div>
 
                 <!-- Nueva Imagen -->
                 <div>
-                    <label class="block text-gray-700 font-semibold"
-                        >Nueva Imagen (Opcional)</label
+                    <label
+                        class="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300"
                     >
+                        Nueva Imagen (Opcional)
+                    </label>
                     <input
                         type="file"
                         @change="handleFileUpload"
                         accept="image/*"
-                        class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
+                        class="w-full mt-1 p-2 sm:p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 bg-white dark:bg-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-gray-600 dark:file:text-gray-100 dark:hover:file:bg-gray-500 transition"
                     />
                 </div>
 
-                <!-- Precio -->
-                <div>
-                    <label class="block text-gray-700 font-semibold"
-                        >Precio</label
-                    >
-                    <input
-                        type="number"
-                        v-model="activity.price"
-                        class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
-                        required
-                    />
+                <!-- Grid para Precio-->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                    <!-- Precio -->
+                    <div>
+                        <label
+                            class="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300"
+                        >
+                            Precio
+                        </label>
+                        <div class="relative mt-1 rounded-md shadow-sm">
+                            <div
+                                class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
+                            >
+                                <span
+                                    class="text-gray-500 dark:text-gray-400 sm:text-sm"
+                                    >€</span
+                                >
+                            </div>
+                            <input
+                                type="number"
+                                v-model="activity.price"
+                                min="0"
+                                step="0.01"
+                                class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 py-2 sm:py-3 pl-7 pr-12 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition"
+                                placeholder="0.00"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Fecha -->
+                    <div>
+                        <label
+                            class="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300"
+                        >
+                            Fecha
+                        </label>
+                        <input
+                            type="date"
+                            v-model="activity.date"
+                            class="w-full mt-1 p-2 sm:p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition"
+                            required
+                        />
+                    </div>
                 </div>
 
-                <!-- Duración -->
-                <div>
-                    <label class="block text-gray-700 font-semibold"
-                        >Duración</label
-                    >
-                    <input
-                        type="text"
-                        v-model="activity.duration"
-                        class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
-                        required
-                    />
-                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                    <!-- Horario inicio-->
+                    <div>
+                        <label
+                            class="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300"
+                        >
+                            Horario inicio
+                        </label>
+                        <input
+                            type="time"
+                            v-model="activity.start_time"
+                            class="w-full mt-1 p-2 sm:p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition"
+                            required
+                        />
+                    </div>
 
-                <!-- Fecha -->
-                <div>
-                    <label class="block text-gray-700 font-semibold"
-                        >Fecha</label
-                    >
-                    <input
-                        type="date"
-                        v-model="activity.date"
-                        class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
-                        required
-                    />
+                    <!-- Horario fin-->
+                    <div>
+                        <label
+                            class="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300"
+                        >
+                            Horario fin
+                        </label>
+                        <input
+                            type="time"
+                            v-model="activity.end_time"
+                            class="w-full mt-1 p-2 sm:p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition"
+                            required
+                        />
+                    </div>
                 </div>
 
                 <!-- Estado -->
                 <div>
-                    <label class="block text-gray-700 font-semibold"
-                        >Estado</label
+                    <label
+                        class="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300"
                     >
+                        Estado
+                    </label>
                     <select
                         v-model="activity.status"
-                        class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
+                        class="w-full mt-1 p-2 sm:p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition"
                         required
                     >
                         <option value="active">Activo</option>
@@ -120,22 +177,52 @@
                     </select>
                 </div>
 
+                <!-- Capacidad -->
+                <div>
+                    <label
+                        class="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300"
+                    >
+                        Capacidad
+                    </label>
+                    <input
+                    min="1"
+                        type="number"
+                        v-model="activity.capacity"
+                        class="w-full mt-1 p-2 sm:p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition"
+                        required
+                    />
+                </div>
+
                 <!-- Botón -->
                 <button
                     type="submit"
-                    class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
+                    class="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white py-2 sm:py-3 px-4 rounded-lg font-medium transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
                 >
                     Actualizar Actividad
                 </button>
             </form>
 
             <!-- Mensaje de éxito -->
-            <p
+            <div
                 v-if="successMessage"
-                class="mt-4 text-green-600 font-semibold text-center"
+                class="mt-4 p-4 bg-green-100 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg text-green-700 dark:text-green-300 text-center transition-all duration-300"
             >
-                ¡Actividad actualizada exitosamente! 🎉
-            </p>
+                <p class="font-semibold flex items-center justify-center">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 mr-2"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"
+                        />
+                    </svg>
+                    {{ successMessage }}
+                </p>
+            </div>
         </div>
     </section>
 </template>

@@ -1,7 +1,4 @@
 <template>
-    <pre v-if="false">{{ trainer }}</pre>
-    <!-- Oculto en producción -->
-
     <section
         class="min-h-screen py-8 md:py-12 px-4 sm:px-6 lg:px-8 dark:bg-gray-900 transition-colors duration-300"
     >
@@ -94,7 +91,38 @@
                                 }}
                             </span>
                         </div>
+
+<!-- Descripción -->
+                    <div>
+                        <p
+                            class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium"
+                        >
+                            Descripción
+                        </p>
+                        <p
+                            class="text-base sm:text-lg text-gray-800 dark:text-gray-100 font-semibold mt-1 break-all"
+                        >
+                            {{ trainer.description === null || trainer.description === "" ? "Sin descripción" : trainer.description }}
+                        </p>
                     </div>
+
+
+<!-- Tiempo experiencia -->
+                    <div>
+                        <p
+                            class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium"
+                        >
+                            Tiempo experiencia
+                        </p>
+                        <p
+                            class="text-base sm:text-lg text-gray-800 dark:text-gray-100 font-semibold mt-1 break-all"
+                        >
+                            {{ trainer.experience_time }}
+                        </p>
+                    </div>
+
+                    </div>
+
                 </div>
 
                 <!-- Actions -->

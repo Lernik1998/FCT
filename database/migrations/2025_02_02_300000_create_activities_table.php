@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->enum('status', ['pending', 'active', 'inactive'])->default('pending'); // El admin lo activa
             $table->date('date'); // Podría moverse a otra tabla si hay más fechas por actividad
             $table->integer('slots')->nullable();
+            $table->integer('capacity')->nullable();
             // Relación actividad - usuario(Instructor)
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
 
