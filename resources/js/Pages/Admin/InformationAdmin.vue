@@ -1,4 +1,6 @@
 <template>
+    <pre>{{ categories }}</pre>
+
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
         <!-- Head -->
         <Head :title="'Panel de Administración'" />
@@ -7,14 +9,23 @@
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <!-- Encabezado -->
             <div class="mb-8">
-                <h1 class="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-orange-600 mb-2">
+                <h1
+                    class="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-orange-600 mb-2"
+                >
                     Gestión de solicitudes
                 </h1>
-                <h2 class="text-lg sm:text-xl font-medium text-gray-600 dark:text-gray-300">Asigna un entrenador o responde directamente</h2>
+                <h2
+                    class="text-lg sm:text-xl font-medium text-gray-600 dark:text-gray-300"
+                >
+                    Asigne un entrenador o responda directamente
+                </h2>
             </div>
 
             <!-- Mensaje de estado -->
-            <div v-if="messageStatus" class="mb-6 p-4 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-lg border border-green-200 dark:border-green-800">
+            <div
+                v-if="messageStatus"
+                class="mb-6 p-4 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-lg border border-green-200 dark:border-green-800"
+            >
                 {{ messageStatus }}
             </div>
 
@@ -48,16 +59,21 @@
                 >
                     <div class="space-y-2 mb-4">
                         <p class="text-gray-800 dark:text-gray-200">
-                            <span class="font-semibold">De:</span> {{ message.name || "Anónimo" }}
+                            <span class="font-semibold">De:</span>
+                            {{ message.name || "Anónimo" }}
                         </p>
                         <p class="text-gray-700 dark:text-gray-300">
-                            <span class="font-semibold">Mensaje:</span> {{ message.message }}
+                            <span class="font-semibold">Mensaje:</span>
+                            {{ message.message }}
                         </p>
                     </div>
 
                     <!-- Asignar entrenador -->
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Asignar a:</label>
+                        <label
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                            >Asignar a:</label
+                        >
                         <select
                             v-model="message.assignedTrainer"
                             class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
@@ -110,12 +126,75 @@
             </div>
 
             <!-- Estado vacío -->
-            <div v-else class="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 sm:h-12 w-10 sm:w-12 mx-auto text-gray-400 dark:text-gray-500 mb-3 sm:mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            <div
+                v-else
+                class="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 text-center"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-10 sm:h-12 w-10 sm:w-12 mx-auto text-gray-400 dark:text-gray-500 mb-3 sm:mb-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
                 </svg>
-                <p class="text-gray-500 dark:text-gray-400 text-base sm:text-lg">No hay nuevas notificaciones</p>
+                <p
+                    class="text-gray-500 dark:text-gray-400 text-base sm:text-lg"
+                >
+                    No hay nuevas notificaciones
+                </p>
             </div>
+
+            <section>
+                <h3
+                    class="text-xl sm:text-xl font-semibold text-gray-800 dark:text-orange-600 mb-2 mt-10"
+                >
+                    Solicitudes de categoría
+                </h3>
+
+                <div
+                    v-if="categories.length > 0"
+                    class="space-y-4 sm:space-y-6"
+                >
+                    <div
+                        v-for="category in categories"
+                        :key="category.id"
+                        class="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700"
+                    >
+                        <div class="space-y-2 mb-4">
+                            <p class="text-gray-800 dark:text-gray-200">
+                                <span class="font-semibold">De:</span>
+                                {{ category.name || "Anónimo" }}
+                            </p>
+                            <p class="text-gray-700 dark:text-gray-300">
+                                <span class="font-semibold">Mensaje:</span>
+                                {{ category.message }}
+                            </p>
+                        </div>
+                        <div>
+                            <button
+                                @click="
+                                    router.get(
+                                        route(
+                                            'admin.trainerShow',
+                                            category.trainer_id
+                                        )
+                                    )
+                                "
+                                class="px-4 py-2 bg-green-600 dark:bg-green-700 text-white rounded-md hover:bg-green-700 dark:hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors"
+                            >
+                                Asignar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 </template>
@@ -127,7 +206,12 @@ import { Head } from "@inertiajs/vue3";
 import AdminNavBar from "./Components/AdminNavBar.vue";
 import ConfirmationModal from "../../Components/ConfirmationModal.vue";
 
-const props = defineProps(["messages", "trainers", "messageStatus"]);
+const props = defineProps([
+    "messages",
+    "trainers",
+    "messageStatus",
+    "categories",
+]);
 
 // Componentes
 import AdminLayout from "@/Layouts/AdminLayout.vue";

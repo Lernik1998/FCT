@@ -90,7 +90,7 @@ class UserActivitiesReservationsController extends Controller
 
         // Verificar si hay slots disponibles
         if ($act->slots <= 0) {
-            return back()->with('error', 'No hay cupos disponibles para esta actividad.');
+            return back()->with('message', 'No hay cupos disponibles para esta actividad.');
         }
 
         // Usuario con membresía activa

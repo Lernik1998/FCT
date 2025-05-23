@@ -7,9 +7,9 @@
         >
             <!-- Título -->
             <h1
-                class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white text-center mb-4 sm:mb-6"
+                class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-orange-600 text-center mb-4 sm:mb-6"
             >
-                Editar Actividad
+                Editar actividad
             </h1>
 
             <!-- Formulario -->
@@ -59,7 +59,7 @@
                         class="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700"
                     >
                         <img
-                            :src="image"
+                            :src="activity.image"
                             alt="Imagen actual"
                             class="w-full h-auto max-h-64 object-contain"
                         />
@@ -179,18 +179,42 @@
 
                 <!-- Capacidad -->
                 <div>
-                    <label
-                        class="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300"
-                    >
-                        Capacidad
-                    </label>
-                    <input
-                    min="1"
-                        type="number"
-                        v-model="activity.capacity"
-                        class="w-full mt-1 p-2 sm:p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition"
-                        required
-                    />
+                    <div>
+                        <label
+                            class="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300"
+                        >
+                            Capacidad
+                        </label>
+                        <input
+                            min="1"
+                            type="number"
+                            v-model="activity.capacity"
+                            class="w-full mt-1 p-2 sm:p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition"
+                            required
+                        />
+                    </div>
+                    <!-- En la sección del select de categorías -->
+                    <div>
+                        <label
+                            class="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300"
+                        >
+                            Categoria
+                        </label>
+                        <select
+                            v-model="activity.category_id"
+                            class="w-full mt-1 p-2 sm:p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition"
+                            required
+                        >
+                            <option value="">Selecciona una categoría</option>
+                            <option
+                                v-for="category in categories"
+                                :key="category.id"
+                                :value="category.id"
+                            >
+                                {{ category.name }}
+                            </option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- Botón -->
@@ -240,31 +264,44 @@ defineOptions({
 // Recibe la actividad como prop
 const props = defineProps({
     activity: Object,
+    categories: Array,
 });
 
 // Imagen
 const image = "/images/activities/" + props.activity.image;
 
 // Estado de la actividad con valores precargados
-const activity = ref({ ...props.activity });
+const activity = ref({
+    ...props.activity,
+    category_id: props.activity.category_id,
+});
 
 const successMessage = ref("");
 
 // Manejo de carga de imagen
+
 const handleFileUpload = (event) => {
-    activity.value.image = URL.createObjectURL(event.target.files[0]);
+    activity.value.image = event.target.files[0];
 };
 
 // Función para actualizar la actividad
 const updateActivity = () => {
-    console.log("Actividad actualizada:", activity.value);
-    successMessage.value = "¡Actividad actualizada exitosamente! 🎉";
+    // Solo enviar la imagen si es un archivo nuevo
+    const formData = new FormData();
 
-    // Enviar datos al controlador
-    router.put(
-        route("admin.updateActivity", activity.value.id),
-        activity.value
-    );
+    // Agregar todos los campos excepto la imagen
+    Object.keys(activity.value).forEach((key) => {
+        if (key !== "image" || activity.value[key] instanceof File) {
+            formData.append(key, activity.value[key]);
+        }
+    });
+
+    // Enviar datos
+    router.put(route("admin.updateActivity", activity.value.id), formData, {
+        onSuccess: () => {
+            successMessage.value = "¡Actividad actualizada exitosamente! 🎉";
+        },
+    });
 };
 </script>
 

@@ -188,6 +188,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::controller(AdminController::class)->group(function () {
 
         /************************************** ACTIVIDADES ************************************** */
+
         Route::get('admin/activityAdmin', [AdminController::class, 'activityAdmin'])->name('admin.activityAdmin');
 
         Route::get('admin/createActivityView', [AdminController::class, 'createActivityView'])->name('admin.createActivityView');
@@ -198,9 +199,9 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
         Route::get('admin/editActivity/{id}', [AdminController::class, 'editActivityView'])->name('admin.activityEdit');
 
-        // Route::put('admin/updateActivity/{id}', [AdminController::class, 'updateActivity'])->name('admin.updateActivity');
-
         Route::delete('admin/deleteActivity/{id}', [AdminController::class, 'destroyActivity'])->name('admin.activityDestroy');
+
+        Route::put('admin/updateActivity/{id}', [AdminController::class, 'updateActivity'])->name('admin.updateActivity');
 
         /************************************** GESTIÓN DE USUARIOS ************************************** */
 
@@ -244,6 +245,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         Route::get('admin/messageAdmin', [AdminController::class, 'adminMessagesView'])->name('admin.messageAdmin');
 
         Route::get('admin/informationAdmin', [AdminController::class, 'informationAdmin'])->name('admin.informationAdmin');
+
+        Route::post('admin/asignCategory/{id}', [AdminController::class, 'asignCategory'])->withoutMiddleware('role:admin')->name('admin.asignCategory');
 
 
         // Contact

@@ -40,7 +40,9 @@
                                 </svg>
                             </div>
                             <div class="ml-5 w-0 flex-1">
-                                <h3 class="text-lg font-medium text-gray-900">
+                                <h3
+                                    class="text-lg font-medium text-gray-900 dark:text-orange-600"
+                                >
                                     Gestión de Usuarios
                                 </h3>
                                 <p class="mt-1 text-sm text-gray-500 truncate">
@@ -94,10 +96,14 @@
                                 </svg>
                             </div>
                             <div class="ml-5 w-0 flex-1">
-                                <h3 class="text-lg font-medium text-gray-900">
+                                <h3
+                                    class="text-lg font-medium text-gray-900 dark:text-orange-600"
+                                >
                                     Gestión de Entrenadores
                                 </h3>
-                                <p class="mt-1 text-sm text-gray-500 truncate">
+                                <p
+                                    class="mt-1 text-sm text-gray-500 dark:text-gray-400 truncate"
+                                >
                                     Revisa y gestiona entrenadores
                                 </p>
                             </div>
@@ -148,10 +154,14 @@
                                 </svg>
                             </div>
                             <div class="ml-5 w-0 flex-1">
-                                <h3 class="text-lg font-medium text-gray-900">
+                                <h3
+                                    class="text-lg font-medium text-gray-900 dark:text-orange-600"
+                                >
                                     Actividades
                                 </h3>
-                                <p class="mt-1 text-sm text-gray-500 truncate">
+                                <p
+                                    class="mt-1 text-sm text-gray-500 dark:text-gray-400 truncate"
+                                >
                                     Gestiona actividades de usuarios
                                 </p>
                             </div>
@@ -202,10 +212,14 @@
                                 </svg>
                             </div>
                             <div class="ml-5 w-0 flex-1">
-                                <h3 class="text-lg font-medium text-gray-900">
+                                <h3
+                                    class="text-lg font-medium text-gray-900 dark:text-orange-600"
+                                >
                                     Administración
                                 </h3>
-                                <p class="mt-1 text-sm text-gray-500">
+                                <p
+                                    class="mt-1 text-sm text-gray-500 dark:text-gray-400"
+                                >
                                     Gestión de gastos e ingresos
                                 </p>
                             </div>
@@ -256,10 +270,14 @@
                                 </svg>
                             </div>
                             <div class="ml-5 w-0 flex-1">
-                                <h3 class="text-lg font-medium text-gray-900">
+                                <h3
+                                    class="text-lg font-medium text-gray-900 dark:text-orange-600"
+                                >
                                     Gestión de Suscripciones
                                 </h3>
-                                <p class="mt-1 text-sm text-gray-500 truncate">
+                                <p
+                                    class="mt-1 text-sm text-gray-500 dark:text-gray-400 truncate"
+                                >
                                     Administra suscripciones registradas
                                 </p>
                             </div>
@@ -310,10 +328,14 @@
                                 </svg>
                             </div>
                             <div class="ml-5 w-0 flex-1">
-                                <h3 class="text-lg font-medium text-gray-900">
+                                <h3
+                                    class="text-lg font-medium text-gray-900 dark:text-orange-600"
+                                >
                                     Gestión de pagos
                                 </h3>
-                                <p class="mt-1 text-sm text-gray-500 truncate">
+                                <p
+                                    class="mt-1 text-sm text-gray-500 dark:text-gray-400 truncate"
+                                >
                                     Administra pagos registrados
                                 </p>
                             </div>
@@ -346,7 +368,6 @@
                 <div class="bg-white shadow rounded-lg p-6">
                     <h2
                         class="text-xl font-semibold text-gray-800 mb-4 dark:text-orange-700"
-                        
                     >
                         Calendario de Eventos
                     </h2>
@@ -475,7 +496,7 @@ onMounted(() => {
             plugins: {
                 title: {
                     display: true,
-                    text: "Crecimiento en asistencia del año 2025",
+                    text: "Crecimiento en asistencia del año 2024",
                     font: {
                         size: 16,
                     },

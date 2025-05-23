@@ -65,12 +65,12 @@
                         </div>
 
                         <!-- Botón adicional si necesitas -->
-                        <button
+                        <!-- <button
                             @click="filter = 'all'"
                             class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-3 rounded-full transition-colors duration-200 whitespace-nowrap"
                         >
                             Restaurar
-                        </button>
+                        </button> -->
                     </div>
                 </div>
             </div>

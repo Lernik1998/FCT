@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->text('message'); // Contenido del mensaje
             $table->string('trainer_id')->nullable(); // ID del trainer al que se le asigna el mensaje
             $table->enum('status', ['pending', 'assigned', 'completed'])->default('pending'); // Estado del mensaje lo controla el admin
+            $table->string('target')->nullable(); // Si es solicitado por el usuario o el entrenador
             $table->timestamp('read_at')->nullable(); // Marcar si ha sido leído
             $table->timestamps();
         });

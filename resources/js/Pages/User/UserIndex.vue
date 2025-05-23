@@ -28,7 +28,7 @@
                     class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 dark:border-gray-700"
                 >
                     <div
-                        class="relative h-48 overflow-hidden bg-gray-200 dark:bg-gray-700"
+                        class="relative h-48 overflow-hidden bg-gray-200 dark:bg-gray-700 "
                     >
                         <img
                             :src="activity.image || '/default-sport.jpg'"
@@ -180,7 +180,7 @@
                                     Precio
                                 </th>
                                 <th
-                                    class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                                    class="px-4 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
                                 >
                                     Acciones
                                 </th>

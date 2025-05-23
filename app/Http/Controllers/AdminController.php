@@ -348,7 +348,7 @@ class AdminController extends Controller
             })
 
             //  ->with('category') // Si tienes relación con categorías
-            ->orderBy('date', 'desc')
+            ->orderBy('date', 'asc')
             ->paginate(10)
             ->appends(['search' => request('search')]);
 
@@ -415,7 +415,9 @@ class AdminController extends Controller
         //Obtengo la actividad con el id
         $activity = Activity::findOrFail($id);
 
-        return inertia('Admin/ActivityOptions/ActivityEditForm', compact('activity'));
+        $categories = Category::where('name', '!=', 'General')->get();
+
+        return inertia('Admin/ActivityOptions/ActivityEditForm', compact('activity', 'categories'));
     }
 
     public function showActivity(string $id)
@@ -430,6 +432,9 @@ class AdminController extends Controller
 
     public function updateActivity(Request $request, string $id)
     {
+
+        dd($request->all());
+
         //Obtengo la actividad con el id
         $activity = Activity::findOrFail($id);
 
@@ -437,13 +442,51 @@ class AdminController extends Controller
         $activity->update([
             'name' => $request->name,
             'description' => $request->description,
-            'image' => $request->image,  // Guardamos la ruta, no el archivo
+            'image' => $request->image,  // Guardamos la ruta
+            'capacity' => $request->capacity,
+            'category_id' => $request->category_id,
             'price' => $request->price,
-            'duration' => $request->duration,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
             'date' => $request->date,
             'user_id' => auth()->id(),
         ]);
 
+        $activity->name = $request->name;
+        $activity->description = $request->description;
+        $activity->capacity = $request->capacity;
+        $activity->price = $request->price;
+        $activity->start_time = $request->start_time;
+        $activity->end_time = $request->end_time;
+        $activity->date = $request->date;
+        $activity->user_id = auth()->id();
+        $activity->category_id = $request->category_id;
+
+
+
+        // Manejar la subida de imagen
+        if ($request->hasFile('image')) {
+            // Eliminar imagen anterior si existe
+            if ($activity->image) {
+                $oldPath = public_path('images/activities/' . $activity->image);
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
+            }
+
+            // Guardar nueva imagen
+            $img = $request->file('image');
+            $imgName = Str::slug($request->name) . '.' . $img->guessExtension();
+
+            $path = public_path('images/activities/');
+            $img->move($path, $imgName);
+
+            $activity->image = $imgName;
+        }
+
+        $activity->save();
+
+        // Retornar un mensaje de exito
         return redirect()->route('admin.activityAdmin');
     }
 
@@ -467,9 +510,13 @@ class AdminController extends Controller
         // Obtengo todos los trainers disponibles
         $trainers = User::where('role', 'trainer')->get();
 
+        // Obtengo todas las solicitudes de categoría
+        $categories = ContactMessage::where('target', 'trainer')->get();
+
         return inertia('Admin/InformationAdmin', [
             'messages' => $messages,
-            'trainers' => $trainers
+            'trainers' => $trainers,
+            'categories' => $categories
         ]);
     }
 
@@ -558,11 +605,47 @@ class AdminController extends Controller
         ]);
     }
 
+    public function asignCategory(Request $request, string $id)
+    {
+        // dd($id);
+
+        // ContactMessage::create($request->all());
+        try {
+            // Obtengo el trainer
+            $trainer = User::findOrFail($id);
+
+            // Creo el mensaje
+            ContactMessage::create([
+                'name' => $trainer->name,
+                'email' => $trainer->email,
+                'message' => 'Solicitud de categoría del entrenador',
+                'trainer_id' => $id,
+                'status' => 'pending',
+                'target' => 'trainer',
+            ]);
+
+            $contactMessage->save();
+
+            /* PENDIENTE REVISAR QUE EL TRAINER EXISTA, PARA EVITAR PROBLEMAS*/
+
+            $message = 'Solicitud enviada correctamente';
+
+
+        } catch (\Throwable $th) {
+            $message = 'Error en el envío del mensaje, intentelo de nuevo más tarde!';
+        }
+
+        // Retorno a la vista
+        return inertia('Trainer/TrainerIndex')->with('message', $message);
+    }
+
     // MENSAJES
     public function adminMessagesView()
     {
         // return inertia('Trainer/TrainerMessages');
-        $users = User::where('id', '!=', Auth::user()->id)->get();
+        $users = User::where('id', '!=', Auth::user()->id)
+            ->where('role', '!=', 'user')
+            ->get();
         return Inertia::render('Admin/MessageAdmin', ['users' => $users]);
     }
 

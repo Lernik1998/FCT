@@ -1,4 +1,8 @@
 <template>
+
+
+<pre>{{ trainer }}</pre>
+
     <!-- Contenido principal -->
     <main
         class="container mx-auto py-6 px-4 sm:px-6 lg:px-8 dark:bg-gray-900 min-h-screen"
@@ -44,9 +48,16 @@
                             </p>
                         </div>
                     </div>
-                   <p class="text-sm font-medium text-gray-600 dark:text-gray-400" v-if="trainer.category">
-                       Categoría: <span class="font-semibold text-gray-700 dark:text-orange-600">{{ trainer.category }}</span>
-                   </p>
+                    <p
+                        class="text-sm font-medium text-gray-600 dark:text-gray-400"
+                        v-if="trainer.category"
+                    >
+                        Categoría:
+                        <span
+                            class="font-semibold text-gray-700 dark:text-orange-600"
+                            >{{ trainer.category }}</span
+                        >
+                    </p>
                 </div>
             </div>
 
@@ -134,9 +145,27 @@
                     </p>
                 </div>
                 <div>
-                <button @click="requestCategory()" class="bg-orange-500 hover:bg-orange-600 text-white rounded">Solicitar categoría</button>
+                    <button
+                        @click="requestCategory()"
+                        class="bg-orange-500 hover:bg-orange-600 text-white rounded"
+                    >
+                        Solicitar categoría
+                    </button>
                 </div>
             </div>
+        </section>
+        <section
+            class="flex flex-col items-center bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-10"
+            v-else
+        >
+            <h2
+                class="text-xl font-bold text-gray-800 dark:text-white"
+            >
+                Categoría asignada
+            </h2>
+            <p class="text-sm text-gray-700 dark:text-gray-400">
+                {{ trainer.category }}
+            </p>
         </section>
 
         <!-- Calendario de actividades -->
@@ -297,7 +326,7 @@ defineOptions({
     layout: TrainerLayout,
 });
 
-defineProps({
+const props = defineProps({
     trainer: Object,
     activities: Array,
 });
@@ -389,6 +418,7 @@ function requestActivation() {
 }
 
 function requestCategory() {
+    router.post(route("admin.asignCategory", props.trainer.id));
     alert("Solicitando categoría");
 }
 
