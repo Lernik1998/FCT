@@ -622,7 +622,7 @@ class AdminController extends Controller
 
             if ($contactMessage) {
                 $message = 'Ya se ha solicitado una categoría';
-                return inertia('Trainer/TrainerIndex')->with('message', $message);
+                return redirect()->route('trainers.trainerView')->with('message', $message);
             }
 
             // Creo el mensaje
@@ -645,7 +645,9 @@ class AdminController extends Controller
         }
 
         // Retorno a la vista
-        return inertia('Trainer/TrainerIndex')->with('message', $message);
+        // return inertia('Trainer/TrainerIndex')->with('message', $message);
+
+        return redirect()->route('trainers.trainerView');
     }
 
     public function markAsDone(string $id)

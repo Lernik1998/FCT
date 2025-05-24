@@ -371,7 +371,15 @@
                     >
                         Calendario de Eventos
                     </h2>
-                    <div id="calendar" class="h-96"></div>
+                    <!-- <div id="calendar" class="h-96"></div> -->
+
+                    <div class="p-6 bg-gray-50 dark:bg-gray-700/30">
+                        <FullCalendar
+                            ref="calendar"
+                            class="trainer-calendar"
+                            :options="calendarOptions"
+                        />
+                    </div>
                 </div>
             </section>
 
@@ -385,71 +393,266 @@
                 </div>
             </section>
         </main>
+
+        <!-- Modal de evento -->
+        <div
+            v-if="showEventModal"
+            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+        >
+            <div
+                class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md"
+            >
+                <div
+                    class="p-5 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center"
+                >
+                    <h3
+                        class="text-lg font-semibold text-gray-800 dark:text-white"
+                    >
+                        Detalles de la actividad
+                    </h3>
+                    <button
+                        @click="closeEventModal"
+                        class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"
+                            />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="p-5 space-y-4">
+                    <div>
+                        <label
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                            >Título</label
+                        >
+                        <p class="text-gray-900 dark:text-gray-100">
+                            {{ eventoAct.title }}
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                                >Inicio</label
+                            >
+                            <p class="text-gray-900 dark:text-gray-100">
+                                {{ formatDate(eventoAct.start) }}
+                            </p>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                                >Fin</label
+                            >
+                            <p class="text-gray-900 dark:text-gray-100">
+                                {{ formatDate(eventoAct.end) }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                            >Descripción</label
+                        >
+                        <p class="text-gray-900 dark:text-gray-100">
+                            {{
+                                eventoAct.extendedProps.description ||
+                                "Sin descripción"
+                            }}
+                        </p>
+                    </div>
+
+                    <div class="flex items-center">
+                        <span class="text-sm text-gray-700 dark:text-gray-300">
+                            {{
+                                eventoAct.allDay
+                                    ? "Evento de día completo"
+                                    : "Evento por horas"
+                            }}
+                        </span>
+                    </div>
+                </div>
+
+                <div
+                    class="p-5 border-t border-gray-200 dark:border-gray-700 flex justify-end"
+                >
+                    <button
+                        @click="closeEventModal"
+                        class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                    >
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
-import { onMounted } from "vue";
-import { Calendar } from "@fullcalendar/core";
+import { onMounted, ref } from "vue";
+// import { Calendar } from "@fullcalendar/core";
+import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import listPlugin from "@fullcalendar/list";
 import googleCalendarPlugin from "@fullcalendar/google-calendar";
 import esLocale from "@fullcalendar/core/locales/es";
 import Chart from "chart.js/auto";
-
-// Componentes
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 
 defineOptions({ layout: AdminLayout });
 
+const calendar = ref(null);
+const showEventModal = ref(false);
+const eventoAct = ref({
+    title: "",
+    start: "",
+    end: "",
+    allDay: false,
+    extendedProps: {
+        description: "",
+    },
+});
+
+const calendarOptions = ref({
+    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],
+    initialView: "dayGridMonth",
+    locale: esLocale,
+    headerToolbar: {
+        left: "prev,next today",
+        center: "title",
+        right: "dayGridMonth,timeGridWeek,timeGridDay",
+    },
+    buttonText: {
+        today: "Hoy",
+        month: "Mes",
+        week: "Semana",
+        day: "Día",
+    },
+
+    height: "auto",
+    contentHeight: "auto",
+    events: "/appointments/admin",
+
+
+    // googleCalendarApiKey: Env.GOOGLE_CALENDAR_API_KEY,
+
+    // events:{
+    //     googleCalendarId: Env.GOOGLE_CALENDAR_ID,
+    // }
+
+    eventClick: handleEventClick,
+    editable: false,
+    selectable: true,
+    selectMirror: true,
+    dayMaxEvents: true,
+    weekends: true,
+    locale: "es",
+    buttonText: {
+        today: "Hoy",
+        month: "Mes",
+        week: "Semana",
+        day: "Día",
+        list: "Lista",
+    },
+    eventColor: "#f97316",
+    eventTextColor: "#ffffff",
+
+    firstDay: 1, // Lunes como primer día de la semana
+    // businessHours: {
+    //     daysOfWeek: [1, 2, 3, 4, 5], // Lunes a Viernes
+    //     startTime: "08:00",
+    //     endTime: "20:00",
+    // },
+    editable: false, // Permite arrastrar y soltar eventos
+    selectable: false, // Permite seleccionar intervalos de tiempo
+});
+
+function handleEventClick(clickInfo) {
+    const formatForInput = (date) => {
+        if (!date) return "";
+        const d = new Date(date);
+        const pad = (n) => n.toString().padStart(2, "0");
+        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(
+            d.getDate()
+        )}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    };
+
+    eventoAct.value = {
+        id: clickInfo.event.id,
+        title: clickInfo.event.title,
+        start: formatForInput(clickInfo.event.start),
+        end: formatForInput(clickInfo.event.end),
+        allDay: clickInfo.event.allDay,
+        extendedProps: {
+            description: clickInfo.event.extendedProps.description || "",
+        },
+    };
+    showEventModal.value = true;
+}
+
 onMounted(() => {
-    const calendarEl = document.getElementById("calendar");
-    const calendar = new Calendar(calendarEl, {
-        plugins: [
-            dayGridPlugin,
-            timeGridPlugin,
-            interactionPlugin,
-            googleCalendarPlugin,
-        ],
-        initialView: "dayGridMonth",
-        locale: esLocale,
-        headerToolbar: {
-            left: "prev,next today",
-            center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay",
-        },
-        buttonText: {
-            today: "Hoy",
-            month: "Mes",
-            week: "Semana",
-            day: "Día",
-        },
-        events: {},
-        eventClick: function (info) {
-            info.jsEvent.preventDefault(); // previene la navegación
+    // const calendarEl = document.getElementById("calendar");
+    // const calendar = new Calendar(calendarEl, {
+    //     plugins: [
+    //         dayGridPlugin,
+    //         timeGridPlugin,
+    //         interactionPlugin,
+    //         googleCalendarPlugin,
+    //     ],
+    //     initialView: "dayGridMonth",
+    //     locale: esLocale,
+    //     headerToolbar: {
+    //         left: "prev,next today",
+    //         center: "title",
+    //         right: "dayGridMonth,timeGridWeek,timeGridDay",
+    //     },
+    //     buttonText: {
+    //         today: "Hoy",
+    //         month: "Mes",
+    //         week: "Semana",
+    //         day: "Día",
+    //     },
+    //     events: {},
+    //     eventClick: function (info) {
+    //         info.jsEvent.preventDefault(); // previene la navegación
 
-            // Puedes personalizar lo que pasa al hacer clic en un evento
-            console.log("Evento clickeado:", info.event.title);
-            console.log("Comienza:", info.event.start);
-            console.log("Termina:", info.event.end);
-        },
-        loading: function (bool) {
-            document.getElementById("loading").style.display = bool
-                ? "block"
-                : "none";
-        },
-        firstDay: 1, // Lunes como primer día de la semana
-        businessHours: {
-            daysOfWeek: [1, 2, 3, 4, 5], // Lunes a Viernes
-            startTime: "08:00",
-            endTime: "20:00",
-        },
-        editable: true, // Permite arrastrar y soltar eventos
-        selectable: true, // Permite seleccionar intervalos de tiempo
-    });
+    //         // Puedes personalizar lo que pasa al hacer clic en un evento
+    //         console.log("Evento clickeado:", info.event.title);
+    //         console.log("Comienza:", info.event.start);
+    //         console.log("Termina:", info.event.end);
+    //     },
+    //     loading: function (bool) {
+    //         document.getElementById("loading").style.display = bool
+    //             ? "block"
+    //             : "none";
+    //     },
+    //     firstDay: 1, // Lunes como primer día de la semana
+    //     businessHours: {
+    //         daysOfWeek: [1, 2, 3, 4, 5], // Lunes a Viernes
+    //         startTime: "08:00",
+    //         endTime: "20:00",
+    //     },
+    //     editable: true, // Permite arrastrar y soltar eventos
+    //     selectable: true, // Permite seleccionar intervalos de tiempo
+    // });
 
-    calendar.render();
+    // calendar.render();
 
     const ctx = document.getElementById("attendanceChart");
     new Chart(ctx, {

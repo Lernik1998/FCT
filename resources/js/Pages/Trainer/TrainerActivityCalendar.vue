@@ -128,13 +128,13 @@
                             <label
                                 class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                             >
-                                Título del evento
+                                Nombre de la actividad
                             </label>
                             <input
                                 v-model="eventoAct.title"
                                 type="text"
                                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors duration-200"
-                                placeholder="Sesión de entrenamiento"
+                                placeholder="Entrenamiento de..."
                             />
                         </div>
 
@@ -151,6 +151,7 @@
                                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors duration-200"
                                 />
                             </div>
+
                             <div>
                                 <label
                                     class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
@@ -161,6 +162,24 @@
                                     v-model="eventoAct.end"
                                     type="datetime-local"
                                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors duration-200"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="precio">Precio</label>
+                                <input
+                                    type="number"
+                                    v-model="eventoAct.price"
+                                />
+                            </div>
+
+                            <div>
+                                <label for="capacity">Capacidad</label>
+                                <input
+                                    type="number"
+                                    v-model="eventoAct.capacity"
                                 />
                             </div>
                         </div>
@@ -177,6 +196,11 @@
                                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors duration-200"
                                 placeholder="Detalles del evento..."
                             ></textarea>
+                        </div>
+
+                        <div>
+                            <label for="imagen">Imagen</label>
+                            <input type="file" @change="handleImageChange" />
                         </div>
 
                         <!-- <div>
@@ -238,59 +262,8 @@ defineOptions({
     layout: TrainerLayout,
 });
 
-// No los uso por ahora
 defineProps({
-    success: Boolean,
-    error: String,
-});
-
-// const props = defineProps({
-//     plans: Array,
-// });
-
-// const plans = ref([]);
-// Estado para filtros
-// const showPlanTypeSelector = ref(false);
-const selectedFilter = ref("all");
-
-// Opciones de filtrado
-// const planFilters = [
-//     {
-//         value: "all",
-//         label: "Todos los planes",
-//         description: "Muestra todos tus planes públicos y privados",
-//         bgColor: "bg-gray-100",
-//         textColor: "text-gray-500",
-//     },
-//     {
-//         value: "free",
-//         label: "Planes públicos",
-//         description: "Planes gratuitos para todos los usuarios",
-//         bgColor: "bg-blue-100",
-//         textColor: "text-blue-500",
-//     },
-//     {
-//         value: "private",
-//         label: "Planes privados",
-//         description: "Planes personalizados para clientes específicos",
-//         bgColor: "bg-purple-100",
-//         textColor: "text-purple-500",
-//     },
-//     {
-//         value: "active",
-//         label: "Planes activos",
-//         description: "Muestra solo los planes actualmente activos",
-//         bgColor: "bg-green-100",
-//         textColor: "text-green-500",
-//     },
-// ];
-
-// Filtrar planes según selección
-const filteredPlans = computed(() => {
-    if (selectedFilter.value === "all") return props.plans;
-    if (selectedFilter.value === "active")
-        return props.plans.filter((plan) => plan.status);
-    return props.plans.filter((plan) => plan.type === selectedFilter.value);
+    message: Boolean,
 });
 
 // Formatear fecha
@@ -299,28 +272,31 @@ const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("es-ES", options);
 };
 
-// Cambiar estado del plan
-const togglePlanStatus = (plan) => {
-    // Aquí iría la lógica para actualizar el estado en el backend
-    plan.status = !plan.status;
-    // Ejemplo con axios:
-    // axios.patch(`/trainer/plans/${plan.id}/status`, { status: !plan.status })
-    //   .then(response => plan.status = response.data.status)
-};
-
 // Configuración del calendario
 const calendar = ref(null);
 const showEventModal = ref(false);
 const editingEvent = ref(false);
+
 const eventoAct = ref({
     title: "",
     start: "",
     end: "",
     allDay: false,
+    price: 0,
+    capacity: 0,
+    image: null,
     extendedProps: {
         description: "",
     },
 });
+
+function handleImageChange(event) {
+    const file = event.target.files[0];
+    if (file) {
+        // Aquí podrías validar el tipo de archivo o tamaño si es necesario
+        eventoAct.value.image = file;
+    }
+}
 
 const calendarOptions = ref({
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],
@@ -713,15 +689,45 @@ async function saveEvent() {
             return `${year}-${month}-${day} ${hours}:${minutes}:00`;
         };
 
-        const eventData = {
-            title: eventoAct.value.title,
-            start: formatDateForBackend(eventoAct.value.start),
-            end: formatDateForBackend(eventoAct.value.end),
-            description: eventoAct.value.extendedProps.description,
-            allDay: eventoAct.value.allDay || false,
-        };
+        // const eventData = {
+        //     title: eventoAct.value.title,
+        //     start: formatDateForBackend(eventoAct.value.start),
+        //     end: formatDateForBackend(eventoAct.value.end),
+        //     description: eventoAct.value.extendedProps.description,
+        //     allDay: eventoAct.value.allDay || false,
+        // };
 
-        if (!eventData.title || !eventData.start || !eventData.end) {
+        // if (!eventData.title || !eventData.start || !eventData.end) {
+        //     throw new Error("Faltan campos requeridos");
+        // }
+
+        // Crear FormData para manejar la imagen y otros datos
+        const formData = new FormData();
+
+        // Añadir los campos básicos
+        formData.append("title", eventoAct.value.title);
+        formData.append("start", formatDateForBackend(eventoAct.value.start));
+        formData.append("end", formatDateForBackend(eventoAct.value.end));
+        formData.append(
+            "description",
+            eventoAct.value.extendedProps.description || ""
+        );
+        formData.append("allDay", eventoAct.value.allDay || false);
+
+        // Añadir los nuevos campos
+        formData.append("price", eventoAct.value.price || 0);
+        formData.append("capacity", eventoAct.value.capacity || 0);
+
+        // Añadir la imagen si existe
+        if (eventoAct.value.image) {
+            formData.append("image", eventoAct.value.image);
+        }
+
+        if (
+            !eventoAct.value.title ||
+            !eventoAct.value.start ||
+            !eventoAct.value.end
+        ) {
             throw new Error("Faltan campos requeridos");
         }
 
@@ -732,13 +738,22 @@ async function saveEvent() {
                 route("appointments.update", {
                     appointment: eventoAct.value.id,
                 }),
-                eventData
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
             );
 
             // await axios.put(`/appointments/${eventoAct.value.id}`, eventData);
         } else {
             // Crear
-            await router.post(route("appointments.store"), eventData);
+            await router.post(route("appointments.store"), formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
 
             //  = await axios.post("/appointmentsStore", eventData);
         }
@@ -763,12 +778,12 @@ async function saveEvent() {
             calendar.value.getApi().refetchEvents();
         }
     } catch (error) {
-        console.error("Error al guardar el evento:", error);
+        // console.error("Error al guardar el evento:", error);
         const errorMsg =
             error.response?.data?.message ||
             error.response?.data?.errors ||
             error.message;
-        alert(`Error al guardar: ${JSON.stringify(errorMsg)}`);
+        // alert(`Error al guardar: ${JSON.stringify(errorMsg)}`);
 
         if (error.response) {
             errorMsg += `: ${

@@ -1,4 +1,5 @@
 <template>
+
     <Head :title="'Actividades'" />
 
     <!-- Banner Principal con animación -->
@@ -57,7 +58,7 @@
                 <!-- Imagen de la actividad (puedes añadir una propiedad image a tus actividades) -->
                 <div class="h-40 bg-gray-300 overflow-hidden">
                     <img
-                        :src="activity.image || '/placeholder-actividad.jpg'"
+                        :src="'images/activities/' + activity.image || '/placeholder-actividad.jpg'"
                         :alt="activity.name"
                         class="w-full h-full object-cover"
                     />

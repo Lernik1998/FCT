@@ -134,6 +134,69 @@ class GoogleCalendarController extends Controller
     //     }
     // }
 
+
+    // public function getGeneralCalendarEvents()
+    // {
+    //     try {
+    //         $client = new Client();
+    //         $client->setAuthConfig(config('google-calendar.auth_profiles.service_account.credentials_json'));
+    //         $client->addScope(Calendar::CALENDAR_READONLY);
+
+    //         $service = new Calendar($client);
+
+    //         // Obtener el ID del calendario general desde tu configuración
+    //         $calendarId = config('google-calendar.calendar_id');
+
+    //         // Parámetros para la consulta (puedes personalizar esto)
+    //         $optParams = [
+    //             'maxResults' => 50,
+    //             'orderBy' => 'startTime',
+    //             'singleEvents' => true,
+    //             'timeMin' => now()->subMonth()->toRfc3339String(),
+    //             'timeMax' => now()->addMonths(3)->toRfc3339String(),
+    //         ];
+
+    //         $results = $service->events->listEvents($calendarId, $optParams);
+    //         $events = $results->getItems();
+
+    //         return response()->json([
+    //             'success' => true,
+    //             'events' => $this->formatEvents($events)
+    //         ]);
+
+    //     } catch (\Exception $e) {
+    //         \Log::error('Error fetching Google Calendar events: ' . $e->getMessage());
+    //         return response()->json([
+    //             'success' => false,
+    //             'error' => $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
+
+    // private function formatEvents($googleEvents)
+    // {
+    //     return collect($googleEvents)->map(function ($event) {
+    //         $start = $event->start->dateTime ?? $event->start->date;
+    //         $end = $event->end->dateTime ?? $event->end->date;
+
+    //         return [
+    //             'id' => $event->id,
+    //             'title' => $event->summary,
+    //             'start' => $start,
+    //             'end' => $end,
+    //             'allDay' => !isset($event->start->dateTime),
+    //             'description' => $event->description ?? '',
+    //             'location' => $event->location ?? '',
+    //             'backgroundColor' => '#3b82f6', // Color azul para eventos del calendario general
+    //             'borderColor' => '#2563eb',
+    //             'extendedProps' => [
+    //                 'source' => 'google_calendar',
+    //                 'organizer' => $event->organizer->displayName ?? 'Google Calendar'
+    //             ]
+    //         ];
+    //     })->toArray();
+    // }
+
     public function syncAppointment(Appointment $appointment)
     {
         // Debugging
@@ -192,8 +255,6 @@ class GoogleCalendarController extends Controller
         //     throw $e;
         // }
     }
-
-
 
     public function deleteFromCalendar(Appointment $appointment)
     {

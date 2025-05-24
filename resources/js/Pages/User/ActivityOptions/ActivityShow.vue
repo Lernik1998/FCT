@@ -231,7 +231,7 @@
                     </div>
 
                     <!-- Acciones -->
-                    <div
+                    <!-- <div
                         class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4"
                     >
                         <button
@@ -274,7 +274,7 @@
                             </svg>
                             No disponible
                         </button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
@@ -390,7 +390,6 @@ const props = defineProps({
     activity: Object,
 });
 
-
 // Función para formatear fecha y hora
 const formatDateTime = (dateString) => {
     const options = {
@@ -398,8 +397,6 @@ const formatDateTime = (dateString) => {
         day: "numeric",
         month: "long",
         year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
     };
     return new Date(dateString).toLocaleDateString("es-ES", options);
 };
@@ -407,7 +404,9 @@ const formatDateTime = (dateString) => {
 // Formateo hora
 const formatTime = (timeString) => {
     const [hours, minutes] = timeString.split(":").map(Number);
-    return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
+    return `${hours.toString().padStart(2, "0")}:${minutes
+        .toString()
+        .padStart(2, "0")}`;
 };
 
 // Asignar colores según estado

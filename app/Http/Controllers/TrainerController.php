@@ -180,13 +180,15 @@ class TrainerController extends Controller
     }
 
 
-    // Personalized Training
-    public function personalizedTraining()
+    // Apartado de Actividades con el calendario
+    public function activityCalendar()
     {
         // Obtengo los planes personalizados del entrenador
         // $plans = PersonalizedTraining::where('user_id', auth()->id())->get();
 
-        return inertia('Trainer/TrainerPPlans');
+        // $categories = Category::where('name', '!=', 'General')->get();
+
+        return inertia('Trainer/TrainerActivityCalendar');
     }
 
     public function createPersonalizedTraining()
@@ -283,9 +285,6 @@ class TrainerController extends Controller
 
     public function storePost(Request $request)
     {
-
-        // dd($request->all());
-
         $post = Post::create([
             'title' => $request->title,
             'content' => $request->content,

@@ -1,4 +1,6 @@
 <template>
+
+
     <!-- Banner Principal -->
     <section
         class="relative w-full h-96 overflow-hidden"

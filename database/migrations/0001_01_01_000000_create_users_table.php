@@ -26,7 +26,7 @@ return new class extends Migration {
             $table->string('google_calendar_id')->nullable(); // Para los trainers
             $table->string('image')->nullable();
             $table->string('description')->nullable();
-            $table->integer('experience_time')->nullable();
+            $table->integer('experience_time')->nullable()->default(1);
             $table->timestamps();
         });
 

@@ -20,21 +20,17 @@
                         class="flex flex-col items-center sm:items-start sm:w-1/3"
                     >
                         <div
-                            class="h-20 w-20 sm:h-28 sm:w-28 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mb-3 sm:mb-4"
+                            class="h-20 w-20 sm:h-28 sm:w-28 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mb-3 sm:mb-4 overflow-hidden"
                         >
-                            <svg
-                                class="h-10 w-10 sm:h-14 sm:w-14 text-blue-600 dark:text-blue-400"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                                />
-                            </svg>
+                            <img
+                                :src="
+                                    trainer.image
+                                        ? '/images/trainers/' + trainer.image
+                                        : '/images/default-avatar.jpg'
+                                "
+                                :alt="trainer.name"
+                                class="h-full w-full object-cover"
+                            />
                         </div>
                         <div class="text-center sm:text-left">
                             <h2
@@ -44,9 +40,13 @@
                             </h2>
                             <p
                                 class="text-sm text-gray-600 dark:text-gray-300 mt-1"
-                                :class="trainer.is_active ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'"
+                                :class="
+                                    trainer.is_active
+                                        ? 'text-green-600 dark:text-green-400'
+                                        : 'text-red-600 dark:text-red-400'
+                                "
                             >
-                          {{ trainer.is_active ? "Activo" : "Inactivo" }}
+                                {{ trainer.is_active ? "Activo" : "Inactivo" }}
                             </p>
                         </div>
                     </div>
@@ -67,14 +67,14 @@
                                 {{ trainer.email }}
                             </p>
                         </div>
-                        <div class="sm:ml-4">
+                        <div>
                             <p
                                 class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium"
                             >
                                 Categoría
                             </p>
                             <span
-                                class="inline-flex items-center px-3 py-1 sm:px-4 sm:py-2 mt-1 rounded-full text-xs sm:text-sm font-medium dark:text-orange-600"
+                                class="inline-flex items-center px-3 py-1 sm:px-4 sm:py-2 mt-1 rounded-full text-xs sm:text-sm font-medium dark:bg-orange-700 dark:text-orange-100"
                                 :class="{
                                     'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300':
                                         trainer.category === 'user',
@@ -92,37 +92,52 @@
                             </span>
                         </div>
 
-<!-- Descripción -->
-                    <div>
-                        <p
-                            class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium"
-                        >
-                            Descripción
-                        </p>
-                        <p
-                            class="text-base sm:text-lg text-gray-800 dark:text-gray-100 font-semibold mt-1 break-all"
-                        >
-                            {{ trainer.description === null || trainer.description === "" ? "Sin descripción" : trainer.description }}
-                        </p>
+                        <!-- Tiempo experiencia -->
+                        <div>
+                            <p
+                                class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium"
+                            >
+                                Tiempo experiencia
+                            </p>
+                            <p
+                                class="text-base sm:text-lg text-gray-800 dark:text-gray-100 font-semibold mt-1"
+                            >
+                                {{
+                                    trainer.experience_time || "No especificado"
+                                }}
+                            </p>
+                        </div>
                     </div>
+                </div>
 
-
-<!-- Tiempo experiencia -->
-                    <div>
-                        <p
-                            class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium"
+                <!-- Descripción Expandida -->
+                <div
+                    class="border-t border-gray-200 dark:border-gray-700 px-6 sm:px-8 py-4 sm:py-6"
+                >
+                    <p
+                        class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium mb-2"
+                    >
+                        Descripción
+                    </p>
+                    <div class="prose dark:prose-invert max-w-none">
+                        <template
+                            v-if="
+                                trainer.description &&
+                                trainer.description.trim() !== ''
+                            "
                         >
-                            Tiempo experiencia
-                        </p>
-                        <p
-                            class="text-base sm:text-lg text-gray-800 dark:text-gray-100 font-semibold mt-1 break-all"
-                        >
-                            {{ trainer.experience_time }}
-                        </p>
+                            <p
+                                class="text-gray-800 dark:text-gray-200 whitespace-pre-line"
+                            >
+                                {{ trainer.description }}
+                            </p>
+                        </template>
+                        <template v-else>
+                            <p class="text-gray-500 dark:text-gray-400 italic">
+                                Sin descripción
+                            </p>
+                        </template>
                     </div>
-
-                    </div>
-
                 </div>
 
                 <!-- Actions -->
@@ -206,7 +221,6 @@
 // Importaciones
 import { defineProps } from "vue";
 import { router } from "@inertiajs/vue3";
-
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 
 defineOptions({ layout: AdminLayout });

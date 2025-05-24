@@ -149,7 +149,7 @@ Route::middleware(['auth', 'verified', 'role:trainer'])->group(function () {
 
         /************************************** PLANES PERSONALIZADOS ************************************** */
 
-        Route::get('trainers/personalizedTraining', [TrainerController::class, 'personalizedTraining'])->name('trainers.pp');
+        Route::get('trainers/activityCalendar', [TrainerController::class, 'activityCalendar'])->name('trainers.activityCalendar');
 
         // Creación de un plan personalizado por el trainer
         Route::get('trainers/createPlan', [TrainerController::class, 'createPersonalizedTraining'])->name('trainers.createPlan');
@@ -299,6 +299,8 @@ Route::get('/appointments/list', [AppointmentController::class, 'list'])->name('
 Route::post('/appointmentsStore', [AppointmentController::class, 'store'])->name('appointments.store');
 Route::put('/appointments/{appointment}', [AppointmentController::class, 'update'])->name('appointments.update');
 Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
+
+Route::get('/appointments/admin', [AppointmentController::class, 'admin'])->name('appointments.admin');
 
 /************************************** CALENDARIO RESISTENCIA Y CARDIO ************************************** */
 

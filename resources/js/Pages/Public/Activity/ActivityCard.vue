@@ -34,11 +34,22 @@
             <div
                 class="w-full h- sm:h-80 md:h-[350px] lg:h-[700px] overflow-hidden"
             >
-                <img
-                    :src="activity.image"
+                <!-- <img
+                    :src="
+                        'images/activities/' + activity.image ||
+                        '/placeholder-actividad.jpg'
+                    "
                     alt="Imagen de la actividad"
                     class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                     loading="lazy"
+                /> -->
+                <img
+                    :src="
+                        '/images/activities/' + activity.image ||
+                        '/placeholder-actividad.jpg'
+                    "
+                    :alt="activity.name"
+                    class="w-full h-full object-cover"
                 />
             </div>
 

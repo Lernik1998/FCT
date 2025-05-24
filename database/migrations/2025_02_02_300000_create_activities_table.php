@@ -18,8 +18,8 @@ return new class extends Migration {
             $table->decimal('price', 10, 2);
             $table->time('start_time');
             $table->time('end_time');
-            $table->enum('status', ['pending', 'active', 'inactive'])->default('pending'); // El admin lo activa
-            $table->date('date'); // Podría moverse a otra tabla si hay más fechas por actividad
+            $table->enum('status', ['pending', 'active', 'inactive'])->default('active');
+            $table->date('date');
             $table->integer('slots')->nullable();
             $table->integer('capacity')->nullable();
             // Relación actividad - usuario(Instructor)

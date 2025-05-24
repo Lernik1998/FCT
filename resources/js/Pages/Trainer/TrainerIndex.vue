@@ -1,6 +1,4 @@
 <template>
-    <pre>{{ trainer }}</pre>
-
     <!-- Contenido principal -->
     <main
         class="container mx-auto py-6 px-4 sm:px-6 lg:px-8 dark:bg-gray-900 min-h-screen"
@@ -101,7 +99,7 @@
                     >
                         <button
                             @click="requestActivation()"
-                            class="w-full sm:w-auto text-sm bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 text-orange-600 dark:text-orange-400 px-4 py-2 rounded-lg border border-orange-300 dark:border-orange-600 transition-colors"
+                            class="w-full sm:w-auto text-sm bg-orange-100 dark:bg-orange-700 hover:bg-orange-200 dark:hover:bg-orange-800 text-orange-600 dark:text-orange-400 px-4 py-2 rounded-lg border border-orange-300 dark:border-orange-600 transition-colors duration-300"
                         >
                             Solicitar activación
                         </button>
