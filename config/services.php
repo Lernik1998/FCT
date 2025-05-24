@@ -39,7 +39,6 @@ return [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
         'redirect' => env('GOOGLE_REDIRECT'),
-        // 'calendar_id' => env('GOOGLE_CALENDAR_ID'),
     ],
 
     // Google Calendar

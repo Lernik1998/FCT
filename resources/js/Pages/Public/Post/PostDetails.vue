@@ -1,18 +1,13 @@
 <template>
-    <section
-        class="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8"
-    >
+    <section class="min-h-screen dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl mx-auto">
             <!-- Header -->
             <div class="text-center mb-8">
                 <h1
-                    class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl"
+                    class="text-3xl font-extrabold text-gray-900 dark:text-orange-600 sm:text-4xl"
                 >
-                    Detalles del Post
-                </h1>
-                <p class="mt-3 text-lg text-gray-500 dark:text-gray-400">
                     Información completa de la publicación
-                </p>
+                </h1>
             </div>
 
             <!-- Post Card -->
@@ -21,7 +16,7 @@
             >
                 <!-- Post Image -->
                 <img
-                    :src="post.image"
+                    :src="'/images/posts/' + post.image"
                     :alt="post.title"
                     class="w-full h-64 sm:h-80 object-cover"
                 />

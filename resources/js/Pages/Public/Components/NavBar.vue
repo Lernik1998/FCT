@@ -148,7 +148,7 @@
                             >{{ $t("pages.Nav.contact") }}</Link
                         >
                     </li>
-                    <li>
+                    <!-- <li>
                         <Link
                             :href="route('login')"
                             class="hover:underline"
@@ -159,6 +159,29 @@
                             @click="isMobileMenuOpen = false"
                             >{{ $t("pages.Nav.login") }}</Link
                         >
+                    </li> -->
+
+                    <li v-if="$page.props.auth.user">
+                        <Link
+                            :href="route('dashboard')"
+                            class="hover:underline"
+                            @click="isMobileMenuOpen = false"
+                        >
+                            Acceso
+                        </Link>
+                    </li>
+                    <li v-else>
+                        <Link
+                            :href="route('login')"
+                            class="hover:underline"
+                            :class="{
+                                'font-bold text-orange-500 underline':
+                                    $page.component === 'Auth/Login',
+                            }"
+                            @click="isMobileMenuOpen = false"
+                        >
+                            {{ $t("pages.Nav.login") }}
+                        </Link>
                     </li>
                 </ul>
             </div>

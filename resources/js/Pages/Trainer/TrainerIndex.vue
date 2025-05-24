@@ -1,7 +1,5 @@
 <template>
-
-
-<pre>{{ trainer }}</pre>
+    <pre>{{ trainer }}</pre>
 
     <!-- Contenido principal -->
     <main
@@ -138,34 +136,32 @@
                     >
                         Categoría no asignada
                     </h3>
-                    <p class="text-sm text-yellow-700 dark:text-yellow-400">
+                    <p
+                        class="text-sm text-yellow-700 dark:text-yellow-400"
+                        v-if="categoryRequest === 0"
+                    >
                         Actualmente no tienes una categoría asignada. Esto puede
                         afectar a la visibilidad de tus actividades. Por favor,
                         contacta con el administrador para resolver este tema.
+                    </p>
+                    <p
+                        class="text-sm text-yellow-700 dark:text-yellow-400"
+                        v-else
+                    >
+                        Ya se ha solicitado una categoría, el administrador
+                        asignará una categoría en breve.
                     </p>
                 </div>
                 <div>
                     <button
                         @click="requestCategory()"
+                        v-if="categoryRequest === 0"
                         class="bg-orange-500 hover:bg-orange-600 text-white rounded"
                     >
                         Solicitar categoría
                     </button>
                 </div>
             </div>
-        </section>
-        <section
-            class="flex flex-col items-center bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-10"
-            v-else
-        >
-            <h2
-                class="text-xl font-bold text-gray-800 dark:text-white"
-            >
-                Categoría asignada
-            </h2>
-            <p class="text-sm text-gray-700 dark:text-gray-400">
-                {{ trainer.category }}
-            </p>
         </section>
 
         <!-- Calendario de actividades -->
@@ -329,6 +325,7 @@ defineOptions({
 const props = defineProps({
     trainer: Object,
     activities: Array,
+    categoryRequest: String,
 });
 
 const calendar = ref(null);

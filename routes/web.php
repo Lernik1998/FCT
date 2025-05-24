@@ -248,6 +248,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
         Route::post('admin/asignCategory/{id}', [AdminController::class, 'asignCategory'])->withoutMiddleware('role:admin')->name('admin.asignCategory');
 
+        Route::post('admin/markAsDone/{id}', [AdminController::class, 'markAsDone'])->name('admin.markAsDone');
+
 
         // Contact
         // Route::get('admin/contactAdmin', [AdminController::class, 'contactAdmin'])->name('admin.contactAdmin');

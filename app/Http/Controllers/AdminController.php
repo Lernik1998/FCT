@@ -511,7 +511,9 @@ class AdminController extends Controller
         $trainers = User::where('role', 'trainer')->get();
 
         // Obtengo todas las solicitudes de categoría
-        $categories = ContactMessage::where('target', 'trainer')->get();
+        $categories = ContactMessage::where('target', 'trainer')
+            ->where('status', 'pending')
+            ->get();
 
         return inertia('Admin/InformationAdmin', [
             'messages' => $messages,
@@ -614,6 +616,15 @@ class AdminController extends Controller
             // Obtengo el trainer
             $trainer = User::findOrFail($id);
 
+
+            // Verifico si ya se ha solicitado una categoría
+            $contactMessage = ContactMessage::where('trainer_id', $id)->first();
+
+            if ($contactMessage) {
+                $message = 'Ya se ha solicitado una categoría';
+                return inertia('Trainer/TrainerIndex')->with('message', $message);
+            }
+
             // Creo el mensaje
             ContactMessage::create([
                 'name' => $trainer->name,
@@ -626,8 +637,6 @@ class AdminController extends Controller
 
             $contactMessage->save();
 
-            /* PENDIENTE REVISAR QUE EL TRAINER EXISTA, PARA EVITAR PROBLEMAS*/
-
             $message = 'Solicitud enviada correctamente';
 
 
@@ -637,6 +646,35 @@ class AdminController extends Controller
 
         // Retorno a la vista
         return inertia('Trainer/TrainerIndex')->with('message', $message);
+    }
+
+    public function markAsDone(string $id)
+    {
+        // dd($id);
+
+        // ContactMessage::create($request->all());
+        try {
+            // Obtengo el trainer
+            $trainer = User::findOrFail($id);
+
+            // Creo el mensaje
+            $contactMessage = ContactMessage::where('trainer_id', $id)->first();
+
+            // Cambio el estado el status
+            $contactMessage->status = 'completed';
+            $contactMessage->save();
+
+            $message = 'Gestión realizada correctamente';
+
+
+        } catch (\Throwable $th) {
+            $message = 'Error en el envío del mensaje, intentelo de nuevo más tarde!';
+        }
+
+
+
+        // Retorno a la vista
+        return redirect()->route('admin.informationAdmin');
     }
 
     // MENSAJES

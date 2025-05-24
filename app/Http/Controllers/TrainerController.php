@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\User; // Modelo de User
-// use App\Models\PersonalizedTraining; // Modelo de PersonalizedTraining
 use App\Models\Activity; // Modelo de Activity
 use App\Models\Category; // Modelo de Category
-use App\Models\Message; // Modelo de Message
+// use App\Models\Message; // Modelo de Message
 use App\Models\UserActivitiesReservations; // Modelo de UserActivitiesReservations
 use Illuminate\Support\Facades\Auth; // Facade para autenticación
 use Inertia\Inertia; // Facade para Inertia
 use App\Models\Post; // Modelo de Post
 use Illuminate\Support\Str; // Modelo Str para renombrar la imagen
+use App\Models\ContactMessage; // Modelo de ContactMessage
 
 class TrainerController extends Controller
 {
@@ -46,9 +46,18 @@ class TrainerController extends Controller
         // Obtengo las actividades del entrenador
         $activities = Activity::where('user_id', $trainer->id)->get();
 
+        // Verifico si el entrenador ya ha mandado la solicitud de categoría
+        $contactMessage = ContactMessage::where('trainer_id', $trainer->id)->first();
+
+        if ($contactMessage) {
+            $categoryRequest = 1;
+        } else {
+            $categoryRequest = 0;
+        }
+
 
         if ($user->role === 'trainer') {
-            return inertia('Trainer/TrainerIndex', compact('trainer', 'activities'));
+            return inertia('Trainer/TrainerIndex', compact('trainer', 'activities', 'categoryRequest'));
         } else {
             return redirect()->route('login');
         }
@@ -144,12 +153,12 @@ class TrainerController extends Controller
             ->when($request->search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('name', 'like', '%' . $search . '%')
-                    ->where('status', '!=', 'inactive')
+                        ->where('status', '!=', 'inactive')
                         ->orWhere('description', 'like', '%' . $search . '%');
                 });
             })
-            ->orderBy('date', 'desc')
-            ->orderBy('start_time', 'desc')
+            ->orderBy('date', 'asc')
+            ->orderBy('start_time', 'asc')
             ->paginate(10)
             ->withQueryString();
 
