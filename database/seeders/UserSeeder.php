@@ -55,6 +55,7 @@ class UserSeeder extends Seeder
             'description' => 'Clara lleva 10 años transformando vidas a través del movimiento. Experta en entrenamiento funcional y bienestar integral, su energía contagiosa convierte cada clase en una experiencia única y motivadora.',
             'experience_time' => '10',
         ]);
+        
 
         User::create([
             'name' => 'Lisa',
