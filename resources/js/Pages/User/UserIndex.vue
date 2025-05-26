@@ -1,4 +1,7 @@
 <template>
+
+<pre> {{ activities }}</pre>
+
     <main
         class="mx-auto py-6 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900 min-h-screen transition-colors duration-300"
     >
@@ -28,10 +31,13 @@
                     class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 dark:border-gray-700"
                 >
                     <div
-                        class="relative h-48 overflow-hidden bg-gray-200 dark:bg-gray-700 "
+                        class="relative h-48 overflow-hidden bg-gray-200 dark:bg-gray-700"
                     >
                         <img
-                            :src="activity.image || '/default-sport.jpg'"
+                            :src="
+                                'images/activities/' + activity.image ||
+                                '/default-sport.jpg'
+                            "
                             :alt="activity.name"
                             class="w-full h-full object-cover"
                             loading="lazy"

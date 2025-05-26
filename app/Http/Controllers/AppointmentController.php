@@ -8,24 +8,75 @@ use App\Models\Appointment;
 use Carbon\Carbon;
 use Spatie\GoogleCalendar\Event;
 use Telegram\Bot\Api as Telegram;
-use App\Models\Activity;
 use App\Models\Category;
-
-use Google_Service_Calendar_Event;
-use Google_Service_Calendar;
-
-use Google_Client;
-
-use Spatie\GoogleCalendar\GoogleCalendar;
-use Spatie\GoogleCalendar\GoogleCalendarFactory;
-
 use App\Helpers\CalendarChangeHelper;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+/*use App\Models\Activity;
+use Google_Service_Calendar_Event;
+use Google_Service_Calendar;
+use Google_Client;
+use Spatie\GoogleCalendar\GoogleCalendar;
+use Spatie\GoogleCalendar\GoogleCalendarFactory; */
+use App\Models\User;
+
 
 class AppointmentController extends Controller
 {
+
+    // Listado de eventos del CALENDARIO GENERAL
+    // public function list(Request $request)
+    // {
+    //     $request->validate([
+    //         'start' => 'required|date',
+    //         'end' => 'required|date',
+    //     ]);
+
+    //     $query = Appointment::whereBetween('start', [
+    //         Carbon::parse($request->start)->startOfDay(),
+    //         Carbon::parse($request->end)->endOfDay()
+    //     ]);
+
+    //     // Si no es admin ni trainer, solo mostrar sus propios eventos
+    //     // if (!auth()->user()->isAdmin && !auth()->user()->isTrainer) {
+    //     //     $query->where('user_id', auth()->id());
+    //     // }
+
+    //     // Si es admin obtengo todos los eventos
+    //     if (auth()->user()->isAdmin) {
+    //         $query = Appointment::whereBetween('start', [
+    //             Carbon::parse($request->start)->startOfDay(),
+    //             Carbon::parse($request->end)->endOfDay()
+    //         ]);
+    //     }
+
+    //     // Si es trainer obtengo los eventos de su categoría
+    //     if (auth()->user()->isTrainer) {
+    //         $query->where('category', auth()->user()->category);
+    //     }
+
+    //     $events = $query->get()->map(function ($appointment) {
+    //         return [
+    //             'id' => $appointment->id,
+    //             'title' => $appointment->title,
+    //             'start' => $appointment->start,
+    //             'end' => $appointment->end,
+    //             'allDay' => false,
+    //             'extendedProps' => [
+    //                 'description' => $appointment->description,
+    //                 // 'clientId' => $appointment->user_id,
+    //             ],
+    //             'backgroundColor' => '#f97316',
+    //             'borderColor' => '#ea580c',
+    //         ];
+    //     });
+
+    //     // MIRAR COMO DEVOLVER LOS DATOS JSON O INERTIA
+    //     return response()->json($events);
+    // }
+
+
     public function list(Request $request)
     {
         $request->validate([
@@ -33,15 +84,26 @@ class AppointmentController extends Controller
             'end' => 'required|date',
         ]);
 
-        $query = Appointment::whereBetween('start', [
+        $query = Appointment::query();
+
+        // Siempre filtramos por rango de fechas
+        $query->whereBetween('start', [
             Carbon::parse($request->start)->startOfDay(),
             Carbon::parse($request->end)->endOfDay()
         ]);
 
-        // Si no es admin ni trainer, solo mostrar sus propios eventos
-        if (!auth()->user()->isAdmin && !auth()->user()->isTrainer) {
+        // Si es admin, mostrar todos los eventos
+        if (auth()->user()->isAdmin) {
             $query->where('user_id', auth()->id());
         }
+
+        // Si es trainer, mostrar los eventos de su categoría
+        if (auth()->user()->isTrainer()) {
+            $query->where('category', auth()->user()->category);
+        }
+
+        // Si es admin, no aplicamos filtros adicionales (ya tiene los de fechas)
+        // Por tanto, no hace falta hacer nada más
 
         $events = $query->get()->map(function ($appointment) {
             return [
@@ -52,68 +114,17 @@ class AppointmentController extends Controller
                 'allDay' => false,
                 'extendedProps' => [
                     'description' => $appointment->description,
-                    // 'clientId' => $appointment->user_id,
                 ],
                 'backgroundColor' => '#f97316',
                 'borderColor' => '#ea580c',
             ];
         });
 
-        // MIRAR COMO DEVOLVER LOS DATOS JSON O INERTIA
         return response()->json($events);
     }
 
 
-    public function admin()
-    {
-        // $events = Appointment::all();
-        // return Inertia::render('Admin/IndexAdmin', [
-        //     'events' => $events
-        // ]);
-
-
-        $request->validate([
-            'start' => 'required|date',
-            'end' => 'required|date',
-        ]);
-
-        $query = Appointment::whereBetween('start', [
-            Carbon::parse($request->start)->startOfDay(),
-            Carbon::parse($request->end)->endOfDay()
-        ]);
-
-        // Si es Admin traer todos los eventos
-        if (auth()->user()->isAdmin) {
-            $query = Appointment::all();
-        }
-
-        //    // Si es Trainer traer solo sus propios eventos
-        //    if (auth()->user()->isTrainer) {
-        //        $query = Appointment::where('user_id', auth()->id())->get();
-        //    }
-
-        $events = $query->get()->map(function ($appointment) {
-            return [
-                'id' => $appointment->id,
-                'title' => $appointment->title,
-                'start' => $appointment->start,
-                'end' => $appointment->end,
-                'allDay' => false,
-                'extendedProps' => [
-                    'description' => $appointment->description,
-                    // 'clientId' => $appointment->user_id,
-                ],
-                'backgroundColor' => '#f97316',
-                'borderColor' => '#ea580c',
-            ];
-        });
-
-        // return response()->json($events);
-        return Inertia::render('Admin/IndexAdmin', [
-            'events' => $events
-        ]);
-
-    }
+    // FIXME: LO QUE HAY QUE HACER ES HACER UN MÉTODO QUE SEGÚN EL LA CATEGORIA A LA QUE PERTENECE EL TRAINER CARGAR SUS EVENTOS (Actividades).
 
 
     // public function store(Request $request)
@@ -192,8 +203,6 @@ class AppointmentController extends Controller
     // }
 
 
-
-
     public function store(Request $request)
     {
         // dd($request->all());
@@ -269,6 +278,7 @@ class AppointmentController extends Controller
                 'description' => $request->description ?? null,
                 'all_day' => $request->allDay ?? false,
                 'google_calendar_event_id' => $googleEvent->id,
+                'category' => $calendarType,
             ]);
 
             // Creo la actividad en el calendario

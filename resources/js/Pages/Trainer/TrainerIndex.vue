@@ -349,7 +349,7 @@ const calendarOptions = ref({
     firstDay: 1,
     height: "auto",
     contentHeight: "auto",
-    events: "/appointments/list",
+    events: "/appointments/list/",
     eventClick: handleEventClick,
     editable: false,
     selectable: true,

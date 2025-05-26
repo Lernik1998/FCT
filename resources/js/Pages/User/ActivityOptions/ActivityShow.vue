@@ -1,4 +1,6 @@
 <template>
+    <pre>{{ activity }}</pre>
+
     <!-- Contenido principal -->
     <main class="py-8 px-4 sm:px-6 lg:px-8 dark:bg-gray-900">
         <div class="items-center mb-10">
@@ -32,7 +34,10 @@
                 <!-- Imagen destacada -->
                 <div class="relative h-64 sm:h-80 w-full overflow-hidden">
                     <img
-                        :src="activity.image"
+                        :src="
+                            '/images/activities/' + activity.image ||
+                            '/default-sport.jpg'
+                        "
                         :alt="activity.name"
                         class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                     />

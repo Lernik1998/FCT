@@ -5,7 +5,6 @@
         <div class="container mx-auto flex justify-between items-center">
             <!-- Logo y título -->
             <div class="flex items-center space-x-3">
-                <!-- <img src="/logo-fitworking-white.png" alt="FitWorking Logo" class="h-8"> -->
                 <h1 class="text-xl font-bold dark:text-gray-100">
                     Panel de entrenador
                 </h1>
@@ -102,7 +101,8 @@
                             class="hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
                             :class="{
                                 'font-bold text-orange-500 underline':
-                                    $page.component === 'Trainer/TrainerActivityCalendar',
+                                    $page.component ===
+                                    'Trainer/TrainerActivityCalendar',
                             }"
                             >Actividades</Link
                         >
@@ -132,7 +132,7 @@
             <!-- Botón para abrir el menú en dispositivos móviles -->
             <div class="md:hidden">
                 <button
-                    @click="toggleMenu"
+                    @click="isMenuOpen = !isMenuOpen"
                     class="p-2 rounded-full text-white hover:bg-white/20 focus:outline-none transition-colors"
                 >
                     <svg
@@ -156,13 +156,13 @@
 
     <!-- Menú móvil -->
     <div
-        v-if="isMenuOpen"
+        v-show="isMenuOpen"
         class="md:hidden bg-blue-600 dark:bg-gray-800 text-white py-2 transition-all duration-300"
     >
         <ul class="space-y-4 px-4">
             <li>
                 <Link
-                    :href="route('trainers.index')"
+                    :href="route('trainers.trainerView')"
                     class="block hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
                     :class="{
                         'font-bold text-orange-500 underline':
@@ -172,7 +172,7 @@
                     >Inicio</Link
                 >
             </li>
-            <li>
+            <li v-if="$page.props.auth.user.is_active === 1">
                 <Link
                     :href="route('trainers.reservations')"
                     class="block hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
@@ -184,7 +184,7 @@
                     >Reservas</Link
                 >
             </li>
-            <li>
+            <li v-if="$page.props.auth.user.is_active === 1">
                 <Link
                     :href="route('trainers.messages')"
                     class="block hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
@@ -196,19 +196,20 @@
                     >Mensajes</Link
                 >
             </li>
-            <li>
+            <li v-if="$page.props.auth.user.is_active === 1">
                 <Link
-                    :href="route('trainers.pp')"
+                    :href="route('trainers.activityCalendar')"
                     class="block hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
                     :class="{
                         'font-bold text-orange-500 underline':
-                            $page.component === 'Trainer/TrainerPPlans',
+                            $page.component ===
+                            'Trainer/TrainerActivityCalendar',
                     }"
                     @click="isMenuOpen = false"
                     >Actividades</Link
                 >
             </li>
-            <li>
+            <li v-if="$page.props.auth.user.is_active === 1">
                 <Link
                     :href="route('trainers.posts')"
                     class="block hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
@@ -243,12 +244,8 @@ import { storeToRefs } from "pinia";
 const themeStore = useThemeStore();
 const { isDark } = storeToRefs(themeStore);
 
-// Variables para el menú móvil
-let isMenuOpen = ref(false);
-
-const toggleMenu = () => {
-    isMenuOpen.value = !isMenuOpen.value;
-};
+// Variable para el menú móvil
+const isMenuOpen = ref(false);
 
 const logout = () => {
     router.post(route("logout"));

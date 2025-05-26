@@ -14,14 +14,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Seeder de Usuarios iniciales, uno de cada tipo
-        // User::create([
-        //     'name' => 'Lernik',
-        //     'email' => 'lernik10@gmail.com',
-        //     'password' => bcrypt('1234'),
-        //     'role' => 'trainer',
-        // ]);
-
         User::create([
             'name' => 'admin',
             'email' => 'a@gmail.com',
@@ -55,7 +47,7 @@ class UserSeeder extends Seeder
             'description' => 'Clara lleva 10 años transformando vidas a través del movimiento. Experta en entrenamiento funcional y bienestar integral, su energía contagiosa convierte cada clase en una experiencia única y motivadora.',
             'experience_time' => '10',
         ]);
-        
+
 
         User::create([
             'name' => 'Lisa',
@@ -77,36 +69,20 @@ class UserSeeder extends Seeder
             'experience_time' => '4',
         ]);
 
+        User::create([
+            'name' => 'Francisco',
+            'email' => 't5@gmail.com',
+            'password' => bcrypt('1234'),
+            'role' => 'trainer',
+            'image' => 'trainer5.avif',
+            'description' => 'Francisco es un entrenador con experiencia en fitness y nutrición. Con un enfoque cercano y resultados visibles, ha acompañado a decenas de personas a lograr sus metas de forma sostenible.',
+            'experience_time' => '2',
+        ]);
+
 
         // 100 usuarios
         User::factory(1)->create([
             'role' => 'user',
         ]);
-
-        // Entrenadores
-        // User::factory(1)->create([
-        //     'role' => 'trainer',
-        //     'category' => 'Resistencia y cardio',
-        // ]);
-        // User::factory(1)->create([
-        //     'role' => 'trainer',
-        //     'category' => 'Baile',
-        // ]);
-        // User::factory(1)->create([
-        //     'role' => 'trainer',
-        //     'category' => 'Flexibilidad y cuerpo-mente',
-        // ]);
-        // User::factory(1)->create([
-        //     'role' => 'trainer',
-        //     'category' => 'Fuerza y acondicionamiento',
-        // ]);
-        // User::factory(1)->create([
-        //     'role' => 'trainer',
-        //     'category' => 'Rehabilitación o movimiento suave',
-        // ]);
-        // User::factory(1)->create([
-        //     'role' => 'trainer',
-        //     'category' => 'General',
-        // ]);
     }
 }

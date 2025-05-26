@@ -22,7 +22,9 @@ return Application::configure(basePath: dirname(__DIR__))
         // Alias para el middleware de rol
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
+            'roleAdminOrTrainer' => \App\Http\Middleware\RoleAdminOrTrainer::class,
         ]);
+
 
 
     })->withExceptions(function (Exceptions $exceptions) {

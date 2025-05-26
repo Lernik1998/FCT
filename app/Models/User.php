@@ -187,5 +187,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Transaction::class);
     }
-    
+
+    // Verifica si es trainer
+    public function isTrainer()
+    {
+        return $this->role === 'trainer';
+    }
+
+
 }

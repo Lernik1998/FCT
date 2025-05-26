@@ -547,7 +547,7 @@ const calendarOptions = ref({
 
     height: "auto",
     contentHeight: "auto",
-    events: "/appointments/admin",
+    events: "/appointments/list",
 
 
     // googleCalendarApiKey: Env.GOOGLE_CALENDAR_API_KEY,

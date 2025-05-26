@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('user_id'); // Cambiado a unsignedBigInteger
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('google_calendar_event_id')->nullable();
+            $table->string('category');
         });
     }
 
