@@ -1,5 +1,45 @@
 <template>
-    <Head :title="'Home'" />
+    <head>
+        <Head :title="'Inicio'" />
+        <meta
+            name="description"
+            content="FitWorking - Encuentra actividades, conecta con entrenadores y únete a la comunidad de FitWorking"
+        />
+        <link rel="icon" href="/iconFW.ico" type="image/x-icon" />
+
+        <meta
+            name="keywords"
+            content="FitWorking, actividades, entrenadores, comunidad"
+        />
+        <meta name="author" content="FitWorking" />
+        <meta name="robots" content="index, follow" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#ffffff" />
+        <meta
+            name="og:title"
+            content="FitWorking - Encuentra actividades, conecta con entrenadores y únete a la comunidad de FitWorking"
+        />
+        <meta
+            name="og:description"
+            content="FitWorking - Encuentra actividades, conecta con entrenadores y únete a la comunidad de FitWorking"
+        />
+        <meta name="og:type" content="website" />
+        <meta name="og:url" content="https://fitworking.com" />
+        <meta
+            name="og:image"
+            content="https://fitworking.com/images/og-image.jpg"
+        />
+
+        <!-- Canonical URL -->
+        <link rel="canonical" href="https://fitworking.es" />
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net" />
+        <link
+            href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap"
+            rel="stylesheet"
+        />
+    </head>
 
     <!-- Banner Principal -->
     <!-- <section class="text-center py-16 bg-gray-100">
@@ -411,7 +451,6 @@ const login = () => {
 const exploreActivities = () => {
     router.visit(route("activities.index"));
 };
-
 
 // Pueden venir de props o API
 const benefits = [

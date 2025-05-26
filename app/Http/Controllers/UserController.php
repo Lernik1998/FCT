@@ -24,6 +24,9 @@ class UserController extends Controller
         $currentDate = $now->format('Y-m-d');
         $currentTime = $now->format('H:i:s');
 
+        // Obtenemos los ids de las actividades reservadas
+        $reservedActivityIds = $user->reservations()->pluck('activity_id')->toArray();
+
         // Actividades destacadas (excluyendo General)
         $featuredActivities = Activity::with('category')
             ->where('status', 'active')
@@ -38,12 +41,26 @@ class UserController extends Controller
                     });
             })
             ->select(['id', 'name', 'description', 'date', 'category_id', 'image', 'start_time', 'end_time', 'price', 'slots'])
+            ->whereNotIn('id', $reservedActivityIds)
             ->limit(3)
             ->get();
 
         // Query principal para actividades
+        // $activitiesQuery = Activity::with('category')
+        //     ->where('status', 'active')
+        //     ->where(function ($query) use ($currentDate, $currentTime) {
+        //         $query->where('date', '>', $currentDate)
+        //             ->orWhere(function ($q) use ($currentDate, $currentTime) {
+        //                 $q->where('date', $currentDate)
+        //                     ->where('start_time', '>', $currentTime);
+        //             });
+        //     })
+        //     ->whereHas('category', function ($q) {
+        //         $q->where('name', '!=', 'General'); // Excluir General por defecto
+        //     });
         $activitiesQuery = Activity::with('category')
             ->where('status', 'active')
+            ->whereNotIn('id', $reservedActivityIds) // <-- Excluir reservadas
             ->where(function ($query) use ($currentDate, $currentTime) {
                 $query->where('date', '>', $currentDate)
                     ->orWhere(function ($q) use ($currentDate, $currentTime) {
@@ -52,8 +69,9 @@ class UserController extends Controller
                     });
             })
             ->whereHas('category', function ($q) {
-                $q->where('name', '!=', 'General'); // Excluir General por defecto
+                $q->where('name', '!=', 'General');
             });
+
 
         // Aplicar filtros
         if (request('search')) {

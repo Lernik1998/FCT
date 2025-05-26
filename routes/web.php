@@ -11,13 +11,10 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserActivitiesReservationsController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\GoogleCalendarController;
 use App\Http\Controllers\MembershipController;
-// use Spatie\GoogleCalendar\Event;
 use App\Http\Middleware\TranslationsMiddleware;
 use App\Http\Controllers\StripeController;
 use Illuminate\Support\Facades\Auth;
-use App\Mail\ReservationPayment;
 
 
 Route::middleware([
@@ -283,36 +280,20 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     });
 });
 
-// Google
+// Google Login
 Route::controller(SocialiteController::class)->group(function () {
     Route::get('/auth/google', 'googleLogin')->name('auth.google');
     Route::get('/auth/google-callback', 'googleCallback')->name('auth.google-callback');
 });
 
-/************************************** CALENDARIO GENERAL ************************************** */
-// Google Calendar
-// Route::get('/appointments', [AppointmentController::class, 'index'])->name('calendar.index');
-// Route::get('/appointments/list', [AppointmentController::class, 'list'])->name('appointments.list');
-// Route::post('/appointmentsStore', [AppointmentController::class, 'store'])->name('appointments.store');
-// Route::put('/appointments/{appointment}', [AppointmentController::class, 'update'])->name('appointments.update');
-// Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
-
-// //FIXME: Por ahora lo pongo aquí
-// Route::get('/inbox', [MessageController::class, 'inbox'])->name('inbox');
-// Route::post('/message/{user}', [MessageController::class, 'store'])->name('message.store');
-// Route::get('/message/{user}', [MessageController::class, 'show'])->name('message.show');
-
 
 Route::middleware(['auth', 'verified', 'roleAdminOrTrainer'])->group(function () {
     // Rutas del calendario accesibles para admin y trainer
-
-
     Route::get('/appointments/list', [AppointmentController::class, 'list'])->name('appointments.list');
     Route::post('/appointmentsStore', [AppointmentController::class, 'store'])->name('appointments.store');
     Route::put('/appointments/{appointment}', [AppointmentController::class, 'update'])->name('appointments.update');
     Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
 
-    //FIXME: Por ahora lo pongo aquí
     Route::get('/inbox', [MessageController::class, 'inbox'])->name('inbox');
     Route::post('/message/{user}', [MessageController::class, 'store'])->name('message.store');
     Route::get('/message/{user}', [MessageController::class, 'show'])->name('message.show');
