@@ -13,6 +13,7 @@ use App\Helpers\CalendarChangeHelper;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use App\Models\Activity;
 /*use App\Models\Activity;
 use Google_Service_Calendar_Event;
 use Google_Service_Calendar;
@@ -313,23 +314,39 @@ class AppointmentController extends Controller
             // dd($activity);
 
 
-            DB::insert('INSERT INTO activities (
-                name, description, image, price, start_time, end_time, date,
-                slots, category_id, user_id, created_at, updated_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
-                $request->title,
-                $request->description ?? 'Sin descripción',
-                'default.jpg',
-                $request->price,
-                $request->start,
-                $request->end,
-                $dia,
-                $request->capacity,
-                $category->id,
-                auth()->id(),
-                now(),
-                now()
-            ]);
+
+            $activity = new Activity();
+            $activity->name = $request->title;
+            $activity->description = $request->description ?? 'Sin descripción';
+            $activity->image = 'default.jpg';
+            $activity->price = $request->price;
+            $activity->start_time = $request->start;
+            $activity->end_time = $request->end;
+            $activity->date = $dia;
+            $activity->capacity = $request->capacity;
+            $activity->slots = $request->capacity; // ← slots igual a capacity
+            $activity->category_id = $category->id;
+            $activity->user_id = auth()->id();
+            $activity->save();
+
+
+            // DB::insert('INSERT INTO activities (
+            //     name, description, image, price, start_time, end_time, date,
+            //     capacity, category_id, user_id, created_at, updated_at
+            // ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+            //     $request->title,
+            //     $request->description ?? 'Sin descripción',
+            //     'default.jpg',
+            //     $request->price,
+            //     $request->start,
+            //     $request->end,
+            //     $dia,
+            //     $request->capacity,
+            //     $category->id,
+            //     auth()->id(),
+            //     now(),
+            //     now()
+            // ]);
 
             // Luego actualizas la imagen si se subió
             if ($request->hasFile('image')) {
@@ -374,6 +391,16 @@ class AppointmentController extends Controller
 
             return redirect()->route('trainers.activityCalendar')->with('message', 1);
         }
+    }
+
+    public function getActivityInfo($name)
+    {
+
+
+        // Busco la actividad
+        $activity = Activity::where('name', $name)->first();
+
+        return response()->json($activity);
     }
 
 

@@ -294,6 +294,8 @@ Route::middleware(['auth', 'verified', 'roleAdminOrTrainer'])->group(function ()
     Route::put('/appointments/{appointment}', [AppointmentController::class, 'update'])->name('appointments.update');
     Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
 
+    Route::get('/activity/info/{name}', [AppointmentController::class, 'getActivityInfo'])->name('activity.info');
+
     Route::get('/inbox', [MessageController::class, 'inbox'])->name('inbox');
     Route::post('/message/{user}', [MessageController::class, 'store'])->name('message.store');
     Route::get('/message/{user}', [MessageController::class, 'show'])->name('message.show');

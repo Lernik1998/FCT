@@ -12,6 +12,7 @@ class Activity extends Model
 
     protected $guarded = [];
 
+    // Relación actividad - categoría
     public function category()
     {
         return $this->belongsTo(Category::class);

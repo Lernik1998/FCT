@@ -1,6 +1,4 @@
 <template>
-    <pre>{{ categories }}</pre>
-
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
         <!-- Head -->
         <Head :title="'Panel de Administración'" />
@@ -207,6 +205,18 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Estado vacío -->
+                <div
+                    v-else
+                    class="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 text-center"
+                >
+                    <p
+                        class="text-gray-500 dark:text-gray-400 text-base sm:text-lg"
+                    >
+                        No hay solicitudes de categoría
+                    </p>
+                </div>
             </section>
         </main>
     </div>
@@ -215,9 +225,10 @@
 <script setup>
 import { ref, watch } from "vue";
 import { router } from "@inertiajs/vue3";
-import { Head } from "@inertiajs/vue3";
-import AdminNavBar from "./Components/AdminNavBar.vue";
 import ConfirmationModal from "../../Components/ConfirmationModal.vue";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
+
+defineOptions({ layout: AdminLayout });
 
 const props = defineProps([
     "messages",
@@ -225,11 +236,6 @@ const props = defineProps([
     "messageStatus",
     "categories",
 ]);
-
-// Componentes
-import AdminLayout from "@/Layouts/AdminLayout.vue";
-
-defineOptions({ layout: AdminLayout });
 
 const messages = ref([...props.messages]);
 const trainers = ref(props.trainers);

@@ -316,26 +316,6 @@ const calendarOptions = ref({
     height: "auto",
     contentHeight: "auto",
     events: "/appointments/list",
-    // events: async function (fetchInfo, successCallback, failureCallback) {
-    //     try {
-    //         const response = await axios.get("/api/calendar-events", {
-    //             params: {
-    //                 start: fetchInfo.start.toISOString(),
-    //                 end: fetchInfo.end.toISOString(),
-    //             },
-    //         });
-    //         successCallback(response.data);
-    //     } catch (error) {
-    //         failureCallback(error);
-    //     }
-    // },
-
-    // eventDidMount: function (info) {
-    //     info.el.addEventListener("click", () => {
-    //         handleEventClick(info);
-    //     });
-    // },
-
     eventDrop: handleEventDrop,
     eventResize: handleEventResize,
 
@@ -372,6 +352,25 @@ const calendarOptions = ref({
     //     minute: "2-digit",
     //     meridiem: false,
     //     hour12: false,
+    // },
+    // events: async function (fetchInfo, successCallback, failureCallback) {
+    //     try {
+    //         const response = await axios.get("/api/calendar-events", {
+    //             params: {
+    //                 start: fetchInfo.start.toISOString(),
+    //                 end: fetchInfo.end.toISOString(),
+    //             },
+    //         });
+    //         successCallback(response.data);
+    //     } catch (error) {
+    //         failureCallback(error);
+    //     }
+    // },
+
+    // eventDidMount: function (info) {
+    //     info.el.addEventListener("click", () => {
+    //         handleEventClick(info);
+    //     });
     // },
 });
 
@@ -911,9 +910,13 @@ onMounted(() => {
 }
 
 :deep(.fc) {
-    height: 600px;
+    height: auto !important;
+    min-height: 600px;
 }
 
+:deep(.fc-view) {
+    min-height: 600px;
+}
 /* Ajustes para tablets */
 @media (min-width: 768px) and (max-width: 1024px) {
     :deep(.fc-header-toolbar) {

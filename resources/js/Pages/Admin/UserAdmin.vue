@@ -1,11 +1,43 @@
 <template>
     <div class="container mx-auto p-4 sm:p-6 dark:bg-gray-900 min-h-screen">
-        <h1 class="text-2xl sm:text-3xl font-bold mb-6 text-center dark:text-white">
+        <!-- Botón de volver -->
+        <button
+            @click="() => router.visit(route('admin.index'))"
+            class="bg-white text-center w-48 rounded-2xl h-14 relative text-black text-xl font-semibold group"
+            type="button"
+        >
+            <div
+                class="bg-green-400 rounded-xl h-12 w-1/4 flex items-center justify-center absolute left-1 top-[4px] group-hover:w-[184px] z-10 duration-500"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 1024 1024"
+                    height="25px"
+                    width="25px"
+                >
+                    <path
+                        d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
+                        fill="#000000"
+                    ></path>
+                    <path
+                        d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
+                        fill="#000000"
+                    ></path>
+                </svg>
+            </div>
+            <p class="translate-x-2">Volver</p>
+        </button>
+
+        <h1
+            class="text-2xl sm:text-3xl font-bold mb-6 text-center dark:text-white"
+        >
             Gestión de usuarios
         </h1>
 
         <!-- Barra de acciones y búsqueda -->
-        <div class="mb-6 sm:mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div
+            class="mb-6 sm:mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
+        >
             <a
                 :href="route('admin.createUserView')"
                 class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow transition duration-200 dark:bg-blue-700 dark:hover:bg-blue-800 w-full sm:w-auto text-center"
@@ -39,9 +71,13 @@
         </div>
 
         <!-- Tabla de usuarios -->
-        <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
+        <div
+            class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden"
+        >
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <table
+                    class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
+                >
                     <thead class="bg-gray-50 dark:bg-gray-700">
                         <tr>
                             <th
@@ -70,7 +106,9 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                    <tbody
+                        class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700"
+                    >
                         <tr
                             v-for="user in users.data"
                             :key="user.id"
@@ -89,11 +127,15 @@
                             <td
                                 class="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300"
                             >
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                                <span
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
                                     :class="{
-                                        'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300': user.role === 'admin',
-                                        'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300': user.role === 'user',
-                                        'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300': user.role === 'trainer'
+                                        'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300':
+                                            user.role === 'admin',
+                                        'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300':
+                                            user.role === 'user',
+                                        'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300':
+                                            user.role === 'trainer',
                                     }"
                                 >
                                     {{ user.role }}
@@ -111,7 +153,10 @@
                             </td>
                         </tr>
                         <tr v-if="users.data.length === 0">
-                            <td colspan="4" class="px-4 sm:px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                            <td
+                                colspan="4"
+                                class="px-4 sm:px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400"
+                            >
                                 No se encontraron usuarios
                             </td>
                         </tr>
@@ -121,7 +166,9 @@
         </div>
 
         <!-- Paginación -->
-        <div class="mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div
+            class="mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-between gap-4"
+        >
             <div class="text-sm text-gray-500 dark:text-gray-400">
                 Mostrando página {{ users.current_page }} de
                 {{ users.last_page }}
@@ -137,7 +184,8 @@
                     :class="{
                         'border-gray-300 text-gray-500 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700':
                             link.url && !link.active,
-                        'border-blue-500 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-900/50 dark:text-blue-200': link.active,
+                        'border-blue-500 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-900/50 dark:text-blue-200':
+                            link.active,
                         'border-gray-200 text-gray-400 dark:border-gray-700 dark:text-gray-500 cursor-not-allowed':
                             !link.url,
                     }"

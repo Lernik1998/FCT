@@ -1,11 +1,43 @@
 <template>
     <div class="container mx-auto p-4 sm:p-6 dark:bg-gray-900 min-h-screen">
-        <h1 class="text-2xl sm:text-3xl font-bold mb-6 text-center dark:text-white">
+        <!-- Botón de volver -->
+        <button
+            @click="() => router.visit(route('admin.index'))"
+            class="bg-white text-center w-48 rounded-2xl h-14 relative text-black text-xl font-semibold group"
+            type="button"
+        >
+            <div
+                class="bg-green-400 rounded-xl h-12 w-1/4 flex items-center justify-center absolute left-1 top-[4px] group-hover:w-[184px] z-10 duration-500"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 1024 1024"
+                    height="25px"
+                    width="25px"
+                >
+                    <path
+                        d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
+                        fill="#000000"
+                    ></path>
+                    <path
+                        d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
+                        fill="#000000"
+                    ></path>
+                </svg>
+            </div>
+            <p class="translate-x-2">Volver</p>
+        </button>
+
+        <h1
+            class="text-2xl sm:text-3xl font-bold mb-6 text-center dark:text-white"
+        >
             Gestión de Actividades
         </h1>
 
         <!-- Barra de acciones y búsqueda -->
-        <div class="mb-6 sm:mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div
+            class="mb-6 sm:mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
+        >
             <a
                 :href="route('admin.createActivityView')"
                 class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow transition duration-200 dark:bg-blue-700 dark:hover:bg-blue-800 w-full sm:w-auto text-center"
@@ -39,9 +71,13 @@
         </div>
 
         <!-- Tabla de actividades -->
-        <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
+        <div
+            class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden"
+        >
             <div class="overflow-x-auto max-h-96 sm:max-h-full">
-                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <table
+                    class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
+                >
                     <thead class="bg-gray-50 dark:bg-gray-700">
                         <tr>
                             <th
@@ -76,7 +112,9 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                    <tbody
+                        class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700"
+                    >
                         <tr
                             v-for="activity in activities.data"
                             :key="activity.id"
@@ -102,7 +140,9 @@
                             >
                                 {{ formatCurrency(activity.price) }}
                             </td>
-                            <td class="px-4 sm:px-6 py-4 whitespace-nowrap text-sm">
+                            <td
+                                class="px-4 sm:px-6 py-4 whitespace-nowrap text-sm"
+                            >
                                 <span :class="statusClass(activity.status)">
                                     {{ statusText(activity.status) }}
                                 </span>
@@ -112,13 +152,23 @@
                             >
                                 <div class="flex space-x-2">
                                     <a
-                                        :href="route('admin.activityShow', activity.id)"
+                                        :href="
+                                            route(
+                                                'admin.activityShow',
+                                                activity.id
+                                            )
+                                        "
                                         class="text-blue-600 hover:text-blue-900 hover:underline dark:text-blue-400 dark:hover:text-blue-300"
                                     >
                                         Ver
                                     </a>
                                     <a
-                                        :href="route('admin.activityEdit', activity.id)"
+                                        :href="
+                                            route(
+                                                'admin.activityEdit',
+                                                activity.id
+                                            )
+                                        "
                                         class="text-yellow-600 hover:text-yellow-900 hover:underline dark:text-yellow-400 dark:hover:text-yellow-300"
                                     >
                                         Editar
@@ -133,7 +183,10 @@
                             </td>
                         </tr>
                         <tr v-if="activities.data.length === 0">
-                            <td colspan="6" class="px-4 sm:px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                            <td
+                                colspan="6"
+                                class="px-4 sm:px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400"
+                            >
                                 No se encontraron actividades
                             </td>
                         </tr>
@@ -143,7 +196,9 @@
         </div>
 
         <!-- Paginación -->
-        <div class="mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div
+            class="mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-between gap-4"
+        >
             <div class="text-sm text-gray-500 dark:text-gray-400">
                 Mostrando página {{ activities.current_page }} de
                 {{ activities.last_page }}
@@ -159,7 +214,8 @@
                     :class="{
                         'border-gray-300 text-gray-500 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700':
                             link.url && !link.active,
-                        'border-blue-500 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-900/50 dark:text-blue-200': link.active,
+                        'border-blue-500 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-900/50 dark:text-blue-200':
+                            link.active,
                         'border-gray-200 text-gray-400 dark:border-gray-700 dark:text-gray-500 cursor-not-allowed':
                             !link.url,
                     }"
@@ -215,11 +271,14 @@ const translatePaginationLabel = (label) => {
 const statusClass = (status) => {
     const classes = {
         active: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
-        inactive: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
-        pending: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300",
+        inactive:
+            "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
+        pending:
+            "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300",
     };
     return `${
-        classes[status] || "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
+        classes[status] ||
+        "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
     } inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium`;
 };
 
