@@ -7,7 +7,11 @@
         >
             <!-- Logo y título -->
             <div class="flex items-center space-x-4">
-                <h1 class="text-xl font-bold">Panel de Administración</h1>
+                <h1
+                    class="text-xl font-bold hover:scale-105 transition-transform duration-200"
+                >
+                    Panel de Administración
+                </h1>
 
                 <!-- Botón de tema -->
                 <button
@@ -60,7 +64,7 @@
             <!-- Botón hamburguesa -->
             <button
                 @click="toggleMenu"
-                class="md:hidden mt-2 text-white focus:outline-none"
+                class="md:hidden mt-2 text-white focus:outline-none transition-transform duration-200 hover:scale-110"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -92,22 +96,31 @@
                     <li>
                         <a
                             :href="route('admin.index')"
-                            class="hover:underline"
+                            class="relative group transition duration-300 px-2 py-1 rounded"
                             :class="{
-                                'font-bold text-orange-300 underline':
-                                    $page.component === 'Admin/AdminIndex',
+                                'font-bold bg-white/20 underline-effect-active':
+                                    $page.component === 'Admin/IndexAdmin',
                             }"
                             @click="isMenuOpen = false"
                         >
-                            Inicio
+                            <span class="relative">
+                                Inicio
+                                <span
+                                    class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+                                ></span>
+                            </span>
+                            <span
+                                v-if="$page.component === 'Admin/IndexAdmin'"
+                                class="absolute -bottom-1 left-0 w-full h-0.5 bg-white pulse-animation"
+                            ></span>
                         </a>
                     </li>
                     <li class="relative">
                         <a
                             :href="route('admin.informationAdmin')"
-                            class="hover:underline flex items-center"
+                            class="relative group transition duration-300 px-2 py-1 rounded hover:underline flex items-center"
                             :class="{
-                                'font-bold text-orange-300 underline':
+                                'font-bold bg-white/20 underline-effect-active':
                                     $page.component ===
                                     'Admin/InformationAdmin',
                             }"
@@ -125,31 +138,52 @@
                     <li>
                         <a
                             :href="route('admin.messageAdmin')"
-                            class="hover:underline"
+                            class="relative group transition duration-300 px-2 py-1 rounded hover:underline"
                             :class="{
-                                'font-bold text-orange-300 underline':
+                                'font-bold bg-white/20 underline-effect-active':
                                     $page.component === 'Admin/MessageAdmin',
                             }"
                             @click="isMenuOpen = false"
                         >
-                            Mensajes
+                            <span class="relative">
+                                Mensajes
+                                <span
+                                    class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+                                ></span>
+                            </span>
+                            <span
+                                v-if="$page.component === 'Admin/MessageAdmin'"
+                                class="absolute -bottom-1 left-0 w-full h-0.5 bg-white pulse-animation"
+                            ></span>
                         </a>
                     </li>
                     <li>
                         <Link
                             :href="route('profile.show')"
-                            class="hover:underline"
+                            class="relative group transition duration-300 px-2 py-1 rounded hover:underline"
                             :class="{
-                                'font-bold text-orange-300 underline':
+                                'font-bold bg-white/20 underline-effect-active':
                                     $page.component === 'Profile/Show',
                             }"
                             @click="isMenuOpen = false"
                         >
-                            Mi cuenta
+                            <span class="relative">
+                                Mi cuenta
+                                <span
+                                    class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+                                ></span>
+                            </span>
+                            <span
+                                v-if="$page.component === 'Profile/Show'"
+                                class="absolute -bottom-1 left-0 w-full h-0.5 bg-white pulse-animation"
+                            ></span>
                         </Link>
                     </li>
                     <li>
-                        <button @click="logout" class="hover:underline">
+                        <button
+                            @click="logout"
+                            class="relative group transition duration-300 px-2 py-1 rounded hover:underline"
+                        >
                             Cerrar sesión
                         </button>
                     </li>

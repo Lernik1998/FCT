@@ -1,8 +1,4 @@
 <template>
-    <!-- <pre>{{ reservations }}</pre> -->
-
-    <!-- <pre>{{ hasMembership }}</pre> -->
-
     <!-- Contenido Principal -->
     <main
         class="w-full min-h-screen mx-auto py-8 px-4 sm:px-6 dark:bg-gray-900 transition-colors duration-300"
@@ -21,7 +17,6 @@
                     Revisa y gestiona todas tus actividades reservadas
                 </p>
             </div>
-            <!--TODO: -->
 
             <div class="mt-4 md:mt-0">
                 <div
@@ -63,14 +58,6 @@
                                 </svg>
                             </div>
                         </div>
-
-                        <!-- Botón adicional si necesitas -->
-                        <!-- <button
-                            @click="filter = 'all'"
-                            class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-3 rounded-full transition-colors duration-200 whitespace-nowrap"
-                        >
-                            Restaurar
-                        </button> -->
                     </div>
                 </div>
             </div>
@@ -89,38 +76,38 @@
                         <tr>
                             <th
                                 scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider dark:text-orange-500"
                             >
                                 Actividad
                             </th>
                             <th
                                 scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider dark:text-orange-500"
                             >
                                 Estado
                             </th>
                             <th
                                 scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider dark:text-orange-500"
                             >
                                 Fecha
                             </th>
 
                             <th
                                 scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider dark:text-orange-500"
                             >
                                 Hora
                             </th>
                             <th
                                 scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider dark:text-orange-500"
                             >
                                 Importe
                             </th>
                             <th
                                 scope="col"
-                                class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                class="px-6 py-3 text-right text-xs font-medium text-gray-700 uppercase tracking-wider dark:text-orange-500"
                             >
                                 Acciones
                             </th>

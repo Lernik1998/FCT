@@ -548,15 +548,9 @@ const calendarOptions = ref({
     height: "auto",
     contentHeight: "auto",
     events: "/appointments/list",
-
-
-    // googleCalendarApiKey: Env.GOOGLE_CALENDAR_API_KEY,
-
-    // events:{
-    //     googleCalendarId: Env.GOOGLE_CALENDAR_ID,
-    // }
-
+    weekNumbers: false,
     eventClick: handleEventClick,
+    fixedWeekCount: false,
     editable: false,
     selectable: true,
     selectMirror: true,
@@ -574,11 +568,6 @@ const calendarOptions = ref({
     eventTextColor: "#ffffff",
 
     firstDay: 1, // Lunes como primer día de la semana
-    // businessHours: {
-    //     daysOfWeek: [1, 2, 3, 4, 5], // Lunes a Viernes
-    //     startTime: "08:00",
-    //     endTime: "20:00",
-    // },
     editable: false, // Permite arrastrar y soltar eventos
     selectable: false, // Permite seleccionar intervalos de tiempo
 });

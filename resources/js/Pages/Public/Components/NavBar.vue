@@ -7,12 +7,12 @@
         >
             <!-- Logo y botones -->
             <div class="flex items-center space-x-4">
-                <span class="text-xl font-bold">FitWorking</span>
+                <span class="text-xl font-bold dark:text-orange-600">FitWorking</span>
 
                 <!-- Botón de tema -->
                 <button
                     @click="themeStore.toggleDarkMode"
-                    class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                    class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition transform hover:scale-110 duration-300"
                     :aria-label="
                         isDark
                             ? 'Cambiar a modo claro'
@@ -59,7 +59,7 @@
             <!-- Botón hamburguesa (visible en móvil) -->
             <button
                 @click="isMobileMenuOpen = !isMobileMenuOpen"
-                class="md:hidden mt-2 text-gray-800 dark:text-white focus:outline-none"
+                class="md:hidden mt-2 text-gray-800 dark:text-white focus:outline-none transition transform hover:scale-110 duration-300"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -91,96 +91,148 @@
                     <li>
                         <Link
                             :href="route('index')"
-                            class="hover:underline"
+                            class="relative group transition duration-300"
                             :class="{
-                                'font-bold text-orange-500 underline':
+                                'font-bold text-orange-500':
                                     $page.component === 'Index',
                             }"
                             @click="isMobileMenuOpen = false"
-                            >{{ $t("pages.Nav.home") }}</Link
                         >
+                            <span class="relative">
+                                {{ $t("pages.Nav.home") }}
+                                <span
+                                    class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"
+                                ></span>
+                            </span>
+                            <span
+                                v-if="$page.component === 'Index'"
+                                class="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-500 pulse-animation"
+                            ></span>
+                        </Link>
                     </li>
                     <li>
                         <Link
                             :href="route('activities.index')"
-                            class="hover:underline"
+                            class="relative group transition duration-300"
                             :class="{
-                                'font-bold text-orange-500 underline':
+                                'font-bold text-orange-500':
                                     $page.component === 'Public/Activity',
                             }"
                             @click="isMobileMenuOpen = false"
-                            >{{ $t("pages.Nav.activities") }}</Link
                         >
+                            <span class="relative">
+                                {{ $t("pages.Nav.activities") }}
+                                <span
+                                    class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"
+                                ></span>
+                            </span>
+                            <span
+                                v-if="$page.component === 'Public/Activity'"
+                                class="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-500 pulse-animation"
+                            ></span>
+                        </Link>
                     </li>
                     <li>
                         <Link
                             :href="route('trainers.index')"
-                            class="hover:underline"
+                            class="relative group transition duration-300"
                             :class="{
-                                'font-bold text-orange-500 underline':
+                                'font-bold text-orange-500':
                                     $page.component === 'Public/Trainer',
                             }"
                             @click="isMobileMenuOpen = false"
-                            >{{ $t("pages.Nav.trainers") }}</Link
                         >
+                            <span class="relative">
+                                {{ $t("pages.Nav.trainers") }}
+                                <span
+                                    class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"
+                                ></span>
+                            </span>
+                            <span
+                                v-if="$page.component === 'Public/Trainer'"
+                                class="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-500 pulse-animation"
+                            ></span>
+                        </Link>
                     </li>
                     <li>
                         <Link
                             :href="route('posts.index')"
-                            class="hover:underline"
+                            class="relative group transition duration-300"
                             :class="{
-                                'font-bold text-orange-500 underline':
+                                'font-bold text-orange-500':
                                     $page.component === 'Public/Posts',
                             }"
                             @click="isMobileMenuOpen = false"
-                            >{{ $t("pages.Nav.posts") }}</Link
                         >
+                            <span class="relative">
+                                {{ $t("pages.Nav.posts") }}
+                                <span
+                                    class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"
+                                ></span>
+                            </span>
+                            <span
+                                v-if="$page.component === 'Public/Posts'"
+                                class="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-500 pulse-animation"
+                            ></span>
+                        </Link>
                     </li>
                     <li>
                         <Link
                             :href="route('contact')"
-                            class="hover:underline"
+                            class="relative group transition duration-300"
                             :class="{
-                                'font-bold text-orange-500 underline':
+                                'font-bold text-orange-500':
                                     $page.component === 'Public/Contact',
                             }"
                             @click="isMobileMenuOpen = false"
-                            >{{ $t("pages.Nav.contact") }}</Link
                         >
+                            <span class="relative">
+                                {{ $t("pages.Nav.contact") }}
+                                <span
+                                    class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"
+                                ></span>
+                            </span>
+                            <span
+                                v-if="$page.component === 'Public/Contact'"
+                                class="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-500 pulse-animation"
+                            ></span>
+                        </Link>
                     </li>
-                    <!-- <li>
-                        <Link
-                            :href="route('login')"
-                            class="hover:underline"
-                            :class="{
-                                'font-bold text-orange-500 underline':
-                                    $page.component === 'Auth/Login',
-                            }"
-                            @click="isMobileMenuOpen = false"
-                            >{{ $t("pages.Nav.login") }}</Link
-                        >
-                    </li> -->
 
                     <li v-if="$page.props.auth.user">
                         <Link
                             :href="route('dashboard')"
-                            class="hover:underline"
+                            class="relative group transition duration-300"
                             @click="isMobileMenuOpen = false"
                         >
-                            Acceso
+                            <span class="relative">
+                                Acceso
+                                <span
+                                    class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"
+                                ></span>
+                            </span>
                         </Link>
                     </li>
                     <li v-else>
                         <Link
                             :href="route('login')"
-                            class="hover:underline"
+                            class="relative group transition duration-300"
                             :class="{
-                                'font-bold text-orange-500 underline':
+                                'font-bold text-orange-500':
                                     $page.component === 'Auth/Login',
                             }"
                             @click="isMobileMenuOpen = false"
                         >
-                            {{ $t("pages.Nav.login") }}
+                            <span class="relative">
+                                {{ $t("pages.Nav.login") }}
+                                <span
+                                    class="absolute left-0 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full"
+                                ></span>
+                            </span>
+                            <span
+                                v-if="$page.component === 'Auth/Login'"
+                                class="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-500 pulse-animation"
+                            ></span>
                         </Link>
                     </li>
                 </ul>
@@ -190,7 +242,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { useThemeStore } from "../../../../stores/useThemeStore.js";
 import { storeToRefs } from "pinia";
 import LanguageSelector from "@/Components/LanguageSelector.vue";
@@ -199,4 +251,88 @@ const isMobileMenuOpen = ref(false);
 
 const themeStore = useThemeStore();
 const { isDark } = storeToRefs(themeStore);
+
+// Efecto de parpadeo para la pestaña activa
+let intervalId = null;
+
+onMounted(() => {
+    // Iniciar el efecto de parpadeo cada 3 segundos
+    intervalId = setInterval(() => {
+        const activeTabIndicator = document.querySelector(".pulse-animation");
+        if (activeTabIndicator) {
+            activeTabIndicator.classList.add("animate-pulse");
+            setTimeout(() => {
+                activeTabIndicator.classList.remove("animate-pulse");
+            }, 1000);
+        }
+    }, 3000);
+});
+
+onBeforeUnmount(() => {
+    // Limpiar el intervalo cuando el componente se desmonte
+    if (intervalId) {
+        clearInterval(intervalId);
+    }
+});
 </script>
+
+<style>
+/* Animación de subrayado al hover */
+.group:hover .group-hover\:w-full {
+    width: 100%;
+}
+
+/* Animación de pulso para la pestaña activa */
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Animación de pulso rápido para el intervalo */
+.animate-pulse {
+    animation: fastPulse 0.5s;
+}
+
+@keyframes fastPulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Transición para los botones */
+.transition {
+    transition-property: background-color, transform;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in-out;
+}
+
+/* Escalado al hover para botones */
+.transform {
+    transform: scale(1);
+}
+
+.hover\:scale-110:hover {
+    transform: scale(1.1);
+}
+
+.duration-300 {
+    transition-duration: 300ms;
+}
+</style>

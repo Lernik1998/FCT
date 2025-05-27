@@ -5,14 +5,16 @@
         <div class="container mx-auto flex justify-between items-center">
             <!-- Logo y título -->
             <div class="flex items-center space-x-3">
-                <h1 class="text-xl font-bold dark:text-gray-100">
+                <h1
+                    class="text-xl font-bold dark:text-gray-100 hover:scale-105 transition-transform duration-200"
+                >
                     Panel de entrenador
                 </h1>
 
                 <!-- Botón de toggle mejorado -->
                 <button
                     @click="themeStore.toggleDarkMode"
-                    class="p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-200 hover:bg-white/20 dark:hover:bg-gray-700 ml-2"
+                    class="p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-200 hover:bg-white/20 dark:hover:bg-gray-700 ml-2 hover:scale-110"
                     :aria-label="
                         isDark
                             ? 'Cambiar a modo claro'
@@ -63,67 +65,120 @@
                     <li>
                         <Link
                             :href="route('trainers.trainerView')"
-                            class="hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                            class="relative group transition duration-300 px-2 py-1 rounded"
                             :class="{
-                                'font-bold text-orange-500 underline':
+                                'font-bold bg-white/20 underline-effect-active':
                                     $page.component === 'Trainer/TrainerIndex',
                             }"
-                            >Inicio</Link
-                        >
+                            >Inicio
+                            <span
+                                class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+                            ></span>
+                            <span
+                                v-if="
+                                    $page.component === 'Trainer/TrainerIndex'
+                                "
+                                class="absolute -bottom-1 left-0 w-full h-0.5 bg-white pulse-animation"
+                            ></span>
+                        </Link>
                     </li>
                     <li v-if="$page.props.auth.user.is_active === 1">
                         <Link
                             :href="route('trainers.reservations')"
-                            class="hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                            class="relative group transition duration-300 px-2 py-1 rounded"
                             :class="{
-                                'font-bold text-orange-500 underline':
+                                'font-bold bg-white/20 underline-effect-active':
                                     $page.component ===
                                     'Trainer/TrainerReservations',
                             }"
-                            >Reservas</Link
-                        >
+                            >Reservas
+                            <span
+                                class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+                            ></span>
+                            <span
+                                v-if="
+                                    $page.component ===
+                                    'Trainer/TrainerReservations'
+                                "
+                                class="absolute -bottom-1 left-0 w-full h-0.5 bg-white pulse-animation"
+                            ></span>
+                        </Link>
                     </li>
                     <li v-if="$page.props.auth.user.is_active === 1">
                         <Link
                             :href="route('trainers.messages')"
-                            class="hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                            class="relative group transition duration-300 px-2 py-1 rounded"
                             :class="{
-                                'font-bold text-orange-500 underline':
+                                'font-bold bg-white/20 underline-effect-active':
                                     $page.component ===
                                     'Trainer/TrainerMessages',
                             }"
-                            >Mensajes</Link
-                        >
+                            >Mensajes
+                            <span
+                                class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+                            ></span>
+                            <span
+                                v-if="
+                                    $page.component ===
+                                    'Trainer/TrainerMessages'
+                                "
+                                class="absolute -bottom-1 left-0 w-full h-0.5 bg-white pulse-animation"
+                            ></span>
+                        </Link>
                     </li>
                     <li v-if="$page.props.auth.user.is_active === 1">
                         <Link
                             :href="route('trainers.activityCalendar')"
-                            class="hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                            class="relative group transition duration-300 px-2 py-1 rounded"
                             :class="{
-                                'font-bold text-orange-500 underline':
+                                'font-bold bg-white/20 underline-effect-active':
                                     $page.component ===
                                     'Trainer/TrainerActivityCalendar',
                             }"
-                            >Actividades</Link
-                        >
+                            >Actividades
+                            <span
+                                class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+                            ></span>
+                            <span
+                                v-if="
+                                    $page.component ===
+                                    'Trainer/TrainerActivityCalendar'
+                                "
+                                class="absolute -bottom-1 left-0 w-full h-0.5 bg-white pulse-animation"
+                            ></span>
+                        </Link>
                     </li>
                     <li v-if="$page.props.auth.user.is_active === 1">
                         <Link
                             :href="route('trainers.posts')"
-                            class="hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                            class="relative group transition duration-300 px-2 py-1 rounded"
                             :class="{
-                                'font-bold text-orange-500 underline':
+                                'font-bold bg-white/20 underline-effect-active':
                                     $page.component === 'Trainer/TrainerPosts',
                             }"
-                            >Posts</Link
-                        >
+                            >Posts
+                            <span
+                                class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+                            ></span>
+                            <span
+                                v-if="
+                                    $page.component === 'Trainer/TrainerPosts'
+                                "
+                                class="absolute -bottom-1 left-0 w-full h-0.5 bg-white pulse-animation"
+                            ></span>
+                        </Link>
                     </li>
                     <li>
                         <button
                             @click="logout"
-                            class="text-white hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                            class="relative group transition duration-300 px-2 rounded hover:bg-white/10 w-full"
                         >
-                            Cerrar sesión
+                            <span class="relative">
+                                Cerrar sesión
+                                <span
+                                    class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+                                ></span>
+                            </span>
                         </button>
                     </li>
                 </ul>
@@ -133,7 +188,7 @@
             <div class="md:hidden">
                 <button
                     @click="isMenuOpen = !isMenuOpen"
-                    class="p-2 rounded-full text-white hover:bg-white/20 focus:outline-none transition-colors"
+                    class="p-2 rounded-full text-white hover:bg-white/20 focus:outline-none transition-colors hover:scale-110 duration-200"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -163,70 +218,123 @@
             <li>
                 <Link
                     :href="route('trainers.trainerView')"
-                    class="block hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                    class="block relative group transition duration-300 px-2 py-1 rounded"
                     :class="{
-                        'font-bold text-orange-500 underline':
+                        'font-bold bg-white/20 underline-effect-active':
                             $page.component === 'Trainer/TrainerIndex',
                     }"
                     @click="isMenuOpen = false"
-                    >Inicio</Link
-                >
+                    ><span class="relative">
+                        Inicio
+                        <span
+                            class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+                        ></span>
+                    </span>
+                    <span
+                        v-if="$page.component === 'Trainer/TrainerIndex'"
+                        class="absolute -bottom-1 left-0 w-full h-0.5 bg-white pulse-animation"
+                    ></span>
+                </Link>
             </li>
             <li v-if="$page.props.auth.user.is_active === 1">
                 <Link
                     :href="route('trainers.reservations')"
-                    class="block hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                    class="block relative group transition duration-300 px-2 py-1 rounded"
                     :class="{
-                        'font-bold text-orange-500 underline':
+                        'font-bold bg-white/20 underline-effect-active':
                             $page.component === 'Trainer/TrainerReservations',
                     }"
                     @click="isMenuOpen = false"
-                    >Reservas</Link
-                >
+                    ><span class="relative">
+                        Reservas
+                        <span
+                            class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+                        ></span>
+                    </span>
+                    <span
+                        v-if="$page.component === 'Trainer/TrainerReservations'"
+                        class="absolute -bottom-1 left-0 w-full h-0.5 bg-white pulse-animation"
+                    ></span>
+                </Link>
             </li>
             <li v-if="$page.props.auth.user.is_active === 1">
                 <Link
                     :href="route('trainers.messages')"
-                    class="block hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                    class="block relative group transition duration-300 px-2 py-1 rounded"
                     :class="{
-                        'font-bold text-orange-500 underline':
+                        'font-bold bg-white/20 underline-effect-active':
                             $page.component === 'Trainer/TrainerMessages',
                     }"
                     @click="isMenuOpen = false"
-                    >Mensajes</Link
-                >
+                    ><span class="relative">
+                        Mensajes
+                        <span
+                            class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+                        ></span>
+                    </span>
+                    <span
+                        v-if="$page.component === 'Trainer/TrainerMessages'"
+                        class="absolute -bottom-1 left-0 w-full h-0.5 bg-white pulse-animation"
+                    ></span>
+                </Link>
             </li>
             <li v-if="$page.props.auth.user.is_active === 1">
                 <Link
                     :href="route('trainers.activityCalendar')"
-                    class="block hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                    class="block relative group transition duration-300 px-2 py-1 rounded"
                     :class="{
-                        'font-bold text-orange-500 underline':
+                        'font-bold bg-white/20 underline-effect-active':
                             $page.component ===
                             'Trainer/TrainerActivityCalendar',
                     }"
                     @click="isMenuOpen = false"
-                    >Actividades</Link
-                >
+                    ><span class="relative">
+                        Actividades
+                        <span
+                            class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+                        ></span>
+                    </span>
+                    <span
+                        v-if="
+                            $page.component ===
+                            'Trainer/TrainerActivityCalendar'
+                        "
+                        class="absolute -bottom-1 left-0 w-full h-0.5 bg-white pulse-animation"
+                    ></span>
+                </Link>
             </li>
             <li v-if="$page.props.auth.user.is_active === 1">
                 <Link
                     :href="route('trainers.posts')"
-                    class="block hover:underline hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                    class="block relative group transition duration-300 px-2 py-1 rounded"
                     :class="{
-                        'font-bold text-orange-500 underline':
+                        'font-bold bg-white/20 underline-effect-active':
                             $page.component === 'Trainer/TrainerPosts',
                     }"
                     @click="isMenuOpen = false"
-                    >Posts</Link
-                >
+                    ><span class="relative">
+                        Posts
+                        <span
+                            class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+                        ></span>
+                    </span>
+                    <span
+                        v-if="$page.component === 'Trainer/TrainerPosts'"
+                        class="absolute -bottom-1 left-0 w-full h-0.5 bg-white pulse-animation"
+                    ></span>
+                </Link>
             </li>
             <li>
                 <button
                     @click="logout"
-                    class="text-white hover:text-gray-200 dark:hover:text-gray-300 transition-colors"
+                    class="block relative group transition duration-300 px-2 py-1 rounded hover:bg-white/10 w-full text-left"
                 >
-                    Cerrar sesión
+                    <span class="relative">
+                        Cerrar sesión
+                        <span
+                            class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"
+                        ></span>
+                    </span>
                 </button>
             </li>
         </ul>
@@ -234,22 +342,42 @@
 </template>
 
 <script setup>
-// Importaciones
-import { ref } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { router } from "@inertiajs/vue3";
 import { useThemeStore } from "../../../../stores/useThemeStore.js";
 import { storeToRefs } from "pinia";
 
-// Obtener el store y sus valores
 const themeStore = useThemeStore();
 const { isDark } = storeToRefs(themeStore);
 
-// Variable para el menú móvil
 const isMenuOpen = ref(false);
 
 const logout = () => {
     router.post(route("logout"));
 };
+
+// Efecto de parpadeo para la pestaña activa
+let intervalId = null;
+
+onMounted(() => {
+    // Iniciar el efecto de parpadeo cada 3 segundos
+    intervalId = setInterval(() => {
+        const activeTabIndicator = document.querySelector(".pulse-animation");
+        if (activeTabIndicator) {
+            activeTabIndicator.classList.add("animate-pulse");
+            setTimeout(() => {
+                activeTabIndicator.classList.remove("animate-pulse");
+            }, 1000);
+        }
+    }, 3000);
+});
+
+onBeforeUnmount(() => {
+    // Limpiar el intervalo cuando el componente se desmonte
+    if (intervalId) {
+        clearInterval(intervalId);
+    }
+});
 </script>
 
 <style scoped>
@@ -261,5 +389,76 @@ const logout = () => {
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
+}
+
+/* Animación de subrayado al hover */
+.group:hover .group-hover\:w-full {
+    width: 100%;
+}
+
+/* Animación de pulso para la pestaña activa */
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Animación de pulso rápido para el intervalo */
+.animate-pulse {
+    animation: fastPulse 0.5s;
+}
+
+@keyframes fastPulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Efecto de hover para los enlaces */
+.hover\:scale-105:hover {
+    transform: scale(1.05);
+}
+
+.hover\:scale-110:hover {
+    transform: scale(1.1);
+}
+
+.transition-transform {
+    transition-property: transform;
+}
+
+.duration-200 {
+    transition-duration: 200ms;
+}
+
+/* Efecto para el enlace activo */
+.underline-effect-active {
+    position: relative;
+}
+
+/* Efecto de hover para los botones */
+.hover\:bg-white\/10:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Transición para el menú móvil */
+.transition-all {
+    transition-property: all;
 }
 </style>

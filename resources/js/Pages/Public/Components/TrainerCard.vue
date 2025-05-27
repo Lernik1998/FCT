@@ -52,7 +52,7 @@
                 </span>
             </div>
 
-            <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">
+            <p class="text-gray-600 dark:text-gray-400 mb-4">
                 {{
                     trainer.description ||
                     "Profesional del fitness con amplia experiencia ayudando a clientes a alcanzar sus objetivos."
@@ -65,11 +65,3 @@
 <script setup>
 const props = defineProps(["trainer"]);
 </script>
-
-<style scoped>
-.line-clamp-3 {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-</style>

@@ -351,10 +351,11 @@ const calendarOptions = ref({
     contentHeight: "auto",
     events: "/appointments/list/",
     eventClick: handleEventClick,
+    eventLimitClick: "popover",
     editable: false,
     selectable: true,
     selectMirror: true,
-    dayMaxEvents: true,
+    dayMaxEvents: 5,
     weekends: true,
     locale: "es",
     buttonText: {
@@ -516,5 +517,11 @@ onMounted(() => {
     :deep(.fc) {
         height: 900px;
     }
+}
+
+:deep(.fc-popover) {
+    left: auto !important;
+    right: 0 !important;
+    transform: translateX(-100%) !important;
 }
 </style>

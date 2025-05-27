@@ -1,6 +1,4 @@
 <template>
-    <pre>{{ activity }}</pre>
-
     <!-- Contenido principal -->
     <main class="py-8 px-4 sm:px-6 lg:px-8 dark:bg-gray-900">
         <div class="items-center mb-10">
@@ -236,10 +234,10 @@
                     </div>
 
                     <!-- Acciones -->
-                    <!-- <div
+                    <div
                         class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4"
                     >
-                        <button
+                        <!-- <button
                             v-if="activity.status === 'active'"
                             class="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-md flex items-center justify-center"
                         >
@@ -278,8 +276,20 @@
                                 />
                             </svg>
                             No disponible
-                        </button>
-                    </div> -->
+                        </button> -->
+                        <Link
+                            v-if="activity.status === 'active'"
+                            :href="
+                                route(
+                                    'userActivitiesReservations.create',
+                                    activity.id
+                                )
+                            "
+                            class="bg-orange-500 dark:bg-orange-600 hover:bg-orange-600 dark:hover:bg-orange-700 text-white py-1 px-3 rounded text-sm text-center transition-colors"
+                        >
+                            Reservar
+                        </Link>
+                    </div>
                 </div>
             </div>
 

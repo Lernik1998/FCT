@@ -25,7 +25,7 @@
                     similar en horarios solapados.
                 </li>
                 <li>El aforo máximo debe estar definido si aplica.</li>
-                <li>Se recomienda añadir una imagen o icono representativo.</li>
+                <li>Se debe de añadir una imagen o icono representativo.</li>
             </ul>
         </div>
 
@@ -200,7 +200,11 @@
 
                         <div>
                             <label for="imagen">Imagen</label>
-                            <input type="file" @change="handleImageChange" />
+                            <input
+                                type="file"
+                                @change="handleImageChange"
+                                required
+                            />
                         </div>
 
                         <!-- <div>
@@ -298,6 +302,7 @@ function handleImageChange(event) {
     }
 }
 
+// Opciones del calendario
 const calendarOptions = ref({
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],
     initialView: "dayGridMonth",
@@ -332,12 +337,30 @@ const calendarOptions = ref({
     // },
 
     eventDrop: handleEventDrop,
-
     eventResize: handleEventResize,
 
     eventClick: function (info) {
         handleEventClick(info);
     },
+
+    editable: true,
+    selectable: true,
+    selectMirror: true,
+    dayMaxEvents: 3,
+    fixedWeekCount: false,
+    weekNumbers: false,
+    // weekends: true,
+    select: handleDateSelect,
+    locale: "es",
+    buttonText: {
+        today: "Hoy",
+        month: "Mes",
+        week: "Semana",
+        day: "Día",
+        list: "Lista de actividades",
+    },
+    eventColor: "#f97316",
+    eventTextColor: "#ffffff",
 
     // eventTimeFormat: {
     //     hour: "numeric",
@@ -350,22 +373,6 @@ const calendarOptions = ref({
     //     meridiem: false,
     //     hour12: false,
     // },
-    editable: true,
-    selectable: true,
-    selectMirror: true,
-    dayMaxEvents: true,
-    weekends: true,
-    select: handleDateSelect,
-    locale: "es",
-    buttonText: {
-        today: "Hoy",
-        month: "Mes",
-        week: "Semana",
-        day: "Día",
-        list: "Lista de actividades",
-    },
-    eventColor: "#f97316",
-    eventTextColor: "#ffffff",
 });
 
 // Métodos

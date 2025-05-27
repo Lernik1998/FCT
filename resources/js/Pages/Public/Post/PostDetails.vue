@@ -37,7 +37,6 @@
                         <span class="mr-4">
                             Publicado el: {{ formatDate(post.created_at) }}
                         </span>
-                        <span> ID: {{ post.id }} </span>
                     </div>
 
                     <!-- Content -->
@@ -54,11 +53,6 @@
                         <span class="text-sm text-gray-500 dark:text-gray-400">
                             Última actualización:
                             {{ formatDate(post.updated_at) }}
-                        </span>
-                        <span
-                            class="text-sm font-medium text-indigo-600 dark:text-indigo-400"
-                        >
-                            User ID: {{ post.user_id }}
                         </span>
                     </div>
                 </div>

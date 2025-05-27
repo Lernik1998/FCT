@@ -1,6 +1,4 @@
 <template>
-    <!-- <pre> {{ activities }}</pre> -->
-
     <main
         class="mx-auto py-6 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900 min-h-screen transition-colors duration-300"
     >
@@ -24,10 +22,11 @@
             <div
                 class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
             >
-                <div
+                <Link
                     v-for="activity in popularAct"
                     :key="activity.id"
-                    class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 dark:border-gray-700"
+                    :href="route('activities.showUserActivity', activity.id)"
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 dark:border-gray-700 cursor-pointer"
                 >
                     <div
                         class="relative h-48 overflow-hidden bg-gray-200 dark:bg-gray-700"
@@ -50,7 +49,7 @@
                                 {{ activity.name }}
                             </h4>
                             <span
-                                class="bg-orange-500 dark:bg-orange-600 text-white px-3 py-1 rounded-full text-xs sm:text-sm font-bold"
+                                class="bg-orange-500 dark:bg-orange-600 text-white px-3 py-1 rounded-full text-xs md:text-sm font-bold"
                             >
                                 {{ formatDate(activity.date) }}
                             </span>
@@ -75,7 +74,7 @@
                             </span>
                         </div>
                     </div>
-                </div>
+                </Link>
             </div>
         </section>
 
@@ -145,9 +144,66 @@
                 </button>
             </div>
 
-            <!-- Tabla de actividades -->
+            <!-- Versión móvil: Cards -->
+            <div class="sm:hidden grid grid-cols-1 gap-4 mb-6">
+                <div
+                    v-for="activity in activities.data"
+                    :key="activity.id"
+                    class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700"
+                >
+                    <div class="flex justify-between items-start">
+                        <h4 class="font-bold text-gray-900 dark:text-gray-100">
+                            {{ activity.name }}
+                        </h4>
+                        <span
+                            class="bg-orange-500 dark:bg-orange-600 text-white px-2 py-1 rounded-full text-xs font-bold"
+                        >
+                            {{ formatDate(activity.date) }}
+                        </span>
+                    </div>
+
+                    <div class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                        {{ formatTime(activity.start_time) }} -
+                        {{ formatTime(activity.end_time) }}
+                    </div>
+
+                    <div
+                        v-if="!hasMembership"
+                        class="mt-2 text-sm font-medium text-gray-700 dark:text-gray-200"
+                    >
+                        Precio: {{ activity.price }} €
+                    </div>
+
+                    <div class="mt-3 flex gap-2">
+                        <Link
+                            :href="
+                                route(
+                                    'activities.showUserActivity',
+                                    activity.id
+                                )
+                            "
+                            class="flex-1 bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-500 text-gray-800 dark:text-gray-100 py-2 px-3 rounded text-sm text-center transition-colors"
+                        >
+                            Detalles
+                        </Link>
+                        <Link
+                            :href="
+                                route(
+                                    'userActivitiesReservations.create',
+                                    activity.id
+                                )
+                            "
+                            class="flex-1 bg-orange-500 dark:bg-orange-600 hover:bg-orange-600 dark:hover:bg-orange-700 text-white py-2 px-3 rounded text-sm text-center transition-colors"
+                        >
+                            Reservar
+                        </Link>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Versión desktop: Tabla -->
             <div
-                class="bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden border border-gray-200 dark:border-gray-700 transition-colors duration-300"
+                class="hidden sm:block bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden border border-gray-200 dark:border-gray-700 transition-colors duration-300"
             >
                 <div class="overflow-x-auto">
                     <table class="w-full min-w-max">
