@@ -11,11 +11,10 @@
                 Pago realizado con éxito
             </h1>
             <p class="text-center text-gray-600 dark:text-gray-300 mb-6">
-                Tu pago ha sido procesado correctamente. Puedes imprimir o
-                guardar tu reserva en el siguiente enlace:
+                Tu pago ha sido procesado correctamente.
             </p>
 
-            <!-- Imprimir/Guardar enlace (comentado si aún no lo usas) -->
+            <!-- Imprimir/Guardar enlace (Futura implementación) -->
             <!--
             <div class="text-center mb-6">
                 <a
@@ -33,7 +32,7 @@
                     :href="route('users.index')"
                     class="inline-block px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-xl shadow-md transition duration-300 ease-in-out"
                 >
-                    Volver a la página de inicio
+                    Volver al apartado de actividades
                 </a>
             </div>
         </div>
@@ -47,13 +46,12 @@ defineOptions({
     layout: UserLayout,
 });
 
-import { ref, onMounted } from "vue";
-
+/* Futura implementación
 const reservation = ref(null);
 
-// Para activar si usas ID dinámico
-// onMounted(async () => {
-//     const response = await axios.get(`/api/reservations/${route.params.id}`);
-//     reservation.value = response.data.data;
-// });
+Para activar si usas ID dinámico
+onMounted(async () => {
+    const response = await axios.get(`/api/reservations/${route.params.id}`);
+    reservation.value = response.data.data;
+}); */
 </script>

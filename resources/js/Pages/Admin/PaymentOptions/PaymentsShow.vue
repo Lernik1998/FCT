@@ -1,4 +1,6 @@
 <template>
+    <pre>{{ plans }}</pre>
+
     <div class="max-w-5xl mx-auto mt-10">
         <!-- Botón de volver -->
         <button
@@ -28,7 +30,9 @@
             <p class="translate-x-2">Volver</p>
         </button>
 
-        <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center dark:text-orange-600">
+        <h1
+            class="text-2xl font-bold text-gray-800 mb-6 text-center dark:text-orange-600"
+        >
             Tipos de suscripciones
         </h1>
 
@@ -47,7 +51,7 @@
                     <tr>
                         <th class="px-6 py-4">Nombre</th>
                         <th class="px-6 py-4">Precio (€)</th>
-                        <th class="px-6 py-4">Duración (meses)</th>
+                        <th class="px-6 py-4">Duración</th>
                         <th class="px-6 py-4">Acciones</th>
                     </tr>
                 </thead>
@@ -64,7 +68,7 @@
                             {{ plan.price }}
                         </td>
                         <td class="px-6 py-4 text-gray-700">
-                            {{ plan.duration }}
+                            {{ plan.duration == "month" ? "Mensual" : "Anual" }}
                         </td>
                         <td class="px-6 py-4 space-x-2">
                             <button

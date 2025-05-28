@@ -31,7 +31,7 @@
         <h1
             class="text-2xl font-semibold text-gray-800 mb-6 text-center dark:text-orange-600"
         >
-            Crear Membresía
+            Crear membresía
         </h1>
 
         <form @submit.prevent="submit" class="space-y-5">

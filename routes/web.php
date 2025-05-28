@@ -40,7 +40,6 @@ Route::middleware([
 
 // PAYMENTS
 Route::get('/checkout/{name}', [StripeController::class, 'checkout'])->name('stripe.checkout');
-
 Route::get('/success', [StripeController::class, 'success'])->name('stripe.success');
 Route::get('/cancel', [StripeController::class, 'cancel'])->name('stripe.cancel');
 

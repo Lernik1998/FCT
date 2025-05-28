@@ -393,10 +393,9 @@ class AppointmentController extends Controller
         }
     }
 
+    // Función para obtener la actividad
     public function getActivityInfo($name)
     {
-
-
         // Busco la actividad
         $activity = Activity::where('name', $name)->first();
 

@@ -77,7 +77,6 @@ class StripeController extends Controller
         // dd($user);
 
         try {
-
             // Obtener información de suscripción del usuario
             $user = auth()->user();
 
@@ -86,6 +85,7 @@ class StripeController extends Controller
             // Verificar si el usuario tiene una suscripción activa
             if ($user->subscription('default')) {
                 $stripeSubscription = $stripe->subscriptions->retrieve($user->subscription('default')->stripe_id);
+                // Obtenemos el producto
                 $currentProduct = $stripe->products->retrieve($stripeSubscription->items->data[0]->price->product);
 
                 // Opción 2: Cancelar al final del período de pago (recomendado)
@@ -102,7 +102,7 @@ class StripeController extends Controller
 
 
 
-            return redirect()->back()->with('success', 'Tu suscripción ha sido cancelada y permanecerá activa hasta el final del período actual');
+            return redirect()->back()->with('success', 'Tu suscripción ha sido cancelada.');
 
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error al cancelar la suscripción: ' . $e->getMessage());

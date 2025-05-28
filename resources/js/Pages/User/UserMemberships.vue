@@ -3,11 +3,13 @@
         <section class="max-w-6xl mx-auto">
             <!-- Encabezado -->
 
-            <!-- <pre>{{ current_membership }}</pre> -->
+            <pre>{{ memberships }}</pre>
 
             <!-- Tarjetas de membresías -->
             <section class="mb-12">
-                <h2 class="text-2xl font-semibold text-gray-700 mb-6 dark:text-orange-600">
+                <h2
+                    class="text-2xl font-semibold text-gray-700 mb-6 dark:text-orange-600"
+                >
                     Planes disponibles
                 </h2>
 
@@ -25,7 +27,9 @@
                     >
                         <div class="p-6">
                             <div class="flex justify-between items-start">
-                                <h3 class="text-xl font-bold text-gray-800 dark:text-white">
+                                <h3
+                                    class="text-xl font-bold text-gray-800 dark:text-white"
+                                >
                                     {{ membership.name }}
                                 </h3>
                                 <div class="flex gap-2">
@@ -51,7 +55,9 @@
                             </p>
 
                             <div class="mt-6">
-                                <span class="text-3xl font-bold text-gray-900 dark:text-white">
+                                <span
+                                    class="text-3xl font-bold text-gray-900 dark:text-white"
+                                >
                                     {{
                                         formatPrice(
                                             membership.unit_amount,
@@ -90,23 +96,38 @@
                 </div>
             </section>
 
-
-             <!-- Información adicional -->
-             <section class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
-                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+            <!-- Información adicional -->
+            <section class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+                <h2
+                    class="text-xl font-semibold text-gray-800 dark:text-white mb-4"
+                >
                     Detalles de tu membresía actual
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <p class="text-gray-500 dark:text-gray-400">Plan actual</p>
+                        <p class="text-gray-500 dark:text-gray-400">
+                            Plan actual
+                        </p>
                         <p class="font-medium text-gray-800 dark:text-white">
                             {{ current_membership.name || "Ninguno" }}
                         </p>
                     </div>
                     <div>
-                        <p class="text-gray-500 dark:text-gray-400">Próxima renovación</p>
+                        <p class="text-gray-500 dark:text-gray-400">
+                            Próxima renovación
+                        </p>
                         <p class="font-medium text-gray-800 dark:text-white">
                             {{ current_membership.next_payment || "No aplica" }}
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 dark:text-gray-400">
+                            Información de la suscripción
+                        </p>
+                        <p class="font-medium text-gray-800 dark:text-white">
+                            Si cancelas la suscripción, desde el momento que
+                            cancelas la suscripción, deberá de pagar por las
+                            actividades que se realicen en el mes actual.
                         </p>
                     </div>
                     <div>
@@ -114,9 +135,12 @@
                         <p
                             class="font-medium"
                             :class="{
-                                'text-green-600 dark:text-green-400': current_membership.status === 'Activo',
-                                'text-red-600 dark:text-red-400': current_membership.status === 'Inactivo',
-                                'text-gray-600 dark:text-gray-300': !current_membership.status,
+                                'text-green-600 dark:text-green-400':
+                                    current_membership.status === 'Activo',
+                                'text-red-600 dark:text-red-400':
+                                    current_membership.status === 'Inactivo',
+                                'text-gray-600 dark:text-gray-300':
+                                    !current_membership.status,
                             }"
                         >
                             {{ current_membership.status || "No suscrito" }}

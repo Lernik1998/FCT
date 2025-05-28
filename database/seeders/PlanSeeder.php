@@ -15,21 +15,21 @@ class PlanSeeder extends Seeder
     {
         // Suscripciones de prueba en entorno local
         Plan::create([
-            'name' => 'Básico',
-            'stripe_plan_id' => 'prod_SEVTr9OGD0X6rA',
-            'stripe_price_id' => 'price_1RK2T1IM6rivlwadSIx0EmLN',
+            'name' => 'Basic',
+            'stripe_plan_id' => 'prod_SOZIYSqvBPlVCF',
+            'stripe_price_id' => 'price_1RTmA4IM6rivlwad8slYmxIt',
         ]);
 
         Plan::create([
             'name' => 'Pro',
-            'stripe_plan_id' => 'prod_SEVVnuBRebH8ma',
-            'stripe_price_id' => 'price_1RK2UKIM6rivlwadOwPQiB8Q',
+            'stripe_plan_id' => 'prod_SOZKjwMFENwMFv',
+            'stripe_price_id' => 'price_1RTmByIM6rivlwadPRZbLfsy',
         ]);
 
         Plan::create([
             'name' => 'Elite',
-            'stripe_plan_id' => 'prod_SEVWfkwtXNWxaA',
-            'stripe_price_id' => 'price_1RK2VOIM6rivlwadmU04Kwej',
+            'stripe_plan_id' => 'prod_SOZKiWciAnsnXI',
+            'stripe_price_id' => 'price_1RTmBYIM6rivlwadbnJwJxcr',
         ]);
     }
 }

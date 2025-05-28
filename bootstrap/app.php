@@ -25,8 +25,6 @@ return Application::configure(basePath: dirname(__DIR__))
             'roleAdminOrTrainer' => \App\Http\Middleware\RoleAdminOrTrainer::class,
         ]);
 
-
-
     })->withExceptions(function (Exceptions $exceptions) {
 
     })->create();
