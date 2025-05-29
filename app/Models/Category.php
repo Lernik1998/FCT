@@ -12,6 +12,7 @@ class Category extends Model
     use HasFactory;
     public $protected = [];
 
+    // Relación con actividades
     public function activities(): HasMany
     {
         return $this->hasMany(Activity::class);

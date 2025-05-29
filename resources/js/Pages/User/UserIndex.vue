@@ -5,10 +5,19 @@
         <!-- Mensajes flash -->
         <section>
             <div
-                v-if="$page.props.flash.message"
+                v-if="$page.props.flash.message === true"
                 class="mb-6 p-4 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-lg transition-colors duration-300"
             >
-                {{ $page.props.flash.message }}
+                Reserva y pago completados con éxito.
+            </div>
+        </section>
+
+        <!-- Error message -->
+        <section v-if="$page.props.flash.message === false">
+            <div
+                class="mb-6 p-4 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-lg transition-colors duration-300"
+            >
+                Error al procesar el pago, intentelo de nuevo más tarde.
             </div>
         </section>
 
@@ -380,11 +389,239 @@
             </div>
         </section>
     </main>
+
+    <!-- Modal para reserva duplicada -->
+    <div v-if="showDuplicateModal" class="fixed inset-0 z-50 overflow-y-auto">
+        <div
+            class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+        >
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+
+            <span
+                class="hidden sm:inline-block sm:align-middle sm:h-screen"
+                aria-hidden="true"
+                >&#8203;</span
+            >
+
+            <div
+                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full dark:bg-gray-800"
+            >
+                <div
+                    class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 dark:bg-gray-800"
+                >
+                    <div class="sm:flex sm:items-start">
+                        <div
+                            class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10 dark:bg-yellow-900"
+                        >
+                            <svg
+                                class="h-6 w-6 text-yellow-600 dark:text-yellow-400"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                                />
+                            </svg>
+                        </div>
+                        <div
+                            class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left"
+                        >
+                            <h3
+                                class="text-lg leading-6 font-medium text-gray-900 dark:text-white"
+                                id="modal-title"
+                            >
+                                Ya tienes una reserva
+                            </h3>
+                            <div class="mt-2">
+                                <p
+                                    class="text-sm text-gray-500 dark:text-gray-300"
+                                >
+                                    Ya tienes una reserva para otra actividad en
+                                    el mismo horario. No puedes reservar dos
+                                    actividades a la misma hora.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse dark:bg-gray-700"
+                >
+                    <button
+                        type="button"
+                        @click="closeDuplicateModal"
+                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500"
+                    >
+                        Entendido
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para no hay plazas -->
+    <div v-if="showNoSlotsModal" class="fixed inset-0 z-50 overflow-y-auto">
+        <div
+            class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+        >
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+
+            <span
+                class="hidden sm:inline-block sm:align-middle sm:h-screen"
+                aria-hidden="true"
+                >&#8203;</span
+            >
+
+            <div
+                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full dark:bg-gray-800"
+            >
+                <div
+                    class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 dark:bg-gray-800"
+                >
+                    <div class="sm:flex sm:items-start">
+                        <div
+                            class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10 dark:bg-red-900"
+                        >
+                            <svg
+                                class="h-6 w-6 text-red-600 dark:text-red-400"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        </div>
+                        <div
+                            class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left"
+                        >
+                            <h3
+                                class="text-lg leading-6 font-medium text-gray-900 dark:text-white"
+                                id="modal-title"
+                            >
+                                No hay plazas disponibles
+                            </h3>
+                            <div class="mt-2">
+                                <p
+                                    class="text-sm text-gray-500 dark:text-gray-300"
+                                >
+                                    Lo sentimos, no quedan plazas disponibles
+                                    para esta actividad. Por favor, intenta con
+                                    otra actividad u horario.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse dark:bg-gray-700"
+                >
+                    <button
+                        type="button"
+                        @click="closeNoSlotsModal"
+                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500"
+                    >
+                        Entendido
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para reserva con membresía -->
+    <div v-if="showMembershipModal" class="fixed inset-0 z-50 overflow-y-auto">
+        <div
+            class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+        >
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+
+            <span
+                class="hidden sm:inline-block sm:align-middle sm:h-screen"
+                aria-hidden="true"
+                >&#8203;</span
+            >
+
+            <div
+                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full dark:bg-gray-800"
+            >
+                <div
+                    class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 dark:bg-gray-800"
+                >
+                    <div class="sm:flex sm:items-start">
+                        <div
+                            class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10 dark:bg-green-900"
+                        >
+                            <svg
+                                class="h-6 w-6 text-green-600 dark:text-green-400"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M5 13l4 4L19 7"
+                                />
+                            </svg>
+                        </div>
+                        <div
+                            class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left"
+                        >
+                            <h3
+                                class="text-lg leading-6 font-medium text-gray-900 dark:text-white"
+                                id="modal-title"
+                            >
+                                Reserva confirmada
+                            </h3>
+                            <div class="mt-2">
+                                <p
+                                    class="text-sm text-gray-500 dark:text-gray-300"
+                                >
+                                    ¡Tu reserva ha sido confirmada con éxito
+                                    usando tu membresía! No se ha cobrado ningún
+                                    importe adicional.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse dark:bg-gray-700"
+                >
+                    <button
+                        type="button"
+                        @click="closeMembershipModal"
+                        class="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-orange-600 text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 sm:ml-3 sm:w-auto sm:text-sm"
+                    >
+                        ¡Genial!
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup>
 import { Link, router } from "@inertiajs/vue3";
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { debounce } from "lodash";
 import UserLayout from "@/Layouts/UserLayout.vue";
 
@@ -405,6 +642,11 @@ const filters = ref({
     category: props.filters.category || "all",
     showFilters: false,
 });
+
+// Estados para los modales
+const showDuplicateModal = ref(false);
+const showNoSlotsModal = ref(false);
+const showMembershipModal = ref(false);
 
 // Búsqueda con debounce
 watch(
@@ -462,5 +704,32 @@ const formatTime = (timeString) => {
 
     // O alternativamente como "9h 30m":
     // return `${hours}h ${minutes}m`;
+};
+
+// Manejar los mensajes flash del backend
+onMounted(() => {
+    if (props.flash.message === "errorSameTime") {
+        showDuplicateModal.value = true;
+    } else if (props.flash.message === "errorNoSlots") {
+        showNoSlotsModal.value = true;
+    } else if (props.flash.message === "successMembership") {
+        showMembershipModal.value = true;
+    }
+});
+
+// Funciones para cerrar modales
+const closeDuplicateModal = () => {
+    showDuplicateModal.value = false;
+    router.get(route("users.index"), {}, { preserveState: true });
+};
+
+const closeNoSlotsModal = () => {
+    showNoSlotsModal.value = false;
+    router.get(route("users.index"), {}, { preserveState: true });
+};
+
+const closeMembershipModal = () => {
+    showMembershipModal.value = false;
+    router.get(route("users.index"), {}, { preserveState: true });
 };
 </script>

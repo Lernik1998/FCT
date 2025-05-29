@@ -24,6 +24,7 @@ class Transaction extends Model
         'amount' => 'decimal:2'
     ];
 
+    // Relación con el usuario
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

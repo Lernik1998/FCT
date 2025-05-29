@@ -16,6 +16,6 @@ class RoleAdminOrTrainer
             return $next($request);
         }
 
-        abort(403); // O redirigir si prefieres
+        abort(403); // Redirección a prohibido
     }
 }

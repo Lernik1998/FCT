@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\User; // Modelo de User
 use App\Models\Activity; // Modelo de Activity
 use App\Models\Category; // Modelo de Category
-// use App\Models\Message; // Modelo de Message
 use App\Models\UserActivitiesReservations; // Modelo de UserActivitiesReservations
 use Illuminate\Support\Facades\Auth; // Facade para autenticación
 use Inertia\Inertia; // Facade para Inertia
@@ -34,7 +33,7 @@ class TrainerController extends Controller
         return inertia('Public/Trainer', ['trainers' => $trainers]);
     }
 
-
+    // Vista del entrenador
     public function trainerView()
     {
         // Verifico el rol del usuario autenticado
@@ -63,23 +62,7 @@ class TrainerController extends Controller
         }
     }
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //Obtengo el entrenador con el id
-        $trainer = User::findOrFail($id);
-
-        // Obtengo los planes personalizados del entrenador
-        // $plans = PersonalizedTraining::where('user_id', $trainer->id)->get();
-
-        //Retornar el entrenador
-        return inertia('Trainer/TrainerShow', compact('trainer', 'plans'));
-    }
-
-
+    // Crear actividad vista
     public function createActivityView()
     {
         // Obtengo todas las categorias
@@ -88,29 +71,28 @@ class TrainerController extends Controller
         return inertia('Trainer/Options/ActivityCreate', compact('categories'));
     }
 
+    // Crear actividad (formulario)
     public function storeActivity(Request $request)
-    { {
-            // dd($request->all());
+    {
+        // Validar los datos
+        $request->validate([]);
 
-            // Validar los datos
-            $request->validate([]);
+        // Crear la actividad
+        $activity = Activity::create([
+            'name' => $request['name'],
+            'description' => $request['description'],
+            'image' => $request['image'],  // Guardamos la ruta, no el archivo
+            'price' => $request['price'],
+            'duration' => $request['duration'],
+            'date' => $request['date'],
+            'user_id' => auth()->id(),
+            'category_id' => $request['category_id'],
+        ]);
 
-            // Crear la actividad
-            $activity = Activity::create([
-                'name' => $request['name'],
-                'description' => $request['description'],
-                'image' => $request['image'],  // Guardamos la ruta, no el archivo
-                'price' => $request['price'],
-                'duration' => $request['duration'],
-                'date' => $request['date'],
-                'user_id' => auth()->id(),
-                'category_id' => $request['category_id'],
-            ]);
+        // Retornar una respuesta exitosa
+        return redirect()->route('trainers.index');
 
-            // Retornar una respuesta exitosa
-            return redirect()->route('trainers.index');
 
-        }
     }
 
 
@@ -137,18 +119,13 @@ class TrainerController extends Controller
     //     return inertia('Trainer/TrainerReservations', compact('activities', 'reservations'));
     // }
 
-
+    // Reservas del entrenador
     public function reservations(Request $request)
     {
-        // 1. Obtener el ID del entrenador autenticado
+        // Obtenego el ID del entrenador autenticado
         $trainerId = auth()->id();
 
-        // 2. Obtener las actividades que ha creado este entrenador
-        // $activities = Activity::where('user_id', $trainerId)
-        //     ->orderBy('date', 'desc')
-        //     ->orderBy('start_time', 'desc')
-        //     ->get();
-
+        // Obtengo las actividades que ha creado este entrenador
         $activities = Activity::where('user_id', $trainerId)
             ->when($request->search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
@@ -162,7 +139,7 @@ class TrainerController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        // 3. Obtener las reservas para estas actividades
+        // Obtengo las reservas para estas actividades
         // $reservations = UserActivitiesReservations::whereIn('activity_id', $activities->pluck('id'))
         //     ->with('user') // Opcional: si necesitas datos del usuario
         //     ->get();
@@ -171,7 +148,7 @@ class TrainerController extends Controller
             ->with('user')
             ->get();
 
-        // 4. Pasar los datos a la vista
+        // Paso los datos a la vista
         return inertia('Trainer/TrainerReservations', [
             'activities' => $activities,
             'reservations' => $reservations,
@@ -191,58 +168,34 @@ class TrainerController extends Controller
         return inertia('Trainer/TrainerActivityCalendar');
     }
 
-    public function createPersonalizedTraining()
-    {
-        return inertia('Trainer/Options/PersonalizedTrainingCreate');
-    }
+    // Crear un plan personalizado PUBLICO (Futura implementación)
+    // public function createPersonalizedTraining()
+    // {
+    //     return inertia('Trainer/Options/PersonalizedTrainingCreate');
+    // }
 
-    // Crear un plan personalizado PUBLICO
-    public function storePlan(Request $request)
-    {
-        // dd($request->all());
-        // Validar los datos $request->validate([]);
+    // Crear un plan personalizado PUBLICO (Futura implementación)
+    // public function storePlan(Request $request)
+    // {
+    // dd($request->all());
+    // Validar los datos $request->validate([]);
 
-        // Crear el plan
-        // $plan = PersonalizedTraining::create([
-        //     // 'name' => $request['name'],
-        //     'user_id' => auth()->id(),
-        //     'description' => $request['description'],
-        //     'price' => $request['price'],
-        //     'status' => 'approved',
-        // ]);
+    // Crear el plan
+    // $plan = PersonalizedTraining::create([
+    // 'name' => $request['name'],
+    //     'user_id' => auth()->id(),
+    //     'description' => $request['description'],
+    //     'price' => $request['price'],
+    //         'status' => 'approved',
+    //      ]);
 
-        // Retornar una respuesta exitosa
-        return redirect()->route('trainers.pp');
-    }
+    //      Retornar una respuesta exitosa
+    //     return redirect()->route('trainers.pp');
+    // }
 
     // POSTS
 
-    // public function trainerPostsView()
-    // {
-    //     $posts = Post::query()
-    //         ->where('user_id', auth()->id()) // Por el trainer autenticado
-    //         ->when(request('search'), function ($query, $search) {
-    //             $query->where(function ($q) use ($search) {
-    //                 $q->where('title', 'like', '%' . $search . '%')
-    //                     ->orWhere('content', 'like', '%' . $search . '%');
-    //             });
-    //         })
-    //         ->orderBy('created_at', 'desc')
-    //         ->paginate(10)
-    //         ->appends(['search' => request('search')]);
-
-
-    //     // dd($posts->toArray());
-
-    //     $totalPosts = Post::where('user_id', auth()->id())->count();
-
-    //     return inertia('Trainer/TrainerPosts', [
-    //         'posts' => $posts,
-    //         'filters' => ['search' => request('search')],
-    //         'totalPosts' => $totalPosts
-    //     ]);
-    // }
-
+    // Vista de los posts del entrenador
     public function trainerPostsView()
     {
         $posts = Post::query()
@@ -283,6 +236,7 @@ class TrainerController extends Controller
         ]);
     }
 
+    // Crear post
     public function storePost(Request $request)
     {
         $post = Post::create([
@@ -307,6 +261,7 @@ class TrainerController extends Controller
         return redirect()->route('trainers.posts');
     }
 
+    // Borrar post
     public function deletePost($id)
     {
         // Buscar el post
@@ -324,6 +279,7 @@ class TrainerController extends Controller
         return redirect()->route('trainers.posts');
     }
 
+    // Actualizar post
     public function updatePost(Request $request, $id)
     {
 
@@ -360,9 +316,10 @@ class TrainerController extends Controller
     }
 
     // MENSAJES
+
+    // Vista de los mensajes del entrenador
     public function trainerMessagesView()
     {
-        // return inertia('Trainer/TrainerMessages');
         $users = User::where('id', '!=', Auth::user()->id)
             ->where(function ($query) {
                 $query->where('role', 'trainer')

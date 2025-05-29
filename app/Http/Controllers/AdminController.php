@@ -3,20 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Request;
 use App\Models\User; // Modelo User
 use App\Models\Activity; // Modelo Activity
 use App\Models\Category; // Modelo Category
 use App\Models\ContactMessage; // Modelo ContactMessage
 use App\Models\Transaction; // Modelo Transaction
-
 use Illuminate\Support\Str; // Modelo Str para renombrar la imagen
 use Inertia\Inertia; // Facade para Inertia
 use Illuminate\Support\Facades\Auth; // Facade para autenticación
 use App\Jobs\SendContactEmail;
-
-// Stripe
-// use Stripe\Plan;
 use App\Models\Plan;
 use Stripe\Price;
 use Stripe\Stripe;
@@ -24,60 +19,10 @@ use Stripe\Product;
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Index del admin
     public function index()
     {
         return inertia('Admin/IndexAdmin');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 
     // USER
@@ -106,7 +51,6 @@ class AdminController extends Controller
 
     public function createUser(Request $request)
     {
-        // dd($request->all());
         // Creo el user
         User::create($request->all());
 
@@ -119,7 +63,7 @@ class AdminController extends Controller
         ]);
     }
 
-    // Show the specified resource.
+    // Muestra el usuario.
     public function showUser(string $id)
     {
         //Obtengo el user con el id
@@ -129,6 +73,7 @@ class AdminController extends Controller
         return inertia('Admin/UserOptions/UserShow', compact('user'));
     }
 
+    // Muestra la vista de la edicion de un usuario (Formulario)
     public function editUserView(string $id)
     {
         //Obtengo el user con el id
@@ -138,9 +83,9 @@ class AdminController extends Controller
         return inertia('Admin/UserOptions/UserEditForm', compact('user'));
     }
 
+    // Actualiza el usuario.
     public function updateUser(Request $request, string $id)
     {
-        // dd($request->all());
         //Obtengo el user con el id
         $user = User::findOrFail($id);
 
@@ -153,7 +98,7 @@ class AdminController extends Controller
         return inertia('Admin/UserOptions/UserShow', compact('user'));
     }
 
-
+    // Elimina el usuario.
     public function destroyUser(string $id)
     {
         //Obtengo el user con el id
@@ -175,14 +120,7 @@ class AdminController extends Controller
 
     public function trainerAdmin()
     {
-
         // Obtenemos todos los users con rol trainer
-        // $trainers = User::where('role', 'trainer')->get();
-
-        // return inertia('Admin/TrainerAdmin', [
-        //     'trainers' => $trainers
-        // ]);
-
         $trainers = User::where('role', 'trainer')
             ->when(request('search'), function ($query, $search) {
                 $query->where(function ($q) use ($search) {
@@ -223,11 +161,9 @@ class AdminController extends Controller
         return inertia('Admin/TrainerOptions/TrainerEditForm', compact('trainer', 'categories'));
     }
 
-
+    // Actualiza el trainer.
     public function updateTrainer(Request $request, string $id)
     {
-        // dd($request->all());
-
         //Obtengo el trainer con el id
         $trainer = User::findOrFail($id);
 
@@ -281,7 +217,7 @@ class AdminController extends Controller
         return inertia('Admin/TrainerOptions/TrainerShow', compact('trainer'));
     }
 
-
+    // Muestra la vista de la creacion de un trainer (Formulario)
     public function createTrainerView()
     {
         // Obtengo las categorías
@@ -290,10 +226,9 @@ class AdminController extends Controller
         return inertia('Admin/TrainerOptions/TrainerCreate', compact('categories'));
     }
 
+    // Crea el trainer.
     public function createTrainer(Request $request)
     {
-        // dd($request->all());
-
         // Crear el trainer
         $trainer = User::create([
             'name' => $request->name,
@@ -331,6 +266,7 @@ class AdminController extends Controller
 
     // ACTIVITY
 
+    // Muestra la vista de la creacion de una actividad (Formulario)
     public function activityAdmin()
     {
         // Obtenemos todas las activities
@@ -358,6 +294,7 @@ class AdminController extends Controller
         ]);
     }
 
+    // Muestra la vista de la creacion de una actividad (Formulario)
     public function createActivityView()
     {
         //Obtengo todas las categorías
@@ -368,6 +305,7 @@ class AdminController extends Controller
         ]);
     }
 
+    // Crea la actividad.
     public function storeActivity(Request $request)
     {
         // dd($request->all());
@@ -410,6 +348,7 @@ class AdminController extends Controller
         // return redirect()->route('admin.activityAdmin')->with('success', 'Actividad creada correctamente');
     }
 
+    // Muestra la vista de la edicion de una actividad (Formulario)
     public function editActivityView(string $id)
     {
         //Obtengo la actividad con el id
@@ -420,6 +359,7 @@ class AdminController extends Controller
         return inertia('Admin/ActivityOptions/ActivityEditForm', compact('activity', 'categories'));
     }
 
+    // Muestra la vista de la edicion de una actividad (Formulario)
     public function showActivity(string $id)
     {
         //Obtengo la actividad con el id
@@ -430,6 +370,7 @@ class AdminController extends Controller
         ]);
     }
 
+    // Actualiza la actividad.
     public function updateActivity(Request $request, string $id)
     {
 
@@ -462,8 +403,6 @@ class AdminController extends Controller
         $activity->user_id = auth()->id();
         $activity->category_id = $request->category_id;
 
-
-
         // Manejar la subida de imagen
         if ($request->hasFile('image')) {
             // Eliminar imagen anterior si existe
@@ -490,6 +429,7 @@ class AdminController extends Controller
         return redirect()->route('admin.activityAdmin');
     }
 
+    // Elimina la actividad.
     public function destroyActivity(string $id)
     {
         //Obtengo la actividad con el id
@@ -515,10 +455,16 @@ class AdminController extends Controller
             ->where('status', 'pending')
             ->get();
 
+        // Obtengo todas las solicitudes de activación
+        $activations = ContactMessage::where('target', 'activation')
+            ->where('status', 'pending')
+            ->get();
+
         return inertia('Admin/InformationAdmin', [
             'messages' => $messages,
             'trainers' => $trainers,
-            'categories' => $categories
+            'categories' => $categories,
+            'activations' => $activations
         ]);
     }
 
@@ -545,10 +491,9 @@ class AdminController extends Controller
         return inertia('Public/Contact', [
             'message' => $message
         ]);
-
-        // return redirect()->route('admin.informationAdmin');
     }
 
+    // Envio correo
     public function sendReplyUnregisteredUser(Request $request)
     {
 
@@ -648,6 +593,44 @@ class AdminController extends Controller
         // return inertia('Trainer/TrainerIndex')->with('message', $message);
 
         return redirect()->route('trainers.trainerView');
+    }
+
+
+    // TODO: PENDIENTE
+    public function requestActivation(Request $request, string $id)
+    {
+        try {
+            // Obtengo el trainer
+            $trainer = User::findOrFail($id);
+
+            // Verifico si ya se ha solicitado activación
+            $existingRequest = ContactMessage::where('trainer_id', $id)
+                ->where('target', 'activation')
+                ->first();
+
+            if ($existingRequest) {
+                $message = 'Ya existe una solicitud de activación pendiente';
+                return redirect()->route('trainers.trainerView')->with('message', $message);
+            }
+
+            // Creo el mensaje de solicitud de activación
+            ContactMessage::create([
+                'name' => $trainer->name,
+                'email' => $trainer->email,
+                'message' => 'Solicitud de activación de cuenta de entrenador',
+                'trainer_id' => $id,
+                'status' => 'pending',
+                'target' => 'activation', // Diferente target para distinguir solicitudes
+            ]);
+
+            $message = 'Solicitud de activación enviada correctamente';
+
+        } catch (\Throwable $th) {
+            $message = 'Error en el envío de la solicitud, inténtelo de nuevo más tarde!';
+            return redirect()->route('trainers.trainerView')->with('error', $message);
+        }
+
+        return redirect()->route('trainers.trainerView')->with('success', $message);
     }
 
     public function markAsDone(string $id)

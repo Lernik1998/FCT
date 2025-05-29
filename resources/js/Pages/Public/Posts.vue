@@ -48,7 +48,6 @@
                         >
                             {{ post.content }}
                         </p>
-                        <!-- Etiquetas u otros datos adicionales si se activan -->
                     </div>
                 </div>
             </div>
@@ -71,7 +70,6 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from "vue";
-import NavBar from "./Components/NavBar.vue";
 import { router } from "@inertiajs/vue3";
 
 const props = defineProps({
@@ -87,7 +85,6 @@ const batchSize = 8;
 const loadedItems = ref(batchSize);
 const loading = ref(false);
 const observerElement = ref(null);
-// const imgDefault = ref("../../../../public/ownImages/comunidad.jpg");
 
 // Posts visibles
 const visiblePosts = computed(() => {
@@ -145,7 +142,6 @@ onUnmounted(() => {
 /* Limitar texto a 2 líneas */
 .line-clamp-2 {
     display: -webkit-box;
-    /* -webkit-line-clamp: 2; */
     -webkit-box-orient: vertical;
     overflow: hidden;
 }

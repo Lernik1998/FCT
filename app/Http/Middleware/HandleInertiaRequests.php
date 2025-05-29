@@ -37,37 +37,15 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
 
-            // Auth
+            // Auth del usuario logeado
             'auth.user' => fn() => $request->user()
-                ? $request->user()->only('id', 'name', 'role','is_active')
+                ? $request->user()->only('id', 'name', 'role', 'is_active')
                 : null,
 
-            // También añadimos mensajes flash FIXME:
+            // También añadimos mensajes flash que lo llamo message
             'flash' => [
                 'message' => fn() => $request->session()->get('message')
             ],
-
-
-            // return array_merge(parent::share($request), [
-            //     'auth' => [ 
-            //         'user' => $request->user() ? [
-            //             'id' => $request->user()->id,
-            //             'name' => $request->user()->name,
-            //             'email' => $request->user()->email,
-            //             'role' => $request->user()->role, // Asegúrate de que el modelo User tiene este campo
-            //             'current_team' => $request->user()->currentTeam->name,
-            //         ] : null,
-            //     ],
         ]);
     }
 }
-
-
-// 'auth' => [
-//     'user' => $request->user() ? [
-//         'id' => $request->user()->id,
-//         'name' => $request->user()->name,
-//         'email' => $request->user()->email,
-//         'role' => $request->user()->role, // Asegúrate de que el modelo User tiene este campo
-//     ] : null,
-// ],

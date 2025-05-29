@@ -164,18 +164,11 @@ class User extends Authenticatable
             : null;
     }
 
-
-    // FIXME: Pendiente gestión de las relaciones
-
-    // public function subscriptions()
-    // {
-    //     return $this->hasMany(Subscription::class);
-    // }
-
-    // public function activities()
-    // {
-    //     return $this->hasMany(Activity::class);
-    // }
+    // Relación con actividades
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
+    }
 
     // Relación con las actividades reservadas
     public function reservations()
@@ -195,6 +188,4 @@ class User extends Authenticatable
     {
         return $this->role === 'trainer';
     }
-
-
 }

@@ -1,6 +1,6 @@
 # Términos y Condiciones
 
-Última actualización: [30 de mayo de 2025]
+Última actualización: 30 de mayo de 2025
 
 Al utilizar la plataforma FitWorking (el "Servicio"), aceptas estos Términos y Condiciones. Si no estás de acuerdo, no accedas ni uses la plataforma.
 

@@ -223,6 +223,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         Route::put('admin/trainers/createActivity/{id}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
 
         /************************************** GESTIÓN DE ENTRENADORES ************************************** */
+
         Route::get('admin/trainerAdmin', [AdminController::class, 'trainerAdmin'])->name('admin.trainerAdmin');
 
         Route::get('admin/trainerShow/{id}', [AdminController::class, 'trainerShow'])->name('admin.trainerShow');
@@ -235,7 +236,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
         Route::post('admin/createTrainer', [AdminController::class, 'createTrainer'])->name('admin.createTrainer');
 
-        /************************************** GESTIÓN DE INFORMACIÓN(Mensajes) ************************************** */
+        /************************************** GESTIÓN DE INFORMACIÓN ************************************** */
 
         // Mensajes con los trainers
         Route::get('admin/messageAdmin', [AdminController::class, 'adminMessagesView'])->name('admin.messageAdmin');
@@ -246,6 +247,10 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
         Route::post('admin/markAsDone/{id}', [AdminController::class, 'markAsDone'])->name('admin.markAsDone');
 
+
+        // TODO: PENDIENTE
+        Route::post('/admin/trainer/{id}/request-activation', [AdminController::class, 'requestActivation'])->withoutMiddleware('role:admin')
+            ->name('admin.requestActivation');
 
         // Contact
         // Route::get('admin/contactAdmin', [AdminController::class, 'contactAdmin'])->name('admin.contactAdmin');

@@ -218,6 +218,20 @@
                     </p>
                 </div>
             </section>
+
+            <section>
+                <h3
+                    class="text-xl sm:text-xl font-semibold text-gray-800 dark:text-orange-600 mb-2 mt-10"
+                >
+                    Solicitudes de activación
+                </h3>
+                <div
+                    v-if="activations.length > 0"
+                    class="space-y-4 sm:space-y-6"
+                >
+                    aaa
+                </div>
+            </section>
         </main>
     </div>
 </template>
@@ -235,6 +249,7 @@ const props = defineProps([
     "trainers",
     "messageStatus",
     "categories",
+    "activations",
 ]);
 
 const messages = ref([...props.messages]);

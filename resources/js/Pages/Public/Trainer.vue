@@ -1,5 +1,5 @@
 <template>
-
+    <Head :title="'Entrenadores'" />
 
     <!-- Banner Principal -->
     <section
@@ -21,38 +21,6 @@
             </p>
         </div>
     </section>
-
-    <!-- Sección de Entrenadores -->
-    <!-- <section class="py-12 px-4 bg-white">
-            <div class="container mx-auto text-center">
-                <h2 class="text-3xl font-semibold mb-6">Entrenadores</h2>
-                <div
-                    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-                >
-                    Se recorren los trainers 
-                    <div
-                        v-for="trainer in trainers"
-                        :key="trainer.id"
-                        class="bg-gray-100 p-6 rounded-lg shadow-lg"
-                    >
-                        <h3 class="text-xl font-semibold mb-4 text-gray-700">
-                            {{ trainer.name }}
-                        </h3>
-
-                        <p class="text-gray-700 mb-4">
-                            AÑADIR CAMPO DESCRIPCIÓN A USER EN NULLABLE PARA LOS
-                            TRAINERS
-                        </p>
-
-                        <a
-                            :href="route('trainers.show', trainer.id)"
-                            class="text-blue-600 hover:underline"
-                            >Ver perfil</a
-                        >
-                    </div>
-                </div>
-            </div>
-        </section> -->
 
     <!-- Sección de Entrenadores -->
     <section class="py-12 px-4">
@@ -82,52 +50,10 @@
             </div>
         </div>
     </section>
-
-    <!-- Servicios de Entrenamiento -->
-    <!-- <section class="py-12 bg-gray-200">
-            <div class="container mx-auto text-center">
-                <h2 class="text-3xl font-semibold mb-6">
-                    Servicios de Entrenamiento
-                </h2>
-                <div
-                    class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8"
-                >
-                    <div class="bg-white p-6 rounded-lg shadow-lg">
-                        <h3 class="text-xl font-semibold mb-4">
-                            Personalizado
-                        </h3>
-                        <p class="text-gray-700">
-                            Planes a medida adaptados a tus necesidades.
-                        </p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-lg">
-                        <h3 class="text-xl font-semibold mb-4">Online</h3>
-                        <p class="text-gray-700">
-                            Sesiones virtuales para entrenar desde casa.
-                        </p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-lg">
-                        <h3 class="text-xl font-semibold mb-4">Grupal</h3>
-                        <p class="text-gray-700">
-                            Clases grupales motivacionales y divertidas.
-                        </p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-lg">
-                        <h3 class="text-xl font-semibold mb-4">Nutrición</h3>
-                        <p class="text-gray-700">
-                            Consejos de alimentación para un mejor rendimiento.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section> -->
 </template>
 
 <script setup>
-// Importaciones
 import { watch } from "vue";
-
-// Componentes
 import TrainerCard from "./Components/TrainerCard.vue";
 
 const props = defineProps(["trainers"]);
@@ -140,5 +66,3 @@ watch(
     { immediate: true }
 ); // Ejecuta el watch inmediatamente con el valor inicial
 </script>
-
-<style scoped></style>

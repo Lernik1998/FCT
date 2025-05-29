@@ -1,4 +1,5 @@
 <template>
+    <!-- Infomación para el SEO -->
     <head>
         <Head :title="'Inicio'" />
         <meta
@@ -42,29 +43,6 @@
     </head>
 
     <!-- Banner Principal -->
-    <!-- <section class="text-center py-16 bg-gray-100">
-                    <h1 class="text-4xl font-bold mb-4"></h1>
-                    <p class="text-lg mb-6">
-                        Encuentra actividades, conecta con entrenadores y únete
-                        a la comunidad de FitWorking
-                    </p>
-                    <div class="space-x-4">
-                        <button
-                            class="px-6 py-2 bg-black text-white rounded-lg"
-                            @click="login"
-                        >
-                            Empezar
-                        </button>
-                        <button
-                            class="px-6 py-2 border border-gray-800 rounded-lg"
-                            @click="exploreActivities"
-                        >
-                            Explorar actividades
-                        </button>
-                    </div>
-                     <WeatherApi /> 
-                </section> -->
-
     <section
         class="relative flex items-center justify-center overflow-hidden dark:bg-gray-900 dark:text-white"
         style="height: 75vh; min-height: 600px"
@@ -118,32 +96,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Actividades Populares -->
-    <!-- <section class="py-12 px-4">
-            <div class="container mx-auto text-center">
-                <h2 class="text-3xl font-semibold mb-6">
-                    Actividades Populares - - Algoritmo para filtrar las 3
-                    actividades más contratadas.
-                </h2>
-                <div
-                    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-                >
-                    <ActivityCard
-                        title="Grupos de Running"
-                        description="Únete a comunidades de corredores para todos los niveles."
-                    />
-                    <ActivityCard
-                        title="Clases de Natación"
-                        description="Instrucción profesional de natación para todas las edades."
-                    />
-                    <ActivityCard
-                        title="Rutas en Bicicleta"
-                        description="Explora Marina Alta sobre dos ruedas."
-                    />
-                </div>
-            </div>
-        </section> -->
 
     <!-- FitWorking es para ti -->
     <section
@@ -265,110 +217,13 @@
         </div>
     </section>
 
-    <!-- Entrenadores Destacados -->
-    <!-- <section class="py-12 px-4 bg-gray-100">
-            <div class="container mx-auto text-center">
-                <h2 class="text-3xl font-semibold mb-6">
-                    Entrenadores Destacados Hacer un sort() con los 3
-                    entrenadores mas contratados.
-                </h2>
-                <div
-                    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
-                >
-                    <TrainerCard
-                        name="Alex Martinez"
-                        role="Entrenador Personal"
-                    />
-                    <TrainerCard
-                        name="Sara Wilson"
-                        role="Instructora de Yoga"
-                    />
-                    <TrainerCard
-                        name="Mark Johnson"
-                        role="Entrenador de Natación"
-                    />
-                    <TrainerCard name="Lisa Chen" role="Experta en Fitness" />
-                </div>
-            </div>
-        </section> -->
-
-    <!-- <section class="py-16 bg-gray-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">
-                    NUESTROS ENTRENADORES
-                </h2>
-
-                <!-- Contenedor del scroll infinito 
-                <div
-                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 overflow-y-auto"
-                    style="max-height: 800px"
-                >
-                    <!-- Tarjeta de entrenador (se repite dinámicamente)
-                    <div
-                        v-for="(trainer, index) in trainers"
-                        :key="index"
-                        class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
-                    >
-                        <div class="relative h-64 overflow-hidden">
-                            <img
-                                :src="trainer.image"
-                                :alt="trainer.name"
-                                class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                                loading="lazy"
-                            />
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"
-                            ></div>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-900">
-                                {{ trainer.name }}
-                            </h3>
-                            <p class="text-orange-500 font-medium mb-2">
-                                {{ trainer.specialty }}
-                            </p>
-                            <p class="text-gray-600 text-sm">
-                                {{ trainer.bio }}
-                            </p>
-                            <div class="mt-4 flex space-x-2">
-                                <span
-                                    v-for="(cert, i) in trainer.certifications"
-                                    :key="i"
-                                    class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded"
-                                >
-                                    {{ cert }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex justify-center mt-12">
-                        <a :href="route('trainers.index')" class="flex items-center">
-                            Ver todos los entrenadores
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5 ml-2"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                                    clip-rule="evenodd"
-                                />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section> -->
-
     <!-- Funcionamiento -->
     <section>
         <div
             class="bg-white py-16 px-4 sm:px-6 lg:px-8 dark:bg-gray-900 dark:text-white"
         >
             <div class="max-w-7xl mx-auto">
-                <!-- Título de sección (opcional) -->
+                <!-- Título de sección-->
                 <h2
                     class="text-3xl font-bold text-center text-gray-900 mb-12 dark:text-white"
                 >
@@ -396,34 +251,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Negocios Destacados -->
-    <!-- <section class="py-12 px-4">
-            <div class="container mx-auto text-center">
-                <h2 class="text-3xl font-semibold mb-6">Negocios Destacados o Patrocinadores</h2>
-                <h4 class="mb-10">
-                    Mostrar con más frecuencia aquellas que hayan pagado el
-                    paquete de promoción más caro.
-                </h4>
-                <div
-                    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-                >
-                    <BusinessCard
-                        name="FitZone Gym"
-                        description="Equipamiento de última generación y entrenadores expertos."
-                    />
-                    <BusinessCard
-                        name="Marina Sports Club"
-                        description="Instalaciones profesionales de deportes acuáticos y alquiler de equipos."
-                    />
-
-                    <BusinessCard
-                        name="FitZone Gym"
-                        description="Equipamiento de última generación y entrenadores expertos."
-                    />
-                </div>
-            </div>
-        </section> -->
 </template>
 
 <script setup>
@@ -431,12 +258,6 @@
 import { router } from "@inertiajs/vue3";
 import { ref } from "vue";
 import BenefitCard from "./Public/Components/BenefitCard.vue";
-
-// Componentes
-// import WeatherApi from "@/Components/WeatherApi.vue";
-// import ActivityCard from "@/Components/ActivityCard.vue";
-// import TrainerCard from "@/Components/TrainerCard.vue";
-// import BusinessCard from "@/Components/BusinessCard.vue";
 
 const videoSrc = ref(
     "https://www.crossfit.com/wp-content/uploads/2023/11/13114552/CrossFit-Where-Fitness-Meets-Health.mp4"

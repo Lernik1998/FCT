@@ -12,7 +12,7 @@ export default {
         "./resources/js/**/*.vue",
     ],
 
-    darkMode: "class",
+    darkMode: "class", // Modo oscuro
 
     theme: {
         extend: {
@@ -22,5 +22,5 @@ export default {
         },
     },
 
-    plugins: [forms, typography],
+    plugins: [forms, typography], // Formularios y tipografía
 };

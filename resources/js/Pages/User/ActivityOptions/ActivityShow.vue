@@ -1,30 +1,33 @@
 <template>
     <!-- Contenido principal -->
     <main class="py-8 px-4 sm:px-6 lg:px-8 dark:bg-gray-900">
-        <div class="items-center mb-10">
-            <div class="flex items-center space-x-2">
-                <button
-                    @click="goBack"
-                    class="px-5 py-2 rounded-full bg-orange-500 hover:bg-orange-600 text-white font-medium shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2"
+        <!-- Botón de volver -->
+        <button
+            @click="goBack"
+            class="bg-white text-center w-48 rounded-2xl h-14 relative text-black text-xl font-semibold group mb-4"
+            type="button"
+        >
+            <div
+                class="bg-green-400 rounded-xl h-12 w-1/4 flex items-center justify-center absolute left-1 top-[4px] group-hover:w-[184px] z-10 duration-500"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 1024 1024"
+                    height="25px"
+                    width="25px"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M15 19l-7-7 7-7"
-                        />
-                    </svg>
-                    Volver
-                </button>
+                    <path
+                        d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
+                        fill="#000000"
+                    ></path>
+                    <path
+                        d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
+                        fill="#000000"
+                    ></path>
+                </svg>
             </div>
-        </div>
+            <p class="translate-x-2">Volver</p>
+        </button>
 
         <div class="max-w-3xl mx-auto">
             <!-- Tarjeta principal -->

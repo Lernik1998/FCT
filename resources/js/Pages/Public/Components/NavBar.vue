@@ -7,7 +7,9 @@
         >
             <!-- Logo y botones -->
             <div class="flex items-center space-x-4">
-                <span class="text-xl font-bold dark:text-orange-600">FitWorking</span>
+                <span class="text-xl font-bold dark:text-orange-600"
+                    >FitWorking</span
+                >
 
                 <!-- Botón de tema -->
                 <button

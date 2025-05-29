@@ -18,7 +18,7 @@ class TranslationsMiddleware
         // app()->setLocale($request->cookie('locale') ?? 'es'); // TODO: Set the locale from the cookie
         app()->setLocale(config('app.locale'));
 
-        if(session()->has('locale')) {
+        if (session()->has('locale')) {
             app()->setLocale(session('locale'));
         }
         return $next($request);

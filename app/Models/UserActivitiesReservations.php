@@ -9,6 +9,7 @@ class UserActivitiesReservations extends Model
     protected $guarded = [];
     //
 
+    // Relación con el usuario
     public function user()
     {
         return $this->belongsTo(User::class);

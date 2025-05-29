@@ -1,5 +1,4 @@
 <template>
-
     <Head :title="'Actividades'" />
 
     <!-- Banner Principal con animación -->
@@ -26,39 +25,18 @@
 
     <!-- Sección de Destacados con hover -->
     <section class="py-12 px-4 mt-2 dark:bg-gray-900">
-        <!-- <div class="container mx-auto text-center">
-            <h2 class="text-3xl font-semibold mb-6">
-                Actividades que puedes encontrar en FitWorking
-            </h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div
-                    v-for="activity in activities"
-                    class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300"
-                >
-                    <h3 class="text-xl font-semibold mb-4 text-gray-600">
-                        {{ activity.name }}
-                    </h3>
-                    <p class="text-gray-700 mb-4">
-                        {{ activity.description }}
-                    </p>
-                    <a
-                        :href="route('activities.show', activity.id)"
-                        class="text-blue-600 hover:underline"
-                        >Leer más</a
-                    >
-                </div>
-            </div>
-        </div>  -->
-
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div
                 v-for="activity in activities"
-                class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300 flex flex-col"
+                class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300 flex flex-col transform hover:scale-105 transition duration-300"
             >
                 <!-- Imagen de la actividad (puedes añadir una propiedad image a tus actividades) -->
                 <div class="h-40 bg-gray-300 overflow-hidden">
                     <img
-                        :src="'images/activities/' + activity.image || '/placeholder-actividad.jpg'"
+                        :src="
+                            'images/activities/' + activity.image ||
+                            '/placeholder-actividad.jpg'
+                        "
                         :alt="activity.name"
                         class="w-full h-full object-cover"
                     />
@@ -87,20 +65,11 @@
         </div>
     </section>
 
-    <!-- Categorías Deportivas con efecto hover SE PUEDE PONER EN OTRO LUGAR, TANTO EN USER COMO EN PUBLIC TODO:-->
-    <!-- <section class="py-12">
-        <div class="container mx-auto text-center">
-            <ActivityAutoSlideshow :activities="activities" />
-        </div>
-    </section> -->
-
     <!-- FAQS -->
     <FAQS />
 </template>
 
 <script setup>
-// Componentes
-// import ActivityAutoSlideshow from "./Components/ActivityAutoSlideshow.vue";
 import FAQS from "./Components/FAQS.vue";
 import PublicLayout from "@/Layouts/PublicLayout.vue";
 

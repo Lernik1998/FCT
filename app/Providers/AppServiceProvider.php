@@ -23,11 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Cashier
-        // Cashier::useSubscriptionModel(Subscription::class);
-        // Cashier::useSubscriptionItemModel(SubscriptionItem::class);
-
-        // FIXME: Por ahora, para testing la asignación dinámica de calendarios a los entrenadores
+        // Asignación dinámica de calendarios a los entrenadores, en el caso de que falle el Helper
         config([
             'google_calendars' => [
                 'General' => env('GOOGLE_CALENDAR_ID'),

@@ -2,27 +2,16 @@
 
 namespace App\Http\Controllers;
 
-// use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-
-use App\Models\TemporalReservation;
-use App\Models\UserActivitiesReservations;
+use App\Models\TemporalReservation; // Modelo de reserva temporal
+use App\Models\UserActivitiesReservations; // Modelo de reserva
 use App\Models\Activity; // Modelo de actividad
-
-use Stripe\Stripe; // Para Stripe
-// use Stripe\Checkout\Session as StripeSession;  // Para Stripe
+use Stripe\Stripe;
 use Stripe\Charge;
-// use Stripe\CardException;
-
-// use PayPalHttp\PayPalHttpClient;
-// use PayPalHttp\Environment;
 use PayPalCheckoutSdk\Orders\OrdersGetRequest;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
-
-use Telegram; // Para Telegram
-
 use Inertia\Inertia;
 
 class UserActivitiesReservationsController extends Controller
@@ -47,11 +36,13 @@ class UserActivitiesReservationsController extends Controller
     //     return inertia('User/ActivityOptions/ActivityReservations', compact('reservations', 'hasMembership'));
     // }
 
+    // Vista de las reservas del usuario
     public function index()
     {
         // Verifico si el usuario tiene membresía activa y lo almaceno en una varible
         $hasMembership = auth()->user()->hasActiveMembership();
 
+        // Obtengo todas las reservas del usuario
         $reservations = UserActivitiesReservations::with('activity')
             ->where('user_id', auth()->user()->id)
             ->orderBy('activity_datetime', 'desc')
@@ -63,14 +54,10 @@ class UserActivitiesReservationsController extends Controller
             $reservation->is_past = now()->gt($reservation->activity_datetime);
         });
 
-        // dd($hasMembership);
-
         return inertia('User/ActivityOptions/ActivityReservations', compact('reservations', 'hasMembership'));
     }
 
-    /* 
-    Crear una reserva verificando si el cliente tiene o no membresía activa
-    */
+    // Crear una reserva
     public function create($id)
     {
         // Obtengo la actividad con el id
@@ -85,12 +72,12 @@ class UserActivitiesReservationsController extends Controller
 
         // Si ya existe una reserva, devuelvo un error
         if ($reservaExistente) {
-            return back()->with('error', 'Ya tienes una reserva para esta actividad a esa hora.');
+            return back()->with('message', 'errorSameTime');
         }
 
         // Verificar si hay slots disponibles
         if ($act->slots <= 0) {
-            return back()->with('message', 'No hay cupos disponibles para esta actividad.');
+            return back()->with('message', 'errorNoSlots');
         }
 
         // Usuario con membresía activa
@@ -113,7 +100,7 @@ class UserActivitiesReservationsController extends Controller
 
                 // Redirecciono al inicio
                 return redirect()->route('users.index')
-                    ->with('success', 'Reserva realizada con tu membresía.');
+                    ->with('message', 'successMembership');
             });
         }
 
@@ -121,12 +108,14 @@ class UserActivitiesReservationsController extends Controller
         return $this->processPayment($act);
     }
 
-
+    // Procesar el pago
     public function processPayment($activity)
     {
+        // Inicializamos Stripe
         $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
 
         try {
+            // Creamos la sesión de pago
             $checkout = $stripe->checkout->sessions->create([
                 'payment_method_types' => ['card'],
                 'line_items' => [
@@ -161,44 +150,37 @@ class UserActivitiesReservationsController extends Controller
                 'expires_at' => now()->addMinutes(30)
             ]);
 
-            // Para Inertia.js
-            return Inertia::location($checkout->url);
-
             // Redirección a Stripe
-            // return redirect()->away($checkout->url);
-            //  --> CODIGO QUE FALLA
-            // En vez de:
-// return redirect($checkout->url);
-
-            // Devuelve JSON con la URL:
-            // return response()->json(['url' => $checkout->url]);
-
+            return Inertia::location($checkout->url);
 
         } catch (\Exception $e) {
             return back()->with('error', 'Error al procesar el pago: ' . $e->getMessage());
         }
     }
 
-
+    // Pago exitoso
     public function paymentSuccess($activityId)
     {
-
+        // Obtengo la actividad
         $activity = Activity::findOrFail($activityId);
         $user = auth()->user();
         $sessionId = request()->get('session_id');
 
-        // dd($sessionId);
 
+        // Verifico si la sesión es válida
         if (!$sessionId) {
             return redirect()->route('activities.show', $activityId)
                 ->with('error', 'Sesión de pago no válida.');
         }
 
+        // Inicializamos Stripe
         $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
 
         try {
+            // Obtenemos la sesión de pago
             $session = $stripe->checkout->sessions->retrieve($sessionId);
 
+            // Verifico si el pago se completo correctamente
             if ($session->payment_status !== 'paid') {
                 throw new \Exception('El pago no se completó correctamente.');
             }
@@ -206,6 +188,7 @@ class UserActivitiesReservationsController extends Controller
             // Verificar si ya existe la reserva
             $existingReservation = UserActivitiesReservations::where('payment_id', $session->payment_intent)->first();
 
+            // Si ya existe la reserva, devuelvo un error
             if ($existingReservation) {
                 return redirect()->route('users.index')
                     ->with('info', 'Esta reserva ya fue procesada anteriormente.');
@@ -215,6 +198,7 @@ class UserActivitiesReservationsController extends Controller
             DB::transaction(function () use ($activity, $user, $session) {
                 $activity->decrement('slots');
 
+                // Crear la reserva
                 UserActivitiesReservations::create([
                     'user_id' => $user->id,
                     'activity_id' => $activity->id,
@@ -231,19 +215,19 @@ class UserActivitiesReservationsController extends Controller
                 TemporalReservation::where('session_id', $session->id)->delete();
             });
 
+            // Redirecciono al inicio
             return redirect()->route('users.index')
-                ->with('message', 'Reserva y pago completados con éxito.');
+                ->with('message', true);
 
         } catch (\Exception $e) {
             return redirect()->route('users.index')
-                ->with('message', 'Error al procesar el pago: ' . $e->getMessage());
+                ->with('message', false);
         }
     }
 
-
+    // Pago por actividad
     public function payForActivity(Request $request, $activityId)
     {
-        // dd($request, $activityId);
 
         //     $request->validate([
         //         'card_number' => 'required|string|size:16',
@@ -294,19 +278,18 @@ class UserActivitiesReservationsController extends Controller
         }
     }
 
+    // Pago por actividad con PayPal
     public function payForActivityWithPaypal(Request $request, $activityId)
     {
-        // dd($request, $activityId);
-
-        // Asegúrate de que el token está llegando correctamente
+        // Obtenemos el token de PayPal
         $paypalToken = $request->input('paypalToken');
 
+        // Verifico si el token es válido
         if (empty($paypalToken)) {
             return response()->json([
                 'error' => 'Token de PayPal no recibido.'
             ], 400);
         }
-
 
         // Obtengo la actividad
         $activity = Activity::findOrFail($activityId);
@@ -316,9 +299,6 @@ class UserActivitiesReservationsController extends Controller
             ->where('activity_id', $activityId)
             ->first();
 
-
-        // Obtenemos el token de PayPal
-        $paypalToken = $request->input('paypalToken');
 
         // Configuración de PayPal
         $clientId = env('PAYPAL_CLIENT_ID');
@@ -334,10 +314,8 @@ class UserActivitiesReservationsController extends Controller
             // Hacer la solicitud a PayPal
             $response = $client->execute($request);
 
-
-            // dd($response);
             // Registrar la respuesta completa para análisis
-            // \Log::info('Respuesta de PayPal:', (array) $response);
+            \Log::info('Respuesta de PayPal:', (array) $response);
 
             // Verificar que el estado de la transacción es 'COMPLETED'
             if ($response->result->status === 'COMPLETED') {
@@ -371,8 +349,10 @@ class UserActivitiesReservationsController extends Controller
         }
     }
 
+    // Telegram, redirijo a la página de Telegram 
     public function telegram()
     {
+        // (Futura implementación, configurar el Bot para redirigir al grupo de una categoría)
         // $telegram = new Api(config('telegram.bots.default.token'));
         // $update = $telegram->getWebhookUpdate();
 
@@ -386,11 +366,9 @@ class UserActivitiesReservationsController extends Controller
         //     ]);
         // }
 
-        return redirect()->away('https://t.me/+oRCyDr_AbqQwMDM0');
-
         // $updates = Telegram::getUpdates();
 
-        // dd($updates);
+        return redirect()->away('https://t.me/+oRCyDr_AbqQwMDM0');
     }
 
     /**
@@ -404,7 +382,7 @@ class UserActivitiesReservationsController extends Controller
         // Elimino la reserva
         $userActivitiesReservations->delete();
 
-        // Obtengo todas las reservas del usuario (Actualizo) FIXME:
+        // Obtengo todas las reservas del usuario
         $reservations = UserActivitiesReservations::where('user_id', auth()->user()->id)->get();
 
         // Redirecciono

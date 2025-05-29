@@ -19,7 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
 
-        // Alias para el middleware de rol
+        // Alias para los middlewares individuales
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
             'roleAdminOrTrainer' => \App\Http\Middleware\RoleAdminOrTrainer::class,

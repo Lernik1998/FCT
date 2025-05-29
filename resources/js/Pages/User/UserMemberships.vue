@@ -1,10 +1,7 @@
 <template>
     <main class="p-6 min-h-screen dark:bg-gray-900">
+        <!-- Encabezado -->
         <section class="max-w-6xl mx-auto">
-            <!-- Encabezado -->
-
-            <pre>{{ memberships }}</pre>
-
             <!-- Tarjetas de membresías -->
             <section class="mb-12">
                 <h2
@@ -125,9 +122,9 @@
                             Información de la suscripción
                         </p>
                         <p class="font-medium text-gray-800 dark:text-white">
-                            Si cancelas la suscripción, desde el momento que
-                            cancelas la suscripción, deberá de pagar por las
-                            actividades que se realicen en el mes actual.
+                            Desde el momento que cancela la suscripción, deberá
+                            de pagar por las actividades que se realicen en el
+                            mes en curso.
                         </p>
                     </div>
                     <div>
@@ -179,8 +176,6 @@
 <script setup>
 import UserLayout from "@/Layouts/UserLayout.vue";
 import { router } from "@inertiajs/vue3";
-// import { usePage } from "@inertiajs/vue3";
-// import { computed } from "vue";
 
 defineOptions({
     layout: UserLayout,
@@ -209,8 +204,6 @@ const formatPrice = (amount, currency) => {
     return formatter.format(amount / 100);
 };
 
-// const page = usePage();
-
 // Función para cancelar suscripción
 const cancelSubscription = () => {
     if (
@@ -237,7 +230,7 @@ const cancelSubscription = () => {
     }
 };
 
-// // Mostrar notificaciones (puedes usar un sistema de notificaciones como Toast)
+// Mostrar notificaciones (puedes usar un sistema de notificaciones como Toast)
 // const showSuccess = computed(() => page.props.flash.success);
 // const showError = computed(() => page.props.flash.error);
 </script>

@@ -188,7 +188,7 @@
                                 class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                             >
                                 <button
-                                    @click="deleteReservation(reservation.id)"
+                                    @click="openDeleteModal(reservation)"
                                     :disabled="reservation.is_past"
                                     :class="{
                                         'text-red-500 hover:text-red-700':
@@ -275,7 +275,7 @@
 
                     <div class="mt-4 flex space-x-3">
                         <button
-                            @click="deleteReservation(reservation.id)"
+                            @click="openDeleteModal(reservation)"
                             :disabled="reservation.is_past"
                             :class="{
                                 'border border-red-500 text-red-500 hover:bg-red-50':
@@ -336,11 +336,175 @@
                 </p>
             </div>
         </div>
+
+        <!-- Modal de Error -->
+        <div v-if="showErrorModal" class="fixed inset-0 z-50 overflow-y-auto">
+            <div
+                class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+            >
+                <div
+                    class="fixed inset-0 transition-opacity"
+                    aria-hidden="true"
+                >
+                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                </div>
+
+                <span
+                    class="hidden sm:inline-block sm:align-middle sm:h-screen"
+                    aria-hidden="true"
+                    >&#8203;</span
+                >
+
+                <div
+                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+                >
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div
+                                class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"
+                            >
+                                <svg
+                                    class="h-6 w-6 text-red-600"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                                    />
+                                </svg>
+                            </div>
+                            <div
+                                class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left"
+                            >
+                                <h3
+                                    class="text-lg leading-6 font-medium text-gray-900"
+                                    id="modal-title"
+                                >
+                                    No se puede cancelar
+                                </h3>
+                                <div class="mt-2">
+                                    <p class="text-sm text-gray-500">
+                                        No puedes cancelar una reserva de una
+                                        actividad que ya ha pasado.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
+                    >
+                        <button
+                            type="button"
+                            @click="closeErrorModal"
+                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                        >
+                            Entendido
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Confirmación -->
+        <div v-if="showConfirmModal" class="fixed inset-0 z-50 overflow-y-auto">
+            <div
+                class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+            >
+                <div
+                    class="fixed inset-0 transition-opacity"
+                    aria-hidden="true"
+                >
+                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                </div>
+
+                <span
+                    class="hidden sm:inline-block sm:align-middle sm:h-screen"
+                    aria-hidden="true"
+                    >&#8203;</span
+                >
+
+                <div
+                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+                >
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div
+                                class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-orange-100 sm:mx-0 sm:h-10 sm:w-10"
+                            >
+                                <svg
+                                    class="h-6 w-6 text-orange-600"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                                    />
+                                </svg>
+                            </div>
+                            <div
+                                class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left"
+                            >
+                                <h3
+                                    class="text-lg leading-6 font-medium text-gray-900"
+                                >
+                                    Confirmar cancelación
+                                </h3>
+                                <div class="mt-2">
+                                    <p class="text-sm text-gray-500">
+                                        ¿Estás seguro de que quieres cancelar la
+                                        reserva para
+                                        <strong>{{
+                                            selectedReservation?.activity?.name
+                                        }}</strong>
+                                        el
+                                        {{
+                                            formatDate(
+                                                selectedReservation?.activity
+                                                    ?.date
+                                            )
+                                        }}?
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
+                    >
+                        <button
+                            type="button"
+                            @click="confirmDelete"
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                        >
+                            Sí, cancelar
+                        </button>
+                        <button
+                            type="button"
+                            @click="closeConfirmModal"
+                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                        >
+                            No, mantener
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </template>
 
 <script setup>
-// Importaciones
 import { router } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 import UserLayout from "@/Layouts/UserLayout.vue";
@@ -352,6 +516,11 @@ const props = defineProps(["reservations", "hasMembership"]);
 
 // Estado del filtro
 const filter = ref("all");
+
+// Estado para los modales
+const showErrorModal = ref(false);
+const showConfirmModal = ref(false);
+const selectedReservation = ref(null);
 
 // Reservas filtradas
 const filteredReservations = computed(() => {
@@ -371,21 +540,13 @@ const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("es-ES", options);
 };
 
-// Formatear hora (mostrar solo horas y minutos)
-// Formatear hora (mostrar horas y minutos con h y m)
-// Formatear hora (mostrar solo horas y minutos)
+// Formatear hora
 const formatTime = (timeString) => {
-    if (!timeString) return ""; // Manejo de casos nulos
-
-    // Dividir la cadena de tiempo y tomar solo horas y minutos
+    if (!timeString) return "";
     const [hours, minutes] = timeString.split(":");
-
-    // Formatear como "HH:MM" (por ejemplo "09:30")
-    // return `${hours}:${minutes}`;
-
-    // O alternativamente como "9h 30m":
     return `${hours}h ${minutes}m`;
 };
+
 // Clases para el estado
 const statusClasses = (status) => {
     return (
@@ -396,28 +557,48 @@ const statusClasses = (status) => {
     );
 };
 
-// Eliminar reserva
-const deleteReservation = (id) => {
-    const reservation = props.reservations.find((r) => r.id === id);
-    if (reservation && reservation.is_past) {
-        alert(
-            "No puedes cancelar una reserva de una actividad que ya ha pasado"
-        );
+// Abrir modal de error
+const openErrorModal = () => {
+    showErrorModal.value = true;
+};
+
+// Cerrar modal de error
+const closeErrorModal = () => {
+    showErrorModal.value = false;
+};
+
+// Abrir modal de confirmación
+const openDeleteModal = (reservation) => {
+    if (reservation.is_past) {
+        openErrorModal();
         return;
     }
+    selectedReservation.value = reservation;
+    showConfirmModal.value = true;
+};
 
-    if (confirm("¿Estás seguro de que quieres cancelar esta reserva?")) {
-        router.delete(route("userActivitiesReservations.destroy", id));
+// Cerrar modal de confirmación
+const closeConfirmModal = () => {
+    showConfirmModal.value = false;
+    selectedReservation.value = null;
+};
+
+// Confirmar eliminación
+const confirmDelete = () => {
+    if (selectedReservation.value) {
+        router.delete(
+            route(
+                "userActivitiesReservations.destroy",
+                selectedReservation.value.id
+            )
+        );
     }
+    closeConfirmModal();
 };
 </script>
 
 <style scoped>
 .transition-colors {
     transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-body {
-    @apply bg-white dark:bg-gray-900;
 }
 </style>

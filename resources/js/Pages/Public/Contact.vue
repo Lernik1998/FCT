@@ -128,28 +128,12 @@
         </div>
     </section>
 
-    <!-- Confirmation Modal -->
-    <!-- <ConfirmationModal
-        :show="confirModal"
-        @close="confirModal = false"
-        :max-width="'2xl'"
-        :closeable="true"
-        :title="'Mensaje enviado con éxito'"
-        :content="'El mensaje ha sido enviado correctamente'"
-        :footer="'Haga click fuera de la casilla para cerrar'"
-    /> -->
-    <!-- Footer -->
     <OutTeam />
 </template>
 
 <script setup>
-// Importaciones
 import { ref } from "vue";
 import { router } from "@inertiajs/vue3";
-
-// Componentes
-import NavBar from "../Public/Components/NavBar.vue";
-import ConfirmationModal from "@/Components/ConfirmationModal.vue";
 import OutTeam from "./Components/OurTeam.vue";
 
 // Recibo el mensaje de exito o error
@@ -162,18 +146,10 @@ const form = ref({
     message: "",
 });
 
-const confirModal = ref(false);
-
 // Funciones
 const submitForm = () => {
-    // Envio al servidor los datos -- IMPLEMENTAR PROTECCIÓN CSRF , VALIDACIÓN DE DATOS E INYECCIÓN DE SCRIPTS
-    // router.post(route("admin.unregisteredUserMessage"), form.value);
+    // Envio al servidor los datos
     router.post(route("admin.unregisteredUserMessage"), form.value);
-
-    // Mostrar el modal de confirmación
-    confirModal.value = true;
-
-    console.log("Valor de confirModal.value: ", confirModal.value);
 
     // Limpiamos el formulario
     form.value = {

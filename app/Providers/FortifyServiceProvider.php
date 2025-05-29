@@ -64,8 +64,8 @@ class FortifyServiceProvider extends ServiceProvider
 
                     // Si el usuario no tiene un rol, le asignamos uno por defecto
                     if (!$user->role) {
-                        $user->role = 'user'; // Puedes cambiar 'user' por el rol predeterminado
-                        $user->save(); // Guardamos el cambio en la base de datos
+                        $user->role = 'user'; // Rol de usuario
+                        $user->save(); // Guardamos 
                     }
 
                     // Redirección después del registro

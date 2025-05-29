@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\User; // Modelo de User
 use App\Models\Activity; // Modelo de Activity
@@ -12,11 +11,10 @@ use App\Models\Category; // Modelo de Category
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Vista principal del user
     public function index()
     {
+        // Obtenemos el id del usuario
         $userId = auth()->id();
         $user = User::findOrFail($userId);
 
@@ -45,19 +43,6 @@ class UserController extends Controller
             ->limit(3)
             ->get();
 
-        // Query principal para actividades
-        // $activitiesQuery = Activity::with('category')
-        //     ->where('status', 'active')
-        //     ->where(function ($query) use ($currentDate, $currentTime) {
-        //         $query->where('date', '>', $currentDate)
-        //             ->orWhere(function ($q) use ($currentDate, $currentTime) {
-        //                 $q->where('date', $currentDate)
-        //                     ->where('start_time', '>', $currentTime);
-        //             });
-        //     })
-        //     ->whereHas('category', function ($q) {
-        //         $q->where('name', '!=', 'General'); // Excluir General por defecto
-        //     });
         $activitiesQuery = Activity::with('category')
             ->where('status', 'active')
             ->whereNotIn('id', $reservedActivityIds) // <-- Excluir reservadas
@@ -81,12 +66,14 @@ class UserController extends Controller
             });
         }
 
+        // Filtrar por categoría
         if (request('category') && request('category') !== 'all') {
             $activitiesQuery->whereHas('category', function ($q) {
                 $q->where('name', request('category'));
             });
         }
 
+        // Obtenemos las actividades
         $activities = $activitiesQuery
             ->select(['id', 'name', 'description', 'date', 'category_id', 'start_time', 'end_time', 'price', 'slots'])
             ->orderBy('date', 'asc')
@@ -113,7 +100,7 @@ class UserController extends Controller
     // Función para mostrar las estadísticas de un usuario
     public function stats()
     {
-        // dd('buenas');
+        // Obtenemos el id del usuario
         $userId = auth()->id();
 
         $user = User::findOrFail($userId);
@@ -121,33 +108,34 @@ class UserController extends Controller
         // Obtengo todas las reservas del usuario
         $reservations = UserActivitiesReservations::where('user_id', $userId)->get();
 
+        $totalMinutes = 0;
 
-        // // Con el id de la actividad reservada, obtengo la duración de la actividad, para ello recorro reservations
-        // foreach ($reservations as $reservation) {
-        //     $activity = Activity::findOrFail($reservation->activity_id);
-        //     $reservation->start_time = $activity->start_time;
-        //     $reservation->end_time = $activity->end_time;
-        // }
-
+        //  Con el id de la actividad reservada, obtengo la duración de la actividad
         foreach ($reservations as $reservation) {
             $activity = Activity::findOrFail($reservation->activity_id);
 
-            $start = \Carbon\Carbon::parse($activity->start_time);
-            $end = \Carbon\Carbon::parse($activity->end_time);
+            // Obtenemos la fecha de la actividad
+            $date = \Carbon\Carbon::parse($reservation->activity_datetime)->toDateString();
+            $start = \Carbon\Carbon::parse($date . ' ' . $activity->start_time);
+            $end = \Carbon\Carbon::parse($date . ' ' . $activity->end_time);
 
             $minutes = $start->diffInMinutes($end);
-            $reservation->duration_minutes = $minutes;
-            $reservation->duration_human = floor($minutes / 60) . 'h ' . ($minutes % 60) . 'm';
+
+            // Logs
+            \Log::info("Minutes for activity {$activity->id}: {$minutes}");
+
+            \Log::info('Total reservations: ' . $reservations->count());
+
+            \Log::info("Total minutes so far: {$totalMinutes}");
+
+            $totalMinutes += $minutes;
         }
 
-
-
-        $totalMinutes = $reservations->sum('duration_minutes');
-        $totalHoursFormatted = floor($totalMinutes / 60) . 'h ' . ($totalMinutes % 60) . 'm';
+        $totalHours = $totalMinutes / 60;
+        $totalHoursFormatted = number_format($totalHours, 1) . 'h'; // Formateo la hora
 
         // Obtengo el total de actividades reservadas
         $totalActivities = $reservations->count();
-
 
         return inertia('User/UserStats', [
             'user' => $user,
