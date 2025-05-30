@@ -509,6 +509,9 @@ class AdminController extends Controller
 
             $message = 'Mensaje enviado, le responderemos lo antes posible';
 
+            // Envio correo
+            SendContactEmail::dispatch($contactMessage->email, $contactMessage->name);
+
             $messages = ContactMessage::where('status', 'pending')->get();
 
         } catch (\Throwable $th) {

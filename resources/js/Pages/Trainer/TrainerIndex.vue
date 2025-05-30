@@ -1,4 +1,6 @@
 <template>
+    <pre>{{ activities }}</pre>
+
     <Head title="Index Entrenador" />
 
     <!-- Contenido principal -->
@@ -357,7 +359,7 @@
                         </label>
                         <img
                             :src="
-                                'images/activities/' +
+                                '/images/activities/' +
                                 eventoAct.extendedProps.image
                             "
                             alt="Actividad"
@@ -804,6 +806,10 @@ async function confirmCategory() {
         showCategoryModal.value = false;
     }
 }
+
+const closeEventModal = () => {
+    showEventModal.value = false;
+};
 
 function requestActivation() {
     openActivationModal();
