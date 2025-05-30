@@ -1,4 +1,7 @@
 <template>
+
+<Head title="Mi progreso" />
+
     <main class="w-full min-h-screen mx-auto py-6 px-4 sm:px-6 lg:px-8 dark:bg-gray-900 transition-colors duration-300">
         <!-- Encabezado principal -->
         <div class="mb-6">

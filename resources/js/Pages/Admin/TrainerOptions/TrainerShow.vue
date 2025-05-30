@@ -1,4 +1,6 @@
 <template>
+    <Head title="Entrenador" />
+
     <section
         class="min-h-screen py-8 md:py-12 px-4 sm:px-6 lg:px-8 dark:bg-gray-900 transition-colors duration-300"
     >

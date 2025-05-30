@@ -1,9 +1,11 @@
 <template>
+    <Head title="Gestión de actividades" />
+
     <div class="container mx-auto p-4 sm:p-6 dark:bg-gray-900 min-h-screen">
         <!-- Botón de volver -->
         <button
             @click="() => router.visit(route('admin.index'))"
-            class="bg-white text-center w-48 rounded-2xl h-14 relative text-black text-xl font-semibold group"
+            class="mb-4 bg-white text-center w-48 rounded-2xl h-14 relative text-black text-xl font-semibold group"
             type="button"
         >
             <div

@@ -1,7 +1,6 @@
 <template>
 
-<pre>{{ activity }}</pre>
-
+<Head title="Activdad" />
     <section
         class="bg-gray-100 dark:bg-gray-900 py-6 sm:py-12 px-4 sm:px-6 flex justify-center transition-colors duration-300"
     >

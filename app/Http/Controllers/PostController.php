@@ -7,9 +7,7 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Listado de posts
     public function index()
     {
         // Obtengo todos los posts
@@ -17,7 +15,7 @@ class PostController extends Controller
 
         return inertia('Public/Posts', compact('posts'));
     }
-
+    // Mostrar un post
     public function show(Post $post)
     {
         return inertia('Public/Post/PostDetails', compact('post'));

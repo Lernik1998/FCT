@@ -16,26 +16,6 @@ use Inertia\Inertia;
 
 class UserActivitiesReservationsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    // public function index()
-    // {
-
-    //     // Verifico si el usuario tiene membresía activa y lo almaceno en una varible
-    //     $hasMembership = auth()->user()->hasActiveMembership();
-
-    //     $reservations = UserActivitiesReservations::with('activity')
-    //         ->where('user_id', auth()->user()->id)
-    //         ->orderBy('activity_datetime', 'desc')
-    //         ->limit(10)
-    //         ->get();
-
-    //     // dd($hasMembership);
-
-    //     return inertia('User/ActivityOptions/ActivityReservations', compact('reservations', 'hasMembership'));
-    // }
-
     // Vista de las reservas del usuario
     public function index()
     {
@@ -142,7 +122,7 @@ class UserActivitiesReservationsController extends Controller
             ]);
 
 
-            // Guardar temporalmente la intención de reserva FIXME: Pendiente hacer una transacción y gestión de la sesión (Según el tipo de usuarios redireccionar a X pag)
+            // Guardar temporalmente la intención de reserva
             TemporalReservation::create([
                 'user_id' => auth()->id(),
                 'activity_id' => $activity->id,
@@ -228,14 +208,6 @@ class UserActivitiesReservationsController extends Controller
     // Pago por actividad
     public function payForActivity(Request $request, $activityId)
     {
-
-        //     $request->validate([
-        //         'card_number' => 'required|string|size:16',
-        //         'exp_month' => 'required|integer|between:1,12',
-        //         'exp_year' => 'required|integer|min:' . now()->year,
-        //         'cvc' => 'required|string|size:3',
-        //     ]);
-
         // Obtengo la actividad
         $activity = Activity::findOrFail($activityId);
 
@@ -371,9 +343,7 @@ class UserActivitiesReservationsController extends Controller
         return redirect()->away('https://t.me/+oRCyDr_AbqQwMDM0');
     }
 
-    /**
-     * Elimina una reserva especifica
-     */
+    // Elimina una reserva especifica
     public function destroy($id)
     {
         // Obtengo la reserva

@@ -52,15 +52,19 @@ class AdminController extends Controller
     public function createUser(Request $request)
     {
         // Creo el user
-        User::create($request->all());
+        User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+            'role' => $request->input('role'),
+        ]);
+
 
         // Obtengo todos los users y los devuelvo a la vista
         $users = User::where('role', 'user')->get();
 
         //Retornar un mensaje de exito
-        return inertia('Admin/UserAdmin', [
-            'users' => $users
-        ]);
+        return redirect()->route('admin.userAdmin');
     }
 
     // Muestra el usuario.
@@ -269,12 +273,6 @@ class AdminController extends Controller
     // Muestra la vista de la creacion de una actividad (Formulario)
     public function activityAdmin()
     {
-        // Obtenemos todas las activities
-        // $activities = Activity::all();
-
-        // return inertia('Admin/ActivityAdmin', [
-        //     'activities' => $activities
-        // ]);
         $activities = Activity::query()
             ->when(request('search'), function ($query, $search) {
                 $query->where(function ($q) use ($search) {
@@ -308,8 +306,6 @@ class AdminController extends Controller
     // Crea la actividad.
     public function storeActivity(Request $request)
     {
-        // dd($request->all());
-
         // Crear la actividad
         $activity = Activity::create([
             'name' => $request->name,
@@ -343,9 +339,6 @@ class AdminController extends Controller
         }
 
         return redirect()->route('admin.activityAdmin');
-
-        //Retornar un mensaje de exito
-        // return redirect()->route('admin.activityAdmin')->with('success', 'Actividad creada correctamente');
     }
 
     // Muestra la vista de la edicion de una actividad (Formulario)
@@ -373,9 +366,6 @@ class AdminController extends Controller
     // Actualiza la actividad.
     public function updateActivity(Request $request, string $id)
     {
-
-        dd($request->all());
-
         //Obtengo la actividad con el id
         $activity = Activity::findOrFail($id);
 
@@ -443,20 +433,23 @@ class AdminController extends Controller
     // INFORMATION
     public function informationAdmin()
     {
-        // Obtengo todos los mensajes pendientes
-        // Se podría pasar todo y hacer un filtrado en la vista
-        $messages = ContactMessage::where('status', 'pending')->get();
+        // Mensajes de contacto generales (no son de entrenadores)
+        $messages = ContactMessage::where('status', 'pending')
+            ->whereNull('trainer_id') // Solo mensajes no asociados a entrenadores
+            ->get();
 
-        // Obtengo todos los trainers disponibles
+        // Entrenadores disponibles
         $trainers = User::where('role', 'trainer')->get();
 
-        // Obtengo todas las solicitudes de categoría
-        $categories = ContactMessage::where('target', 'trainer')
+        // Solicitudes de categoría (asociadas a entrenadores)
+        $categories = ContactMessage::with('trainer')
+            ->where('target', 'trainer')
             ->where('status', 'pending')
             ->get();
 
-        // Obtengo todas las solicitudes de activación
-        $activations = ContactMessage::where('target', 'activation')
+        // Solicitudes de activación (asociadas a entrenadores)
+        $activations = ContactMessage::with('trainer')
+            ->where('target', 'activation')
             ->where('status', 'pending')
             ->get();
 
@@ -466,6 +459,16 @@ class AdminController extends Controller
             'categories' => $categories,
             'activations' => $activations
         ]);
+    }
+
+    // Para activar un entrenador
+    public function activateTrainer(string $id)
+    {
+        $trainer = User::findOrFail($id);
+        $trainer->is_active = true;
+        $trainer->save();
+
+        return back()->with('message', 'Entrenador activado correctamente');
     }
 
     // Mensajes enviados sin registro
@@ -478,9 +481,6 @@ class AdminController extends Controller
             ContactMessage::create($request->all());
             $message = true;
 
-
-            // Envio correo
-            // Mail::to($request->email)->send(new RequestReceived($request->name));
             SendContactEmail::dispatch($request->email, $request->name);
 
         } catch (\Throwable $th) {
@@ -496,8 +496,6 @@ class AdminController extends Controller
     // Envio correo
     public function sendReplyUnregisteredUser(Request $request)
     {
-
-        // dd($request->all());
         // Variable de mensaje 
         $message = '';
         try {
@@ -517,16 +515,16 @@ class AdminController extends Controller
             $message = 'Error en el envío del mensaje, intentelo de nuevo más tarde!';
         }
 
-        // Devuelvo a la vista publica un mensaje de exito
+        // Devuelvo a la vista admin
         return inertia('Admin/InformationAdmin', [
             'messageStatus' => $message,
             'messages' => $messages
         ]);
     }
 
+    // Asignar un entrenador
     public function markAsAssigned(Request $request)
     {
-        // dd($request->all());
         try {
             // Obtengo el mensaje
             $contactMessage = ContactMessage::findOrFail($request->id);
@@ -552,22 +550,22 @@ class AdminController extends Controller
         ]);
     }
 
+    // Asignar una categoría
     public function asignCategory(Request $request, string $id)
     {
-        // dd($id);
-
-        // ContactMessage::create($request->all());
         try {
-            // Obtengo el trainer
             $trainer = User::findOrFail($id);
 
-
-            // Verifico si ya se ha solicitado una categoría
-            $contactMessage = ContactMessage::where('trainer_id', $id)->first();
+            // Verifico si ya se ha solicitado una categoría (solo con target 'trainer')
+            $contactMessage = ContactMessage::where('trainer_id', $id)
+                ->where('target', 'trainer')
+                ->first();
 
             if ($contactMessage) {
-                $message = 'Ya se ha solicitado una categoría';
-                return redirect()->route('trainers.trainerView')->with('message', $message);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Ya se ha solicitado una categoría para este entrenador.'
+                ]);
             }
 
             // Creo el mensaje
@@ -577,30 +575,26 @@ class AdminController extends Controller
                 'message' => 'Solicitud de categoría del entrenador',
                 'trainer_id' => $id,
                 'status' => 'pending',
-                'target' => 'trainer',
+                'target' => 'trainer', // Asegurar que es para categoría
             ]);
 
-            $contactMessage->save();
-
-            $message = 'Solicitud enviada correctamente';
-
+            return response()->json([
+                'success' => true,
+                'message' => 'Solicitud enviada correctamente'
+            ]);
 
         } catch (\Throwable $th) {
-            $message = 'Error en el envío del mensaje, intentelo de nuevo más tarde!';
+            return response()->json([
+                'success' => false,
+                'message' => 'Error en el envío del mensaje, intentelo de nuevo más tarde!'
+            ], 500);
         }
-
-        // Retorno a la vista
-        // return inertia('Trainer/TrainerIndex')->with('message', $message);
-
-        return redirect()->route('trainers.trainerView');
     }
 
-
-    // TODO: PENDIENTE
+    // Solicitud de activación
     public function requestActivation(Request $request, string $id)
     {
         try {
-            // Obtengo el trainer
             $trainer = User::findOrFail($id);
 
             // Verifico si ya se ha solicitado activación
@@ -609,8 +603,10 @@ class AdminController extends Controller
                 ->first();
 
             if ($existingRequest) {
-                $message = 'Ya existe una solicitud de activación pendiente';
-                return redirect()->route('trainers.trainerView')->with('message', $message);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Ya existe una solicitud de activación pendiente.'
+                ]);
             }
 
             // Creo el mensaje de solicitud de activación
@@ -620,30 +616,31 @@ class AdminController extends Controller
                 'message' => 'Solicitud de activación de cuenta de entrenador',
                 'trainer_id' => $id,
                 'status' => 'pending',
-                'target' => 'activation', // Diferente target para distinguir solicitudes
+                'target' => 'activation',
             ]);
 
-            $message = 'Solicitud de activación enviada correctamente';
+            return response()->json([
+                'success' => true,
+                'message' => 'Solicitud de activación enviada correctamente'
+            ]);
 
         } catch (\Throwable $th) {
-            $message = 'Error en el envío de la solicitud, inténtelo de nuevo más tarde!';
-            return redirect()->route('trainers.trainerView')->with('error', $message);
+            return response()->json([
+                'success' => false,
+                'message' => 'Error en el envío de la solicitud, inténtelo de nuevo más tarde!'
+            ], 500);
         }
-
-        return redirect()->route('trainers.trainerView')->with('success', $message);
     }
 
+    // Marcar como realizado
     public function markAsDone(string $id)
     {
-        // dd($id);
-
-        // ContactMessage::create($request->all());
         try {
             // Obtengo el trainer
             $trainer = User::findOrFail($id);
 
-            // Creo el mensaje
-            $contactMessage = ContactMessage::where('trainer_id', $id)->first();
+            // Obtengo el mensaje
+            $contactMessage = ContactMessage::where('trainer_id', $id)->where('status', 'pending')->first();
 
             // Cambio el estado el status
             $contactMessage->status = 'completed';
@@ -656,9 +653,7 @@ class AdminController extends Controller
             $message = 'Error en el envío del mensaje, intentelo de nuevo más tarde!';
         }
 
-
-
-        // Retorno a la vista
+        // Vista
         return redirect()->route('admin.informationAdmin');
     }
 
@@ -702,68 +697,7 @@ class AdminController extends Controller
         return Inertia::render('Admin/PaymentOptions/PaymentCreate');
     }
 
-    // public function storeMembership(Request $request)
-    // {
-    //     // dd($request->all());
-    //     \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-
-    //     $cantidad = $request->price * 100;
-
-    //     try {
-    //         $plan = Plan::create([
-    //             'name' => $request->name,
-    //             'price' => $cantidad,
-    //             'duration' => $request->duration,
-    //         ]);
-    //     } catch (\Throwable $th) {
-    //         $message = 'Error en el envío del mensaje, intentelo de nuevo más tarde!';
-    //     }
-
-    //     // Con el plan creado, lo guardo en la base de datos
-    //     $membership = \App\Models\Plan::create([
-    //         'name' => $request->name,
-    //         'stripe_plan_id' => $plan->id,
-    //         'stripe_price_id' => $plan->price,
-    //     ]);
-
-    //     return redirect()->route('admin.subscriptionAdmin');
-
-    // }
-
-    // public function storeMembership(Request $request)
-    // {
-    //     \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-
-    //     $amount = $request->price * 100;
-
-    //     try {
-    //         // 1. Crear el producto en Stripe
-    //         $product = \Stripe\Product::create([
-    //             'name' => $request->name,
-    //         ]);
-
-    //         // 2. Crear el precio en Stripe
-    //         $price = \Stripe\Price::create([
-    //             'unit_amount' => $amount,
-    //             'currency' => 'eur', // o el que uses
-    //             'recurring' => ['interval' => $request->duration], // e.g. 'month'
-    //             'product' => $product->id,
-    //         ]);
-
-    //         // 3. Guardar en tu base de datos
-    //         $plan = Plan::create([
-    //             'name' => $request->name,
-    //             'stripe_plan_id' => $product->id,
-    //             'stripe_price_id' => $price->id,
-    //         ]);
-
-    //         return redirect()->route('admin.subscriptionAdmin')->with('success', 'Plan creado correctamente.');
-
-    //     } catch (\Throwable $th) {
-    //         return back()->withErrors(['error' => 'Error al crear el plan: ' . $th->getMessage()]);
-    //     }
-    // }
-
+    // Crear membresía
     public function storeMembership(Request $request)
     {
         Stripe::setApiKey(config('services.stripe.secret'));
@@ -808,6 +742,7 @@ class AdminController extends Controller
         }
     }
 
+    // Eliminar membresía (Realmente se desactiva)
     public function destroyMembership(string $id)
     {
         /* No se puede eliminar directamente un Price ni un Product si ha sido usado alguna vez.
@@ -838,7 +773,6 @@ class AdminController extends Controller
 
 
     // Obtener todas las membresias reservadas y gestionarlas
-
     public function getMemberships()
     {
         // Carga todos los usuarios con su suscripción (de la tabla subscriptions)
@@ -853,7 +787,7 @@ class AdminController extends Controller
         ]);
     }
 
-
+    // Ver opciones de pago
     public function paymentOptions($stripe_id)
     {
         $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
@@ -866,6 +800,7 @@ class AdminController extends Controller
         ]);
     }
 
+    // Cancelar suscripción
     public function cancelSubscription($stripe_id)
     {
         $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
@@ -875,41 +810,12 @@ class AdminController extends Controller
         return redirect()->route('admin.membershipReservations')->with('success', 'Suscripción cancelada correctamente.');
     }
 
-
-    // FIXME: ALTERNATIVA DE CREAR OTRA SUSCRIPCION, PORQUE NO SE PUEDE REACTIVAR
-    // public function reactivateSubscription($stripe_id)
-    // {
-    //     $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
-
-    //     // Quitamos la cancelación al final del periodo
-    //     $subscription = $stripe->subscriptions->update($stripe_id, [
-    //         'cancel_at_period_end' => false,
-    //     ]);
-
-    //     return redirect()->route('admin.getMemberships')->with('success', 'Suscripción reactivada correctamente.');
-    // }
-
-    // public function recreateSubscription($stripeCustomerId, $priceId)
-    // {
-    //     $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
-
-    //     $subscription = $stripe->subscriptions->create([
-    //         'customer' => $stripeCustomerId,
-    //         'items' => [
-    //             ['price' => $priceId],
-    //         ],
-    //         'default_payment_method' => 'pm_xxxx', // si ya tienes uno guardado
-    //     ]);
-
-    //     return redirect()->route('admin.getMemberships')->with('success', 'Suscripción creada nuevamente.');
-    // }
-
-
     // ADMINISTRACIÓN
 
     // Mostrar todas las transacciones
     public function administrationAdmin()
     {
+        // Obtengo todas las transacciones
         $transactions = Transaction::where('user_id', Auth::id())
             ->orderBy('date', 'desc')
             ->get();
@@ -943,6 +849,7 @@ class AdminController extends Controller
         }
     }
 
+    // Exportar a CSV
     public function exportToCsv()
     {
         $transactions = Transaction::where('user_id', Auth::id())
@@ -976,5 +883,4 @@ class AdminController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
-
 }

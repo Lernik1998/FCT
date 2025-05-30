@@ -1,4 +1,7 @@
 <template>
+
+    <Head title="Crear entrenador" />
+
     <div
         class="min-h-screen bg-gray-50 dark:bg-gray-900 p-4 sm:p-6 transition-colors duration-300"
     >

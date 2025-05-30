@@ -1,4 +1,5 @@
 <template>
+    <Head title="Actividad" />
     <div class="p-4 md:p-8 max-w-6xl mx-auto space-y-8">
         <!-- Botón de volver -->
         <button

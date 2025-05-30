@@ -1,5 +1,5 @@
 <template>
-    <!-- <pre>{{ eventoAct }}</pre> -->
+    <Head title="Index Admin" />
 
     <div class="min-h-screen bg-gray-50 dark:bg-gray-800 dark:text-gray-600">
         <!-- Contenido principal -->
@@ -17,7 +17,7 @@
             <div class="grid gap-6 mb-10 md:grid-cols-2 lg:grid-cols-3">
                 <!-- Tarjeta Usuarios -->
                 <div
-                    class="bg-white overflow-hidden shadow rounded-lg transition-all duration-200 hover:shadow-lg"
+                    class="bg-white overflow-hidden shadow rounded-lg transition-all duration-200 hover:shadow-lg dark:bg-gray-300"
                 >
                     <div class="px-6 py-5">
                         <div class="flex items-center">
@@ -73,7 +73,7 @@
 
                 <!-- Tarjeta Entrenadores -->
                 <div
-                    class="bg-white overflow-hidden shadow rounded-lg transition-all duration-200 hover:shadow-lg"
+                    class="bg-white overflow-hidden shadow rounded-lg transition-all duration-200 hover:shadow-lg dark:bg-gray-300"
                 >
                     <div class="px-6 py-5">
                         <div class="flex items-center">
@@ -131,7 +131,7 @@
 
                 <!-- Tarjeta Actividades -->
                 <div
-                    class="bg-white overflow-hidden shadow rounded-lg transition-all duration-200 hover:shadow-lg"
+                    class="bg-white overflow-hidden shadow rounded-lg transition-all duration-200 hover:shadow-lg dark:bg-gray-300"
                 >
                     <div class="px-6 py-5">
                         <div class="flex items-center">
@@ -189,7 +189,7 @@
 
                 <!-- Tarjeta Configuración -->
                 <div
-                    class="bg-white overflow-hidden shadow rounded-lg transition-all duration-200 hover:shadow-lg"
+                    class="bg-white overflow-hidden shadow rounded-lg transition-all duration-200 hover:shadow-lg dark:bg-gray-300"
                 >
                     <div class="px-6 py-5">
                         <div class="flex items-center">
@@ -247,7 +247,7 @@
 
                 <!-- Tarjeta de Suscripciones -->
                 <div
-                    class="bg-white overflow-hidden shadow rounded-lg transition-all duration-200 hover:shadow-lg"
+                    class="bg-white overflow-hidden shadow rounded-lg transition-all duration-200 hover:shadow-lg dark:bg-gray-300"
                 >
                     <div class="px-6 py-5">
                         <div class="flex items-center">
@@ -305,7 +305,7 @@
 
                 <!-- Tarjeta de pagos -->
                 <div
-                    class="bg-white overflow-hidden shadow rounded-lg transition-all duration-200 hover:shadow-lg"
+                    class="bg-white overflow-hidden shadow rounded-lg transition-all duration-200 hover:shadow-lg dark:bg-gray-300"
                 >
                     <div class="px-6 py-5">
                         <div class="flex items-center">
@@ -364,28 +364,27 @@
 
             <!-- Sección de Calendario -->
             <section class="mt-12">
-                <div class="bg-white shadow rounded-lg p-6">
+                <div class="bg-white shadow rounded-lg p-6 dark:bg-gray-300">
                     <h2
                         class="text-xl font-semibold text-gray-800 mb-4 dark:text-orange-700"
                     >
                         Calendario de Eventos
                     </h2>
-                    <!-- <div id="calendar" class="h-96"></div> -->
 
-                    <!-- <div class="p-6 bg-gray-50 dark:bg-gray-700/30"> -->
                     <FullCalendar
                         ref="calendar"
                         class="trainer-calendar"
                         :options="calendarOptions"
                     />
-                    <!-- </div> -->
                 </div>
             </section>
 
             <!-- Sección de Gráficos -->
             <section class="mt-12">
-                <div class="bg-white shadow rounded-lg p-6">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                <div class="bg-white shadow rounded-lg p-6 dark:bg-gray-300">
+                    <h2
+                        class="text-xl font-semibold text-gray-800 mb-4 dark:text-orange-700"
+                    >
                         Asistencia Mensual
                     </h2>
                     <canvas id="attendanceChart" class="w-full h-96"></canvas>

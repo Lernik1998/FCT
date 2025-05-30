@@ -69,14 +69,14 @@
             <h1
                 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 leading-tight"
             >
-                MEJORA TU VIDA<br />
-                <span class="text-orange-500">DENTRO Y FUERA DEL GIMNASIO</span>
+                {{ $t("pages.Index.banner.slogan_part1") }}<br />
+                <span class="text-orange-500">{{
+                    $t("pages.Index.banner.slogan_part2")
+                }}</span>
             </h1>
 
             <p class="text-lg text-gray-200 mb-8 max-w-2xl mx-auto">
-                Combinamos entrenamientos funcionales, eventos deportivos y un
-                estilo de vida activo en un espacio diseñado para motivarte.
-                Únete a nuestra comunidad y alcanza tu mejor versión.
+                {{ $t("pages.Index.banner.description") }}
             </p>
 
             <div class="flex flex-col sm:flex-row justify-center gap-4">
@@ -84,14 +84,14 @@
                     class="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg transition-colors duration-300"
                     @click="login"
                 >
-                    Empieza ya
+                    {{ $t("pages.Index.banner.start_button") }}
                 </button>
 
                 <button
                     class="px-6 py-3 border-2 border-white hover:border-orange-500 text-white hover:text-orange-500 font-medium rounded-lg transition-colors duration-300"
                     @click="exploreActivities"
                 >
-                    Explorar actividades
+                    {{ $t("pages.Index.banner.explore_button") }}
                 </button>
             </div>
         </div>
@@ -106,13 +106,13 @@
             <h2
                 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white"
             >
-                FitWorking es para ti
+                {{ $t("pages.Index.for_you_section.title") }}
             </h2>
             <a
                 :href="route('posts.index')"
                 class="flex items-center text-orange-500 hover:text-orange-600 font-medium transition-colors"
             >
-                Ver todos los posts
+                {{ $t("pages.Index.for_you_section.view_all") }}
                 <svg
                     class="w-5 h-5 ml-2"
                     viewBox="0 0 17 12"
@@ -146,12 +146,14 @@
                     <h3
                         class="text-xl font-bold text-gray-900 mb-3 dark:text-white"
                     >
-                        Una promesa de padre: perder 38 kilos para correr con
-                        sus hijos
+                        {{ $t("pages.Index.for_you_section.articles.0.title") }}
                     </h3>
                     <p class="text-gray-600 mb-4 dark:text-gray-300">
-                        Ahora es mucho más fácil caminar, subir escaleras y
-                        correr detrás de los niños.
+                        {{
+                            $t(
+                                "pages.Index.for_you_section.articles.0.description"
+                            )
+                        }}
                     </p>
                 </div>
             </article>
@@ -174,13 +176,14 @@
                     <h3
                         class="text-xl font-bold text-gray-900 mb-3 dark:text-white"
                     >
-                        Supera lo físico desarrollando tu resistencia y
-                        fortaleza mental
+                        {{ $t("pages.Index.for_you_section.articles.1.title") }}
                     </h3>
                     <p class="text-gray-600 mb-4 dark:text-gray-300">
-                        Practicar un ejercicio físico que sea difícil ayuda a
-                        desarrollar la fortaleza mental cuando algo no sale bien
-                        en la vida.
+                        {{
+                            $t(
+                                "pages.Index.for_you_section.articles.1.description"
+                            )
+                        }}
                     </p>
                 </div>
             </article>
@@ -203,14 +206,14 @@
                     <h3
                         class="text-xl font-bold text-gray-900 mb-3 dark:text-white"
                     >
-                        Sentido de pertenencia: Una comunidad que camina contigo
-                        hacia el cambio
+                        {{ $t("pages.Index.for_you_section.articles.2.title") }}
                     </h3>
                     <p class="text-gray-600 mb-4 dark:text-gray-300">
-                        Cuando compartimos el esfuerzo, el camino se hace más
-                        llevadero. Aquí, cada logro es celebrado y cada
-                        tropiezo, sostenido por otros. No estás solo: somos una
-                        comunidad que avanza unida.
+                        {{
+                            $t(
+                                "pages.Index.for_you_section.articles.2.description"
+                            )
+                        }}
                     </p>
                 </div>
             </article>
@@ -227,12 +230,11 @@
                 <h2
                     class="text-3xl font-bold text-center text-gray-900 mb-12 dark:text-white"
                 >
-                    ¿Cómo funcionamos?
+                    {{ $t("pages.Index.how_it_works.title") }}
                 </h2>
 
                 <h4 class="mb-10 text-center dark:text-white">
-                    Si tienes dudas de cómo trabajamos aquí y qué
-                    características tiene nuestro servicio, te cuento brevemente
+                    {{ $t("pages.Index.how_it_works.subtitle") }}
                     abajo.
                 </h4>
 
@@ -240,12 +242,27 @@
                 <div
                     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
                 >
-                    <BenefitCard
+                    <!-- <BenefitCard
                         v-for="(benefit, index) in benefits"
                         :key="index"
                         :icon="benefit.icon"
                         :title="benefit.title"
                         :description="benefit.description"
+                    /> -->
+                    <BenefitCard
+                        v-for="(benefit, index) in benefits"
+                        :key="index"
+                        :icon="benefit.icon"
+                        :title="
+                            $t(
+                                `pages.Index.how_it_works.benefits.${index}.title`
+                            )
+                        "
+                        :description="
+                            $t(
+                                `pages.Index.how_it_works.benefits.${index}.description`
+                            )
+                        "
                     />
                 </div>
             </div>

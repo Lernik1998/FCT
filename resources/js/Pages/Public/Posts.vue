@@ -1,10 +1,13 @@
 <template>
+
+<Head title="Posts" />
+
     <section class="min-h-screen dark:bg-gray-900 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2
                 class="text-3xl font-bold text-center dark:text-white text-orange-600 mb-12 mt-4"
             >
-                Comparte tu esfuerzo, celebra tus logros.
+                {{ $t("pages.Post.posts_section.title") }}
             </h2>
 
             <div
@@ -29,9 +32,11 @@
                             v-else
                             class="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center"
                         >
-                            <span class="text-gray-500 dark:text-gray-300"
-                                >Sin imagen</span
-                            >
+                            <span class="text-gray-500 dark:text-gray-300">{{
+                                $t(
+                                    "pages.Post.posts_section.post_card.no_image"
+                                )
+                            }}</span>
                         </div>
                         <div
                             class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"
@@ -58,7 +63,7 @@
                     class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-orange-500"
                 ></div>
                 <p class="mt-2 text-gray-600 dark:text-gray-300">
-                    Cargando más posts...
+                    {{ $t("pages.Post.posts_section.loading.text") }}
                 </p>
             </div>
 

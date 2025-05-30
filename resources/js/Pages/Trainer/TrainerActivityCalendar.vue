@@ -83,15 +83,16 @@
             />
 
             <!-- Modal para crear/editar/eliminar eventos -->
+            <!-- Modal para crear/editar/eliminar eventos -->
             <div
                 v-if="showEventModal"
-                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-300"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-300 p-4"
             >
                 <div
-                    class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4 transition-all duration-300 border border-gray-200 dark:border-gray-700"
+                    class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4 transition-all duration-300 border border-gray-200 dark:border-gray-700 max-h-[90vh] overflow-y-auto"
                 >
                     <div
-                        class="p-5 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center"
+                        class="p-4 sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center z-10"
                     >
                         <h3
                             class="text-lg font-semibold text-gray-800 dark:text-white"
@@ -123,7 +124,8 @@
                         </button>
                     </div>
 
-                    <div class="p-5 space-y-4">
+                    <div class="p-4 space-y-4">
+                        <!-- Nombre de la actividad -->
                         <div>
                             <label
                                 class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
@@ -138,7 +140,8 @@
                             />
                         </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Fechas -->
+                        <div class="grid grid-cols-1 gap-4">
                             <div>
                                 <label
                                     class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
@@ -166,24 +169,38 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Precio y capacidad -->
+                        <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label for="precio">Precio</label>
+                                <label
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                                >
+                                    Precio
+                                </label>
                                 <input
+                                    min="1"
                                     type="number"
                                     v-model="eventoAct.price"
+                                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
                                 />
                             </div>
 
                             <div>
-                                <label for="capacity">Capacidad</label>
+                                <label
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                                >
+                                    Capacidad
+                                </label>
                                 <input
+                                    min="1"
                                     type="number"
                                     v-model="eventoAct.capacity"
+                                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
                                 />
                             </div>
                         </div>
 
+                        <!-- Descripción -->
                         <div>
                             <label
                                 class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
@@ -198,51 +215,44 @@
                             ></textarea>
                         </div>
 
+                        <!-- Imagen -->
                         <div>
-                            <label for="imagen">Imagen</label>
+                            <label
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                            >
+                                Imagen
+                            </label>
                             <input
                                 type="file"
                                 @change="handleImageChange"
                                 required
+                                class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 dark:file:bg-gray-700 dark:file:text-orange-300 dark:hover:file:bg-gray-600"
                             />
                         </div>
-
-                        <!-- <div>
-                            <label class="flex items-center">
-                                <input
-                                    v-model="eventoAct.allDay"
-                                    type="checkbox"
-                                    class="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 dark:border-gray-600 rounded transition-colors duration-200"
-                                />
-                                <span
-                                    class="ml-2 text-sm text-gray-700 dark:text-gray-300"
-                                    >Todo el día</span
-                                >
-                            </label>
-                        </div> -->
                     </div>
 
+                    <!-- Botones -->
                     <div
-                        class="p-5 border-t border-gray-200 dark:border-gray-700 flex justify-end space-x-3"
+                        class="p-4 sticky bottom-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3"
                     >
                         <button
                             @click="closeEventModal"
-                            class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+                            class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 w-full sm:w-auto"
                         >
                             Cancelar
                         </button>
                         <button
-                            @click="saveEvent"
-                            class="px-4 py-2 bg-orange-500 hover:bg-orange-600 dark:bg-orange-600 dark:hover:bg-orange-700 text-white rounded-md transition-colors duration-200"
-                        >
-                            Guardar
-                        </button>
-                        <button
                             v-if="editingEvent"
                             @click="deleteEvent"
-                            class="px-4 py-2 bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white rounded-md transition-colors duration-200"
+                            class="px-4 py-2 bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white rounded-md transition-colors duration-200 w-full sm:w-auto"
                         >
                             Eliminar
+                        </button>
+                        <button
+                            @click="saveEvent"
+                            class="px-4 py-2 bg-orange-500 hover:bg-orange-600 dark:bg-orange-600 dark:hover:bg-orange-700 text-white rounded-md transition-colors duration-200 w-full sm:w-auto"
+                        >
+                            Guardar
                         </button>
                     </div>
                 </div>

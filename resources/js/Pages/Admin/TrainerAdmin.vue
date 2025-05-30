@@ -1,4 +1,7 @@
 <template>
+
+<Head title="Gestionar entrenador" />
+
     <div class="container mx-auto p-4 sm:p-6 dark:bg-gray-900 min-h-screen">
         <!-- Botón de volver -->
         <button

@@ -1,4 +1,7 @@
 <template>
+
+<Head title="Reservas" />
+
     <!-- Contenido Principal -->
     <main
         class="w-full min-h-screen mx-auto py-8 px-4 sm:px-6 dark:bg-gray-900 transition-colors duration-300"

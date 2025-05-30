@@ -1,4 +1,6 @@
 <template>
+    <Head title="Administración" />
+
     <div class="container mx-auto p-4">
         <!-- Botón de volver -->
         <button
@@ -272,7 +274,3 @@ const formatCurrency = (amount) => {
     }).format(amount);
 };
 </script>
-
-<style scoped>
-/* Estilos adicionales si son necesarios */
-</style>

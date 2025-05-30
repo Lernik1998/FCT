@@ -1,4 +1,7 @@
 <template>
+
+<Head title="Crear membresía" />
+
     <div class="max-w-xl mx-auto mt-10 bg-white shadow-lg rounded-2xl p-8">
         <!-- Botón de volver -->
         <button

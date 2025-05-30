@@ -1,4 +1,6 @@
 <template>
+    <Head title="¿Cómo cambiará tu cuerpo con FitWorking?" />
+
     <section
         class="min-h-screen bg-white p-10 flex flex-col items-center text-center"
     >

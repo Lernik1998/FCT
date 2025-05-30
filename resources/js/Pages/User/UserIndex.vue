@@ -1,4 +1,6 @@
 <template>
+    <Head title="User Index" />
+
     <main
         class="mx-auto py-6 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900 min-h-screen transition-colors duration-300"
     >

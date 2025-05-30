@@ -14,10 +14,10 @@
             class="absolute inset-0 flex flex-col items-center justify-center text-center p-8 bg-gradient-to-t from-black/60 to-transparent"
         >
             <h1 class="text-4xl md:text-5xl font-bold mb-4 text-orange-500">
-                Conoce a nuestro personal
+               {{ $t("pages.Trainer.trainers_page.banner.title") }}
             </h1>
             <p class="text-lg md:text-xl text-white/90">
-                Conéctate con expertos en fitness y mejora tu rendimiento.
+                {{ $t("pages.Trainer.trainers_page.banner.subtitle") }}
             </p>
         </div>
     </section>
@@ -29,13 +29,12 @@
                 <h2
                     class="text-3xl font-bold text-gray-800 mb-4 dark:text-white"
                 >
-                    Entrenadores
+                    {{ $t("pages.Trainer.trainers_page.title") }}
                 </h2>
                 <p
                     class="text-lg text-gray-600 max-w-2xl mx-auto dark:text-white"
                 >
-                    Conoce a nuestros profesionales certificados listos para
-                    ayudarte a alcanzar tus metas
+                    {{ $t("pages.Trainer.trainers_page.trainers_section.description") }}
                 </p>
             </div>
 

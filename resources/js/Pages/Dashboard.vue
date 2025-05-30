@@ -1,4 +1,6 @@
 <template>
+
+<Head title="Dashboard" />
     <!-- <AppLayout title="Dashboard"> -->
 
     <div class="py-12">

@@ -1,4 +1,6 @@
 <template>
+    <Head title="¿Qué debo esperar en mi primera clase en FitWorking?" />
+
     <section class="min-h-screen bg-white p-10">
         <h1
             class="text-3xl font-bold text-gray-900 text-center mt-10 dark:text-orange-600"

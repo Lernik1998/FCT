@@ -1,4 +1,7 @@
 <template>
+
+<Head title="Mensajes" />
+
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900 mt-4">
         <div
             class="max-w-7xl mx-auto flex flex-col md:flex-row h-[calc(100vh-73px)] bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden mt-2"

@@ -1,4 +1,6 @@
 <template>
+    <Head title="Actividad" />
+
     <!-- Contenido principal -->
     <main class="py-8 px-4 sm:px-6 lg:px-8 dark:bg-gray-900">
         <!-- Botón de volver -->

@@ -1,4 +1,5 @@
 <template>
+    <Head title="Pagar actividad" />
     <section class="mt-28">
         <div class="payment-container bg-white rounded-lg shadow-md p-4">
             <h1 class="text-3xl font-bold mb-4">Pagar Actividad</h1>

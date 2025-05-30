@@ -1,4 +1,5 @@
 <template>
+    <Head title="Publicación" />
     <section class="min-h-screen dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
         <!-- Botón de volver -->
         <button

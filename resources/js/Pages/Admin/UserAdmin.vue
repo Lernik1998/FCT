@@ -1,4 +1,7 @@
 <template>
+
+<Head title="Gestión de usuarios" />
+
     <div class="container mx-auto p-4 sm:p-6 dark:bg-gray-900 min-h-screen">
         <!-- Botón de volver -->
         <button
@@ -152,7 +155,7 @@
                                 </a>
                             </td>
                         </tr>
-                        <tr v-if="users.data.length === 0">
+                        <tr v-if="users && users.data && users.data.length === 0">
                             <td
                                 colspan="4"
                                 class="px-4 sm:px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400"
@@ -206,10 +209,13 @@ defineOptions({ layout: AdminLayout });
 
 const props = defineProps({
     users: Object,
-    filters: Object,
+    filters: {
+        type: Object,
+        default: () => ({ search: "" }),
+    },
 });
 
-const search = ref(props.filters.search || "");
+const search = ref(props.filters?.search || "");
 
 watch(
     search,

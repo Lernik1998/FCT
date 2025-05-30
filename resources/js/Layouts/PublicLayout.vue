@@ -19,6 +19,8 @@ import Footer from "@/Pages/Public/Components/Footer.vue";
 
 import { onMounted } from "vue";
 
+/* SEO */
+
 // Datos de la organización (globales)
 const organizationSchema = {
     "@context": "https://schema.org",

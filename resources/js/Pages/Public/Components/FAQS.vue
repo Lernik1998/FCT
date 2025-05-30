@@ -6,7 +6,7 @@
                 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-orange-500"
             >
                 <!-- FitWorking es para ti -->
-                ¿Por qué esto es para ti?
+                {{ $t("pages.Faq1.why_fitworking.section_title") }}
             </h2>
         </div>
 
@@ -38,15 +38,10 @@
                     <h3
                         class="text-xl font-bold text-gray-900 dark:text-white mb-3"
                     >
-                        ¿Necesito estar en forma antes de apuntarme a
-                        FitWorking?
+                        {{ $t("pages.Faq1.why_fitworking.articles.0.title") }}
                     </h3>
                     <p class="text-gray-600 dark:text-white">
-                        No necesitas "prepararte" antes de empezar; el
-                        entrenamiento funcional está diseñado para que progreses
-                        desde donde estés, con el apoyo de una comunidad que te
-                        anima en cada paso. ¡El mejor momento para empezar es
-                        ahora!
+                        {{ $t("pages.Faq1.why_fitworking.articles.0.content") }}
                     </p>
                 </div>
             </article>
@@ -76,15 +71,10 @@
                     <h3
                         class="text-xl font-bold text-gray-900 dark:text-white mb-3"
                     >
-                        ¿Cómo cambiará mi cuerpo al apuntarme a FitWorking?
+                        {{ $t("pages.Faq1.why_fitworking.articles.1.title") }}
                     </h3>
                     <p class="text-gray-600 dark:text-white mb-4">
-                        Tus objetivos y esfuerzo determinarán tus resultados. En
-                        FitWorking, nuestros usuarios suelen sentirse más
-                        fuertes y mejorar significativamente su resistencia.
-                        Combinado con nuestras recomendaciones de nutrición y
-                        bienestar, también notarás mejoras en tu salud general y
-                        productividad.
+                        {{ $t("pages.Faq1.why_fitworking.articles.1.content") }}
                     </p>
                 </div>
             </article>
@@ -115,12 +105,10 @@
                     <h3
                         class="text-xl font-bold text-gray-900 dark:text-white mb-3"
                     >
-                        ¿Qué debo esperar en mi primera clase en FitWorking?
+                        {{ $t("pages.Faq1.why_fitworking.articles.2.title") }}
                     </h3>
                     <p class="text-gray-600 dark:text-white mb-4">
-                        Es normal sentirse nervioso, ¡y está bien! Desde saber
-                        qué llevar hasta conocer a tu entrenador y aprender los
-                        ejercicios, te guiaremos a través de todo el proceso.
+                        {{ $t("pages.Faq1.why_fitworking.articles.2.content") }}
                     </p>
                 </div>
             </article>

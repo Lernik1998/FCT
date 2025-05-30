@@ -47,14 +47,15 @@ Route::get('/cancel', [StripeController::class, 'cancel'])->name('stripe.cancel'
 Route::middleware(TranslationsMiddleware::class)->group(function () {
     // PUBLIC routes
     Route::inertia('/', 'Index')->name('index'); // Entrada
-// Route::inertia('publicTrainers', 'Public/Trainer')->name('trainers.public');
     Route::inertia('/contact', 'Public/Contact')->name('contact');
+
+    // Route::inertia('publicTrainers', 'Public/Trainer')->name('trainers.public');
 
     // Route::get('trainers', [TrainerController::class, 'index'])->name('trainers.index');
 
     Route::resource('activities', ActivityController::class);
     Route::resource('posts', PostController::class);
-    // Mensaje contacto sin registro --> DESDE QUE CONTROLADOR SE DEBERÍA DE HACER? CONTROLADOR PUBLIC???
+
     Route::post('contact', [AdminController::class, 'unregisteredUserMessage'])->name('admin.unregisteredUserMessage');
 
     Route::inertia('empezarAhora', 'Public/BeforeStart')->name('beforeStart');
@@ -164,9 +165,8 @@ Route::middleware(['auth', 'verified', 'role:trainer'])->group(function () {
         Route::put('trainers/posts/{id}', [TrainerController::class, 'updatePost'])->name('trainers.updatePost');
 
         /************************************** MENSAJES ************************************** */
-        Route::get('trainers/messages', [TrainerController::class, 'trainerMessagesView'])->name('trainers.messages');
 
-        Route::post('admin/sendReplyUnregisteredUser', [AdminController::class, 'sendReplyUnregisteredUser'])->name('admin.sendReplyUnregisteredUser');
+        Route::get('trainers/messages', [TrainerController::class, 'trainerMessagesView'])->name('trainers.messages');
 
         Route::post('admin/markAsAssigned', [AdminController::class, 'markAsAssigned'])->name('admin.markAsAssigned');
 
@@ -247,15 +247,11 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
         Route::post('admin/markAsDone/{id}', [AdminController::class, 'markAsDone'])->name('admin.markAsDone');
 
-
-        // TODO: PENDIENTE
         Route::post('/admin/trainer/{id}/request-activation', [AdminController::class, 'requestActivation'])->withoutMiddleware('role:admin')
             ->name('admin.requestActivation');
 
-        // Contact
-        // Route::get('admin/contactAdmin', [AdminController::class, 'contactAdmin'])->name('admin.contactAdmin');
+        Route::post('admin/sendReplyUnregisteredUser', [AdminController::class, 'sendReplyUnregisteredUser'])->name('admin.sendReplyUnregisteredUser');
 
-        // Route::post('admin/contactAdmin', [AdminController::class, 'contactAdmin'])->name('admin.contactAdmin');
 
         /************************************** GESTIÓN DE SUSCRIPTIONS ************************************** */
         Route::get('admin/subscriptionAdmin', [AdminController::class, 'subscriptionAdmin'])->name('admin.subscriptionAdmin');
@@ -275,6 +271,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         Route::post('admin/reactivateSubscription/{name}', [AdminController::class, 'reactivateSubscription'])->name('admin.reactivateSubscription');
 
         /************************************** GESTIÓN DE TRANSACTIONS ************************************** */
+
         Route::get('transactions', [AdminController::class, 'administrationAdmin'])->name('admin.transactions');
         Route::post('transactions', [AdminController::class, 'storeTransaction'])->name('admin.transactions.store');
         Route::get('transactions/export', [AdminController::class, 'exportToCsv'])->name('admin.transactions.export');
@@ -292,6 +289,7 @@ Route::controller(SocialiteController::class)->group(function () {
 
 
 Route::middleware(['auth', 'verified', 'roleAdminOrTrainer'])->group(function () {
+
     // Rutas del calendario accesibles para admin y trainer
     Route::get('/appointments/list', [AppointmentController::class, 'list'])->name('appointments.list');
     Route::post('/appointmentsStore', [AppointmentController::class, 'store'])->name('appointments.store');

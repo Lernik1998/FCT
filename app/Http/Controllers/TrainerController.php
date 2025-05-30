@@ -91,33 +91,7 @@ class TrainerController extends Controller
 
         // Retornar una respuesta exitosa
         return redirect()->route('trainers.index');
-
-
     }
-
-
-    // RESERVATIONS
-    // public function reservations()
-    // {
-    //     // Obtengo el entrenador con el id
-    //     $trainer = User::findOrFail(auth()->id());
-
-    //     // dd($trainer->id);
-
-    //     // $idCategory = Category::where('name', $trainer->category)->first()->id;
-
-    //     // dd($idCategory);
-
-    //     // Obtengo las actividades del entrenador
-    //     $activities = Activity::where('user_id', $trainer->id)->get();
-
-    //     dd($activities);
-
-    //     // Obtengo las reservas del entrenador
-    //     $reservations = UserActivitiesReservations::where('user_id', $trainer->id)->get();
-
-    //     return inertia('Trainer/TrainerReservations', compact('activities', 'reservations'));
-    // }
 
     // Reservas del entrenador
     public function reservations(Request $request)
@@ -140,9 +114,6 @@ class TrainerController extends Controller
             ->withQueryString();
 
         // Obtengo las reservas para estas actividades
-        // $reservations = UserActivitiesReservations::whereIn('activity_id', $activities->pluck('id'))
-        //     ->with('user') // Opcional: si necesitas datos del usuario
-        //     ->get();
         $reservationIds = $activities->pluck('id');
         $reservations = UserActivitiesReservations::whereIn('activity_id', $reservationIds)
             ->with('user')
@@ -168,30 +139,6 @@ class TrainerController extends Controller
         return inertia('Trainer/TrainerActivityCalendar');
     }
 
-    // Crear un plan personalizado PUBLICO (Futura implementación)
-    // public function createPersonalizedTraining()
-    // {
-    //     return inertia('Trainer/Options/PersonalizedTrainingCreate');
-    // }
-
-    // Crear un plan personalizado PUBLICO (Futura implementación)
-    // public function storePlan(Request $request)
-    // {
-    // dd($request->all());
-    // Validar los datos $request->validate([]);
-
-    // Crear el plan
-    // $plan = PersonalizedTraining::create([
-    // 'name' => $request['name'],
-    //     'user_id' => auth()->id(),
-    //     'description' => $request['description'],
-    //     'price' => $request['price'],
-    //         'status' => 'approved',
-    //      ]);
-
-    //      Retornar una respuesta exitosa
-    //     return redirect()->route('trainers.pp');
-    // }
 
     // POSTS
 
@@ -326,7 +273,6 @@ class TrainerController extends Controller
                     ->orWhere('role', 'admin');
             })
             ->get();
-
 
         return Inertia::render('Trainer/TrainerMessages', ['users' => $users]);
     }

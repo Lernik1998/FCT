@@ -1,4 +1,5 @@
 <template>
+    <Head title="Pago realizado con éxito" />
     <div
         class="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900 transition-colors duration-300"
     >

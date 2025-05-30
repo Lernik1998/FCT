@@ -1,11 +1,13 @@
 <template>
+    <Head title="Contacto" />
+
     <!-- Success message -->
     <section class="p-4 md:p-8 md:ml-0 lg:ml-32">
         <div
             v-if="message === true"
             class="p-4 mb-4 rounded-lg bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-600 text-green-700 dark:text-green-100"
         >
-            Mensaje enviado, le responderemos lo antes posible
+            {{ $t("pages.Contact.about_page.messages.success") }}
         </div>
     </section>
 
@@ -15,7 +17,7 @@
             v-if="message === false"
             class="p-4 mb-4 rounded-lg bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-100"
         >
-            Error en el envío del mensaje, intentelo de nuevo más tarde!
+            {{ $t("pages.Contact.about_page.messages.error") }}
         </div>
     </section>
 
@@ -28,18 +30,12 @@
                 <h1
                     class="text-2xl md:text-3xl font-bold text-orange-600 dark:text-orange-500 text-center mb-4"
                 >
-                    Acerca de Nosotros
+                    {{ $t("pages.Contact.about_page.about_section.title") }}
                 </h1>
                 <p
                     class="text-gray-900 dark:text-gray-300 text-base md:text-lg text-center leading-relaxed"
                 >
-                    FitWorking es una plataforma web que conecta a personas con
-                    centros fitness modernos y accesibles. Nuestro objetivo es
-                    facilitar el acceso a instalaciones de calidad, entrenadores
-                    cualificados y experiencias personalizadas, sin importar la
-                    ubicación. FitWorking no es solo una web, es un punto de
-                    encuentro para quienes buscan un estilo de vida activo y
-                    saludable, promoviendo una comunidad unida por el bienestar.
+                    {{ $t("pages.Contact.about_page.about_section.content") }}
                 </p>
 
                 <div class="mt-6 flex justify-center">
@@ -59,13 +55,12 @@
                 <h2
                     class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-orange-600 text-center mb-4"
                 >
-                    Contáctanos
+                    {{ $t("pages.Contact.about_page.contact_section.title") }}
                 </h2>
                 <p
                     class="text-gray-600 dark:text-gray-300 text-base md:text-lg text-center mb-6"
                 >
-                    Si tienes dudas, sugerencias o necesitas asistencia, no
-                    dudes en escribirnos. ¡Te responderemos lo antes posible!
+                    {{ $t("pages.Contact.about_page.contact_section.description") }}
                 </p>
 
                 <form @submit.prevent="submitForm" class="space-y-4">
@@ -121,7 +116,7 @@
                         type="submit"
                         class="w-full bg-gray-500 text-white dark:bg-orange-600 dark:text-white py-2 rounded-lg hover:bg-gray-600 dark:hover:bg-orange-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-orange-500"
                     >
-                        Enviar mensaje
+                        {{ $t("pages.Contact.about_page.contact_section.form.submit") }}
                     </button>
                 </form>
             </div>

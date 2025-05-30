@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     "home" => "Inicio",
     "activities" => "Actividades",
     "trainers" => "Entrenadores",

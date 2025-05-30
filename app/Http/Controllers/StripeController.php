@@ -38,6 +38,7 @@ class StripeController extends Controller
 
     // }
 
+    // Exitoso
     public function success()
     {
         return inertia('Payments/SuccessPayment');
@@ -48,6 +49,7 @@ class StripeController extends Controller
         return inertia('Payments/FailedPayment');
     }
 
+    // Checkout, vista de pago
     public function checkout(Request $request, $name)
     {
         $plan = Plan::where('name', $name)->first();
@@ -61,7 +63,7 @@ class StripeController extends Controller
             ]);
     }
 
-
+    // Conexión con Stripe con el Webhook
     public function webhook()
     {
         \Log::info('Stripe webhook recibido');
@@ -69,12 +71,11 @@ class StripeController extends Controller
         return response()->json(['status' => 'success']);
     }
 
+    // Cancelar membresía
     public function cancelMembership()
     {
 
         $user = Auth::user()->id;
-
-        // dd($user);
 
         try {
             // Obtener información de suscripción del usuario
@@ -92,15 +93,11 @@ class StripeController extends Controller
                 $stripeSubscription->cancel();
             }
 
-            // dd($stripeSubscription);
-
             // Cancelar la suscripción en Stripe
             // $subscription = $user->subscription('default');
 
             // Opción 1: Cancelar inmediatamente
             // $subscription->cancelNow();
-
-
 
             return redirect()->back()->with('success', 'Tu suscripción ha sido cancelada.');
 
@@ -108,5 +105,4 @@ class StripeController extends Controller
             return redirect()->back()->with('error', 'Error al cancelar la suscripción: ' . $e->getMessage());
         }
     }
-
 }

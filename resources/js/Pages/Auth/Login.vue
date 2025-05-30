@@ -13,7 +13,7 @@
                     FitWorking
                 </h2>
                 <p class="mt-2 text-gray-700 dark:text-gray-300">
-                    Accede a tu cuenta para comenzar
+                    {{ $t("pages.Login.acceso") }}
                 </p>
             </div>
 
@@ -24,7 +24,7 @@
                     <div>
                         <InputLabel
                             for="email"
-                            value="Correo electrónico"
+                            :value="$t('pages.Login.email')"
                             class="text-gray-700 dark:text-white"
                         />
                         <TextInput
@@ -42,7 +42,7 @@
                     <div>
                         <InputLabel
                             for="password"
-                            value="Contraseña"
+                            :value="$t('pages.Login.password')"
                             class="text-gray-700 dark:text-white"
                         />
                         <TextInput
@@ -68,9 +68,9 @@
                                 name="remember"
                                 class="text-orange-500 focus:ring-orange-500 border-gray-300 dark:border-gray-600"
                             />
-                            <span class="text-gray-700 dark:text-gray-300"
-                                >Recordarme</span
-                            >
+                            <span class="text-gray-700 dark:text-gray-300">{{
+                                $t("pages.Login.recordar")
+                            }}</span>
                         </label>
 
                         <Link
@@ -78,7 +78,7 @@
                             :href="route('password.request')"
                             class="text-sm text-gray-700 hover:text-orange-400 dark:hover:text-amber-300 hover:underline dark:text-orange-700"
                         >
-                            ¿Olvidó su contraseña?
+                            {{ $t("pages.Login.olvido") }}
                         </Link>
                     </div>
 
@@ -88,7 +88,9 @@
                         :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing"
                     >
-                        <span class="mx-auto">Iniciar sesión</span>
+                        <span class="mx-auto">
+                            {{ $t("pages.Login.login") }}
+                        </span>
                     </PrimaryButton>
 
                     <!-- Login con Google -->
@@ -110,7 +112,7 @@
                             :href="route('register')"
                             class="font-medium text-amber-600 hover:text-amber-500 dark:text-amber-400 dark:hover:text-orange-700 transition-colors duration-200"
                         >
-                            ¿No tienes una cuenta? Regístrate
+                            {{ $t("pages.Login.register") }}
                         </Link>
                     </div>
                 </form>

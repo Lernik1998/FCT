@@ -19,7 +19,9 @@
             >
                 FitWorking
             </h1>
-            <p class="text-lg animate-fade-in">Explora lo mejor del deporte</p>
+            <p class="text-lg animate-fade-in">
+                {{ $t("pages.Activity.activities_page.banner.subtitle") }}
+            </p>
         </div>
     </section>
 
@@ -58,7 +60,7 @@
                         :href="route('activities.show', activity.id)"
                         class="block font-semibold w-full py-2 bg-orange-500 text-white text-center rounded hover:bg-orange-600 transition"
                     >
-                        Ver detalles
+                        {{ $t("pages.Activity.activities_page.activity_card.view_details") }}
                     </a>
                 </div>
             </div>

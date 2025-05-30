@@ -1,4 +1,6 @@
 <template>
+    <Head title="Crear entrenador" />
+
     <div class="mb-4 mt-10 ml-10">
         <button
             @click="volver"

@@ -1,4 +1,7 @@
 <template>
+
+<Head title="Opciones de pago" />
+
     <div
         class="max-w-2xl mx-auto mt-10 bg-white shadow-md rounded-2xl p-6 space-y-6"
     >
