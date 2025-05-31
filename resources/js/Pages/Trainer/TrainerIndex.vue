@@ -1,5 +1,5 @@
 <template>
-    <pre>{{ activities }}</pre>
+    <!-- <pre>{{ activities }}</pre> -->
 
     <Head title="Index Entrenador" />
 
