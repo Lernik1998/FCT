@@ -25,7 +25,7 @@ class ActivitySeeder extends Seeder
             'date' => '2025-06-15',
             'user_id' => 4,
             'category_id' => 2,
-            'slots' => 10,
+            'capacity' => 10,
         ]);
 
         Activity::create([
@@ -39,7 +39,7 @@ class ActivitySeeder extends Seeder
             'date' => '2025-06-15',
             'user_id' => 4,
             'category_id' => 2,
-            'slots' => 10,
+            'capacity' => 10,
         ]);
 
         Activity::create([
@@ -53,7 +53,7 @@ class ActivitySeeder extends Seeder
             'date' => '2025-06-21',
             'user_id' => 4,
             'category_id' => 2,
-            'slots' => 12,
+            'capacity' => 12,
         ]);
 
         Activity::create([
@@ -67,7 +67,7 @@ class ActivitySeeder extends Seeder
             'date' => '2025-06-17',
             'user_id' => 3,
             'category_id' => 3,
-            'slots' => 10,
+            'capacity' => 10,
         ]);
 
         Activity::create([
@@ -81,7 +81,7 @@ class ActivitySeeder extends Seeder
             'date' => '2025-06-18',
             'user_id' => 3,
             'category_id' => 3,
-            'slots' => 10,
+            'capacity' => 10,
         ]);
 
         Activity::create([
@@ -95,7 +95,7 @@ class ActivitySeeder extends Seeder
             'date' => '2025-06-19',
             'user_id' => 3,
             'category_id' => 3,
-            'slots' => 10,
+            'capacity' => 10,
         ]);
 
         Activity::create([
@@ -109,7 +109,7 @@ class ActivitySeeder extends Seeder
             'date' => '2025-06-26',
             'user_id' => 3,
             'category_id' => 4,
-            'slots' => 10,
+            'capacity' => 10,
         ]);
 
         Activity::create([
@@ -123,7 +123,7 @@ class ActivitySeeder extends Seeder
             'date' => '2025-06-22',
             'user_id' => 3,
             'category_id' => 4,
-            'slots' => 10,
+            'capacity' => 10,
         ]);
 
         Activity::create([
@@ -137,7 +137,7 @@ class ActivitySeeder extends Seeder
             'date' => '2025-06-15',
             'user_id' => 3,
             'category_id' => 5,
-            'slots' => 10,
+            'capacity' => 10,
         ]);
 
         Activity::create([
@@ -151,7 +151,7 @@ class ActivitySeeder extends Seeder
             'date' => '2025-06-20',
             'user_id' => 3,
             'category_id' => 5,
-            'slots' => 10,
+            'capacity' => 10,
         ]);
 
         Activity::create([
@@ -165,7 +165,7 @@ class ActivitySeeder extends Seeder
             'date' => '2025-06-18',
             'user_id' => 3,
             'category_id' => 6,
-            'slots' => 10,
+            'capacity' => 10,
         ]);
 
         Activity::create([
@@ -179,7 +179,7 @@ class ActivitySeeder extends Seeder
             'date' => '2025-06-24',
             'user_id' => 3,
             'category_id' => 6,
-            'slots' => 10,
+            'capacity' => 10,
         ]);
 
         Activity::factory(1)->create([
@@ -189,7 +189,7 @@ class ActivitySeeder extends Seeder
             'date' => '2025-06-28',
             'start_time' => '14:00:00',
             'end_time' => '15:30:00',
-            'slots' => 10,
+            'capacity' => 10,
         ]);
 
         Activity::factory(1)->create([
@@ -199,7 +199,7 @@ class ActivitySeeder extends Seeder
             'date' => '2025-06-28',
             'start_time' => '14:00:00',
             'end_time' => '15:30:00',
-            'slots' => 10,
+            'capacity' => 10,
         ]);
     }
 }
