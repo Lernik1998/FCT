@@ -61,7 +61,7 @@
                     <div class="overflow-hidden rounded-lg">
                         <img
                             v-if="activity.image"
-                            :src="activity.image"
+                            :src="`/images/activities/` + activity.image"
                             alt="Imagen de la actividad"
                             class="w-full h-auto max-h-64 sm:max-h-80 object-cover transition-all duration-300 hover:scale-105"
                         />

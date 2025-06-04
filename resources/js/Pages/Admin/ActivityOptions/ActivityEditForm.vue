@@ -1,6 +1,7 @@
 <template>
+    <pre>{{ activity }}</pre>
 
-<Head title="Editar actividad" />
+    <Head title="Editar actividad" />
     <section
         class="min-h-screen bg-gray-100 dark:bg-gray-900 py-6 sm:py-12 px-4 sm:px-6 flex justify-center transition-colors duration-300"
     >
@@ -61,7 +62,7 @@
                         class="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700"
                     >
                         <img
-                            :src="activity.image"
+                            :src="`/images/activities/` + activity.image"
                             alt="Imagen actual"
                             class="w-full h-auto max-h-64 object-contain"
                         />
@@ -288,20 +289,36 @@ const handleFileUpload = (event) => {
 
 // Función para actualizar la actividad
 const updateActivity = () => {
-    // Solo enviar la imagen si es un archivo nuevo
     const formData = new FormData();
 
-    // Agregar todos los campos excepto la imagen
-    Object.keys(activity.value).forEach((key) => {
-        if (key !== "image" || activity.value[key] instanceof File) {
-            formData.append(key, activity.value[key]);
-        }
-    });
+    // Agregar todos los campos
+    formData.append("_method", "PUT"); // Importante para las peticiones PUT con FormData
+    formData.append("name", activity.value.name);
+    formData.append("description", activity.value.description);
+    formData.append("price", activity.value.price);
+    formData.append("date", activity.value.date);
+    formData.append("start_time", activity.value.start_time);
+    formData.append("end_time", activity.value.end_time);
+    formData.append("status", activity.value.status);
+    formData.append("capacity", activity.value.capacity);
+    formData.append("category_id", activity.value.category_id);
 
-    // Enviar datos
-    router.put(route("admin.updateActivity", activity.value.id), formData, {
+    // Solo agregar la imagen si es un archivo nuevo
+    if (activity.value.image instanceof File) {
+        formData.append("image", activity.value.image);
+    }
+
+    router.post(route("admin.updateActivity", activity.value.id), formData, {
         onSuccess: () => {
             successMessage.value = "¡Actividad actualizada exitosamente! 🎉";
+            setTimeout(() => (successMessage.value = ""), 3000);
+        },
+        onError: (errors) => {
+            console.error("Errores al actualizar:", errors);
+            // Muestra los errores al usuario
+            if (errors.message) {
+                alert(errors.message);
+            }
         },
     });
 };

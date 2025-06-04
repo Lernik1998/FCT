@@ -366,34 +366,38 @@ class AdminController extends Controller
     // Actualiza la actividad.
     public function updateActivity(Request $request, string $id)
     {
-        //Obtengo la actividad con el id
+        // Obtengo la actividad con el id
         $activity = Activity::findOrFail($id);
 
-        // Actualizar la actividad
-        $activity->update([
+        // Validación de datos (recomendado agregar)
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'capacity' => 'required|integer|min:1',
+            'category_id' => 'required|exists:categories,id',
+            'price' => 'required|numeric|min:0',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'date' => 'required|date',
+            'status' => 'required|in:active,inactive,pending',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Preparar los datos para actualizar
+        $updateData = [
             'name' => $request->name,
             'description' => $request->description,
-            'image' => $request->image,  // Guardamos la ruta
             'capacity' => $request->capacity,
             'category_id' => $request->category_id,
             'price' => $request->price,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
             'date' => $request->date,
+            'status' => $request->status,
             'user_id' => auth()->id(),
-        ]);
+        ];
 
-        $activity->name = $request->name;
-        $activity->description = $request->description;
-        $activity->capacity = $request->capacity;
-        $activity->price = $request->price;
-        $activity->start_time = $request->start_time;
-        $activity->end_time = $request->end_time;
-        $activity->date = $request->date;
-        $activity->user_id = auth()->id();
-        $activity->category_id = $request->category_id;
-
-        // Manejar la subida de imagen
+        // Manejar la subida de imagen solo si se proporciona una nueva
         if ($request->hasFile('image')) {
             // Eliminar imagen anterior si existe
             if ($activity->image) {
@@ -405,20 +409,24 @@ class AdminController extends Controller
 
             // Guardar nueva imagen
             $img = $request->file('image');
-            $imgName = Str::slug($request->name) . '.' . $img->guessExtension();
+            $imgName = Str::slug($request->name) . '-' . time() . '.' . $img->guessExtension();
 
             $path = public_path('images/activities/');
             $img->move($path, $imgName);
 
-            $activity->image = $imgName;
+            $updateData['image'] = $imgName;
+        } else {
+            // Mantener la imagen existente si no se sube una nueva
+            $updateData['image'] = $activity->image;
         }
 
-        $activity->save();
+        // Actualizar la actividad
+        $activity->update($updateData);
 
-        // Retornar un mensaje de exito
-        return redirect()->route('admin.activityAdmin');
+        // Retornar un mensaje de éxito
+        return redirect()->route('admin.activityAdmin')->with('success', 'Actividad actualizada correctamente');
     }
-
+    
     // Elimina la actividad.
     public function destroyActivity(string $id)
     {
