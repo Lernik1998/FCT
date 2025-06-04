@@ -79,6 +79,16 @@ class UserSeeder extends Seeder
             'experience_time' => '2',
         ]);
 
+        User::create([
+            'name' => 'Luis',
+            'email' => 'tn@gmail.com',
+            'password' => bcrypt('1234'),
+            'role' => 'trainer',
+            'image' => 'tn.avif',
+            'description' => 'Luis es un entrenador con experiencia en fitness y nutrición. Con un enfoque cercano y resultados visibles, ha acompañado a decenas de personas a lograr sus metas de forma sostenible.',
+            'experience_time' => '1',
+        ]);
+
 
         // 100 usuarios
         User::factory(1)->create([
