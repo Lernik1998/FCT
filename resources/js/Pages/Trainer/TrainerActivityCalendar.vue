@@ -1,4 +1,6 @@
 <template>
+    <Head title="Calendario de actividades" />
+
     <!-- Contenido principal -->
     <main
         class="px-4 sm:px-6 lg:px-8 py-6 dark:bg-gray-900 min-h-screen transition-colors duration-300"
@@ -15,6 +17,10 @@
             <ul
                 class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1 text-sm sm:text-base"
             >
+                <li>
+                    Si ya existe una actividad con el mismo nombre, introducir
+                    el mismo nombre para que no se creen actividades duplicadas.
+                </li>
                 <li>La actividad debe tener un título claro y descriptivo.</li>
                 <li>Debe incluir una fecha y hora de inicio definidas.</li>
                 <li>
@@ -26,6 +32,10 @@
                 </li>
                 <li>El aforo máximo debe estar definido si aplica.</li>
                 <li>Se debe de añadir una imagen o icono representativo.</li>
+                <li>
+                    Hable con el administrador para eliminar o editar
+                    actividades.
+                </li>
             </ul>
         </div>
 
@@ -82,7 +92,6 @@
                 :options="calendarOptions"
             />
 
-            <!-- Modal para crear/editar/eliminar eventos -->
             <!-- Modal para crear/editar/eliminar eventos -->
             <div
                 v-if="showEventModal"
@@ -241,13 +250,13 @@
                         >
                             Cancelar
                         </button>
-                        <button
+                        <!-- <button
                             v-if="editingEvent"
                             @click="deleteEvent"
                             class="px-4 py-2 bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white rounded-md transition-colors duration-200 w-full sm:w-auto"
                         >
                             Eliminar
-                        </button>
+                        </button> -->
                         <button
                             @click="saveEvent"
                             class="px-4 py-2 bg-orange-500 hover:bg-orange-600 dark:bg-orange-600 dark:hover:bg-orange-700 text-white rounded-md transition-colors duration-200 w-full sm:w-auto"
