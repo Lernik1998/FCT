@@ -67,7 +67,7 @@
                     </div>
 
                     <!-- Asignar entrenador -->
-                    <div class="mb-4">
+                    <!-- <div class="mb-4">
                         <label
                             class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                             >Asignar a:</label
@@ -93,7 +93,7 @@
                                 </option>
                             </template>
                         </select>
-                    </div>
+                    </div> -->
 
                     <!-- Responder mensaje -->
                     <div class="mb-4">
@@ -113,12 +113,12 @@
                         >
                             Enviar Respuesta
                         </button>
-                        <button
+                        <!-- <button
                             @click="markAsResolved(index)"
                             class="px-4 py-2 bg-green-600 dark:bg-green-700 text-white rounded-md hover:bg-green-700 dark:hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors"
                         >
                             Asignar a un entrenador
-                        </button>
+                        </button> -->
                     </div>
                 </div>
             </div>

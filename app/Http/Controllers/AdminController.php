@@ -426,7 +426,7 @@ class AdminController extends Controller
         // Retornar un mensaje de éxito
         return redirect()->route('admin.activityAdmin')->with('success', 'Actividad actualizada correctamente');
     }
-    
+
     // Elimina la actividad.
     public function destroyActivity(string $id)
     {
