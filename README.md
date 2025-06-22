@@ -1,3 +1,10 @@
+Información acerca de FitWorking
+
+https://docs.google.com/document/d/1QCC-juc_1aQO2bAtrKJhLysv2q63o6tss8a5yMyuh6g/edit?usp=sharing
+
+En el documento especifico se introduce a la aplicación, tando a nivel funcional como tecnico, con todos los detalles referentes a la toma de deciciones y codificación.
+
+
 Requisitos previos
 
 Antes de comenzar, asegúrate de tener instaladas las siguientes herramientas en tu sistema:
